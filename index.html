@@ -1,13 +1,243 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Amirali Gholian</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amirali Gholian</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#0f172a;
+    color:white;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+    text-align:center;
+    padding:20px;
+}
+
+.profile{
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #3b82f6;
+    box-shadow:0 0 40px rgba(59,130,246,.5);
+    margin-bottom:25px;
+}
+
+h1{
+    font-size:3rem;
+}
+
+.typing{
+    color:#60a5fa;
+    font-size:1.4rem;
+    margin:15px 0;
+    height:35px;
+}
+
+.desc{
+    max-width:700px;
+    color:#cbd5e1;
+    margin-bottom:25px;
+}
+
+.buttons{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.btn{
+    text-decoration:none;
+    color:white;
+    padding:12px 25px;
+    border-radius:10px;
+    background:#2563eb;
+    transition:.3s;
+}
+
+.btn:hover{
+    transform:translateY(-3px);
+}
+
+section{
+    padding:80px 10%;
+}
+
+.section-title{
+    text-align:center;
+    margin-bottom:40px;
+    font-size:2rem;
+}
+
+.skills{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:20px;
+}
+
+.card{
+    background:#1e293b;
+    padding:25px;
+    border-radius:15px;
+    text-align:center;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.projects{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+    gap:20px;
+}
+
+footer{
+    text-align:center;
+    padding:30px;
+    color:#94a3b8;
+}
+</style>
 </head>
+
 <body>
-    <h1>Amirali Gholian</h1>
-    <p>Python Developer</p>
-    <p>Linux</p>
-    <p>Networking & Cybersecurity</p>
-    <p>AI & Machine Learning</p>
+
+<section class="hero">
+
+<img src="profile.jpg" alt="Amirali" class="profile">
+
+<h1>Amirali Gholian</h1>
+
+<div class="typing" id="typing"></div>
+
+<p class="desc">
+Python Developer, Linux Enthusiast, Networking & Cybersecurity Learner.
+Passionate about Artificial Intelligence, Machine Learning and building practical solutions.
+</p>
+
+<div class="buttons">
+<a href="https://github.com/amirali-gholian" class="btn">GitHub</a>
+
+<a href="https://www.linkedin.com/in/amirali-gholian-a9abba306/" class="btn">LinkedIn</a>
+
+<a href="https://www.instagram.com/amirali.gh0lian/" class="btn">Instagram</a>
+</div>
+
+</section>
+
+<section>
+
+<h2 class="section-title">Skills</h2>
+
+<div class="skills">
+
+<div class="card">
+<h3>Python</h3>
+<p>Automation, Scripting, AI</p>
+</div>
+
+<div class="card">
+<h3>Linux</h3>
+<p>Ubuntu & System Administration</p>
+</div>
+
+<div class="card">
+<h3>Networking</h3>
+<p>Network+, TCP/IP, Routing</p>
+</div>
+
+<div class="card">
+<h3>Cybersecurity</h3>
+<p>Security Fundamentals</p>
+</div>
+
+<div class="card">
+<h3>Machine Learning</h3>
+<p>AI & Data Science</p>
+</div>
+
+<div class="card">
+<h3>Git & GitHub</h3>
+<p>Version Control</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2 class="section-title">Projects</h2>
+
+<div class="projects">
+
+<div class="card">
+<h3>Linux Automation</h3>
+<p>Automation scripts and Linux tools.</p>
+</div>
+
+<div class="card">
+<h3>Networking Labs</h3>
+<p>Practical networking projects.</p>
+</div>
+
+<div class="card">
+<h3>Machine Learning</h3>
+<p>Experiments and AI models.</p>
+</div>
+
+<div class="card">
+<h3>Portfolio Website</h3>
+<p>Personal website hosted on GitHub Pages.</p>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+© 2026 Amirali Gholian | Built with HTML, CSS & GitHub Pages
+</footer>
+
+<script>
+
+const words = [
+"Python Developer",
+"Linux Enthusiast",
+"Cybersecurity Learner",
+"AI & Machine Learning"
+];
+
+let i = 0;
+const typing = document.getElementById("typing");
+
+setInterval(() => {
+typing.textContent = words[i];
+i = (i + 1) % words.length;
+}, 2000);
+
+typing.textContent = words[0];
+
+</script>
+
 </body>
 </html>
