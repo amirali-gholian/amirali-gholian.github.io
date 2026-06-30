@@ -1,0 +1,5 @@
+User-agent: *
+
+Allow: /
+
+Sitemap: https://amirali-gholian.github.io/sitemap.xml
