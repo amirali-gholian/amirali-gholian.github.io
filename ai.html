@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Amirali Gholian",
+  "alternateName":"امیرعلی قولیان",
+  "url":"https://amirali-gholian.github.io/",
+  "image":"https://amirali-gholian.github.io/logo.png",
+  "jobTitle":"Python Developer",
+  "knowsAbout":[
+    "Python",
+    "Linux",
+    "Networking",
+    "Cybersecurity",
+    "Machine Learning",
+    "Artificial Intelligence",
+    "DevOps",
+    "Cloud Computing"
+  ],
+  "sameAs":[
+    "https://github.com/amirali-gholian",
+    "https://t.me/nexth0p"
+  ]
+}
+</script>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Amirali Gholian - Python Developer, Linux Enthusiast, Networking, Cybersecurity, AI & Machine Learning." />
+  <meta name="theme-color" content="#060913" />
+  <title>AI & Machine Learning | Amirali Gholian</title>
+  <link rel="icon" href="./logo.png?v=2" type="image/png">
+  <style>
+    :root{
+      --bg0:#050814;
+      --bg1:#070b16;
+      --panel:rgba(15, 23, 42, .72);
+      --panel-2:rgba(17, 24, 39, .86);
+      --line:rgba(148, 163, 184, .16);
+      --text:#e5e7eb;
+      --muted:#94a3b8;
+      --soft:#cbd5e1;
+      --accent:#38bdf8;
+      --accent-2:#22c55e;
+      --accent-3:#a78bfa;
+      --shadow:0 20px 60px rgba(0,0,0,.42);
+      --radius:26px;
+      --radius-sm:18px;
+      --max:1180px;
+      
+      --code-keyword: #ff79c6;
+      --code-string: #f1fa8c;
+      --code-comment: #6272a4;
+      --code-function: #50fa7b;
+      --code-number: #bd93f9;
+      --code-variable: #8be9fd;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
+        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 22%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
+      color:var(--text);
+      overflow-x:hidden;
+    }
+
+    a{color:inherit;text-decoration:none}
+    .wrap{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
+    .glass{
+      background:linear-gradient(180deg, rgba(15,23,42,.86), rgba(15,23,42,.58));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      backdrop-filter:blur(16px);
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:40;
+      background:rgba(4, 8, 15, .62);
+      backdrop-filter:blur(20px);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+    .topbar-inner{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:16px;
+      padding:14px 0;
+    }
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .avatar{
+      width:48px;height:48px;border-radius:50%;
+      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      display:grid;place-items:center;
+      border:1px solid rgba(255,255,255,.15);
+      box-shadow:0 12px 30px rgba(0,0,0,.35);
+      overflow:hidden;
+      flex:0 0 auto;
+      cursor:pointer;
+      transition:.3s ease;
+    }
+    .avatar:hover{
+      transform:scale(1.1);
+    }
+    .avatar span{
+      font-weight:800;
+      color:#fff;
+      letter-spacing:.5px;
+    }
+    .brand h1{
+      margin:0;
+      font-size:1rem;
+      line-height:1.1;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .brand small{display:block;margin-top:4px;color:var(--muted)}
+
+    .page{display:none}
+    .page.active{display:block}
+
+    .hero{
+      padding:54px 0 24px;
+      position:relative;
+    }
+    .hero-grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:24px;
+      align-items:stretch;
+    }
+    .hero-card, .side-card{
+      position:relative;
+      border-radius:32px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%),
+        linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92));
+      box-shadow:var(--shadow);
+    }
+    .hero-card{
+      padding:34px;
+      transform-style:preserve-3d;
+      transition:transform .15s ease;
+    }
+    .hero-card::before,
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      border-radius:999px;
+      pointer-events:none;
+      filter:blur(18px);
+      opacity:.55;
+    }
+    .hero-card::before{
+      width:240px;height:240px;
+      background:rgba(56,189,248,.12);
+      top:-70px; right:-40px;
+      animation: drift 10s ease-in-out infinite;
+    }
+    .hero-card::after{
+      width:180px;height:180px;
+      background:rgba(34,197,94,.10);
+      bottom:-55px; left:-30px;
+      animation: drift 12s ease-in-out infinite reverse;
+    }
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:9px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.05);
+      color:#dbe4ef;
+      font-size:.9rem;
+      margin-bottom:18px;
+    }
+    .eyebrow .dot{
+      width:9px;height:9px;border-radius:50%;
+      background:var(--accent-2);
+      box-shadow:0 0 0 6px rgba(34,197,94,.12);
+    }
+    .hero h2{
+      margin:0;
+      font-size:clamp(2.2rem, 4vw, 4.8rem);
+      line-height:1.03;
+      letter-spacing:-.045em;
+    }
+    .grad{
+      background:linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%);
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+    }
+    .type-row{
+      margin-top:12px;
+      font-size:1.16rem;
+      color:#dbe4ef;
+      min-height:1.7em;
+    }
+    .type-text{
+      color:var(--accent);
+      font-weight:700;
+    }
+    .cursor{
+      animation:blink 1s infinite;
+      color:#fff;
+      margin-left:2px;
+    }
+    .hero p{
+      margin:18px 0 0;
+      max-width:66ch;
+      color:#cbd5e1;
+      line-height:1.85;
+      font-size:1.03rem;
+    }
+    .cta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:28px;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:13px 18px;
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(255,255,255,.04);
+      color:#e5e7eb;
+      font-weight:600;
+      transition:.25s ease;
+      cursor:pointer;
+    }
+    .btn:hover{
+      transform:translateY(-2px);
+      background:rgba(255,255,255,.08);
+    }
+    .btn.primary{
+      background:linear-gradient(135deg, var(--accent-2), var(--accent));
+      color:#07111c;
+      border-color:transparent;
+      box-shadow:0 14px 30px rgba(34,197,94,.18);
+    }
+    .btn.primary:hover{filter:brightness(1.03)}
+
+    .side-card{
+      padding:24px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+      min-height:100%;
+    }
+
+    .skills-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+      gap:16px;
+      margin-top:20px;
+    }
+    .skill-item{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      padding:12px;
+      border-radius:12px;
+      background:rgba(56,189,248,.1);
+      border:1px solid rgba(56,189,248,.2);
+    }
+    .skill-item span:first-child{
+      color:var(--accent-2);
+      font-size:1.2rem;
+    }
+
+    .modules-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
+      gap:24px;
+      margin:40px 0;
+    }
+
+    .module-card{
+      position:relative;
+      border-radius:20px;
+      padding:30px;
+      background:linear-gradient(135deg, rgba(56,189,248,.1), rgba(34,197,94,.05));
+      border:1px solid rgba(56,189,248,.2);
+      transition:.3s ease;
+      cursor:pointer;
+    }
+    .module-card:hover{
+      border-color:var(--accent);
+      background:linear-gradient(135deg, rgba(56,189,248,.15), rgba(34,197,94,.1));
+      transform:translateY(-8px);
+      box-shadow:0 20px 50px rgba(56,189,248,.15);
+    }
+    .module-icon{
+      font-size:3rem;
+      margin-bottom:16px;
+      display:block;
+    }
+    .module-title{
+      font-size:1.3rem;
+      font-weight:700;
+      margin-bottom:12px;
+      color:var(--accent);
+    }
+    .module-desc{
+      color:var(--muted);
+      font-size:.95rem;
+      line-height:1.6;
+      margin-bottom:16px;
+    }
+    .module-topics{
+      font-size:.85rem;
+      color:var(--soft);
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+    }
+    .module-topics span{
+      background:rgba(56,189,248,.2);
+      padding:4px 10px;
+      border-radius:6px;
+    }
+
+    /* Learning Content */
+    .content-section{
+      padding:40px 0;
+      border-bottom:1px solid var(--line);
+    }
+    .content-section h2{
+      font-size:2.5rem;
+      margin-bottom:24px;
+      color:var(--accent);
+    }
+    .content-section h3{
+      font-size:1.5rem;
+      margin:32px 0 16px;
+      color:var(--accent);
+    }
+
+    .code-container{
+      position:relative;
+      margin:20px 0;
+      border-radius:12px;
+      overflow:hidden;
+      background:#0a0e1a;
+      border:1px solid rgba(56,189,248,.2);
+    }
+
+    .code-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:12px 16px;
+      background:rgba(56,189,248,.05);
+      border-bottom:1px solid rgba(56,189,248,.1);
+      font-size:.85rem;
+      color:var(--muted);
+    }
+
+    .code-copy{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:6px 12px;
+      background:var(--accent);
+      color:#07111c;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:.2s ease;
+      font-size:.85rem;
+    }
+    .code-copy:hover{
+      filter:brightness(1.1);
+      transform:scale(1.05);
+    }
+    .code-copy.copied{
+      background:var(--accent-2);
+    }
+
+    .code-block{
+      padding:16px;
+      overflow-x:auto;
+      font-family:'Fira Code', 'Courier New', monospace;
+      font-size:.9rem;
+      line-height:1.6;
+      background:#0a0e1a;
+      color:#e5e7eb;
+    }
+
+    .code-block::-webkit-scrollbar{
+      height:6px;
+    }
+    .code-block::-webkit-scrollbar-track{
+      background:transparent;
+    }
+    .code-block::-webkit-scrollbar-thumb{
+      background:rgba(56,189,248,.3);
+      border-radius:3px;
+    }
+
+    .kw { color: var(--code-keyword); font-weight:700; }
+    .str { color: var(--code-string); }
+    .cmm { color: var(--code-comment); font-style:italic; }
+    .fn { color: var(--code-function); font-weight:700; }
+    .num { color: var(--code-number); }
+    .var { color: var(--code-variable); }
+    .op { color: #ff79c6; }
+
+    .explanation{
+      background:rgba(34,197,94,.1);
+      border-left:3px solid var(--accent-2);
+      padding:16px;
+      margin:16px 0;
+      border-radius:8px;
+      color:var(--soft);
+      font-size:.95rem;
+      line-height:1.7;
+    }
+
+    .back-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:10px 16px;
+      border-radius:8px;
+      background:rgba(56,189,248,.1);
+      border:1px solid rgba(56,189,248,.2);
+      color:var(--accent);
+      cursor:pointer;
+      margin-bottom:20px;
+      transition:.3s ease;
+    }
+    .back-btn:hover{
+      background:rgba(56,189,248,.2);
+      transform:translateX(-4px);
+    }
+
+    @keyframes drift{
+      0%, 100%{transform:translate(0,0)}
+      50%{transform:translate(30px,-30px)}
+    }
+    @keyframes blink{
+      0%, 49%{opacity:1}
+      50%, 100%{opacity:0}
+    }
+
+    @media(max-width:768px){
+      .hero-grid{grid-template-columns:1fr}
+      .topbar-inner{flex-direction:column}
+      .modules-grid{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <div class="brand">
+          <a href="doc.html" class="avatar" style="display:grid;place-items:center;text-decoration:none;"><span>AG</span></a>
+          <div>
+            <h1>Amirali Gholian</h1>
+            <small>💻 Python | 🐧 Linux | 🚀 AI</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="page active" id="ai">
+      <a class="back-btn" href="doc.html">← Back to Home</a>
+
+      <div class="content-section">
+        <h2>🤖 AI & Machine Learning</h2>
+        <p style="color:var(--muted);margin-bottom:32px;">Learn the essential libraries and techniques for AI and Machine Learning</p>
+
+        <h3>1. NumPy - Working with Numbers</h3>
+        <div class="explanation">
+          <strong>What is it?</strong> NumPy helps you work with large sets of numbers quickly. It's much faster than regular Python for math operations.
+        </div>
+        <div class="code-container">
+          <div class="code-header">
+            <span>numpy_tutorial.py</span>
+            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
+          </div>
+          <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cmm"># Create arrays (like lists, but faster)</span>
+arr = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>])
+<span class="fn">print</span>(arr)
+
+<span class="cmm"># Create special arrays</span>
+zeros = np.zeros((<span class="num">3</span>, <span class="num">3</span>))   <span class="cmm"># All zeros</span>
+ones = np.ones((<span class="num">2</span>, <span class="num">4</span>))    <span class="cmm"># All ones</span>
+range_arr = np.arange(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>)  <span class="cmm"># 0,2,4,6,8</span>
+
+<span class="cmm"># Math operations</span>
+result = arr <span class="op">*</span> <span class="num">2</span>               <span class="cmm"># Multiply all by 2</span>
+<span class="fn">print</span>(np.sum(arr))         <span class="cmm"># Add all: 15</span>
+<span class="fn">print</span>(np.mean(arr))        <span class="cmm"># Average: 3</span>
+<span class="fn">print</span>(np.max(arr))         <span class="cmm"># Maximum: 5</span>
+
+<span class="cmm"># 2D arrays (tables)</span>
+matrix = np.array([[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]])
+<span class="fn">print</span>(matrix.shape)        <span class="cmm"># Shows: (2, 2)</span>
+<span class="fn">print</span>(matrix[<span class="num">0</span>, <span class="num">1</span>])        <span class="cmm"># First row, second column: 2</span>
+</div>
+        </div>
+
+        <h3>2. Pandas - Working with Data</h3>
+        <div class="explanation">
+          <strong>What is it?</strong> Pandas lets you work with data like Excel spreadsheets. You can load, organize, and analyze data easily.
+        </div>
+        <div class="code-container">
+          <div class="code-header">
+            <span>pandas_tutorial.py</span>
+            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
+          </div>
+          <div class="code-block"><span class="kw">import</span> pandas <span class="kw">as</span> pd
+
+<span class="cmm"># Create data (like a table)</span>
+data = {
+    <span class="str">'Name'</span>: [<span class="str">'Alice'</span>, <span class="str">'Bob'</span>, <span class="str">'Charlie'</span>],
+    <span class="str">'Age'</span>: [<span class="num">25</span>, <span class="num">30</span>, <span class="num">35</span>],
+    <span class="str">'City'</span>: [<span class="str">'NYC'</span>, <span class="str">'LA'</span>, <span class="str">'Chicago'</span>]
+}
+df = pd.DataFrame(data)
+<span class="fn">print</span>(df)
+
+<span class="cmm"># Get information</span>
+<span class="fn">print</span>(df[<span class="str">'Name'</span>])       <span class="cmm"># Get one column</span>
+<span class="fn">print</span>(df.iloc[<span class="num">0</span>])      <span class="cmm"># Get first row</span>
+<span class="fn">print</span>(df.shape)          <span class="cmm"># Rows and columns</span>
+
+<span class="cmm"># Filter data</span>
+over30 = df[df[<span class="str">'Age'</span>] > <span class="num">30</span>]
+<span class="fn">print</span>(over30)
+
+<span class="cmm"># Statistics</span>
+<span class="fn">print</span>(df[<span class="str">'Age'</span>].mean())    <span class="cmm"># Average age</span>
+<span class="fn">print</span>(df[<span class="str">'Age'</span>].max())     <span class="cmm"># Oldest age</span>
+
+<span class="cmm"># Read from CSV file</span>
+df = pd.read_csv(<span class="str">'data.csv'</span>)
+
+<span class="cmm"># Save to CSV file</span>
+df.to_csv(<span class="str">'output.csv'</span>, index=<span class="kw">False</span>)
+</div>
+        </div>
+
+        <h3>3. Scikit-Learn - Machine Learning Basics</h3>
+        <div class="explanation">
+          <strong>What is it?</strong> Scikit-Learn provides simple tools for machine learning. It handles training models and making predictions.
+        </div>
+        <div class="code-container">
+          <div class="code-header">
+            <span>sklearn_tutorial.py</span>
+            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
+          </div>
+          <div class="code-block"><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score
+
+<span class="cmm"># Split data into training and testing</span>
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>
+)
+
+<span class="cmm"># Normalize data (make same scale)</span>
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+<span class="cmm"># Train a model</span>
+model = LogisticRegression()
+model.fit(X_train, y_train)
+
+<span class="cmm"># Make predictions</span>
+predictions = model.predict(X_test)
+
+<span class="cmm"># Check accuracy</span>
+<span class="fn">print</span>(accuracy_score(y_test, predictions))
+</div>
+        </div>
+
+        <h3>4. TensorFlow - Deep Learning</h3>
+        <div class="explanation">
+          <strong>What is it?</strong> TensorFlow is for building neural networks that can learn complex patterns. Used for advanced AI like image recognition.
+        </div>
+        <div class="code-container">
+          <div class="code-header">
+            <span>tensorflow_tutorial.py</span>
+            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
+          </div>
+          <div class="code-block"><span class="kw">from</span> tensorflow <span class="kw">import</span> keras
+<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers
+
+<span class="cmm"># Build a neural network</span>
+model = keras.Sequential([
+    layers.Dense(<span class="num">128</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">784</span>,)),
+    layers.Dropout(<span class="num">0.2</span>),
+    layers.Dense(<span class="num">64</span>, activation=<span class="str">'relu'</span>),
+    layers.Dense(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
+])
+
+<span class="cmm"># Set up training</span>
+model.compile(
+    optimizer=<span class="str">'adam'</span>,
+    loss=<span class="str">'sparse_categorical_crossentropy'</span>,
+    metrics=[<span class="str">'accuracy'</span>]
+)
+
+<span class="cmm"># Train the model</span>
+model.fit(X_train, y_train, epochs=<span class="num">10</span>, batch_size=<span class="num">32</span>)
+
+<span class="cmm"># Test the model</span>
+test_loss, test_accuracy = model.evaluate(X_test, y_test)
+
+<span class="cmm"># Make predictions</span>
+predictions = model.predict(X_test)
+</div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Copy to Clipboard
+    function copyCode(button) {
+      const codeBlock = button.closest('.code-container').querySelector('.code-block');
+      const text = codeBlock.innerText;
+
+      navigator.clipboard.writeText(text).then(() => {
+        const originalText = button.innerText;
+        button.innerText = '✓ Copied!';
+        button.classList.add('copied');
+
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.classList.remove('copied');
+        }, 2000);
+      });
+    }
+  </script>
+</body>
+</html>
