@@ -859,6 +859,9 @@ opacity:1;
         <a href="#projects">Projects</a>
         <a href="#certificates">Certificates</a>
         <a href="#contact">Contact</a>
+        <div class="auth-user-menu" id="authUserMenu">
+          <a id="authLink" style="cursor: pointer;">Sign in</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -1257,6 +1260,60 @@ opacity:1;
     footer { display: flex; align-items: center; }
     #authLink { cursor: pointer; transition: .2s; }
     #authLink:hover { color: var(--soft); }
+    
+    /* Auth State Styling */
+    .auth-user-menu {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .auth-user-menu .user-info {
+      text-align: right;
+      display: none;
+    }
+    .auth-user-menu .user-info p {
+      margin: 0;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+    .auth-user-menu .user-info p:first-child {
+      color: var(--text);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+    .auth-user-menu .user-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.15);
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .auth-user-menu .user-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .auth-user-menu .user-avatar span {
+      font-weight: 700;
+      color: #fff;
+      font-size: .9rem;
+    }
+    .auth-user-menu.authenticated .user-info {
+      display: block;
+    }
+    #dashboardBtn {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
+      font-weight: 600;
+      padding: 10px 16px;
+    }
+    #dashboardBtn:hover {
+      transform: translateY(-1px);
+    }
   </style>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -1279,10 +1336,65 @@ opacity:1;
     const authLink = document.getElementById('authLink');
     let isSignup = false;
 
-    // Check session
-    SUPABASE.auth.getSession().then(({ data: { session } }) => {
-      if (session) showSuccess(session.user.email);
-    });
+    // Check session and update UI
+    async function checkUserSession() {
+      const { data: { session } } = await SUPABASE.auth.getSession();
+      if (session) {
+        await loadUserProfile(session.user.id, session.user.email);
+      }
+    }
+
+    async function loadUserProfile(userId, email) {
+      try {
+        const { data } = await SUPABASE
+          .from('profiles')
+          .select('username, avatar_url, first_name')
+          .eq('id', userId)
+          .single();
+
+        updateAuthUI(data, email);
+      } catch (err) {
+        console.log('Profile not found, using email');
+        updateAuthUI(null, email);
+      }
+    }
+
+    function updateAuthUI(profile = null, email = '') {
+      const authUserMenu = document.getElementById('authUserMenu');
+      const authLink = document.getElementById('authLink');
+      
+      if (!profile && !email) {
+        // Not authenticated
+        authUserMenu.innerHTML = '<a id="authLink" style="cursor: pointer;">Sign in</a>';
+        authLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+      } else {
+        // Authenticated - show user menu
+        const username = profile?.first_name || profile?.username || email.split('@')[0];
+        const avatar = profile?.avatar_url;
+        const initial = username[0].toUpperCase();
+
+        authUserMenu.classList.add('authenticated');
+        authUserMenu.innerHTML = `
+          <div class="user-info">
+            <p>${username}</p>
+            <p>${email}</p>
+          </div>
+          <div class="user-avatar">
+            ${avatar ? `<img src="${avatar}" alt="avatar">` : `<span>${initial}</span>`}
+          </div>
+          <a href="/dashboard" class="btn-primary" style="padding: 10px 16px;">Dashboard</a>
+          <button id="signOutHeaderBtn" style="background: rgba(255,255,255,.08); border: 1px solid var(--line); color: var(--text);">Sign Out</button>
+        `;
+
+        // Add sign out handler
+        document.getElementById('signOutHeaderBtn').addEventListener('click', async () => {
+          await SUPABASE.auth.signOut();
+          location.reload();
+        });
+      }
+    }
+
+    checkUserSession();
 
     // Toggle signup/signin
     toggleMode.addEventListener('click', (e) => {
@@ -1315,6 +1427,10 @@ opacity:1;
       authForm.style.display = 'none';
       authSuccess.style.display = 'block';
       userDisplay.textContent = e;
+      // Redirect to dashboard after 1.5 seconds
+      setTimeout(() => {
+        window.location.href = '/dashboard';
+      }, 1500);
     }
 
     signOutBtn.addEventListener('click', async () => {
@@ -1326,6 +1442,7 @@ opacity:1;
       authTitle.textContent = 'Sign In';
       authBtn.textContent = 'Sign In';
       toggleMode.textContent = 'Create account';
+      updateAuthUI();
       closeModal();
     });
 
@@ -1333,7 +1450,13 @@ opacity:1;
     function closeModal() { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
 
     document.getElementById('authClose').addEventListener('click', closeModal);
-    authLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    
+    // Initial auth link setup
+    const initialAuthLink = document.getElementById('authLink');
+    if (initialAuthLink) {
+      initialAuthLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    }
+    
     modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
   </script>
 
