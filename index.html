@@ -1204,11 +1204,138 @@ opacity:1;
     </div>
   </div>
 
+  <!-- Auth Modal -->
+  <div id="authModal" class="auth-modal" aria-hidden="true">
+    <div class="auth-panel">
+      <div class="auth-header">
+        <h2 id="authTitle">Sign In</h2>
+        <button id="authClose" class="auth-btn-close">✕</button>
+      </div>
+      <div id="authForm" class="auth-form">
+        <input type="email" id="email" placeholder="Email" autocomplete="email" />
+        <input type="password" id="password" placeholder="Password" autocomplete="current-password" />
+        <button id="authBtn">Sign In</button>
+        <p class="auth-toggle">
+          Don't have an account? <a href="#" id="toggleMode">Create one</a>
+        </p>
+      </div>
+      <div id="authSuccess" class="auth-success" style="display:none;text-align:center;">
+        <p class="success-msg">✓ Signed in!</p>
+        <p id="userDisplay"></p>
+        <button id="signOutBtn">Sign Out</button>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="wrap">
       © <span id="year"></span> Amirali Gholian. Built with HTML, CSS & JavaScript on GitHub Pages.
+      <a href="#" id="authLink" style="margin-left:auto;display:block;text-align:right;font-size:.9rem;color:var(--accent);">Sign In</a>
     </div>
   </footer>
+
+  <style>
+    .auth-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,.85); z-index: 999; align-items: center; justify-content: center; backdrop-filter: blur(4px); }
+    .auth-modal.open { display: flex; }
+    .auth-panel { background: var(--panel-2); border: 1px solid var(--line); border-radius: 20px; width: min(380px, calc(100% - 32px)); box-shadow: 0 20px 60px rgba(0,0,0,.5); }
+    .auth-header { display: flex; justify-content: space-between; align-items: center; padding: 20px; border-bottom: 1px solid var(--line); }
+    .auth-header h2 { margin: 0; font-size: 1rem; font-weight: 600; }
+    .auth-btn-close { background: none; border: none; font-size: 1.4rem; color: var(--muted); cursor: pointer; padding: 0; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 8px; transition: .2s; }
+    .auth-btn-close:hover { background: rgba(255,255,255,.06); color: var(--text); }
+    .auth-form { padding: 20px; display: flex; flex-direction: column; gap: 12px; }
+    .auth-form input { padding: 11px; border: 1px solid var(--line); border-radius: 8px; background: rgba(255,255,255,.04); color: var(--text); font-size: .95rem; transition: .2s; }
+    .auth-form input:focus { outline: none; border-color: var(--accent); background: rgba(255,255,255,.06); }
+    .auth-form button { padding: 11px; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; border-radius: 8px; color: #000; font-weight: 600; cursor: pointer; transition: .2s; }
+    .auth-form button:hover { transform: translateY(-2px); }
+    .auth-toggle { margin: 8px 0 0; text-align: center; color: var(--muted); font-size: .85rem; }
+    .auth-toggle a { color: var(--accent); text-decoration: underline; }
+    .auth-success { padding: 20px; }
+    .success-msg { color: var(--accent-2); margin: 0 0 12px; font-weight: 600; }
+    .auth-success p { margin: 8px 0; color: var(--muted); font-size: .9rem; }
+    .auth-success button { padding: 11px; background: var(--accent-2); border: none; border-radius: 8px; color: #000; font-weight: 600; cursor: pointer; width: 100%; transition: .2s; }
+    .auth-success button:hover { transform: translateY(-2px); }
+    footer { display: flex; align-items: center; }
+    #authLink { cursor: pointer; transition: .2s; }
+    #authLink:hover { color: var(--soft); }
+  </style>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE = window.supabase.createClient(
+      'https://cwwqmushilpxzpcpjute.supabase.co',
+      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
+    );
+
+    const modal = document.getElementById('authModal');
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const authBtn = document.getElementById('authBtn');
+    const authTitle = document.getElementById('authTitle');
+    const toggleMode = document.getElementById('toggleMode');
+    const authForm = document.getElementById('authForm');
+    const authSuccess = document.getElementById('authSuccess');
+    const signOutBtn = document.getElementById('signOutBtn');
+    const userDisplay = document.getElementById('userDisplay');
+    const authLink = document.getElementById('authLink');
+    let isSignup = false;
+
+    // Check session
+    SUPABASE.auth.getSession().then(({ data: { session } }) => {
+      if (session) showSuccess(session.user.email);
+    });
+
+    // Toggle signup/signin
+    toggleMode.addEventListener('click', (e) => {
+      e.preventDefault();
+      isSignup = !isSignup;
+      authTitle.textContent = isSignup ? 'Create Account' : 'Sign In';
+      authBtn.textContent = isSignup ? 'Sign Up' : 'Sign In';
+      toggleMode.textContent = isSignup ? 'Sign in instead' : 'Create account';
+    });
+
+    // Auth handler
+    authBtn.addEventListener('click', async () => {
+      const e = email.value.trim();
+      const p = password.value;
+      if (!e || !p) { alert('Fill all fields'); return; }
+      authBtn.disabled = true;
+      try {
+        const res = isSignup 
+          ? await SUPABASE.auth.signUp({ email: e, password: p })
+          : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
+        if (res.error) throw res.error;
+        showSuccess(e);
+      } catch (err) {
+        alert('Error: ' + err.message);
+      }
+      authBtn.disabled = false;
+    });
+
+    function showSuccess(e) {
+      authForm.style.display = 'none';
+      authSuccess.style.display = 'block';
+      userDisplay.textContent = e;
+    }
+
+    signOutBtn.addEventListener('click', async () => {
+      await SUPABASE.auth.signOut();
+      authForm.style.display = 'block';
+      authSuccess.style.display = 'none';
+      email.value = password.value = '';
+      isSignup = false;
+      authTitle.textContent = 'Sign In';
+      authBtn.textContent = 'Sign In';
+      toggleMode.textContent = 'Create account';
+      closeModal();
+    });
+
+    function openModal() { modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); email.focus(); }
+    function closeModal() { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
+
+    document.getElementById('authClose').addEventListener('click', closeModal);
+    authLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+  </script>
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
