@@ -483,7 +483,9 @@
     <div class="wrap">
       <div class="topbar-inner">
         <div class="brand">
-          <div class="avatar" onclick="window.scrollTo({top:0, behavior:'smooth'})"><span>AG</span></div>
+          <img class="profile-photo" src="profile.jpg" alt="Amirali Gholian profile photo"
+              onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin','&lt;div class=&quot;avatar&quot; style=&quot;width:96px;height:96px;font-size:1.45rem;&quot;&gt;&lt;span&gt;AG&lt;/span&gt;&lt;/div&gt;')" />
+        <div class="profile-copy">
           <div>
             <h1>Amirali Gholian</h1>
             <small>💻 Python | 🐧 Linux | 🚀 AI</small>
