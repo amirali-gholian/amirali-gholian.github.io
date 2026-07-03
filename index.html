@@ -157,6 +157,153 @@
       color:#fff;
     }
 
+    /* User Profile Icon Styles */
+    .user-profile-icon{
+      position:relative;
+      display:inline-block;
+    }
+    .avatar-btn{
+      width:40px;
+      height:40px;
+      border-radius:50%;
+      border:1.5px solid rgba(255,255,255,.15);
+      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      padding:0;
+      font-weight:700;
+      color:#fff;
+      font-size:.95rem;
+      transition:all .25s ease;
+      overflow:hidden;
+    }
+    .avatar-btn:hover{
+      border-color:rgba(255,255,255,.25);
+      box-shadow:0 4px 12px rgba(56,189,248,.2);
+      transform:translateY(-1px);
+    }
+    .avatar-btn:active{
+      transform:translateY(0);
+    }
+
+    /* Dropdown Menu */
+    .profile-dropdown{
+      position:absolute;
+      top:calc(100% + 12px);
+      right:0;
+      width:280px;
+      background:linear-gradient(180deg, rgba(15,23,42,.98), rgba(15,23,42,.95));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:16px;
+      box-shadow:0 20px 50px rgba(0,0,0,.5), 0 0 1px rgba(255,255,255,.10) inset;
+      backdrop-filter:blur(16px);
+      opacity:0;
+      visibility:hidden;
+      transform:translateY(-8px) scale(.95);
+      transition:all .25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index:1000;
+      pointer-events:none;
+    }
+    .profile-dropdown.open{
+      opacity:1;
+      visibility:visible;
+      transform:translateY(0) scale(1);
+      pointer-events:auto;
+    }
+
+    /* Dropdown Header */
+    .dropdown-header{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:16px;
+    }
+    .dropdown-avatar{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(255,255,255,.15);
+      flex-shrink:0;
+      overflow:hidden;
+    }
+    .dropdown-avatar img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+    }
+    .dropdown-avatar span{
+      font-weight:700;
+      color:#fff;
+      font-size:1rem;
+    }
+    .dropdown-user-info{
+      flex:1;
+      min-width:0;
+    }
+    .dropdown-username{
+      margin:0;
+      font-size:.95rem;
+      font-weight:600;
+      color:#fff;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .dropdown-email{
+      margin:4px 0 0 0;
+      font-size:.85rem;
+      color:var(--muted);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    /* Dropdown Divider */
+    .dropdown-divider{
+      height:1px;
+      background:rgba(255,255,255,.06);
+      margin:8px 0;
+    }
+
+    /* Dropdown Items */
+    .dropdown-item{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding:12px 16px;
+      width:100%;
+      background:none;
+      border:none;
+      color:var(--text);
+      font-size:.95rem;
+      cursor:pointer;
+      transition:all .2s ease;
+      text-align:left;
+      text-decoration:none;
+    }
+    .dropdown-item svg{
+      flex-shrink:0;
+      color:var(--muted);
+      transition:color .2s ease;
+    }
+    .dropdown-item:hover{
+      background:rgba(56,189,248,.08);
+      color:#fff;
+    }
+    .dropdown-item:hover svg{
+      color:var(--accent);
+    }
+    .dropdown-logout:hover{
+      background:rgba(239,68,68,.08);
+    }
+    .dropdown-logout:hover svg{
+      color:#ef4444;
+    }
+
     .hero{
       padding:54px 0 24px;
       position:relative;
@@ -1368,26 +1515,67 @@ opacity:1;
         authUserMenu.innerHTML = '<a id="authLink" style="cursor: pointer;">Sign in</a>';
         authLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
       } else {
-        // Authenticated - show user menu
+        // Authenticated - show user avatar with dropdown menu
         const username = profile?.first_name || profile?.username || email.split('@')[0];
         const avatar = profile?.avatar_url;
         const initial = username[0].toUpperCase();
 
         authUserMenu.classList.add('authenticated');
         authUserMenu.innerHTML = `
-          <div class="user-info">
-            <p>${username}</p>
-            <p>${email}</p>
+          <div class="user-profile-icon" title="${username}">
+            <button class="avatar-btn" id="profileMenuBtn">
+              ${avatar ? `<img src="${avatar}" alt="${username}" style="width:100%; height:100%; object-fit:cover;">` : `<span>${initial}</span>`}
+            </button>
+            <div class="profile-dropdown" id="profileDropdown">
+              <div class="dropdown-header">
+                <div class="dropdown-avatar">
+                  ${avatar ? `<img src="${avatar}" alt="${username}">` : `<span>${initial}</span>`}
+                </div>
+                <div class="dropdown-user-info">
+                  <p class="dropdown-username">${username}</p>
+                  <p class="dropdown-email">${email}</p>
+                </div>
+              </div>
+              <div class="dropdown-divider"></div>
+              <a href="/profile" class="dropdown-item">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="12" cy="7" r="4"></circle>
+                </svg>
+                Profile
+              </a>
+              <div class="dropdown-divider"></div>
+              <button id="signOutDropdownBtn" class="dropdown-item dropdown-logout">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                  <polyline points="16 17 21 12 16 7"></polyline>
+                  <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+                Sign Out
+              </button>
+            </div>
           </div>
-          <div class="user-avatar">
-            ${avatar ? `<img src="${avatar}" alt="avatar">` : `<span>${initial}</span>`}
-          </div>
-          <a href="/dashboard" class="btn-primary" style="padding: 10px 16px;">Dashboard</a>
-          <button id="signOutHeaderBtn" style="background: rgba(255,255,255,.08); border: 1px solid var(--line); color: var(--text);">Sign Out</button>
         `;
 
+        // Setup profile menu toggle
+        const profileMenuBtn = document.getElementById('profileMenuBtn');
+        const profileDropdown = document.getElementById('profileDropdown');
+        
+        profileMenuBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          profileDropdown.classList.toggle('open');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!authUserMenu.contains(e.target)) {
+            profileDropdown.classList.remove('open');
+          }
+        });
+
         // Add sign out handler
-        document.getElementById('signOutHeaderBtn').addEventListener('click', async () => {
+        document.getElementById('signOutDropdownBtn').addEventListener('click', async (e) => {
+          e.preventDefault();
           await SUPABASE.auth.signOut();
           location.reload();
         });
