@@ -1280,10 +1280,13 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   <script>
-    // Supabase initialization (فرض می‌کنم Supabase قبلاً initialize شده است)
-    // اگر نه، باید این کد را در صفحه index نیز داشته باشید
-    const SUPABASE = window.supabase;
+    // ✅ Supabase initialization - دقیقاً مثل index.html
+    const SUPABASE = window.supabase.createClient(
+      'https://cwwqmushilpxzpcpjute.supabase.co',
+      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
+    );
 
     let currentUser = null;
     let currentProfile = null;
