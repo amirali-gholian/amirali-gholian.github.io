@@ -1,0 +1,1954 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>پروفایل | آمیرعلی قولیان</title>
+  <link rel="icon" href="./logo.png" type="image/png">
+  <style>
+    :root {
+      --bg0: #050814;
+      --bg1: #070b16;
+      --panel: rgba(15, 23, 42, .72);
+      --line: rgba(148, 163, 184, .16);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --soft: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #a78bfa;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .42);
+      --radius: 26px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: 
+        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
+      color: var(--text);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(4, 8, 15, .62);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 24px;
+      padding: 14px 0;
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: .3s;
+      text-decoration: none;
+    }
+
+    .brand:hover {
+      opacity: .85;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      display: grid;
+      place-items: center;
+      border: 2px solid rgba(255, 255, 255, .2);
+      box-shadow: 0 8px 24px rgba(56, 189, 248, .15);
+      overflow: hidden;
+      flex: 0 0 auto;
+    }
+
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .avatar span {
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: .5px;
+      font-size: 1.2rem;
+    }
+
+    .brand h1 {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.1;
+      font-weight: 700;
+      background: linear-gradient(135deg, #fff, var(--soft));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .brand small {
+      display: block;
+      margin-top: 4px;
+      color: var(--accent);
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    nav {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      position: relative;
+    }
+
+    .back-btn {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, .08);
+      color: #dbe4ef;
+      cursor: pointer;
+      transition: all .25s ease;
+      font-size: .95rem;
+      font-family: inherit;
+      font-weight: 500;
+      display: none;
+    }
+
+    .back-btn.show {
+      display: block;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .12);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+
+    nav a, nav button {
+      padding: 10px 14px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: none;
+      color: #dbe4ef;
+      cursor: pointer;
+      transition: all .25s ease;
+      font-size: .95rem;
+      font-family: inherit;
+      font-weight: 500;
+    }
+
+    nav a:hover, nav button:hover {
+      background: rgba(255, 255, 255, .08);
+      border-color: rgba(255, 255, 255, .12);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+
+    /* Menu Button */
+    .menu-btn {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, .06);
+      border: 1px solid rgba(255, 255, 255, .1);
+      cursor: pointer;
+      transition: all .25s ease;
+      color: var(--soft);
+      font-size: 1.1rem;
+    }
+
+    .menu-btn:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .2);
+      color: #fff;
+    }
+
+    /* Dropdown Menu */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 12px);
+      right: 24px;
+      width: 300px;
+      background: linear-gradient(180deg, rgba(15, 23, 42, .98), rgba(15, 23, 42, .95));
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .4), 0 0 1px rgba(255, 255, 255, .1) inset;
+      backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scale(.95);
+      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 1000;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .dropdown-menu.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .dropdown-header {
+      padding: 16px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      text-align: center;
+    }
+
+    .dropdown-header p {
+      margin: 0;
+      font-size: .85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .dropdown-items {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dropdown-item {
+      padding: 14px 16px;
+      border: none;
+      background: none;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      text-align: right;
+      font-size: .95rem;
+      transition: all .2s ease;
+      border-left: 3px solid transparent;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .dropdown-item:hover {
+      background: rgba(255, 255, 255, .06);
+      border-left-color: var(--accent);
+      color: #fff;
+      padding-left: 20px;
+      padding-right: 12px;
+    }
+
+    .dropdown-item svg {
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .dropdown-item.danger {
+      color: #f87171;
+    }
+
+    .dropdown-item.danger:hover {
+      background: rgba(248, 113, 113, .1);
+      border-left-color: #f87171;
+    }
+
+    .container {
+      width: min(var(--max), calc(100% - 32px));
+      margin: 0 auto;
+      padding: 32px 0;
+      flex: 1;
+    }
+
+    /* Welcome Screen - بهتر شده */
+    .welcome-screen {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 70vh;
+      gap: 32px;
+      animation: fadeInUp .6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, .1), rgba(167, 139, 250, .1));
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 24px;
+      padding: 48px 32px;
+      max-width: 600px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .1);
+    }
+
+    .welcome-icon {
+      width: 140px;
+      height: 140px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
+      display: grid;
+      place-items: center;
+      font-size: 56px;
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .3);
+      animation: welcomePulse 2.5s ease-in-out infinite;
+      margin: 0 auto 24px;
+    }
+
+    @keyframes welcomePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
+    }
+
+    .welcome-content h2 {
+      margin: 0 0 16px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--soft));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+    }
+
+    .welcome-content p {
+      margin: 0;
+      font-size: 1.05rem;
+      color: var(--muted);
+      line-height: 1.6;
+      letter-spacing: 0.3px;
+    }
+
+    /* Status Section */
+    .welcome-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+      width: 100%;
+    }
+
+    .stat-item {
+      background: rgba(15, 23, 42, .6);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+    }
+
+    .stat-item:hover {
+      border-color: rgba(56, 189, 248, .3);
+      background: rgba(56, 189, 248, .05);
+      transform: translateY(-4px);
+    }
+
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: .9rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin: 4px 0 0;
+    }
+
+    /* Welcome Buttons */
+    .welcome-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    .btn-welcome {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .25s ease;
+      font-family: inherit;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-welcome:hover {
+      background: rgba(56, 189, 248, .2);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-welcome.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
+    }
+
+    .btn-welcome.primary:hover {
+      box-shadow: 0 12px 32px rgba(56, 189, 248, .3);
+      transform: translateY(-4px);
+    }
+
+    /* Main Content */
+    .main-content {
+      display: none;
+    }
+
+    .main-content.show {
+      display: block;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 12px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+    }
+
+    .tab-btn {
+      padding: 10px 20px;
+      border: none;
+      background: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .25s ease;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      position: relative;
+      bottom: -16px;
+    }
+
+    .tab-btn.active {
+      color: #fff;
+      border-bottom-color: var(--accent);
+      bottom: -16px;
+    }
+
+    .tab-btn:hover {
+      color: var(--soft);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Personal Settings */
+    .form-group {
+      margin-bottom: 24px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--soft);
+      font-weight: 600;
+      font-size: .95rem;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, .6);
+      color: #fff;
+      font-family: inherit;
+      transition: all .25s ease;
+      font-size: 1rem;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, .1);
+    }
+
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    /* Custom Dropdown */
+    .dropdown-wrapper {
+      position: relative;
+    }
+
+    .dropdown-toggle {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, .6);
+      color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: all .25s ease;
+    }
+
+    .dropdown-toggle:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+    }
+
+    .dropdown-toggle.open {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, .95);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
+      z-index: 9999;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scaleY(.95);
+      transform-origin: top;
+      transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 0;
+      overflow: hidden;
+    }
+
+    .dropdown-content.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scaleY(1);
+      max-height: 400px;
+    }
+
+    .dropdown-option {
+      padding: 12px 16px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .15s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border-left: 3px solid transparent;
+    }
+
+    .dropdown-option:hover {
+      background: rgba(56, 189, 248, .1);
+      border-left-color: var(--accent);
+      color: #fff;
+      padding-left: 20px;
+    }
+
+    .dropdown-option.selected {
+      background: rgba(56, 189, 248, .15);
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, .05), rgba(167, 139, 250, .05));
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+    }
+
+    .card:hover {
+      border-color: rgba(56, 189, 248, .2);
+      background: linear-gradient(135deg, rgba(56, 189, 248, .08), rgba(167, 139, 250, .08));
+    }
+
+    .card h3 {
+      margin: 0 0 16px;
+      font-size: 1.2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid rgba(34, 197, 94, .3);
+      border-radius: 8px;
+      color: var(--accent-2);
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .25s ease;
+      font-family: inherit;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(56, 189, 248, .3);
+    }
+
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, .1);
+      color: #fff;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .2);
+    }
+
+    /* Messages */
+    .message {
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 16px;
+      display: none;
+      animation: slideDown .3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .message.success {
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid rgba(34, 197, 94, .3);
+      color: var(--accent-2);
+    }
+
+    .message.error {
+      background: rgba(248, 113, 113, .15);
+      border: 1px solid rgba(248, 113, 113, .3);
+      color: #f87171;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+      opacity: .5;
+    }
+
+    .empty-state h3 {
+      margin: 0 0 8px;
+      color: var(--soft);
+      font-size: 1.1rem;
+    }
+
+    .empty-state p {
+      margin: 0;
+      font-size: .95rem;
+    }
+
+    /* Suggestion Item */
+    .suggestion-item {
+      background: rgba(15, 23, 42, .4);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      transition: all .25s ease;
+    }
+
+    .suggestion-item:hover {
+      background: rgba(15, 23, 42, .6);
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .suggestion-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .suggestion-item-title {
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+    }
+
+    .suggestion-item-category {
+      font-size: .8rem;
+      background: rgba(56, 189, 248, .15);
+      border: 1px solid rgba(56, 189, 248, .3);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+
+    .suggestion-item-status {
+      font-size: .8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .suggestion-item-status.pending {
+      background: rgba(234, 179, 8, .15);
+      color: #eab308;
+    }
+
+    .suggestion-item-status.reviewed {
+      background: rgba(56, 189, 248, .15);
+      color: var(--accent);
+    }
+
+    .suggestion-item-status.completed {
+      background: rgba(34, 197, 94, .15);
+      color: var(--accent-2);
+    }
+
+    .suggestion-item-description {
+      color: var(--muted);
+      font-size: .95rem;
+      margin: 8px 0 8px;
+      line-height: 1.5;
+    }
+
+    .suggestion-item-date {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    /* File Input */
+    .file-input-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      border: 2px dashed var(--accent);
+      border-radius: 12px;
+      background: rgba(56, 189, 248, .05);
+      cursor: pointer;
+      transition: all .25s ease;
+      text-align: center;
+    }
+
+    .file-input-label:hover {
+      background: rgba(56, 189, 248, .1);
+      border-color: var(--accent-2);
+    }
+
+    .file-input-label span {
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* File Item */
+    .file-item {
+      background: rgba(15, 23, 42, .4);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all .25s ease;
+    }
+
+    .file-item:hover {
+      background: rgba(15, 23, 42, .6);
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .file-item-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-item-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .file-item-details {
+      flex: 1;
+    }
+
+    .file-item-name {
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .file-item-meta {
+      display: flex;
+      gap: 12px;
+      font-size: .85rem;
+      color: var(--muted);
+      margin: 4px 0 0;
+    }
+
+    .file-item-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .file-btn {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--text);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: all .2s ease;
+      font-family: inherit;
+    }
+
+    .file-btn:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .2);
+    }
+
+    .file-btn.delete {
+      color: #f87171;
+    }
+
+    .file-btn.delete:hover {
+      background: rgba(248, 113, 113, .1);
+      border-color: rgba(248, 113, 113, .3);
+    }
+
+    @media (max-width: 768px) {
+      .welcome-card {
+        padding: 32px 24px;
+      }
+
+      .welcome-content h2 {
+        font-size: 1.8rem;
+      }
+
+      .welcome-buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .tab-btn {
+        white-space: nowrap;
+        padding: 8px 16px;
+      }
+
+      .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .file-item-actions {
+        width: 100%;
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <a href="/" class="brand">
+        <div class="avatar"><span>A</span></div>
+        <div>
+          <h1>پروفایل من</h1>
+          <small>مدیریت حساب</small>
+        </div>
+      </a>
+      <nav>
+        <button class="back-btn" id="backBtn">← بازگشت</button>
+        <button class="menu-btn" id="menuBtn">⋮</button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-header">
+            <p>منو سریع</p>
+          </div>
+          <div class="dropdown-items">
+            <button class="dropdown-item" id="personalSettingsBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span>مشخصات</span>
+            </button>
+            <button class="dropdown-item" id="supportBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span>پشتیبانی</span>
+            </button>
+            <button class="dropdown-item" id="suggestionsBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15.09 8.26H22L17.55 12.5L20.16 18.5H12L7.46 14.27L1 14.27L5.5 9.73L2.5 3.73H10M12 5.64L9.04 11.01H14.96L12 5.64Z" fill="currentColor"></path>
+              </svg>
+              <span>پیشنهادات</span>
+            </button>
+            <button class="dropdown-item danger" id="signOutDropdownBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span>خروج</span>
+            </button>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <!-- Container -->
+  <div class="container">
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-card">
+        <div class="welcome-icon">👋</div>
+        <div class="welcome-content">
+          <h2>خوش آمدید، <span id="userFirstName">کاربر</span></h2>
+          <p>از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.</p>
+        </div>
+
+        <!-- Status Section -->
+        <div class="welcome-stats">
+          <div class="stat-item">
+            <div class="stat-icon">🟢</div>
+            <p class="stat-label">وضعیت حساب</p>
+            <p class="stat-value">فعال</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⏱️</div>
+            <p class="stat-label">آخرین بروزرسانی</p>
+            <p class="stat-value" id="lastUpdateWelcome">-</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">✅</div>
+            <p class="stat-label">پروفایل</p>
+            <p class="stat-value">تکمیل شده</p>
+          </div>
+        </div>
+
+        <!-- Welcome Buttons -->
+        <div class="welcome-buttons">
+          <button class="btn-welcome primary" id="editProfileBtn">
+            <span>✏️</span>
+            <span>ویرایش پروفایل</span>
+          </button>
+          <button class="btn-welcome" id="sendSupportBtn2">
+            <span>💬</span>
+            <span>ارتباط با پشتیبانی</span>
+          </button>
+          <button class="btn-welcome" id="sendSuggestionBtn2">
+            <span>⭐</span>
+            <span>ارسال پیشنهاد</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="personal">مشخصات شخصی</button>
+        <button class="tab-btn" data-tab="support">پشتیبانی</button>
+        <button class="tab-btn" data-tab="suggestions">پیشنهادات</button>
+        <button class="tab-btn" data-tab="files">مدیریت فایل‌ها</button>
+      </div>
+
+      <!-- Messages -->
+      <div class="message success" id="successMsg">✅ عملیات موفقیت‌آمیز بود!</div>
+      <div class="message error" id="errorMsg">❌ خطایی رخ داد</div>
+
+      <!-- Personal Settings Tab -->
+      <div class="tab-content active" id="personal-tab">
+        <div class="card">
+          <h3>🔐 اطلاعات حساب</h3>
+          <div class="form-group">
+            <label>ایمیل</label>
+            <input type="email" id="emailInput" disabled>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label>نام</label>
+              <input type="text" id="firstNameInput" placeholder="نام خود را وارد کنید">
+            </div>
+            <div class="form-group">
+              <label>نام خانوادگی</label>
+              <input type="text" id="lastNameInput" placeholder="نام خانوادگی خود را وارد کنید">
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>👤 اطلاعات اضافی</h3>
+          <div class="form-group">
+            <label>نام کاربری</label>
+            <input type="text" id="usernameInput" placeholder="نام کاربری خود را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label>تلفن</label>
+            <input type="tel" id="phoneInput" placeholder="شماره تماس خود را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label>URL آواتار</label>
+            <input type="url" id="avatarUrlInput" placeholder="https://example.com/avatar.jpg">
+          </div>
+        </div>
+
+        <!-- Avatar Preview -->
+        <div class="card">
+          <h3>🖼️ پیش‌نمایش آواتار</h3>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="avatar" style="width: 80px; height: 80px;" id="avatarPreview">
+              <span id="previewInitial">A</span>
+            </div>
+            <div>
+              <p style="margin: 0 0 8px; color: var(--muted);">این تصویر در پروفایل شما نمایش داده می‌شود</p>
+              <button class="btn-secondary" onclick="document.getElementById('avatarUrlInput').focus()">تغییر تصویر</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <button class="btn" id="saveBtn">💾 ذخیره تغییرات</button>
+      </div>
+
+      <!-- Support Tab -->
+      <div class="tab-content" id="support-tab">
+        <div class="card">
+          <h3>📧 ارسال پیام به پشتیبانی</h3>
+          <div class="form-group">
+            <label>موضوع</label>
+            <input type="text" id="supportSubject" placeholder="موضوع پیام خود را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label>پیام</label>
+            <textarea id="supportMessage" placeholder="پیام خود را اینجا بنویسید..."></textarea>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn" id="sendSupportMessageBtn">📤 ارسال پیام</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('supportSubject').value = ''; document.getElementById('supportMessage').value = '';">🔄 پاک کردن</button>
+          </div>
+        </div>
+
+        <!-- Support Info -->
+        <div class="card">
+          <h3>📞 اطلاعات تماس</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-size: 24px;">📧</div>
+              <div>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">ایمیل</p>
+                <p style="font-weight: 600; margin: 0; font-size: 1rem;">amirali.gholian.1380.80@gmail.com</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-size: 24px;">📱</div>
+              <div>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">تلفن</p>
+                <p style="font-weight: 600; margin: 0; font-size: 1rem; direction: ltr;">09378835414</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Files Tab -->
+      <div class="tab-content" id="files-tab">
+        <!-- Upload File -->
+        <div class="card">
+          <h3>📤 آپلود فایل جدید</h3>
+          <div class="form-group">
+            <label>انتخاب فایل</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="fileInput" accept="*/*">
+              <label for="fileInput" class="file-input-label">
+                <span>📁 فایل را اینجا بیندازید یا کلیک کنید</span>
+              </label>
+            </div>
+            <p style="font-size: .85rem; color: var(--muted); margin: 8px 0 0;">حداکثر اندازه: 50MB</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn" id="uploadBtn">📤 آپلود فایل</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('fileInput').value = '';">🔄 پاک کردن</button>
+          </div>
+        </div>
+
+        <!-- Files List -->
+        <div class="card">
+          <h3>📂 فایل‌های شما</h3>
+          <div id="filesContainer">
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <h3>هنوز فایلی آپلود نشده است</h3>
+              <p>فایل‌های خود را از بخش بالا آپلود کنید</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Suggestions Tab -->
+      <div class="tab-content" id="suggestions-tab">
+        <!-- Send Suggestion -->
+        <div class="card">
+          <h3>⭐ ارسال پیشنهاد جدید</h3>
+          <div class="form-group">
+            <label>عنوان پیشنهاد</label>
+            <input type="text" id="suggestionTitle" placeholder="عنوان پیشنهاد را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label>توضیحات</label>
+            <textarea id="suggestionText" placeholder="توضیحات پیشنهاد را بنویسید..."></textarea>
+          </div>
+          <div class="form-group">
+            <label>دسته‌بندی</label>
+            <div class="dropdown-wrapper">
+              <button class="dropdown-toggle" id="categoryToggle">
+                <span id="categoryLabel">✨ ویژگی جدید</span>
+                <span>▼</span>
+              </button>
+              <div class="dropdown-content" id="categoryDropdown">
+                <div class="dropdown-option selected" data-value="feature">✨ ویژگی جدید</div>
+                <div class="dropdown-option" data-value="improvement">🚀 بهبود</div>
+                <div class="dropdown-option" data-value="bug">🐞 گزارش باگ</div>
+                <div class="dropdown-option" data-value="other">📌 سایر</div>
+              </div>
+            </div>
+            <input type="hidden" id="suggestionCategory" value="feature">
+          </div>
+          <button class="btn" id="sendSuggestionBtn">📤 ارسال پیشنهاد</button>
+        </div>
+
+        <!-- Recent Suggestions -->
+        <div class="card">
+          <h3>📋 پیشنهادات اخیر شما</h3>
+          <div id="suggestionsContainer">
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <h3>هنوز پیشنهادی ارسال نشده است</h3>
+              <p>پیشنهادات شما را از بخش بالا ارسال کنید</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Supabase initialization (فرض می‌کنم Supabase قبلاً initialize شده است)
+    // اگر نه، باید این کد را در صفحه index نیز داشته باشید
+    const SUPABASE = window.supabase;
+
+    let currentUser = null;
+    let currentProfile = null;
+    let isFirstTime = false;
+
+    // Elements
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const mainContent = document.getElementById('mainContent');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const menuBtn = document.getElementById('menuBtn');
+    const personalSettingsBtn = document.getElementById('personalSettingsBtn');
+    const supportBtn = document.getElementById('supportBtn');
+    const suggestionsBtn = document.getElementById('suggestionsBtn');
+    const signOutDropdownBtn = document.getElementById('signOutDropdownBtn');
+
+    // Form Elements
+    const emailInput = document.getElementById('emailInput');
+    const firstNameInput = document.getElementById('firstNameInput');
+    const lastNameInput = document.getElementById('lastNameInput');
+    const usernameInput = document.getElementById('usernameInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const avatarUrlInput = document.getElementById('avatarUrlInput');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const previewInitial = document.getElementById('previewInitial');
+    const avatarInitial = document.getElementById('previewInitial');
+    const saveBtn = document.getElementById('saveBtn');
+
+    // Support Elements
+    const supportSubject = document.getElementById('supportSubject');
+    const supportMessage = document.getElementById('supportMessage');
+    const sendSupportMessageBtn = document.getElementById('sendSupportMessageBtn');
+
+    // Suggestions Elements
+    const suggestionTitle = document.getElementById('suggestionTitle');
+    const suggestionText = document.getElementById('suggestionText');
+    const suggestionCategory = document.getElementById('suggestionCategory');
+    const categoryToggle = document.getElementById('categoryToggle');
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const categoryLabel = document.getElementById('categoryLabel');
+    const sendSuggestionBtn = document.getElementById('sendSuggestionBtn');
+    const suggestionsContainer = document.getElementById('suggestionsContainer');
+
+    // File Elements
+    const fileInput = document.getElementById('fileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const filesContainer = document.getElementById('filesContainer');
+    const backBtn = document.getElementById('backBtn');
+
+    // Messages
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Welcome buttons
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const sendSupportBtn2 = document.getElementById('sendSupportBtn2');
+    const sendSuggestionBtn2 = document.getElementById('sendSuggestionBtn2');
+    const lastUpdateWelcome = document.getElementById('lastUpdateWelcome');
+
+    // Menu toggle
+    menuBtn.addEventListener('click', () => {
+      dropdownMenu.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('nav')) {
+        dropdownMenu.classList.remove('open');
+      }
+    });
+
+    // Back Button
+    backBtn.addEventListener('click', () => {
+      hideMainContent();
+      backBtn.classList.remove('show');
+    });
+
+    // Tab switching
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
+      });
+    });
+
+    // Menu item clicks
+    editProfileBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="personal"]').click();
+    });
+
+    sendSupportBtn2.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="support"]').click();
+    });
+
+    sendSuggestionBtn2.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="suggestions"]').click();
+    });
+
+    personalSettingsBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="personal"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    supportBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="support"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    suggestionsBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="suggestions"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    function showMainContent() {
+      welcomeScreen.classList.add('hidden');
+      mainContent.classList.add('show');
+      backBtn.classList.add('show');
+    }
+
+    function hideMainContent() {
+      welcomeScreen.classList.remove('hidden');
+      mainContent.classList.remove('show');
+      backBtn.classList.remove('show');
+    }
+
+    // Custom Dropdown
+    categoryToggle.addEventListener('click', () => {
+      categoryToggle.classList.toggle('open');
+      categoryDropdown.classList.toggle('open');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown-wrapper')) {
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
+      }
+    });
+
+    const categoryOptions = categoryDropdown.querySelectorAll('.dropdown-option');
+    categoryOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        categoryOptions.forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        suggestionCategory.value = option.dataset.value;
+        categoryLabel.textContent = option.textContent;
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
+      });
+    });
+
+    // Check Authentication
+    async function checkAuth() {
+      const { data: { session } } = await SUPABASE.auth.getSession();
+      if (!session) {
+        window.location.href = '/';
+        return;
+      }
+      currentUser = session.user;
+      await loadProfile();
+      await loadSuggestions();
+      await loadFiles();
+    }
+
+    // Load profile data
+    async function loadProfile() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('profiles')
+          .select('*')
+          .eq('id', currentUser.id)
+          .single();
+
+        if (error && error.code === 'PGRST116') {
+          isFirstTime = true;
+          return;
+        }
+
+        if (error) throw error;
+        currentProfile = data;
+        displayProfile(data);
+        showMainContent();
+      } catch (err) {
+        console.error('خطا در بارگیری پروفایل:', err);
+        if (isFirstTime) {
+          currentProfile = { id: currentUser.id, email: currentUser.email };
+          displayProfile(currentProfile);
+        }
+      }
+    }
+
+    // Display profile
+    function displayProfile(profile) {
+      emailInput.value = profile.email || '';
+      firstNameInput.value = profile.first_name || '';
+      lastNameInput.value = profile.last_name || '';
+      usernameInput.value = profile.username || '';
+      phoneInput.value = profile.phone || '';
+      avatarUrlInput.value = profile.avatar_url || '';
+      document.getElementById('userFirstName').textContent = profile.first_name || 'کاربر';
+
+      updateAvatarPreview(profile);
+
+      if (profile.updated_at) {
+        const updated = new Date(profile.updated_at);
+        const now = new Date();
+        const diff = Math.floor((now - updated) / 1000);
+        
+        if (diff < 60) {
+          lastUpdateWelcome.textContent = 'همین الآن';
+        } else if (diff < 3600) {
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 60)} دقیقه پیش`;
+        } else if (diff < 86400) {
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 3600)} ساعت پیش`;
+        } else {
+          lastUpdateWelcome.textContent = updated.toLocaleDateString('fa-IR');
+        }
+      }
+    }
+
+    // Update avatar preview
+    function updateAvatarPreview(profile) {
+      const firstChar = (profile.first_name || profile.username || profile.email || 'A')[0].toUpperCase();
+      previewInitial.textContent = firstChar;
+
+      if (profile.avatar_url) {
+        avatarPreview.innerHTML = `<img src="${profile.avatar_url}" alt="avatar">`;
+      } else {
+        avatarPreview.innerHTML = `<span id="previewInitial">${firstChar}</span>`;
+      }
+    }
+
+    // Live avatar preview
+    avatarUrlInput.addEventListener('change', () => {
+      if (avatarUrlInput.value) {
+        const firstChar = (firstNameInput.value || usernameInput.value || currentUser.email)[0].toUpperCase();
+        avatarPreview.innerHTML = `<img src="${avatarUrlInput.value}" alt="avatar" onerror="this.parentElement.innerHTML='<span id=\\\"previewInitial\\\">${firstChar}</span>'">`;
+      }
+    });
+
+    // Save profile
+    saveBtn.addEventListener('click', async () => {
+      const updates = {
+        first_name: firstNameInput.value,
+        last_name: lastNameInput.value,
+        username: usernameInput.value,
+        phone: phoneInput.value,
+        avatar_url: avatarUrlInput.value,
+        updated_at: new Date()
+      };
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = '💾 درحال ذخیره...';
+
+      try {
+        const { error } = await SUPABASE
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            email: currentUser.email,
+            ...updates
+          });
+
+        if (error) throw error;
+
+        currentProfile = { ...currentProfile, ...updates };
+        updateAvatarPreview(currentProfile);
+        document.getElementById('userFirstName').textContent = firstNameInput.value || 'کاربر';
+        lastUpdateWelcome.textContent = 'همین الآن';
+        showSuccess();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || 'خطا در ذخیره اطلاعات');
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = '💾 ذخیره تغییرات';
+      }
+    });
+
+    // Send support message
+    sendSupportMessageBtn.addEventListener('click', async () => {
+      const subject = supportSubject.value.trim();
+      const message = supportMessage.value.trim();
+      
+      if (!subject || !message) {
+        showError('لطفا موضوع و پیام را وارد کنید');
+        return;
+      }
+
+      sendSupportMessageBtn.disabled = true;
+      sendSupportMessageBtn.textContent = '📤 درحال ارسال...';
+
+      try {
+        const { error } = await SUPABASE
+          .from('support_messages')
+          .insert({
+            user_id: currentUser.id,
+            email: currentUser.email,
+            subject: subject,
+            message: message,
+            created_at: new Date()
+          });
+
+        if (error) throw error;
+
+        showSuccess();
+        supportSubject.value = '';
+        supportMessage.value = '';
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || 'خطا در ارسال پیام');
+      } finally {
+        sendSupportMessageBtn.disabled = false;
+        sendSupportMessageBtn.textContent = '📤 ارسال پیام';
+      }
+    });
+
+    // Load suggestions
+    async function loadSuggestions() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('suggestions')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        displaySuggestions(data || []);
+      } catch (err) {
+        console.error('خطا در بارگیری پیشنهادات:', err);
+      }
+    }
+
+    // Display suggestions
+    function displaySuggestions(suggestions) {
+      if (suggestions.length === 0) {
+        suggestionsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>هنوز پیشنهادی ارسال نشده است</h3>
+            <p>پیشنهادات شما را از بخش بالا ارسال کنید</p>
+          </div>
+        `;
+        return;
+      }
+
+      const categoryNames = {
+        'feature': '✨ ویژگی جدید',
+        'improvement': '🚀 بهبود',
+        'bug': '🐞 گزارش باگ',
+        'other': '📌 سایر'
+      };
+
+      suggestionsContainer.innerHTML = suggestions.map(suggestion => {
+        const date = new Date(suggestion.created_at);
+        const dateStr = date.toLocaleDateString('fa-IR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        return `
+          <div class="suggestion-item">
+            <div class="suggestion-item-header">
+              <h4 class="suggestion-item-title">${suggestion.title}</h4>
+              <span class="suggestion-item-category">${categoryNames[suggestion.category] || suggestion.category}</span>
+            </div>
+            <p class="suggestion-item-description">${suggestion.description}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="suggestion-item-date">${dateStr}</span>
+              <span class="suggestion-item-status ${suggestion.status}">
+                ${suggestion.status === 'pending' ? '⏳ در انتظار بررسی' : 
+                  suggestion.status === 'reviewed' ? '👀 بررسی شده' : 
+                  '✅ انجام شده'}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Send suggestion
+    sendSuggestionBtn.addEventListener('click', async () => {
+      const title = suggestionTitle.value.trim();
+      const text = suggestionText.value.trim();
+      const category = suggestionCategory.value;
+
+      if (!title || !text) {
+        showError('لطفا عنوان و توضیحات را وارد کنید');
+        return;
+      }
+
+      sendSuggestionBtn.disabled = true;
+      sendSuggestionBtn.textContent = '📤 درحال ارسال...';
+
+      try {
+        const { error } = await SUPABASE
+          .from('suggestions')
+          .insert({
+            user_id: currentUser.id,
+            email: currentUser.email,
+            title: title,
+            description: text,
+            category: category,
+            created_at: new Date()
+          });
+
+        if (error) throw error;
+
+        showSuccess();
+        suggestionTitle.value = '';
+        suggestionText.value = '';
+        suggestionCategory.value = 'feature';
+        categoryLabel.textContent = '✨ ویژگی جدید';
+        categoryOptions.forEach(o => o.classList.remove('selected'));
+        categoryOptions[0].classList.add('selected');
+
+        // Reload suggestions
+        await loadSuggestions();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || 'خطا در ارسال پیشنهاد');
+      } finally {
+        sendSuggestionBtn.disabled = false;
+        sendSuggestionBtn.textContent = '📤 ارسال پیشنهاد';
+      }
+    });
+
+    // Sign out
+    signOutDropdownBtn.addEventListener('click', async () => {
+      await SUPABASE.auth.signOut();
+      window.location.href = '/';
+    });
+
+    // Show messages
+    function showSuccess() {
+      successMsg.style.display = 'block';
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 4000);
+    }
+
+    function showError(msg) {
+      errorMsg.textContent = '❌ ' + msg;
+      errorMsg.style.display = 'block';
+      setTimeout(() => {
+        errorMsg.style.display = 'none';
+      }, 4000);
+    }
+
+    // File Upload
+    uploadBtn.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        showError('لطفا فایلی را انتخاب کنید');
+        return;
+      }
+
+      if (file.size > 50 * 1024 * 1024) {
+        showError('حجم فایل نمی‌تواند بیش‌تر از 50MB باشد');
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = '📤 درحال آپلود...';
+
+      try {
+        const fileName = `${currentUser.id}/${Date.now()}-${file.name}`;
+
+        // Upload to Supabase Storage
+        const { data, error: uploadError } = await SUPABASE
+          .storage
+          .from('user-files')
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        // Insert record in database
+        const { error: dbError } = await SUPABASE
+          .from('user_files')
+          .insert({
+            user_id: currentUser.id,
+            file_name: file.name,
+            file_size: file.size,
+            file_path: fileName,
+            file_type: file.type,
+            uploaded_at: new Date()
+          });
+
+        if (dbError) throw dbError;
+
+        showSuccess();
+        fileInput.value = '';
+        await loadFiles();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || 'خطا در آپلود فایل');
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = '📤 آپلود فایل';
+      }
+    });
+
+    // Load files
+    async function loadFiles() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('user_files')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('uploaded_at', { ascending: false });
+
+        if (error) throw error;
+
+        displayFiles(data || []);
+      } catch (err) {
+        console.error('خطا در بارگیری فایل‌ها:', err);
+      }
+    }
+
+    // Display files
+    function displayFiles(files) {
+      if (files.length === 0) {
+        filesContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>هنوز فایلی آپلود نشده است</h3>
+            <p>فایل‌های خود را از بخش بالا آپلود کنید</p>
+          </div>
+        `;
+        return;
+      }
+
+      const getFileIcon = (fileName) => {
+        const ext = fileName.split('.').pop().toLowerCase();
+        const icons = {
+          'pdf': '📄',
+          'doc': '📝',
+          'docx': '📝',
+          'xls': '📊',
+          'xlsx': '📊',
+          'ppt': '🎬',
+          'pptx': '🎬',
+          'jpg': '🖼️',
+          'jpeg': '🖼️',
+          'png': '🖼️',
+          'gif': '🖼️',
+          'zip': '🗜️',
+          'rar': '🗜️',
+          'txt': '📋',
+          'mp3': '🎵',
+          'mp4': '🎬',
+          'avi': '🎬',
+          'mkv': '🎬'
+        };
+        return icons[ext] || '📎';
+      };
+
+      const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+      };
+
+      filesContainer.innerHTML = files.map(file => {
+        const date = new Date(file.uploaded_at);
+        const dateStr = date.toLocaleDateString('fa-IR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        const timeStr = date.toLocaleTimeString('fa-IR', {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        return `
+          <div class="file-item">
+            <div class="file-item-info">
+              <div class="file-item-icon">${getFileIcon(file.file_name)}</div>
+              <div class="file-item-details">
+                <p class="file-item-name">${file.file_name}</p>
+                <div class="file-item-meta">
+                  <span>${formatFileSize(file.file_size)}</span>
+                  <span>•</span>
+                  <span>${dateStr}</span>
+                  <span>•</span>
+                  <span>${timeStr}</span>
+                </div>
+              </div>
+            </div>
+            <div class="file-item-actions">
+              <button class="file-btn" onclick="downloadFile('${file.file_path}', '${file.file_name}')">📥 دانلود</button>
+              <button class="file-btn delete" onclick="deleteFile('${file.id}', '${file.file_path}')">🗑️ حذف</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Download file
+    async function downloadFile(filePath, fileName) {
+      try {
+        const { data, error } = await SUPABASE
+          .storage
+          .from('user-files')
+          .download(filePath);
+
+        if (error) throw error;
+
+        const url = URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('خطا:', err);
+        showError('خطا در دانلود فایل');
+      }
+    }
+
+    // Delete file
+    async function deleteFile(fileId, filePath) {
+      if (!confirm('آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟')) {
+        return;
+      }
+
+      try {
+        // Delete from storage
+        const { error: storageError } = await SUPABASE
+          .storage
+          .from('user-files')
+          .remove([filePath]);
+
+        if (storageError) throw storageError;
+
+        // Delete from database
+        const { error: dbError } = await SUPABASE
+          .from('user_files')
+          .delete()
+          .eq('id', fileId);
+
+        if (dbError) throw dbError;
+
+        showSuccess();
+        await loadFiles();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError('خطا در حذف فایل');
+      }
+    }
+
+    // Initialize
+    checkAuth();
+  </script>
+</body>
+</html>
