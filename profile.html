@@ -537,6 +537,7 @@
     /* Custom Dropdown */
     .dropdown-wrapper {
       position: relative;
+      z-index: 10;
     }
 
     .dropdown-toggle {
@@ -2127,6 +2128,11 @@
 
         showSuccess();
         fileInput.value = '';
+        
+        // ✅ حذف پیام سبز فایل انتخاب شده
+        const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+        fileSelectedInfo.classList.remove('show');
+        
         await loadFiles();
       } catch (err) {
         console.error('خطا:', err);
