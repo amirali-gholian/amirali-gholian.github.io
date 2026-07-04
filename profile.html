@@ -543,6 +543,7 @@
     .dropdown-wrapper {
       position: relative;
       z-index: 100;
+      overflow: visible;
     }
     }
 
@@ -575,7 +576,10 @@
     }
 
     .dropdown-content {
-      position: fixed;
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
       background: rgba(15, 23, 42, .95);
       border: 1px solid var(--accent);
       border-radius: 10px;
@@ -587,9 +591,8 @@
       transform: translateY(-8px) scaleY(.95);
       transform-origin: top;
       transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
-      max-height: 0;
-      overflow: hidden;
-      min-width: 200px;
+      max-height: 400px;
+      overflow-y: auto;
     }
 
     .dropdown-content.open {
@@ -1761,26 +1764,17 @@
       backBtn.classList.remove('show');
     }
 
-    // Custom Dropdown with fixed positioning
-    categoryToggle.addEventListener('click', (e) => {
+    // Custom Dropdown
+    categoryToggle.addEventListener('click', () => {
       categoryToggle.classList.toggle('open');
       categoryDropdown.classList.toggle('open');
-      
-      // Calculate position for fixed dropdown
-      if (categoryDropdown.classList.contains('open')) {
-        const rect = categoryToggle.getBoundingClientRect();
-        categoryDropdown.style.top = (rect.bottom + 4) + 'px';
-        categoryDropdown.style.left = rect.left + 'px';
-        categoryDropdown.style.width = rect.width + 'px';
-      }
     });
 
     // Update dropdown position on scroll
     window.addEventListener('scroll', () => {
       if (categoryDropdown.classList.contains('open')) {
-        const rect = categoryToggle.getBoundingClientRect();
-        categoryDropdown.style.top = (rect.bottom + 4) + 'px';
-        categoryDropdown.style.left = rect.left + 'px';
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
       }
     });
 
