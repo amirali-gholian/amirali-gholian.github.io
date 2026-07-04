@@ -281,6 +281,7 @@
       margin: 0 auto;
       padding: 32px 0;
       flex: 1;
+      overflow: visible;
     }
 
     /* Welcome Screen - بهتر شده */
@@ -442,10 +443,12 @@
     /* Main Content */
     .main-content {
       display: none;
+      overflow: visible;
     }
 
     .main-content.show {
       display: block;
+      overflow: visible;
     }
 
     .hidden {
@@ -496,6 +499,8 @@
     /* Personal Settings */
     .form-group {
       margin-bottom: 24px;
+      overflow: visible;
+      position: relative;
     }
 
     .form-group label {
@@ -539,6 +544,7 @@
       position: relative;
       z-index: 100;
     }
+    }
 
     .dropdown-toggle {
       width: 100%;
@@ -569,10 +575,7 @@
     }
 
     .dropdown-content {
-      position: absolute;
-      top: calc(100% + 4px);
-      left: 0;
-      right: 0;
+      position: fixed;
       background: rgba(15, 23, 42, .95);
       border: 1px solid var(--accent);
       border-radius: 10px;
@@ -586,6 +589,7 @@
       transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
       max-height: 0;
       overflow: hidden;
+      min-width: 200px;
     }
 
     .dropdown-content.open {
@@ -1757,10 +1761,27 @@
       backBtn.classList.remove('show');
     }
 
-    // Custom Dropdown
-    categoryToggle.addEventListener('click', () => {
+    // Custom Dropdown with fixed positioning
+    categoryToggle.addEventListener('click', (e) => {
       categoryToggle.classList.toggle('open');
       categoryDropdown.classList.toggle('open');
+      
+      // Calculate position for fixed dropdown
+      if (categoryDropdown.classList.contains('open')) {
+        const rect = categoryToggle.getBoundingClientRect();
+        categoryDropdown.style.top = (rect.bottom + 4) + 'px';
+        categoryDropdown.style.left = rect.left + 'px';
+        categoryDropdown.style.width = rect.width + 'px';
+      }
+    });
+
+    // Update dropdown position on scroll
+    window.addEventListener('scroll', () => {
+      if (categoryDropdown.classList.contains('open')) {
+        const rect = categoryToggle.getBoundingClientRect();
+        categoryDropdown.style.top = (rect.bottom + 4) + 'px';
+        categoryDropdown.style.left = rect.left + 'px';
+      }
     });
 
     document.addEventListener('click', (e) => {
