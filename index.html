@@ -1604,6 +1604,60 @@ opacity:1;
           ? await SUPABASE.auth.signUp({ email: e, password: p })
           : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
         if (res.error) throw res.error;
+
+        if (!isSignup) {
+  try {
+    await fetch(
+      'https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email',
+      {
+        method: 'POST',
+        headers: {
+  'Content-Type': 'application/json',
+  'apikey': 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK',
+  'Authorization': `Bearer ${res.data.session?.access_token}`
+},
+        body: JSON.stringify({
+          to: e,
+          subject: 'ورود موفق به سایت امیرعلی قولیان',
+          html: `
+            <div style="font-family:Tahoma,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px">
+              <h1 style="margin:0 0 20px 0;">🎉 خوش آمدید</h1>
+
+              <p style="font-size:16px;">
+                سلام،
+              </p>
+
+              <p style="font-size:16px;line-height:1.8;">
+                ورود شما به <strong>سایت امیرعلی قولیان</strong> با موفقیت انجام شد.
+              </p>
+
+              <p style="font-size:16px;line-height:1.8;">
+                خوشحالیم که در جمع کاربران ما هستید. حساب کاربری شما فعال است و می‌توانید از امکانات سایت استفاده کنید.
+              </p>
+
+              <div style="margin:24px 0;padding:12px;background:#f8fafc;border-radius:8px;">
+                <strong>زمان ورود:</strong> ${new Date().toLocaleString('fa-IR')}
+              </div>
+
+              <p style="font-size:14px;color:#666;">
+                اگر این ورود توسط شما انجام نشده است، رمز عبور خود را تغییر دهید.
+              </p>
+
+              <hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb">
+
+              <p style="font-size:14px;color:#666;">
+                Amirali Gholian<br>
+                https://amiraligholian.ir
+              </p>
+            </div>
+          `
+        })
+      }
+    );
+  } catch (err) {
+    console.error('Email send failed', err);
+  }
+}
         showSuccess(e);
       } catch (err) {
         alert('Error: ' + err.message);
