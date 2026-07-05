@@ -1,0 +1,7 @@
+Contact: security@amiraligholian.ir
+Expires: 2027-07-05T00:00:00.000Z
+Preferred-Languages: fa, en
+Canonical: https://amiraligholian.ir/.well-known/security.txt
+
+# برای گزارش آسیب‌پذیری‌های امنیتی، لطفاً به آدرس بالا پیام بفرستید.
+# Please report security vulnerabilities to the contact email above.
