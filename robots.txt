@@ -1,5 +1,3 @@
 User-agent: *
-
 Allow: /
-
-Sitemap: https://amirali-gholian.github.io/sitemap.xml
+Sitemap: https://amiraligholian.ir/sitemap.xml
