@@ -1739,9 +1739,9 @@ opacity:1;
         ).catch(err => console.error('Email send failed', err));
 
         // Redirect to profile after 1.5 seconds
-        //setTimeout(() => {
-        //  window.location.href = './profile.html';
-       // }, 1500);
+        setTimeout(() => {
+          window.location.href = './profile.html';
+        }, 1500);
      }
     }
     checkGoogleCallback();
@@ -1853,9 +1853,9 @@ opacity:1;
       authSuccess.style.display = 'block';
       userDisplay.textContent = e;
       // Redirect to profile after successful login
-      //setTimeout(() => {
-      //  window.location.href = './profile.html';
-     // }, 1500);
+      setTimeout(() => {
+        window.location.href = './profile.html';
+      }, 1500);
     }
 
     signOutBtn.addEventListener('click', async () => {
