@@ -1661,6 +1661,7 @@ opacity:1;
     if (googleSignInBtn) {
       googleSignInBtn.addEventListener('click', async (e) => {
         e.preventDefault();
+        sessionStorage.setItem('oauthLoginPending', '1');
         try {
           const { data, error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
@@ -1670,10 +1671,12 @@ opacity:1;
           });
           
           if (error) {
+            sessionStorage.removeItem('oauthLoginPending');
             alert('Google Sign In Error: ' + error.message);
             console.error('Google Sign In Error:', error);
           }
         } catch (err) {
+          sessionStorage.removeItem('oauthLoginPending');
           alert('Error: ' + err.message);
           console.error('Google Sign In Exception:', err);
         }
@@ -1683,9 +1686,12 @@ opacity:1;
     // Check for Google OAuth redirect
     async function checkGoogleCallback() {
       const { data: { session } } = await SUPABASE.auth.getSession();
-      // فقط redirect کن اگر session وجود داشته باشد و URL شامل access_token باشد
-      // (یعنی تازه از گوگل redirect شده)
-      if (session && session.user.email && window.location.hash.includes('access_token')) {
+      // به‌جای چک‌کردن هش URL (که ممکن است خود Supabase قبل از رسیدن به این خط،
+      // آن را async پاک کرده باشد و باعث از دست‌رفتن race شود)، از فلگی که
+      // درست قبل از ریدایرکت به گوگل ست شده استفاده می‌کنیم.
+      const oauthPending = sessionStorage.getItem('oauthLoginPending');
+      if (session && session.user.email && oauthPending) {
+        sessionStorage.removeItem('oauthLoginPending');
         closeModal();
         authForm.style.display = 'none';
         authSuccess.style.display = 'block';
