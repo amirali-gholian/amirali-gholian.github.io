@@ -1652,6 +1652,9 @@ opacity:1;
     }
 
     checkUserSession();
+    
+    // پاک کردن flag قدیمی اگر وجود داشته باشد
+    sessionStorage.removeItem('loginRedirecting');
 
     // Google Sign In
     const googleSignInBtn = document.getElementById('googleSignInBtn');
@@ -1680,7 +1683,9 @@ opacity:1;
     // Check for Google OAuth redirect
     async function checkGoogleCallback() {
       const { data: { session } } = await SUPABASE.auth.getSession();
-      if (session && session.user.email) {
+      // فقط redirect کن اگر session وجود داشته باشد و URL شامل access_token باشد
+      // (یعنی تازه از گوگل redirect شده)
+      if (session && session.user.email && window.location.hash.includes('access_token')) {
         closeModal();
         authForm.style.display = 'none';
         authSuccess.style.display = 'block';
@@ -1740,7 +1745,7 @@ opacity:1;
 
         // Redirect to profile after 1.5 seconds
         setTimeout(() => {
-          window.location.href = './profile.html';
+          window.location.href = './profile.html?fromLogin=true';
         }, 1500);
      }
     }
@@ -1852,9 +1857,9 @@ opacity:1;
       authForm.style.display = 'none';
       authSuccess.style.display = 'block';
       userDisplay.textContent = e;
-      // Redirect to profile after successful login
+      // ریدایرکت با URL parameter
       setTimeout(() => {
-        window.location.href = './profile.html';
+        window.location.href = './profile.html?fromLogin=true';
       }, 1500);
     }
 
