@@ -642,46 +642,34 @@
       justify-content:flex-end;
     }
 
-   .footer{
-  margin-top:80px;
-  padding:40px 20px;
-  border-top:1px solid rgba(255,255,255,.1);
+.footer-brand{
+  margin-bottom:10px;
 }
 
-.footer .wrap{
-  max-width:1200px;
-  margin:0 auto;
+.footer-name{
+  display:block;
+  font-size:0.95rem;
+  font-weight:600;
 }
 
-.footer-brand h3{
-  margin:0;
-  font-size:1.2rem;
-}
-
-.footer-brand p{
-  margin:8px 0 24px;
-  opacity:.7;
+.footer-role{
+  display:block;
+  margin-top:2px;
+  font-size:0.8rem;
+  color:var(--muted);
 }
 
 .footer-links{
   display:flex;
-  gap:20px;
+  justify-content:center;
+  gap:16px;
   flex-wrap:wrap;
-  margin-bottom:24px;
-}
-
-.footer-links a{
-  text-decoration:none;
-  transition:.3s;
-}
-
-.footer-links a:hover{
-  opacity:.7;
+  margin:10px 0;
 }
 
 .footer-bottom{
-  opacity:.6;
-  font-size:.9rem;
+  font-size:0.85rem;
+  color:var(--muted);
 }
 
     .floating{
@@ -1435,26 +1423,24 @@ opacity:1;
     </div>
   </div>
 
-  <footer class="footer">
+ <footer>
   <div class="wrap">
-    
+
     <div class="footer-brand">
-      <h3>AmirAli Gholian</h3>
-      <p>
+      <span class="footer-name">AmirAli Gholian</span>
+      <span class="footer-role">
         Developer • AI • Cybersecurity • Networking
-      </p>
+      </span>
     </div>
 
     <div class="footer-links">
       <a href="/privacy.html">Privacy Policy</a>
       <a href="/terms.html">Terms of Service</a>
-      <a href="mailto:your-email@example.com">Contact</a>
+      <a href="mailto:youremail@example.com">Contact</a>
     </div>
 
     <div class="footer-bottom">
-      <p>
-        © <span id="year"></span> AmirAli Gholian. All rights reserved.
-      </p>
+      © <span id="year"></span> AmirAli Gholian. All rights reserved.
     </div>
 
   </div>
