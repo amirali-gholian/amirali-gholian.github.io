@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>پروفایل | آمیرعلی قولیان</title>
+  <title>Profile | Amirali Gholian</title>
   <link rel="icon" href="./logo.png" type="image/png">
   
   <!-- PWA & Manifest -->
@@ -185,25 +185,59 @@
       color: #fff;
     }
 
-    /* Menu Button */
-    .menu-btn {
-      width: 40px;
-      height: 40px;
-      display: grid;
-      place-items: center;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, .06);
-      border: 1px solid rgba(255, 255, 255, .1);
+    /* Language Switch Button */
+    .lang-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: rgba(56, 189, 248, .1);
+      color: var(--accent);
       cursor: pointer;
       transition: all .25s ease;
-      color: var(--soft);
+      font-size: .85rem;
+      font-family: inherit;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .lang-btn:hover {
+      background: rgba(56, 189, 248, .2);
+      border-color: var(--accent);
+      transform: translateY(-1px);
+      color: #fff;
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .3));
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Menu Button - Redesigned */
+    .menu-btn {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(56, 189, 248, .05), rgba(167, 139, 250, .05));
+      border: 1.5px solid rgba(56, 189, 248, .25);
+      cursor: pointer;
+      transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
+      color: var(--accent);
       font-size: 1.1rem;
+      position: relative;
     }
 
     .menu-btn:hover {
-      background: rgba(255, 255, 255, .12);
-      border-color: rgba(255, 255, 255, .2);
-      color: #fff;
+      background: linear-gradient(135deg, rgba(56, 189, 248, .15), rgba(167, 139, 250, .15));
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(56, 189, 248, .15);
+    }
+
+    .menu-btn:active {
+      transform: translateY(0);
     }
 
     /* Dropdown Menu */
@@ -211,11 +245,11 @@
       position: absolute;
       top: calc(100% + 12px);
       right: 24px;
-      width: 300px;
-      background: linear-gradient(180deg, rgba(15, 23, 42, .98), rgba(15, 23, 42, .95));
-      border: 1px solid rgba(255, 255, 255, .1);
+      width: 320px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .99), rgba(12, 17, 35, .97));
+      border: 1px solid rgba(56, 189, 248, .2);
       border-radius: 16px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, .4), 0 0 1px rgba(255, 255, 255, .1) inset;
+      box-shadow: 0 24px 64px rgba(0, 0, 0, .5), 0 0 1px rgba(56, 189, 248, .2) inset;
       backdrop-filter: blur(20px);
       opacity: 0;
       visibility: hidden;
@@ -234,25 +268,27 @@
     }
 
     .dropdown-header {
-      padding: 16px 16px;
-      border-bottom: 1px solid rgba(255, 255, 255, .06);
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(56, 189, 248, .15);
       text-align: center;
     }
 
     .dropdown-header p {
       margin: 0;
       font-size: .85rem;
-      color: var(--muted);
-      font-weight: 500;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
 
     .dropdown-items {
       display: flex;
       flex-direction: column;
+      padding: 8px 0;
     }
 
     .dropdown-item {
-      padding: 14px 16px;
+      padding: 12px 16px;
       border: none;
       background: none;
       color: var(--text);
@@ -266,10 +302,11 @@
       align-items: center;
       gap: 12px;
       text-decoration: none;
+      font-weight: 500;
     }
 
     .dropdown-item:hover {
-      background: rgba(255, 255, 255, .06);
+      background: rgba(56, 189, 248, .1);
       border-left-color: var(--accent);
       color: #fff;
       padding-left: 20px;
@@ -277,9 +314,10 @@
     }
 
     .dropdown-item svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
+      stroke-width: 2.5;
     }
 
     .dropdown-item.danger {
