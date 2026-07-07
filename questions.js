@@ -287,9 +287,9 @@ const PYTHON_QUESTIONS = {
       id: 6,
       text: 'خروجی کد زیر چیست؟\n\nimport json\ndata = {"name": "Ali"}\njson_str = json.dumps(data)\nprint(type(json_str))',
       options: [
-        '<class \'str\'>',
-        '<class \'dict\'>',
-        '<class \'list\'>',
+        "&lt;class 'str'&gt;",
+        "&lt;class 'dict'&gt;",
+        "&lt;class 'list'&gt;",
         'Error'
       ],
       correct: 0 // str
