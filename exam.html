@@ -8,6 +8,7 @@
   
   <meta name="theme-color" content="#050814">
   <link rel="manifest" href="/manifest.json">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   
   <style>
     :root {
@@ -505,11 +506,10 @@
 
   <script>
     // ============ تنظیمات Supabase ============
-    // جایگزین کردن با مقادیر واقعی شما
-    const SUPABASE_CONFIG = {
-      URL: 'https://YOUR_PROJECT.supabase.co',
-      KEY: 'YOUR_ANON_KEY'
-    };
+    const SUPABASE = window.supabase.createClient(
+      'https://cwwqmushilpxzpcpjute.supabase.co',
+      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
+    );
 
     // ============ سوالات Python ============
     const PYTHON_QUESTIONS = {
@@ -729,17 +729,16 @@
 
       async init() {
         try {
-          // Initialize Supabase
-          const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/+esm');
-          this.SUPABASE = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.KEY);
-          
+          // Use shared Supabase client
+          this.SUPABASE = SUPABASE;
+
           // Check auth
-          const { data: { user }, error } = await this.SUPABASE.auth.getUser();
-          if (error || !user) {
+          const { data: { session } } = await this.SUPABASE.auth.getSession();
+          if (!session) {
             this.goHome();
             return;
           }
-          this.currentUser = user;
+          this.currentUser = session.user;
 
           // Parse URL
           const params = new URLSearchParams(window.location.search);
