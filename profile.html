@@ -1071,6 +1071,179 @@
       border-color: rgba(248, 113, 113, .3);
     }
 
+    /* Exam Styles */
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .exam-card {
+      padding: 28px 24px;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .6), rgba(30, 41, 59, .5));
+      cursor: pointer;
+      transition: all .35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exam-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, .1), transparent 60%);
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+
+    .exam-card.beginner {
+      border-color: rgba(34, 197, 94, .2);
+    }
+
+    .exam-card.beginner:hover {
+      border-color: rgba(34, 197, 94, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(34, 197, 94, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.beginner:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card.intermediate {
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .exam-card.intermediate:hover {
+      border-color: rgba(56, 189, 248, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(56, 189, 248, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.intermediate:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card.advanced {
+      border-color: rgba(248, 113, 113, .2);
+    }
+
+    .exam-card.advanced:hover {
+      border-color: rgba(248, 113, 113, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(248, 113, 113, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.advanced:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      transition: transform .35s ease;
+    }
+
+    .exam-card:hover .exam-card-icon {
+      transform: scale(1.15) rotateZ(5deg);
+    }
+
+    .exam-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      color: #fff;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card p {
+      margin: 0 0 16px;
+      color: var(--muted);
+      font-size: .95rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card-stats {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .score-badge {
+      padding: 6px 14px;
+      background: rgba(56, 189, 248, .15);
+      border: 1px solid rgba(56, 189, 248, .3);
+      border-radius: 20px;
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-item {
+      padding: 16px;
+      background: rgba(56, 189, 248, .05);
+      border: 1px solid rgba(56, 189, 248, .15);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .25s ease;
+    }
+
+    .history-item:hover {
+      background: rgba(56, 189, 248, .1);
+      border-color: rgba(56, 189, 248, .3);
+    }
+
+    .history-item-info h4 {
+      margin: 0 0 4px;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .history-item-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .history-item-score {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .score-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 60px;
+      text-align: center;
+    }
+
     @media (max-width: 768px) {
       :root {
         --max: 100%;
@@ -1486,6 +1659,7 @@
       <!-- Tabs -->
       <div class="tabs">
         <button class="tab-btn active" data-tab="personal">مشخصات شخصی</button>
+        <button class="tab-btn" data-tab="exams">📝 تست‌های پایتون</button>
         <button class="tab-btn" data-tab="support">پشتیبانی</button>
         <button class="tab-btn" data-tab="suggestions">پیشنهادات</button>
         <button class="tab-btn" data-tab="files">مدیریت فایل‌ها</button>
@@ -1547,6 +1721,47 @@
 
         <!-- Save Button -->
         <button class="btn" id="saveBtn">💾 ذخیره تغییرات</button>
+      </div>
+
+      <!-- Exams Tab -->
+      <div class="tab-content" id="exams-tab">
+        <div class="exam-grid">
+          <!-- Level 1: Beginner -->
+          <button class="exam-card beginner" onclick="startExam('beginner')">
+            <div class="exam-card-icon">🌱</div>
+            <h3>مقدماتی</h3>
+            <p>10 سوال • 15 دقیقه</p>
+            <div class="exam-card-stats">
+              <span id="beginner-score" class="score-badge">-</span>
+            </div>
+          </button>
+
+          <!-- Level 2: Intermediate -->
+          <button class="exam-card intermediate" onclick="startExam('intermediate')">
+            <div class="exam-card-icon">🎯</div>
+            <h3>متوسط</h3>
+            <p>10 سوال • 15 دقیقه</p>
+            <div class="exam-card-stats">
+              <span id="intermediate-score" class="score-badge">-</span>
+            </div>
+          </button>
+
+          <!-- Level 3: Advanced -->
+          <button class="exam-card advanced" onclick="startExam('advanced')">
+            <div class="exam-card-icon">🚀</div>
+            <h3>سخت</h3>
+            <p>10 سوال • 15 دقیقه</p>
+            <div class="exam-card-stats">
+              <span id="advanced-score" class="score-badge">-</span>
+            </div>
+          </button>
+        </div>
+
+        <!-- Score History -->
+        <div class="card" id="scoreHistoryCard" style="margin-top: 24px;">
+          <h3>📊 تاریخچه نمرات</h3>
+          <div id="historyList" class="history-list"></div>
+        </div>
       </div>
 
       <!-- Support Tab -->
@@ -1864,6 +2079,7 @@
       await loadProfile();
       await loadSuggestions();
       await loadFiles();
+      await loadExamHistory();
     }
 
     // Load profile data
@@ -2376,6 +2592,116 @@
       } catch (err) {
         console.error('خطا:', err);
         showError('خطا در حذف فایل');
+      }
+    }
+
+    // ===== EXAM SYSTEM =====
+    // Start exam
+    function startExam(level) {
+      // Redirect to exam page with level parameter
+      window.location.href = `./exam.html?level=${level}`;
+    }
+
+    // Load exam history
+    async function loadExamHistory() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('exams')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('submitted_at', { ascending: false })
+          .limit(20);
+
+        if (error) throw error;
+
+        if (!data || data.length === 0) {
+          document.getElementById('historyList').innerHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <h3>هنوز امتحانی انجام نشده است</h3>
+              <p>یکی از امتحان‌های بالا را انجام دهید</p>
+            </div>
+          `;
+          return;
+        }
+
+        // Group by level
+        const groupedByLevel = {
+          beginner: [],
+          intermediate: [],
+          advanced: []
+        };
+
+        data.forEach(exam => {
+          if (groupedByLevel[exam.level]) {
+            groupedByLevel[exam.level].push(exam);
+          }
+        });
+
+        // Update score badges
+        ['beginner', 'intermediate', 'advanced'].forEach(level => {
+          const badge = document.getElementById(`${level}-score`);
+          if (groupedByLevel[level].length > 0) {
+            const lastScore = groupedByLevel[level][0];
+            badge.textContent = `${lastScore.score}/100`;
+            badge.style.background = lastScore.score >= 70 ? 'rgba(34, 197, 94, .2)' : 'rgba(248, 113, 113, .2)';
+            badge.style.color = lastScore.score >= 70 ? 'var(--accent-2)' : '#f87171';
+          }
+        });
+
+        // Display history
+        let historyHTML = '';
+        Object.entries(groupedByLevel).forEach(([level, exams]) => {
+          if (exams.length > 0) {
+            const levelNames = {
+              beginner: '🌱 مقدماتی',
+              intermediate: '🎯 متوسط',
+              advanced: '🚀 سخت'
+            };
+
+            historyHTML += `<div style="margin-bottom: 16px;"><h4 style="color: var(--muted); font-size: .9rem; margin: 0 0 8px; text-transform: uppercase;">${levelNames[level]}</h4>`;
+
+            exams.forEach(exam => {
+              const date = new Date(exam.submitted_at);
+              const dateStr = date.toLocaleDateString('fa-IR', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+              });
+
+              const scoreColor = exam.score >= 70 ? 'var(--accent-2)' : '#f87171';
+              historyHTML += `
+                <div class="history-item">
+                  <div class="history-item-info">
+                    <h4>${levelNames[level]} - ${exam.passed_questions}/10 سوال</h4>
+                    <p>${dateStr}</p>
+                  </div>
+                  <div class="history-item-score">
+                    <span class="score-value" style="color: ${scoreColor};">${exam.score}</span>
+                  </div>
+                </div>
+              `;
+            });
+
+            historyHTML += '</div>';
+          }
+        });
+
+        if (!historyHTML) {
+          historyHTML = `
+            <div class="empty-state">
+              <div class="empty-state-icon">📊</div>
+              <h3>هنوز امتحانی انجام نشده است</h3>
+              <p>یکی از امتحان‌های بالا را انجام دهید</p>
+            </div>
+          `;
+        }
+
+        document.getElementById('historyList').innerHTML = historyHTML;
+      } catch (err) {
+        console.error('خطا در بارگیری تاریخچه:', err);
       }
     }
 
