@@ -1,804 +1,540 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa" dir="rtl">
 <head>
-  <meta charset="UTF-8" />
-  <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Amirali Gholian",
-  "alternateName":"امیرعلی قولیان",
-  "url":"https://amirali-gholian.github.io/",
-  "image":"https://amirali-gholian.github.io/logo.png",
-  "jobTitle":"Python Developer",
-  "knowsAbout":[
-    "Python",
-    "Linux",
-    "Networking",
-    "Cybersecurity",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "DevOps",
-    "Cloud Computing"
-  ],
-  "sameAs":[
-    "https://github.com/amirali-gholian",
-    "https://t.me/nexth0p"
-  ]
-}
-</script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>دوره Python | Amirali Gholian</title>
+  <link rel="icon" href="./logo.png" type="image/png">
   
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Amirali Gholian - Python Programming expertise. Master Python, web development, and scripting." />
-  <meta name="theme-color" content="#060913" />
-  <title>Python Programming | Amirali Gholian</title>
-  <link rel="icon" href="./logo.png?v=2" type="image/png">
-  
-  <!-- PWA & Manifest -->
-  <link rel="manifest" href="/manifest.json">
-  <link rel="apple-touch-icon" href="/logo.png">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Amirali Gholian">
-  
-  <!-- Security -->
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <style>
-    :root{
-      --bg0:#050814;
-      --bg1:#070b16;
-      --panel:rgba(15, 23, 42, .72);
-      --panel-2:rgba(17, 24, 39, .86);
-      --line:rgba(148, 163, 184, .16);
-      --text:#e5e7eb;
-      --muted:#94a3b8;
-      --soft:#cbd5e1;
-      --accent:#38bdf8;
-      --accent-2:#22c55e;
-      --accent-3:#a78bfa;
-      --shadow:0 20px 60px rgba(0,0,0,.42);
-      --radius:26px;
-      --radius-sm:18px;
-      --max:1180px;
-      
-      --code-keyword: #ff79c6;
-      --code-string: #f1fa8c;
-      --code-comment: #6272a4;
-      --code-function: #50fa7b;
-      --code-number: #bd93f9;
-      --code-variable: #8be9fd;
+    :root {
+      --bg0: #050814;
+      --bg1: #070b16;
+      --panel: rgba(15, 23, 42, .72);
+      --line: rgba(148, 163, 184, .16);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --soft: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #a78bfa;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .42);
+      --radius: 26px;
+      --max: 1180px;
     }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
+      background: 
         radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
         radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 22%),
         linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
-      color:var(--text);
-      overflow-x:hidden;
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
     }
 
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
-    .glass{
-      background:linear-gradient(180deg, rgba(15,23,42,.86), rgba(15,23,42,.58));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
+    .container {
+      max-width: var(--max);
+      margin: 0 auto;
     }
 
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:40;
-      background:rgba(4, 8, 15, .62);
-      backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .topbar-inner{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .avatar{
-      width:48px;height:48px;border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
-      display:grid;place-items:center;
-      border:1px solid rgba(255,255,255,.15);
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-      overflow:hidden;
-      flex:0 0 auto;
-      cursor:pointer;
-      transition:.3s ease;
-    }
-    .avatar:hover{
-      transform:scale(1.1);
-    }
-    .avatar span{
-      font-weight:800;
-      color:#fff;
-      letter-spacing:.5px;
-    }
-    .brand h1{
-      margin:0;
-      font-size:1rem;
-      line-height:1.1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .brand small{display:block;margin-top:4px;color:var(--muted)}
-
-    .page{display:none}
-    .page.active{display:block}
-
-    .hero{
-      padding:54px 0 24px;
-      position:relative;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:24px;
-      align-items:stretch;
-    }
-    .hero-card, .side-card{
-      position:relative;
-      border-radius:32px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%),
-        linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92));
-      box-shadow:var(--shadow);
-    }
-    .hero-card{
-      padding:34px;
-      transform-style:preserve-3d;
-      transition:transform .15s ease;
-    }
-    .hero-card::before,
-    .hero-card::after{
-      content:"";
-      position:absolute;
-      border-radius:999px;
-      pointer-events:none;
-      filter:blur(18px);
-      opacity:.55;
-    }
-    .hero-card::before{
-      width:240px;height:240px;
-      background:rgba(56,189,248,.12);
-      top:-70px; right:-40px;
-      animation: drift 10s ease-in-out infinite;
-    }
-    .hero-card::after{
-      width:180px;height:180px;
-      background:rgba(34,197,94,.10);
-      bottom:-55px; left:-30px;
-      animation: drift 12s ease-in-out infinite reverse;
-    }
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.05);
-      color:#dbe4ef;
-      font-size:.9rem;
-      margin-bottom:18px;
-    }
-    .eyebrow .dot{
-      width:9px;height:9px;border-radius:50%;
-      background:var(--accent-2);
-      box-shadow:0 0 0 6px rgba(34,197,94,.12);
-    }
-    .hero h2{
-      margin:0;
-      font-size:clamp(2.2rem, 4vw, 4.8rem);
-      line-height:1.03;
-      letter-spacing:-.045em;
-    }
-    .grad{
-      background:linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .type-row{
-      margin-top:12px;
-      font-size:1.16rem;
-      color:#dbe4ef;
-      min-height:1.7em;
-    }
-    .type-text{
-      color:var(--accent);
-      font-weight:700;
-    }
-    .cursor{
-      animation:blink 1s infinite;
-      color:#fff;
-      margin-left:2px;
-    }
-    .hero p{
-      margin:18px 0 0;
-      max-width:66ch;
-      color:#cbd5e1;
-      line-height:1.85;
-      font-size:1.03rem;
-    }
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:28px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:13px 18px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      color:#e5e7eb;
-      font-weight:600;
-      transition:.25s ease;
-      cursor:pointer;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,.08);
-    }
-    .btn.primary{
-      background:linear-gradient(135deg, var(--accent-2), var(--accent));
-      color:#07111c;
-      border-color:transparent;
-      box-shadow:0 14px 30px rgba(34,197,94,.18);
-    }
-    .btn.primary:hover{filter:brightness(1.03)}
-
-    .side-card{
-      padding:24px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:100%;
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 48px;
     }
 
-    .skills-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-      gap:16px;
-      margin-top:20px;
-    }
-    .skill-item{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:12px;
-      border-radius:12px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-    }
-    .skill-item span:first-child{
-      color:var(--accent-2);
-      font-size:1.2rem;
+    .back-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: rgba(255, 255, 255, .08);
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 500;
+      transition: all .25s ease;
     }
 
-    .modules-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-      gap:24px;
-      margin:40px 0;
+    .back-btn:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .2);
     }
 
-    .module-card{
-      position:relative;
-      border-radius:20px;
-      padding:30px;
-      background:linear-gradient(135deg, rgba(56,189,248,.1), rgba(34,197,94,.05));
-      border:1px solid rgba(56,189,248,.2);
-      transition:.3s ease;
-      cursor:pointer;
-    }
-    .module-card:hover{
-      border-color:var(--accent);
-      background:linear-gradient(135deg, rgba(56,189,248,.15), rgba(34,197,94,.1));
-      transform:translateY(-8px);
-      box-shadow:0 20px 50px rgba(56,189,248,.15);
-    }
-    .module-icon{
-      font-size:3rem;
-      margin-bottom:16px;
-      display:block;
-    }
-    .module-title{
-      font-size:1.3rem;
-      font-weight:700;
-      margin-bottom:12px;
-      color:var(--accent);
-    }
-    .module-desc{
-      color:var(--muted);
-      font-size:.95rem;
-      line-height:1.6;
-      margin-bottom:16px;
-    }
-    .module-topics{
-      font-size:.85rem;
-      color:var(--soft);
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .module-topics span{
-      background:rgba(56,189,248,.2);
-      padding:4px 10px;
-      border-radius:6px;
+    .course-title {
+      margin: 0;
+      font-size: 2rem;
+      background: linear-gradient(135deg, #fff, var(--soft));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
-    /* Learning Content */
-    .content-section{
-      padding:40px 0;
-      border-bottom:1px solid var(--line);
-    }
-    .content-section h2{
-      font-size:2.5rem;
-      margin-bottom:24px;
-      color:var(--accent);
-    }
-    .content-section h3{
-      font-size:1.5rem;
-      margin:32px 0 16px;
-      color:var(--accent);
+    .course-subtitle {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-top: 4px;
     }
 
-    .code-container{
-      position:relative;
-      margin:20px 0;
-      border-radius:12px;
-      overflow:hidden;
-      background:#0a0e1a;
-      border:1px solid rgba(56,189,248,.2);
+    /* Levels Grid */
+    .levels-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 24px;
+      margin-bottom: 64px;
     }
 
-    .code-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px 16px;
-      background:rgba(56,189,248,.05);
-      border-bottom:1px solid rgba(56,189,248,.1);
-      font-size:.85rem;
-      color:var(--muted);
+    .level-card {
+      background: var(--panel);
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: all .3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
     }
 
-    .code-copy{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 12px;
-      background:var(--accent);
-      color:#07111c;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-      transition:.2s ease;
-      font-size:.85rem;
-    }
-    .code-copy:hover{
-      filter:brightness(1.1);
-      transform:scale(1.05);
-    }
-    .code-copy.copied{
-      background:var(--accent-2);
+    .level-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(56, 189, 248, .4);
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .1);
     }
 
-    .code-block{
-      padding:16px;
-      overflow-x:auto;
-      font-family:'Fira Code', 'Courier New', monospace;
-      font-size:.9rem;
-      line-height:1.6;
-      background:#0a0e1a;
-      color:#e5e7eb;
+    .level-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
     }
 
-    .code-block::-webkit-scrollbar{
-      height:6px;
-    }
-    .code-block::-webkit-scrollbar-track{
-      background:transparent;
-    }
-    .code-block::-webkit-scrollbar-thumb{
-      background:rgba(56,189,248,.3);
-      border-radius:3px;
+    .level-icon {
+      font-size: 2.4rem;
     }
 
-    .kw { color: var(--code-keyword); font-weight:700; }
-    .str { color: var(--code-string); }
-    .cmm { color: var(--code-comment); font-style:italic; }
-    .fn { color: var(--code-function); font-weight:700; }
-    .num { color: var(--code-number); }
-    .var { color: var(--code-variable); }
-    .op { color: #ff79c6; }
-
-    .explanation{
-      background:rgba(34,197,94,.1);
-      border-left:3px solid var(--accent-2);
-      padding:16px;
-      margin:16px 0;
-      border-radius:8px;
-      color:var(--soft);
-      font-size:.95rem;
-      line-height:1.7;
+    .level-info h3 {
+      margin: 0;
+      font-size: 1.4rem;
+      color: #fff;
     }
 
-    .back-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 16px;
-      border-radius:8px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-      color:var(--accent);
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:.3s ease;
-    }
-    .back-btn:hover{
-      background:rgba(56,189,248,.2);
-      transform:translateX(-4px);
+    .level-info p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: .9rem;
     }
 
-    @keyframes drift{
-      0%, 100%{transform:translate(0,0)}
-      50%{transform:translate(30px,-30px)}
-    }
-    @keyframes blink{
-      0%, 49%{opacity:1}
-      50%, 100%{opacity:0}
+    .level-stats {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, .04);
+      border-radius: 12px;
     }
 
-    @media(max-width:768px){
-      .hero-grid{grid-template-columns:1fr}
-      .topbar-inner{flex-direction:column}
-      .modules-grid{grid-template-columns:1fr}
+    .stat {
+      flex: 1;
+      text-align: center;
+    }
+
+    .stat-value {
+      display: block;
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    .level-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .start-btn {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all .25s ease;
+    }
+
+    .start-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, .25);
+    }
+
+    .start-btn:active {
+      transform: translateY(0);
+    }
+
+    .history-btn {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(56, 189, 248, .3);
+      background: rgba(56, 189, 248, .1);
+      color: var(--accent);
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .9rem;
+      transition: all .25s ease;
+    }
+
+    .history-btn:hover {
+      background: rgba(56, 189, 248, .15);
+      border-color: rgba(56, 189, 248, .5);
+    }
+
+    /* History Section */
+    .history-section {
+      margin-top: 64px;
+      padding-top: 32px;
+      border-top: 1px solid var(--line);
+    }
+
+    .section-title {
+      font-size: 1.6rem;
+      margin: 0 0 24px;
+      color: #fff;
+    }
+
+    .history-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .history-item {
+      background: rgba(15, 23, 42, .5);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .25s ease;
+    }
+
+    .history-item:hover {
+      background: rgba(15, 23, 42, .7);
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .history-info h4 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+    }
+
+    .history-info p {
+      margin: 4px 0 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .history-score {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--accent-2), rgba(34, 197, 94, .6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 3rem;
+      margin-bottom: 16px;
+    }
+
+    .empty-state h3 {
+      color: var(--text);
+      margin: 0 0 8px;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .course-title {
+        font-size: 1.6rem;
+      }
+
+      .levels-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .level-card {
+        padding: 24px;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <div class="brand">
-          <a href="doc.html" class="avatar" style="display:grid;place-items:center;text-decoration:none;"><span style="grid-area:1/1;">AG</span><img src="profile.jpg" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" /></a>
-          <div>
-            <h1>Amirali Gholian</h1>
-            <small>💻 Python | 🐧 Linux | 🚀 AI</small>
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <button class="back-btn" onclick="goBack()">← بازگشت</button>
+      <div>
+        <h1 class="course-title">🐍 Python</h1>
+        <p class="course-subtitle">برنامه‌نویسی برای شروع‌کننده‌ها</p>
+      </div>
+    </div>
+
+    <!-- Levels -->
+    <div class="levels-grid">
+      <!-- Beginner -->
+      <div class="level-card">
+        <div class="level-header">
+          <span class="level-icon">🌱</span>
+          <div class="level-info">
+            <h3>مقدماتی</h3>
+            <p>آغاز یادگیری</p>
           </div>
+        </div>
+        <div class="level-stats">
+          <div class="stat">
+            <span class="stat-value">10</span>
+            <span class="stat-label">سوال</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">15</span>
+            <span class="stat-label">دقیقه</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="beginner-score">—</span>
+            <span class="stat-label">نمره</span>
+          </div>
+        </div>
+        <div class="level-actions">
+          <button class="start-btn" onclick="startExam('beginner')">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('beginner')">تاریخچه</button>
+        </div>
+      </div>
+
+      <!-- Intermediate -->
+      <div class="level-card">
+        <div class="level-header">
+          <span class="level-icon">🎯</span>
+          <div class="level-info">
+            <h3>متوسط</h3>
+            <p>تقویت مهارت‌ها</p>
+          </div>
+        </div>
+        <div class="level-stats">
+          <div class="stat">
+            <span class="stat-value">10</span>
+            <span class="stat-label">سوال</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">20</span>
+            <span class="stat-label">دقیقه</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="intermediate-score">—</span>
+            <span class="stat-label">نمره</span>
+          </div>
+        </div>
+        <div class="level-actions">
+          <button class="start-btn" onclick="startExam('intermediate')">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('intermediate')">تاریخچه</button>
+        </div>
+      </div>
+
+      <!-- Advanced -->
+      <div class="level-card">
+        <div class="level-header">
+          <span class="level-icon">🚀</span>
+          <div class="level-info">
+            <h3>پیشرفته</h3>
+            <p>تسلط کامل</p>
+          </div>
+        </div>
+        <div class="level-stats">
+          <div class="stat">
+            <span class="stat-value">10</span>
+            <span class="stat-label">سوال</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value">25</span>
+            <span class="stat-label">دقیقه</span>
+          </div>
+          <div class="stat">
+            <span class="stat-value" id="advanced-score">—</span>
+            <span class="stat-label">نمره</span>
+          </div>
+        </div>
+        <div class="level-actions">
+          <button class="start-btn" onclick="startExam('advanced')">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('advanced')">تاریخچه</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- History Section -->
+    <div class="history-section">
+      <h2 class="section-title">📊 تاریخچه آزمون‌ها</h2>
+      <div id="historyContainer">
+        <div class="empty-state">
+          <div class="empty-state-icon">📭</div>
+          <h3>هنوز امتحانی انجام نشده است</h3>
+          <p>یکی از آزمون‌های بالا را انجام دهید</p>
         </div>
       </div>
     </div>
   </div>
 
-  <main class="wrap">
-    <div class="page active" id="python">
-      <a class="back-btn" href="doc.html">← Back to Home</a>
-
-      <div class="content-section">
-        <h2>🐍 Python Programming</h2>
-        <p style="color:var(--muted);margin-bottom:32px;">A complete guide to Python programming from basics to advanced concepts</p>
-
-        <h3>1. Variables and Data Types</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Variables store information like a box. Data types tell what kind of information (text, number, etc).
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>python_basics.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Variables store data</span>
-name = <span class="str">"Alice"</span>           <span class="cmm"># Text (String)</span>
-age = <span class="num">25</span>                   <span class="cmm"># Whole number (Integer)</span>
-height = <span class="num">5.9</span>                <span class="cmm"># Decimal number (Float)</span>
-is_student = <span class="kw">True</span>         <span class="cmm"># True or False (Boolean)</span>
-
-<span class="cmm"># Print to show output</span>
-<span class="fn">print</span>(<span class="str">f"Name: {name}"</span>)
-
-<span class="cmm"># Convert between types</span>
-num_text = <span class="str">"123"</span>
-num = <span class="fn">int</span>(num_text)  <span class="cmm"># Convert text to number</span>
-</div>
-        </div>
-
-        <h3>2. If Statements (Conditions)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Conditions let your code make decisions. "If this happens, do that. Otherwise, do something else."
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>if_statements.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block">age = <span class="num">25</span>
-
-<span class="kw">if</span> age >= <span class="num">18</span>:
-    <span class="fn">print</span>(<span class="str">"You are an adult"</span>)
-<span class="kw">elif</span> age >= <span class="num">13</span>:
-    <span class="fn">print</span>(<span class="str">"You are a teenager"</span>)
-<span class="kw">else</span>:
-    <span class="fn">print</span>(<span class="str">"You are a child"</span>)
-
-<span class="cmm"># Check multiple conditions</span>
-<span class="kw">if</span> age >= <span class="num">18</span> <span class="kw">and</span> has_license:
-    <span class="fn">print</span>(<span class="str">"Can drive"</span>)
-</div>
-        </div>
-
-        <h3>3. Loops (Repeat Code)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Loops repeat code multiple times. Useful for doing the same thing over and over.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>loops.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># For loop - repeat a set number of times</span>
-<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">5</span>):
-    <span class="fn">print</span>(i)  <span class="cmm"># Prints: 0, 1, 2, 3, 4</span>
-
-<span class="cmm"># For loop - go through a list</span>
-fruits = [<span class="str">"apple"</span>, <span class="str">"banana"</span>, <span class="str">"orange"</span>]
-<span class="kw">for</span> fruit <span class="kw">in</span> fruits:
-    <span class="fn">print</span>(fruit)
-
-<span class="cmm"># While loop - repeat until condition is false</span>
-count = <span class="num">0</span>
-<span class="kw">while</span> count < <span class="num">3</span>:
-    <span class="fn">print</span>(count)
-    count = count + <span class="num">1</span>
-</div>
-        </div>
-
-        <h3>4. Lists (Store Multiple Items)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> A list is like a shopping list - it stores multiple items in order. You can add, remove, or change items.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>lists.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Create a list</span>
-numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
-
-<span class="cmm"># Access items (0 is first)</span>
-<span class="fn">print</span>(numbers[<span class="num">0</span>])      <span class="cmm"># Shows: 1</span>
-<span class="fn">print</span>(numbers[<span class="num">-1</span>])     <span class="cmm"># Shows: 5 (last item)</span>
-
-<span class="cmm"># Add and remove</span>
-numbers.append(<span class="num">6</span>)       <span class="cmm"># Add 6 to end</span>
-numbers.remove(<span class="num">3</span>)      <span class="cmm"># Remove 3 from list</span>
-numbers.pop()          <span class="cmm"># Remove last item</span>
-
-<span class="cmm"># List length</span>
-<span class="fn">print</span>(<span class="fn">len</span>(numbers))  <span class="cmm"># Shows: 5</span>
-
-<span class="cmm"># Check if item in list</span>
-<span class="kw">if</span> <span class="num">2</span> <span class="kw">in</span> numbers:
-    <span class="fn">print</span>(<span class="str">"Found it!"</span>)
-</div>
-        </div>
-
-        <h3>5. Functions (Reusable Code)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Functions are blocks of code you can reuse. Instead of writing the same code multiple times, put it in a function and call it.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>functions.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Define a simple function</span>
-<span class="kw">def</span> <span class="fn">greet</span>(name):
-    <span class="kw">return</span> <span class="str">f"Hello {name}!"</span>
-
-result = <span class="fn">greet</span>(<span class="str">"Alice"</span>)
-<span class="fn">print</span>(result)  <span class="cmm"># Shows: Hello Alice!</span>
-
-<span class="cmm"># Function with default value</span>
-<span class="kw">def</span> <span class="fn">add</span>(a, b=<span class="num">0</span>):
-    <span class="kw">return</span> a + b
-
-<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">5</span>))      <span class="cmm"># Uses default: 5 + 0 = 5</span>
-<span class="fn">print</span>(<span class="fn">add</span>(<span class="num">5</span>, <span class="num">3</span>))  <span class="cmm"># 5 + 3 = 8</span>
-
-<span class="cmm"># Function that doesn't return anything</span>
-<span class="kw">def</span> <span class="fn">say_hello</span>(name):
-    <span class="fn">print</span>(<span class="str">f"Hello {name}!"</span>)
-
-<span class="fn">say_hello</span>(<span class="str">"Bob"</span>)
-</div>
-        </div>
-
-        <h3>6. Dictionaries (Key-Value Storage)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> A dictionary stores pairs of information - like a phone book where you look up a name (key) to find a number (value).
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>dictionaries.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Create a dictionary</span>
-person = {
-    <span class="str">"name"</span>: <span class="str">"Alice"</span>,
-    <span class="str">"age"</span>: <span class="num">25</span>,
-    <span class="str">"city"</span>: <span class="str">"New York"</span>
-}
-
-<span class="cmm"># Access by key</span>
-<span class="fn">print</span>(person[<span class="str">"name"</span>])  <span class="cmm"># Shows: Alice</span>
-
-<span class="cmm"># Add new key-value</span>
-person[<span class="str">"email"</span>] = <span class="str">"alice@example.com"</span>
-
-<span class="cmm"># Update value</span>
-person[<span class="str">"age"</span>] = <span class="num">26</span>
-
-<span class="cmm"># Remove key</span>
-<span class="kw">del</span> person[<span class="str">"city"</span>]
-
-<span class="cmm"># Get all keys</span>
-<span class="fn">print</span>(person.keys())
-</div>
-        </div>
-
-        <h3>7. Classes and Objects</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Classes are blueprints for creating objects. Like a cookie cutter that makes the same shape cookies, a class defines how objects should look and behave.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>classes.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Define a class</span>
-<span class="kw">class</span> <span class="fn">Dog</span>:
-    <span class="kw">def</span> <span class="fn">__init__</span>(self, name, age):
-        self.name = name
-        self.age = age
-    
-    <span class="kw">def</span> <span class="fn">bark</span>(self):
-        <span class="kw">return</span> <span class="str">f"{self.name} says Woof!"</span>
-
-<span class="cmm"># Create objects from the class</span>
-dog1 = <span class="fn">Dog</span>(<span class="str">"Buddy"</span>, <span class="num">3</span>)
-dog2 = <span class="fn">Dog</span>(<span class="str">"Max"</span>, <span class="num">5</span>)
-
-<span class="cmm"># Use the objects</span>
-<span class="fn">print</span>(dog1.name)      <span class="cmm"># Shows: Buddy</span>
-<span class="fn">print</span>(dog1.bark())    <span class="cmm"># Shows: Buddy says Woof!</span>
-</div>
-        </div>
-
-        <h3>8. File Handling (Read and Write)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Working with files lets you save data to your computer and read it back later.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>files.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Read a file</span>
-<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"file.txt"</span>, <span class="str">"r"</span>) <span class="kw">as</span> f:
-    content = f.read()
-    <span class="fn">print</span>(content)
-
-<span class="cmm"># Write to a file</span>
-<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"output.txt"</span>, <span class="str">"w"</span>) <span class="kw">as</span> f:
-    f.write(<span class="str">"Hello, World!"</span>)
-
-<span class="cmm"># Add to a file (append)</span>
-<span class="kw">with</span> <span class="fn">open</span>(<span class="str">"log.txt"</span>, <span class="str">"a"</span>) <span class="kw">as</span> f:
-    f.write(<span class="str">"\nNew message"</span>)
-</div>
-        </div>
-
-        <h3>9. Error Handling (Try-Except)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Sometimes code fails (like dividing by zero). Try-Except lets you handle errors gracefully instead of crashing.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>error_handling.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="kw">try</span>:
-    num = <span class="fn">int</span>(<span class="str">"abc"</span>)
-    result = <span class="num">10</span> / <span class="num">0</span>
-<span class="kw">except</span> ValueError:
-    <span class="fn">print</span>(<span class="str">"That's not a valid number"</span>)
-<span class="kw">except</span> ZeroDivisionError:
-    <span class="fn">print</span>(<span class="str">"Can't divide by zero"</span>)
-<span class="kw">except</span> Exception <span class="kw">as</span> e:
-    <span class="fn">print</span>(<span class="str">f"Something went wrong: {e}"</span>)
-<span class="kw">else</span>:
-    <span class="fn">print</span>(<span class="str">"No errors!"</span>)
-</div>
-        </div>
-
-        <h3>10. Lambda (Quick Functions)</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Lambda is a way to write small functions quickly without using def. Perfect for simple, one-time operations.
-        </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>lambda.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Lambda function - quick and simple</span>
-square = <span class="kw">lambda</span> x: x <span class="op">**</span> <span class="num">2</span>
-<span class="fn">print</span>(<span class="fn">square</span>(<span class="num">5</span>))  <span class="cmm"># Shows: 25</span>
-
-<span class="cmm"># Use with map - apply to all items</span>
-numbers = [<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>]
-squared = <span class="fn">list</span>(<span class="fn">map</span>(<span class="kw">lambda</span> x: x<span class="op">**</span><span class="num">2</span>, numbers))
-<span class="fn">print</span>(squared)  <span class="cmm"># Shows: [1, 4, 9, 16, 25]</span>
-
-<span class="cmm"># Use with filter - keep only matching items</span>
-even = <span class="fn">list</span>(<span class="fn">filter</span>(<span class="kw">lambda</span> x: x <span class="op">%</span> <span class="num">2</span> == <span class="num">0</span>, numbers))
-<span class="fn">print</span>(even)  <span class="cmm"># Shows: [2, 4]</span>
-</div>
-        </div>
-      </div>
-    </div>
-  </main>
-
   <script>
-    // Copy to Clipboard
-    function copyCode(button) {
-      const codeBlock = button.closest('.code-container').querySelector('.code-block');
-      const text = codeBlock.innerText;
+    // ============ تنظیمات Supabase ============
+    // جایگزین با مقادیر واقعی شما
+    const SUPABASE_CONFIG = {
+      URL: 'https://YOUR_PROJECT.supabase.co',
+      KEY: 'YOUR_ANON_KEY'
+    };
 
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = button.innerText;
-        button.innerText = '✓ Copied!';
-        button.classList.add('copied');
+    let SUPABASE;
+    let currentUser = null;
 
-        setTimeout(() => {
-          button.innerText = originalText;
-          button.classList.remove('copied');
-        }, 2000);
-      });
+    // Initialize Supabase
+    async function initSupabase() {
+      try {
+        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/+esm');
+        SUPABASE = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.KEY);
+        checkAuth();
+      } catch (err) {
+        console.error('خطا:', err);
+        window.location.href = './profile.html';
+      }
     }
+
+    // Check Authentication
+    async function checkAuth() {
+      try {
+        const { data: { user }, error } = await SUPABASE.auth.getUser();
+        if (error || !user) {
+          window.location.href = './profile.html';
+          return;
+        }
+        currentUser = user;
+        loadScores();
+      } catch (err) {
+        console.error('خطا:', err);
+        window.location.href = './profile.html';
+      }
+    }
+
+    // Load scores and history
+    async function loadScores() {
+      if (!currentUser) return;
+
+      try {
+        const { data, error } = await SUPABASE
+          .from('exam_results')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .eq('course', 'Python')
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        if (data && data.length > 0) {
+          // Update score badges - best score for each level
+          const levels = ['beginner', 'intermediate', 'advanced'];
+          levels.forEach(level => {
+            const levelResults = data.filter(r => r.level === level);
+            if (levelResults.length > 0) {
+              const bestScore = Math.max(...levelResults.map(r => r.score));
+              document.getElementById(`${level}-score`).textContent = bestScore;
+            }
+          });
+
+          // Display history - last 10 attempts
+          displayHistory(data);
+        }
+      } catch (err) {
+        console.error('خطا در بارگیری داده‌ها:', err);
+      }
+    }
+
+    // Display history
+    function displayHistory(data) {
+      if (data.length === 0) return;
+
+      const sorted = data.slice(0, 10); // Show last 10
+      const html = sorted.map(exam => {
+        const date = new Date(exam.created_at);
+        const dateStr = date.toLocaleDateString('fa-IR', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+
+        const levelEmoji = {
+          beginner: '🌱',
+          intermediate: '🎯',
+          advanced: '🚀'
+        }[exam.level] || '';
+
+        const levelName = {
+          beginner: 'مقدماتی',
+          intermediate: 'متوسط',
+          advanced: 'پیشرفته'
+        }[exam.level] || '';
+
+        return `
+          <div class="history-item">
+            <div class="history-info">
+              <h4>${levelEmoji} ${levelName} - ${exam.correct_answers}/10 ✓</h4>
+              <p>${dateStr}</p>
+            </div>
+            <div class="history-score">${exam.score}</div>
+          </div>
+        `;
+      }).join('');
+
+      document.getElementById('historyContainer').innerHTML = html;
+    }
+
+    // Start exam
+    function startExam(level) {
+      window.location.href = `./exam.html?course=Python&level=${level}`;
+    }
+
+    // View level history
+    function viewLevelHistory(level) {
+      alert(`تاریخچه سطح ${level} به‌زودی`);
+    }
+
+    // Go back
+    function goBack() {
+      window.location.href = './profile.html';
+    }
+
+    // Initialize
+    initSupabase();
   </script>
 </body>
 </html>
