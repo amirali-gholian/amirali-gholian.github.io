@@ -394,7 +394,7 @@
 
     <!-- History Section -->
     <div class="history-section">
-      <h2 class="section-title">📊 تاریخچه آزمون‌ها</h2>
+      <h2 class="section-title" id="historyTitle">📊 تاریخچه آزمون‌ها</h2>
       <div id="historyContainer">
         <div class="empty-state">
           <div class="empty-state-icon">📭</div>
@@ -414,6 +414,7 @@
     );
 
     let currentUser = null;
+    let allExamResults = [];
 
     // Check Authentication
     async function checkAuth() {
@@ -446,6 +447,7 @@
         if (error) throw error;
 
         if (data && data.length > 0) {
+          allExamResults = data;
           // Update score badges - best score for each level
           const levels = ['beginner', 'intermediate', 'advanced'];
           levels.forEach(level => {
@@ -512,7 +514,39 @@
 
     // View level history
     function viewLevelHistory(level) {
-      alert(`تاریخچه سطح ${level} به‌زودی`);
+      const levelNames = {
+        beginner: '🌱 مقدماتی',
+        intermediate: '🎯 متوسط',
+        advanced: '🚀 پیشرفته'
+      };
+
+      const filtered = allExamResults.filter(e => e.level === level);
+
+      document.getElementById('historyTitle').innerHTML = `
+        📊 تاریخچه سطح ${levelNames[level] || level}
+        <button onclick="showAllHistory()" style="margin-right:12px; padding:6px 14px; border-radius:8px; border:1px solid rgba(56,189,248,.3); background:rgba(56,189,248,.1); color:var(--accent); font-family:inherit; font-size:.85rem; cursor:pointer;">نمایش همه</button>
+      `;
+
+      if (filtered.length === 0) {
+        document.getElementById('historyContainer').innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>هنوز آزمونی برای این سطح انجام نشده</h3>
+          </div>
+        `;
+      } else {
+        displayHistory(filtered);
+      }
+
+      document.getElementById('historyContainer').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // Show all history again
+    function showAllHistory() {
+      document.getElementById('historyTitle').textContent = '📊 تاریخچه آزمون‌ها';
+      if (allExamResults.length > 0) {
+        displayHistory(allExamResults);
+      }
     }
 
     // Go back
