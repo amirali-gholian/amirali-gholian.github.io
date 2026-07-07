@@ -1638,6 +1638,10 @@
             <span>✏️</span>
             <span>ویرایش پروفایل</span>
           </button>
+          <button class="btn-welcome" id="viewExamsBtn">
+            <span>📝</span>
+            <span>آزمون‌ها</span>
+          </button>
           <button class="btn-welcome" id="manageFilesBtn2">
             <span>📂</span>
             <span>مدیریت فایل‌ها</span>
@@ -1725,6 +1729,12 @@
 
       <!-- Exams Tab -->
       <div class="tab-content" id="exams-tab">
+        <div class="card" style="margin-bottom: 24px;">
+          <button class="btn" onclick="window.location.href='./python02.html'" style="display:flex; align-items:center; justify-content:center; gap:10px;">
+            <span>🐍</span>
+            <span>آزمون پایتون</span>
+          </button>
+        </div>
         <div class="exam-grid">
           <!-- Level 1: Beginner -->
           <button class="exam-card beginner" onclick="startExam('beginner')">
@@ -1993,6 +2003,11 @@
       showMainContent();
       document.querySelector('[data-tab="files"]').click();
       loadFiles();
+    });
+
+    document.getElementById('viewExamsBtn').addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="exams"]').click();
     });
 
     sendSupportBtn2.addEventListener('click', () => {
