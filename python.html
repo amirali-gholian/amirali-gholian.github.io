@@ -405,38 +405,25 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   <script>
     // ============ تنظیمات Supabase ============
-    // جایگزین با مقادیر واقعی شما
-    const SUPABASE_CONFIG = {
-      URL: 'https://YOUR_PROJECT.supabase.co',
-      KEY: 'YOUR_ANON_KEY'
-    };
+    const SUPABASE = window.supabase.createClient(
+      'https://cwwqmushilpxzpcpjute.supabase.co',
+      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
+    );
 
-    let SUPABASE;
     let currentUser = null;
-
-    // Initialize Supabase
-    async function initSupabase() {
-      try {
-        const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0/+esm');
-        SUPABASE = createClient(SUPABASE_CONFIG.URL, SUPABASE_CONFIG.KEY);
-        checkAuth();
-      } catch (err) {
-        console.error('خطا:', err);
-        window.location.href = './profile.html';
-      }
-    }
 
     // Check Authentication
     async function checkAuth() {
       try {
-        const { data: { user }, error } = await SUPABASE.auth.getUser();
-        if (error || !user) {
+        const { data: { session } } = await SUPABASE.auth.getSession();
+        if (!session) {
           window.location.href = './profile.html';
           return;
         }
-        currentUser = user;
+        currentUser = session.user;
         loadScores();
       } catch (err) {
         console.error('خطا:', err);
@@ -534,7 +521,7 @@
     }
 
     // Initialize
-    initSupabase();
+    checkAuth();
   </script>
 </body>
 </html>
