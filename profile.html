@@ -2606,10 +2606,10 @@
     async function loadExamHistory() {
       try {
         const { data, error } = await SUPABASE
-          .from('exams')
+          .from('exam_results')
           .select('*')
           .eq('user_id', currentUser.id)
-          .order('submitted_at', { ascending: false })
+          .order('created_at', { ascending: false })
           .limit(20);
 
         if (error) throw error;
@@ -2662,7 +2662,7 @@
             historyHTML += `<div style="margin-bottom: 16px;"><h4 style="color: var(--muted); font-size: .9rem; margin: 0 0 8px; text-transform: uppercase;">${levelNames[level]}</h4>`;
 
             exams.forEach(exam => {
-              const date = new Date(exam.submitted_at);
+              const date = new Date(exam.created_at);
               const dateStr = date.toLocaleDateString('fa-IR', {
                 year: 'numeric',
                 month: 'long',
@@ -2675,7 +2675,7 @@
               historyHTML += `
                 <div class="history-item">
                   <div class="history-item-info">
-                    <h4>${levelNames[level]} - ${exam.passed_questions}/10 سوال</h4>
+                    <h4>${levelNames[level]} - ${exam.correct_answers}/10 سوال</h4>
                     <p>${dateStr}</p>
                   </div>
                   <div class="history-item-score">
