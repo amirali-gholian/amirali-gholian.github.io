@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>امتحان پایتون | Amirali Gholian</title>
+  <link rel="icon" href="./logo.png" type="image/png">
+  
+  <!-- PWA & Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/logo.png">
+  <meta name="theme-color" content="#050814">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Amirali Gholian">
+
+  <style>
+    :root {
+      --bg0: #050814;
+      --bg1: #070b16;
+      --panel: rgba(15, 23, 42, .72);
+      --line: rgba(148, 163, 184, .16);
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+      --soft: #cbd5e1;
+      --accent: #38bdf8;
+      --accent-2: #22c55e;
+      --accent-3: #a78bfa;
+      --shadow: 0 20px 60px rgba(0, 0, 0, .42);
+      --radius: 26px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: 
+        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
+        radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
+        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    /* Header */
+    .exam-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--max);
+      margin: 0 auto 32px;
+      gap: 20px;
+    }
+
+    .back-button {
+      padding: 10px 16px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: rgba(255, 255, 255, .08);
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 500;
+      transition: all .25s ease;
+    }
+
+    .back-button:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .2);
+    }
+
+    .exam-title {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #fff;
+      flex: 1;
+    }
+
+    .timer {
+      padding: 14px 24px;
+      background: rgba(56, 189, 248, .1);
+      border: 2px solid rgba(56, 189, 248, .3);
+      border-radius: 12px;
+      color: var(--accent);
+      font-weight: 700;
+      font-size: 1.2rem;
+      min-width: 140px;
+      text-align: center;
+    }
+
+    .timer.warning {
+      background: rgba(248, 113, 113, .1);
+      border-color: rgba(248, 113, 113, .3);
+      color: #f87171;
+    }
+
+    /* Container */
+    .exam-container {
+      max-width: var(--max);
+      margin: 0 auto;
+    }
+
+    /* Questions Container */
+    .questions-container {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .question-card {
+      padding: 28px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .6), rgba(30, 41, 59, .5));
+      border: 2px solid rgba(56, 189, 248, .15);
+      border-radius: 16px;
+      transition: all .25s ease;
+    }
+
+    .question-card:hover {
+      border-color: rgba(56, 189, 248, .35);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .6));
+    }
+
+    .question-card.answered {
+      border-color: rgba(34, 197, 94, .3);
+      background: linear-gradient(135deg, rgba(34, 197, 94, .05), rgba(34, 197, 94, .03));
+    }
+
+    .question-number {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(56, 189, 248, .2);
+      color: var(--accent);
+      border-radius: 6px;
+      font-size: .8rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .question-text {
+      margin: 0 0 24px;
+      font-size: 1.15rem;
+      color: #fff;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+
+    .options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .option {
+      padding: 16px 20px;
+      background: transparent;
+      border: 2px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      transition: all .2s ease;
+      text-align: right;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .option:hover {
+      background: rgba(56, 189, 248, .1);
+      border-color: rgba(56, 189, 248, .3);
+    }
+
+    .option.selected {
+      background: rgba(56, 189, 248, .2);
+      border-color: var(--accent);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .option-radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, .3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: all .2s ease;
+    }
+
+    .option.selected .option-radio {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .option.selected .option-radio::after {
+      content: '✓';
+      color: #000;
+      font-weight: bold;
+      font-size: .85rem;
+    }
+
+    /* Progress Bar */
+    .progress-section {
+      margin-bottom: 32px;
+      padding: 20px;
+      background: rgba(15, 23, 42, .5);
+      border-radius: 12px;
+      border: 1px solid rgba(56, 189, 248, .15);
+    }
+
+    .progress-info {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: .95rem;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background: rgba(255, 255, 255, .1);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      border-radius: 4px;
+      transition: width .3s ease;
+    }
+
+    /* Submit Button */
+    .submit-section {
+      margin-top: 40px;
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+    }
+
+    .btn {
+      padding: 14px 32px;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: all .25s ease;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
+      min-width: 200px;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(56, 189, 248, .2);
+    }
+
+    .btn-primary:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, .1);
+      color: var(--text);
+      border: 1px solid rgba(255, 255, 255, .2);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .3);
+    }
+
+    /* Result Modal */
+    .result-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, .8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .result-modal.show {
+      display: flex;
+    }
+
+    .result-card {
+      padding: 40px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .95), rgba(30, 41, 59, .9));
+      border: 2px solid rgba(56, 189, 248, .3);
+      border-radius: 20px;
+      text-align: center;
+      max-width: 500px;
+      box-shadow: 0 20px 80px rgba(0, 0, 0, .6);
+      animation: slideUp .4s ease;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .result-score {
+      font-size: 5rem;
+      font-weight: 800;
+      margin: 0;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .result-message {
+      margin: 16px 0 24px;
+      font-size: 1.4rem;
+      color: #fff;
+      font-weight: 700;
+    }
+
+    .result-details {
+      margin: 32px 0;
+      padding: 20px;
+      background: rgba(56, 189, 248, .1);
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 12px;
+      font-size: .95rem;
+    }
+
+    .result-details p {
+      margin: 8px 0;
+      color: var(--soft);
+    }
+
+    .result-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .result-actions .btn {
+      flex: 1;
+    }
+
+    /* Loading */
+    .loading {
+      text-align: center;
+      padding: 40px;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid rgba(56, 189, 248, .2);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 768px) {
+      .exam-header {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .exam-title {
+        font-size: 1.4rem;
+      }
+
+      .timer {
+        width: 100%;
+      }
+
+      .question-card {
+        padding: 20px;
+      }
+
+      .question-text {
+        font-size: 1rem;
+      }
+
+      .option {
+        padding: 14px 16px;
+        font-size: .95rem;
+      }
+
+      .result-card {
+        padding: 28px;
+      }
+
+      .result-score {
+        font-size: 3.5rem;
+      }
+
+      .result-message {
+        font-size: 1.2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="exam-header">
+    <button class="back-button" onclick="goBack()">← بازگشت</button>
+    <h1 class="exam-title" id="examTitle">امتحان پایتون</h1>
+    <div class="timer" id="timer">15:00</div>
+  </div>
+
+  <!-- Main Container -->
+  <div class="exam-container">
+    <!-- Progress -->
+    <div class="progress-section">
+      <div class="progress-info">
+        <span id="progressText">سوال 0 از 10</span>
+        <span id="answeredCount">0 سوال پاسخ داده شده</span>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill" style="width: 0%"></div>
+      </div>
+    </div>
+
+    <!-- Questions -->
+    <div class="questions-container" id="questionsContainer"></div>
+
+    <!-- Submit -->
+    <div class="submit-section">
+      <button class="btn btn-secondary" onclick="goBack()">انصراف</button>
+      <button class="btn btn-primary" id="submitBtn" onclick="submitExam()">📤 ارسال پاسخ‌ها</button>
+    </div>
+  </div>
+
+  <!-- Result Modal -->
+  <div class="result-modal" id="resultModal">
+    <div class="result-card">
+      <h1 class="result-score" id="resultScore">0/100</h1>
+      <div class="result-message" id="resultMessage">تبریک!</div>
+      <div class="result-details">
+        <p>✅ سوالات صحیح: <strong id="correctCount">0</strong>/10</p>
+        <p>📊 درصد: <strong id="percentage">0</strong>%</p>
+        <p>⏱️ زمان: <strong id="timeSpent">0</strong> ثانیه</p>
+      </div>
+      <div class="result-actions">
+        <button class="btn btn-secondary" onclick="location.href='./profile.html'">بازگشت به پروفایل</button>
+        <button class="btn btn-primary" onclick="retakeExam()">🔄 تلاش دوباره</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Supabase -->
+  <script async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.44.4/+esm"></script>
+  <script type="module">
+    import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.44.4/+esm';
+
+    const SUPABASE = createClient(
+      'https://ldmjxcxtwtibrtqtodcg.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkbWp4Y3h0d3RpYnJ0cXRvZGNnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MzAwODk3NTgsImV4cCI6MjA0NTY2NTc1OH0.rFVjNKWKPwvPPfZBKwJg1lCzTWo9VFdVgGEcHaqMvdg'
+    );
+
+    window.SUPABASE = SUPABASE;
+  </script>
+
+  <script>
+    // Questions Bank
+    const QUESTIONS = {
+      beginner: [
+        {
+          question: "متغیر x را چه طور تعریف می‌کنیم؟",
+          options: ["var x = 10", "x = 10", "define x = 10", "new x = 10"],
+          correct: 1
+        },
+        {
+          question: "خروجی کد زیر چیست؟\nprint(5 + 3 * 2)",
+          options: ["13", "16", "11", "10"],
+          correct: 2
+        },
+        {
+          question: "نوع داده string در پایتون به چه صورت نوشته می‌شود؟",
+          options: ["int", "str", "float", "bool"],
+          correct: 1
+        },
+        {
+          question: "حلقه for در پایتون برای چه استفاده می‌شود؟",
+          options: ["شرط‌گذاری", "تکرار", "تاخیر", "ورودی کاربر"],
+          correct: 1
+        },
+        {
+          question: "تابع len() برای چه استفاده می‌شود؟",
+          options: ["طول رشته", "حذف عنصر", "اضافه کردن عنصر", "مرتب کردن"],
+          correct: 0
+        },
+        {
+          question: "خروجی این کد چیست؟\nx = [1, 2, 3]\nprint(x[0])",
+          options: ["1", "2", "[1, 2, 3]", "خطا"],
+          correct: 0
+        },
+        {
+          question: "if statement در پایتون شامل کدام کلیدواژه است؟",
+          options: ["unless", "elif", "when", "switch"],
+          correct: 1
+        },
+        {
+          question: "نتیجه 10 % 3 در پایتون چیست؟",
+          options: ["3", "1", "0.333", "13"],
+          correct: 1
+        },
+        {
+          question: "تابع input() برای چه استفاده می‌شود؟",
+          options: ["خروجی متن", "دریافت ورودی", "خواندن فایل", "پاک کردن"],
+          correct: 1
+        },
+        {
+          question: "پسوند فایل‌های پایتون چیست؟",
+          options: [".py", ".python", ".pyt", ".p"],
+          correct: 0
+        }
+      ],
+      intermediate: [
+        {
+          question: "تابع map() در پایتون برای چه استفاده می‌شود؟",
+          options: ["نقشه‌کشی", "اعمال تابع به هر عنصر", "مرتب کردن", "فیلتر کردن"],
+          correct: 1
+        },
+        {
+          question: "تفاوت بین list و tuple چیست؟",
+          options: ["اندازه", "tuple تغییرپذیر نیست", "list سریع‌تر است", "tuple بزرگ‌تر است"],
+          correct: 1
+        },
+        {
+          question: "کلاس (class) در پایتون برای چه استفاده می‌شود؟",
+          options: ["متغیرها", "شی‌گرایی", "حلقه‌ها", "شرط‌ها"],
+          correct: 1
+        },
+        {
+          question: "خروجی کد زیر چیست؟\ndef func(x):\n  return x * 2\nprint(func(5))",
+          options: ["5", "10", "20", "خطا"],
+          correct: 1
+        },
+        {
+          question: "Exception handling در پایتون با کدام کلیدواژه انجام می‌شود؟",
+          options: ["catch", "handle", "try", "error"],
+          correct: 2
+        },
+        {
+          question: "Dictionary در پایتون چه ساختاری دارد؟",
+          options: ["آرایه", "key-value pairs", "لیست مرتب", "مجموعه"],
+          correct: 1
+        },
+        {
+          question: "شرط self. در کلاس‌ها برای چه استفاده می‌شود؟",
+          options: ["متغیر محلی", "متغیر جهانی", "مرجع object", "فیلتر"],
+          correct: 2
+        },
+        {
+          question: "import statement برای چه استفاده می‌شود؟",
+          options: ["ایمپورت داده", "استفاده از ماژول‌ها", "ایمپورت فایل", "ایمپورت متغیر"],
+          correct: 1
+        },
+        {
+          question: "تابع lambda در پایتون چیست؟",
+          options: ["حلقه", "تابع بدون نام", "کلاس", "متغیر"],
+          correct: 1
+        },
+        {
+          question: "Decorator در پایتون برای چه استفاده می‌شود؟",
+          options: ["تزیین کد", "تغییر تابع", "اضافه ویژگی", "همه موارد صحیح است"],
+          correct: 3
+        }
+      ],
+      advanced: [
+        {
+          question: "Generator در پایتون چیست و چه مزایایی دارد؟",
+          options: ["تولید تصادفی", "مصرف حافظه کم", "سریع‌تر", "امن‌تر"],
+          correct: 1
+        },
+        {
+          question: "مفهوم closure در پایتون چیست؟",
+          options: ["بستن برنامه", "تابع درون تابع", "محدود کردن دسترسی", "هیچ کدام"],
+          correct: 1
+        },
+        {
+          question: "تفاوت shallow copy و deep copy چیست؟",
+          options: ["سرعت", "عمق کپی", "حجم", "هیچ تفاوتی نیست"],
+          correct: 1
+        },
+        {
+          question: "Metaclass در پایتون برای چه استفاده می‌شود؟",
+          options: ["کلاس کلاس‌ها", "شی سازی", "متغیر", "تابع"],
+          correct: 0
+        },
+        {
+          question: "Context manager (with statement) برای چه استفاده می‌شود؟",
+          options: ["شرط‌ها", "مدیریت منابع", "حلقه‌ها", "ورودی"],
+          correct: 1
+        },
+        {
+          question: "مفهوم MRO (Method Resolution Order) چیست؟",
+          options: ["ترتیب جستجو متد", "سرعت", "حافظه", "ایمن‌سازی"],
+          correct: 0
+        },
+        {
+          question: "Async/Await در پایتون برای چه استفاده می‌شود؟",
+          options: ["انتظار", "برنامه‌نویسی غیرهمزمان", "حلقه", "شرط"],
+          correct: 1
+        },
+        {
+          question: "تابع __init__() در کلاس‌ها برای چه استفاده می‌شود؟",
+          options: ["مقدار دهی اولیه", "حذف", "چاپ", "محاسبه"],
+          correct: 0
+        },
+        {
+          question: "Property decorator (@property) برای چه استفاده می‌شود؟",
+          options: ["ویژگی کلاس", "دسترسی متد به شکل ویژگی", "محافظت", "سریعی"],
+          correct: 1
+        },
+        {
+          question: "تفاوت staticmethod و classmethod چیست؟",
+          options: ["هیچ تفاوتی نیست", "staticmethod: بدون self، classmethod: با cls", "سرعت", "حافظه"],
+          correct: 1
+        }
+      ]
+    };
+
+    // Global Variables
+    let currentUser = null;
+    let currentLevel = 'beginner';
+    let currentQuestions = [];
+    let userAnswers = {};
+    let startTime = null;
+    let timerInterval = null;
+    let timeRemaining = 900; // 15 minutes
+
+    // Initialize
+    async function initExam() {
+      // Get level from URL
+      const params = new URLSearchParams(window.location.search);
+      currentLevel = params.get('level') || 'beginner';
+
+      // Check auth
+      const { data: { session } } = await SUPABASE.auth.getSession();
+      if (!session) {
+        window.location.href = '/';
+        return;
+      }
+      currentUser = session.user;
+
+      // Set title
+      const levelNames = {
+        beginner: '🌱 مقدماتی',
+        intermediate: '🎯 متوسط',
+        advanced: '🚀 سخت'
+      };
+      document.getElementById('examTitle').textContent = 'امتحان پایتون - ' + levelNames[currentLevel];
+
+      // Load questions
+      currentQuestions = [...QUESTIONS[currentLevel]];
+      startTime = Date.now();
+      renderQuestions();
+      startTimer();
+    }
+
+    // Render Questions
+    function renderQuestions() {
+      const container = document.getElementById('questionsContainer');
+      container.innerHTML = currentQuestions.map((q, index) => `
+        <div class="question-card ${userAnswers[index] !== undefined ? 'answered' : ''}">
+          <div class="question-number">سوال ${index + 1}/10</div>
+          <div class="question-text">${q.question}</div>
+          <div class="options">
+            ${q.options.map((option, optIndex) => `
+              <button class="option ${userAnswers[index] === optIndex ? 'selected' : ''}"
+                      onclick="selectAnswer(${index}, ${optIndex})">
+                <span class="option-radio"></span>
+                <span>${option}</span>
+              </button>
+            `).join('')}
+          </div>
+        </div>
+      `).join('');
+
+      updateProgress();
+    }
+
+    // Select Answer
+    function selectAnswer(questionIndex, optionIndex) {
+      userAnswers[questionIndex] = optionIndex;
+      renderQuestions();
+    }
+
+    // Update Progress
+    function updateProgress() {
+      const answered = Object.keys(userAnswers).length;
+      document.getElementById('progressText').textContent = `سوال ${answered} از 10`;
+      document.getElementById('answeredCount').textContent = `${answered} سوال پاسخ داده شده`;
+      document.getElementById('progressFill').style.width = (answered / 10 * 100) + '%';
+    }
+
+    // Timer
+    function startTimer() {
+      timerInterval = setInterval(() => {
+        timeRemaining--;
+        updateTimer();
+
+        if (timeRemaining <= 0) {
+          clearInterval(timerInterval);
+          submitExam();
+        }
+      }, 1000);
+
+      updateTimer();
+    }
+
+    function updateTimer() {
+      const minutes = Math.floor(timeRemaining / 60);
+      const seconds = timeRemaining % 60;
+      const timerEl = document.getElementById('timer');
+      timerEl.textContent = `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+
+      if (timeRemaining <= 300) {
+        timerEl.classList.add('warning');
+      }
+    }
+
+    // Submit Exam
+    async function submitExam() {
+      clearInterval(timerInterval);
+
+      // Calculate score
+      let correctCount = 0;
+      Object.entries(userAnswers).forEach(([qIndex, answer]) => {
+        if (currentQuestions[parseInt(qIndex)].correct === answer) {
+          correctCount++;
+        }
+      });
+
+      const score = Math.round((correctCount / 10) * 100);
+      const timeSpent = Math.floor((Date.now() - startTime) / 1000);
+
+      // Save to Supabase
+      try {
+        const { error } = await SUPABASE.from('exams').insert({
+          user_id: currentUser.id,
+          email: currentUser.email,
+          level: currentLevel,
+          score: score,
+          passed_questions: correctCount,
+          submitted_at: new Date().toISOString()
+        });
+
+        if (error) throw error;
+      } catch (err) {
+        console.error('خطا در ذخیره‌سازی:', err);
+      }
+
+      // Show result
+      showResult(score, correctCount, timeSpent);
+    }
+
+    // Show Result
+    function showResult(score, correctCount, timeSpent) {
+      document.getElementById('resultScore').textContent = `${score}/100`;
+      document.getElementById('correctCount').textContent = correctCount;
+      document.getElementById('percentage').textContent = score;
+      document.getElementById('timeSpent').textContent = timeSpent;
+
+      let message = '';
+      if (score >= 90) {
+        message = '🎉 عالی! نتیجه فوق‌العاده‌ای گرفتید!';
+      } else if (score >= 70) {
+        message = '✅ خوب! نتیجه خوبی گرفتید';
+      } else if (score >= 50) {
+        message = '📚 نتیجه متوسطی دریافت کردید';
+      } else {
+        message = '💪 به‌زودی بهتر می‌شوید';
+      }
+
+      document.getElementById('resultMessage').textContent = message;
+      document.getElementById('resultModal').classList.add('show');
+    }
+
+    // Go Back
+    function goBack() {
+      if (confirm('آیا مطمئن هستید؟ پاسخ‌های شما ذخیره نخواهد شد.')) {
+        window.location.href = './profile.html';
+      }
+    }
+
+    // Retake Exam
+    function retakeExam() {
+      window.location.href = './profile.html';
+    }
+
+    // Start
+    window.addEventListener('DOMContentLoaded', initExam);
+  </script>
+</body>
+</html>
