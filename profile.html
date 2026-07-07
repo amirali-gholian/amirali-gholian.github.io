@@ -1186,6 +1186,86 @@
       z-index: 1;
     }
 
+    /* Course link card (exams tab) */
+    .course-link-card {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 36px 40px;
+      border: 2px solid rgba(56, 189, 248, .25);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, .12), transparent 55%),
+        linear-gradient(135deg, rgba(15, 23, 42, .75), rgba(30, 41, 59, .6));
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+    }
+
+    .course-link-card:hover {
+      border-color: rgba(56, 189, 248, .55);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .18);
+    }
+
+    .course-link-icon {
+      font-size: 3.2rem;
+      flex-shrink: 0;
+      width: 84px;
+      height: 84px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, .12);
+      border: 1px solid rgba(56, 189, 248, .25);
+    }
+
+    .course-link-text {
+      flex: 1;
+    }
+
+    .course-link-text h3 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .course-link-text p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .95rem;
+    }
+
+    .course-link-arrow {
+      font-size: 1.6rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: transform .3s ease;
+    }
+
+    .course-link-card:hover .course-link-arrow {
+      transform: translateX(-6px);
+    }
+
+    @media (max-width: 600px) {
+      .course-link-card {
+        padding: 24px;
+        gap: 16px;
+      }
+
+      .course-link-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2.2rem;
+      }
+
+      .course-link-text h3 {
+        font-size: 1.2rem;
+      }
+    }
+
     .score-badge {
       padding: 6px 14px;
       background: rgba(56, 189, 248, .15);
@@ -1729,49 +1809,14 @@
 
       <!-- Exams Tab -->
       <div class="tab-content" id="exams-tab">
-        <div class="card" style="margin-bottom: 24px;">
-          <button class="btn" onclick="window.location.href='./python02.html'" style="display:flex; align-items:center; justify-content:center; gap:10px;">
-            <span>🐍</span>
-            <span>آزمون پایتون</span>
-          </button>
-        </div>
-        <div class="exam-grid">
-          <!-- Level 1: Beginner -->
-          <button class="exam-card beginner" onclick="startExam('beginner')">
-            <div class="exam-card-icon">🌱</div>
-            <h3>مقدماتی</h3>
-            <p>10 سوال • 15 دقیقه</p>
-            <div class="exam-card-stats">
-              <span id="beginner-score" class="score-badge">-</span>
-            </div>
-          </button>
-
-          <!-- Level 2: Intermediate -->
-          <button class="exam-card intermediate" onclick="startExam('intermediate')">
-            <div class="exam-card-icon">🎯</div>
-            <h3>متوسط</h3>
-            <p>10 سوال • 15 دقیقه</p>
-            <div class="exam-card-stats">
-              <span id="intermediate-score" class="score-badge">-</span>
-            </div>
-          </button>
-
-          <!-- Level 3: Advanced -->
-          <button class="exam-card advanced" onclick="startExam('advanced')">
-            <div class="exam-card-icon">🚀</div>
-            <h3>سخت</h3>
-            <p>10 سوال • 15 دقیقه</p>
-            <div class="exam-card-stats">
-              <span id="advanced-score" class="score-badge">-</span>
-            </div>
-          </button>
-        </div>
-
-        <!-- Score History -->
-        <div class="card" id="scoreHistoryCard" style="margin-top: 24px;">
-          <h3>📊 تاریخچه نمرات</h3>
-          <div id="historyList" class="history-list"></div>
-        </div>
+        <a href="./python02.html" class="course-link-card">
+          <div class="course-link-icon">🐍</div>
+          <div class="course-link-text">
+            <h3>آزمون پایتون</h3>
+            <p>انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات</p>
+          </div>
+          <div class="course-link-arrow">←</div>
+        </a>
       </div>
 
       <!-- Support Tab -->
@@ -2094,7 +2139,6 @@
       await loadProfile();
       await loadSuggestions();
       await loadFiles();
-      await loadExamHistory();
     }
 
     // Load profile data
@@ -2607,116 +2651,6 @@
       } catch (err) {
         console.error('خطا:', err);
         showError('خطا در حذف فایل');
-      }
-    }
-
-    // ===== EXAM SYSTEM =====
-    // Start exam
-    function startExam(level) {
-      // Redirect to exam page with level parameter
-      window.location.href = `./exam.html?level=${level}`;
-    }
-
-    // Load exam history
-    async function loadExamHistory() {
-      try {
-        const { data, error } = await SUPABASE
-          .from('exam_results')
-          .select('*')
-          .eq('user_id', currentUser.id)
-          .order('created_at', { ascending: false })
-          .limit(20);
-
-        if (error) throw error;
-
-        if (!data || data.length === 0) {
-          document.getElementById('historyList').innerHTML = `
-            <div class="empty-state">
-              <div class="empty-state-icon">📊</div>
-              <h3>هنوز امتحانی انجام نشده است</h3>
-              <p>یکی از امتحان‌های بالا را انجام دهید</p>
-            </div>
-          `;
-          return;
-        }
-
-        // Group by level
-        const groupedByLevel = {
-          beginner: [],
-          intermediate: [],
-          advanced: []
-        };
-
-        data.forEach(exam => {
-          if (groupedByLevel[exam.level]) {
-            groupedByLevel[exam.level].push(exam);
-          }
-        });
-
-        // Update score badges
-        ['beginner', 'intermediate', 'advanced'].forEach(level => {
-          const badge = document.getElementById(`${level}-score`);
-          if (groupedByLevel[level].length > 0) {
-            const lastScore = groupedByLevel[level][0];
-            badge.textContent = `${lastScore.score}/100`;
-            badge.style.background = lastScore.score >= 70 ? 'rgba(34, 197, 94, .2)' : 'rgba(248, 113, 113, .2)';
-            badge.style.color = lastScore.score >= 70 ? 'var(--accent-2)' : '#f87171';
-          }
-        });
-
-        // Display history
-        let historyHTML = '';
-        Object.entries(groupedByLevel).forEach(([level, exams]) => {
-          if (exams.length > 0) {
-            const levelNames = {
-              beginner: '🌱 مقدماتی',
-              intermediate: '🎯 متوسط',
-              advanced: '🚀 سخت'
-            };
-
-            historyHTML += `<div style="margin-bottom: 16px;"><h4 style="color: var(--muted); font-size: .9rem; margin: 0 0 8px; text-transform: uppercase;">${levelNames[level]}</h4>`;
-
-            exams.forEach(exam => {
-              const date = new Date(exam.created_at);
-              const dateStr = date.toLocaleDateString('fa-IR', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-              });
-
-              const scoreColor = exam.score >= 70 ? 'var(--accent-2)' : '#f87171';
-              historyHTML += `
-                <div class="history-item">
-                  <div class="history-item-info">
-                    <h4>${levelNames[level]} - ${exam.correct_answers}/10 سوال</h4>
-                    <p>${dateStr}</p>
-                  </div>
-                  <div class="history-item-score">
-                    <span class="score-value" style="color: ${scoreColor};">${exam.score}</span>
-                  </div>
-                </div>
-              `;
-            });
-
-            historyHTML += '</div>';
-          }
-        });
-
-        if (!historyHTML) {
-          historyHTML = `
-            <div class="empty-state">
-              <div class="empty-state-icon">📊</div>
-              <h3>هنوز امتحانی انجام نشده است</h3>
-              <p>یکی از امتحان‌های بالا را انجام دهید</p>
-            </div>
-          `;
-        }
-
-        document.getElementById('historyList').innerHTML = historyHTML;
-      } catch (err) {
-        console.error('خطا در بارگیری تاریخچه:', err);
       }
     }
 
