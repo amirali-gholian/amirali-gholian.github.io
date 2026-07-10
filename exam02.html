@@ -698,6 +698,8 @@
       const correctAnswers = calculateScore();
       const score = Math.round((correctAnswers / totalQuestions) * 100);
 
+      const timeSpentSeconds = Math.round((Date.now() - examStartTime) / 1000);
+
       // Save results to Supabase
       try {
         const { data, error } = await SUPABASE
@@ -708,8 +710,10 @@
           course: courseParam,
           level: levelParam,
           correct_answers: correctAnswers,
+          wrong_answers: totalQuestions - correctAnswers,
           total_questions: totalQuestions,
           score: score,
+          time_spent: timeSpentSeconds,
           created_at: new Date().toISOString()
       }]);
         console.log("DATA:", data);
