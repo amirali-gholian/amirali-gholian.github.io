@@ -700,7 +700,9 @@
 
       // Save results to Supabase
       try {
-        await SUPABASE.from('exam_results').insert([{
+        const { data, error } = await SUPABASE
+          .from('exam_results')
+          .insert([{
           user_id: currentUser.id,
           course: courseParam,
           level: levelParam,
@@ -708,10 +710,18 @@
           total_questions: totalQuestions,
           score: score,
           created_at: new Date().toISOString()
-        }]);
-      } catch (err) {
-        console.error('خطا در ذخیره نتایج:', err);
-      }
+      }]);
+        console.log("DATA:", data);
+        console.log("ERROR:", error);
+
+        if (error) {
+         throw error;
+  }
+
+  } catch (err) {
+  console.error("خطا در ذخیره نتایج:", err);
+  alert(err.message);
+  }
 
       // Display results
       const percentage = score;
