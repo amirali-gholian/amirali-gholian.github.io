@@ -185,9 +185,35 @@
       color: #fff;
     }
 
+    /* RTL Support for Persian */
+    body[data-lang="fa"] {
+      direction: rtl;
+    }
+
+    body[data-lang="fa"] .topbar-inner {
+      flex-direction: row-reverse;
+    }
+
+    body[data-lang="fa"] .brand {
+      flex-direction: row-reverse;
+    }
+
+    body[data-lang="fa"] nav {
+      flex-direction: row-reverse;
+    }
+
+    body[data-lang="fa"] .dropdown-menu {
+      right: auto;
+      left: 24px;
+    }
+
+    body[data-lang="fa"] .dropdown-item {
+      text-align: right;
+    }
+
     /* Language Switch Button */
     .lang-btn {
-      padding: 8px 12px;
+      padding: 8px 14px;
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, .15);
       background: rgba(56, 189, 248, .1);
@@ -198,6 +224,10 @@
       font-family: inherit;
       font-weight: 600;
       letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
     }
 
     .lang-btn:hover {
@@ -1643,6 +1673,13 @@
       </a>
       <nav>
         <button class="back-btn" id="backBtn">← بازگشت</button>
+        
+        <!-- Language Toggle Button -->
+        <button class="lang-btn" id="langBtn">
+          <span id="langIcon">🌍</span>
+          <span id="langText">فارسی</span>
+        </button>
+
         <button class="menu-btn" id="menuBtn">⋮</button>
         <div class="dropdown-menu" id="dropdownMenu">
           <div class="dropdown-header">
@@ -1955,6 +1992,133 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   <script>
+    // ============================================
+    // سیستم تغییر زبان
+    // ============================================
+    const translations = {
+      en: {
+        back: '← Back',
+        menu_title: 'Quick Menu',
+        personal_settings: 'Personal Settings',
+        files: 'Files',
+        suggestions: 'Suggestions',
+        sign_out: 'Sign Out',
+        upload_file: '📤 Upload File',
+        select_file: 'Select a file',
+        file_selected: 'File selected',
+        no_files: 'No files uploaded yet',
+        upload: 'Upload Files',
+        download: '📥 Download',
+        delete: '🗑️ Delete',
+        suggestions_title: 'Suggestions',
+        suggestion_title: 'Suggestion Title',
+        suggestion_description: 'Description',
+        category: 'Category',
+        new_feature: '✨ New Feature',
+        bug_report: '🐛 Bug Report',
+        improvement: '⚡ Improvement',
+        send_suggestion: '📤 Send Suggestion',
+        error_required: 'Please enter title and description',
+        file_size_error: 'File size cannot exceed 50MB',
+        file_not_selected: 'Please select a file',
+        uploading: '📤 Uploading...',
+        sending: '📤 Sending...',
+        delete_confirm: 'Are you sure you want to delete this file?',
+        upload_success: 'File uploaded successfully',
+        download_error: 'Error downloading file',
+        delete_error: 'Error deleting file',
+        delete_success: 'File deleted successfully',
+        upload_error: 'Error uploading file',
+      },
+      fa: {
+        back: '← بازگشت',
+        menu_title: 'منو سریع',
+        personal_settings: 'تنظیمات شخصی',
+        files: 'فایل‌ها',
+        suggestions: 'پیشنهادات',
+        sign_out: 'خروج',
+        upload_file: '📤 آپلود فایل',
+        select_file: 'انتخاب یک فایل',
+        file_selected: 'فایل انتخاب شد',
+        no_files: 'هنوز فایلی آپلود نشده است',
+        upload: 'آپلود فایل‌ها',
+        download: '📥 دانلود',
+        delete: '🗑️ حذف',
+        suggestions_title: 'پیشنهادات',
+        suggestion_title: 'عنوان پیشنهاد',
+        suggestion_description: 'توضیحات',
+        category: 'دسته‌بندی',
+        new_feature: '✨ ویژگی جدید',
+        bug_report: '🐛 گزارش اشکال',
+        improvement: '⚡ بهبود',
+        send_suggestion: '📤 ارسال پیشنهاد',
+        error_required: 'لطفا عنوان و توضیحات را وارد کنید',
+        file_size_error: 'حجم فایل نمی‌تواند بیش‌تر از 50MB باشد',
+        file_not_selected: 'لطفا فایلی را انتخاب کنید',
+        uploading: '📤 درحال آپلود...',
+        sending: '📤 درحال ارسال...',
+        delete_confirm: 'آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟',
+        upload_success: 'فایل با موفقیت آپلود شد',
+        download_error: 'خطا در دانلود فایل',
+        delete_error: 'خطا در حذف فایل',
+        delete_success: 'فایل با موفقیت حذف شد',
+        upload_error: 'خطا در آپلود فایل',
+      }
+    };
+
+    class LanguageManager {
+      constructor() {
+        this.currentLang = localStorage.getItem('language') || 'en';
+        this.init();
+      }
+
+      init() {
+        this.setLanguage(this.currentLang);
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        const langBtn = document.getElementById('langBtn');
+        if (langBtn) {
+          langBtn.addEventListener('click', () => {
+            const newLang = this.currentLang === 'en' ? 'fa' : 'en';
+            this.setLanguage(newLang);
+          });
+        }
+      }
+
+      setLanguage(lang) {
+        this.currentLang = lang;
+        document.documentElement.lang = lang;
+        document.body.setAttribute('data-lang', lang);
+        localStorage.setItem('language', lang);
+        this.updateLangButton();
+      }
+
+      updateLangButton() {
+        const langBtn = document.getElementById('langBtn');
+        const langText = document.getElementById('langText');
+        
+        if (langBtn && langText) {
+          if (this.currentLang === 'en') {
+            langText.textContent = 'فارسی';
+            langBtn.classList.add('active');
+          } else {
+            langText.textContent = 'English';
+            langBtn.classList.remove('active');
+          }
+        }
+      }
+
+      t(key) {
+        return translations[this.currentLang][key] || key;
+      }
+    }
+
+    // راه‌اندازی Language Manager
+    const languageManager = new LanguageManager();
+
+    // ============================================
     // ✅ Supabase initialization - دقیقاً مثل index.html
     const SUPABASE = window.supabase.createClient(
       'https://cwwqmushilpxzpcpjute.supabase.co',
@@ -2423,15 +2587,18 @@
     });
 
     // Show messages
-    function showSuccess() {
+    function showSuccess(keyOrMsg = 'upload_success') {
+      const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
+      successMsg.textContent = '✅ ' + message;
       successMsg.style.display = 'block';
       setTimeout(() => {
         successMsg.style.display = 'none';
       }, 4000);
     }
 
-    function showError(msg) {
-      errorMsg.textContent = '❌ ' + msg;
+    function showError(keyOrMsg = 'upload_error') {
+      const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
+      errorMsg.textContent = '❌ ' + message;
       errorMsg.style.display = 'block';
       setTimeout(() => {
         errorMsg.style.display = 'none';
@@ -2456,17 +2623,17 @@
     uploadBtn.addEventListener('click', async () => {
       const file = fileInput.files[0];
       if (!file) {
-        showError('لطفا فایلی را انتخاب کنید');
+        showError('file_not_selected');
         return;
       }
 
       if (file.size > 50 * 1024 * 1024) {
-        showError('حجم فایل نمی‌تواند بیش‌تر از 50MB باشد');
+        showError('file_size_error');
         return;
       }
 
       uploadBtn.disabled = true;
-      uploadBtn.textContent = '📤 درحال آپلود...';
+      uploadBtn.textContent = languageManager.t('uploading');
 
       try {
         const fileName = `${currentUser.id}/${Date.now()}-${file.name}`;
@@ -2493,7 +2660,7 @@
 
         if (dbError) throw dbError;
 
-        showSuccess();
+        showSuccess('upload_success');
         fileInput.value = '';
         
         // ✅ حذف پیام سبز فایل انتخاب شده
@@ -2503,10 +2670,10 @@
         await loadFiles();
       } catch (err) {
         console.error('خطا:', err);
-        showError(err.message || 'خطا در آپلود فایل');
+        showError('upload_error');
       } finally {
         uploadBtn.disabled = false;
-        uploadBtn.textContent = '📤 آپلود فایل';
+        uploadBtn.textContent = languageManager.t('upload_file');
       }
     });
 
@@ -2628,13 +2795,13 @@
         URL.revokeObjectURL(url);
       } catch (err) {
         console.error('خطا:', err);
-        showError('خطا در دانلود فایل');
+        showError('download_error');
       }
     }
 
     // Delete file
     async function deleteFile(fileId, filePath) {
-      if (!confirm('آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟')) {
+      if (!confirm(languageManager.t('delete_confirm'))) {
         return;
       }
 
@@ -2655,11 +2822,11 @@
 
         if (dbError) throw dbError;
 
-        showSuccess();
+        showSuccess('delete_success');
         await loadFiles();
       } catch (err) {
         console.error('خطا:', err);
-        showError('خطا در حذف فایل');
+        showError('delete_error');
       }
     }
 
