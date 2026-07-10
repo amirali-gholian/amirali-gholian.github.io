@@ -704,6 +704,7 @@
           .from('exam_results')
           .insert([{
           user_id: currentUser.id,
+          email: currentUser.email,
           course: courseParam,
           level: levelParam,
           correct_answers: correctAnswers,
