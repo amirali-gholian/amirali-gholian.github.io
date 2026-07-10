@@ -1667,8 +1667,8 @@
       <a href="/" class="brand">
         <div class="avatar"><span>A</span></div>
         <div>
-          <h1>پروفایل من</h1>
-          <small>مدیریت حساب</small>
+          <h1 data-i18n="brand_title">پروفایل من</h1>
+          <small data-i18n="brand_subtitle">مدیریت حساب</small>
         </div>
       </a>
       <nav>
@@ -1683,7 +1683,7 @@
         <button class="menu-btn" id="menuBtn">⋮</button>
         <div class="dropdown-menu" id="dropdownMenu">
           <div class="dropdown-header">
-            <p>منو سریع</p>
+            <p data-i18n="menu_title">منو سریع</p>
           </div>
           <div class="dropdown-items">
             <button class="dropdown-item" id="personalSettingsBtn">
@@ -1691,19 +1691,19 @@
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                 <circle cx="12" cy="7" r="4"></circle>
               </svg>
-              <span>مشخصات</span>
+              <span data-i18n="menu_personal">مشخصات</span>
             </button>
             <button class="dropdown-item" id="supportBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
               </svg>
-              <span>پشتیبانی</span>
+              <span data-i18n="menu_support">پشتیبانی</span>
             </button>
             <button class="dropdown-item" id="suggestionsBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M12 2L15.09 8.26H22L17.55 12.5L20.16 18.5H12L7.46 14.27L1 14.27L5.5 9.73L2.5 3.73H10M12 5.64L9.04 11.01H14.96L12 5.64Z" fill="currentColor"></path>
               </svg>
-              <span>پیشنهادات</span>
+              <span data-i18n="menu_suggestions">پیشنهادات</span>
             </button>
             <button class="dropdown-item danger" id="signOutDropdownBtn">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -1711,7 +1711,7 @@
                 <polyline points="16 17 21 12 16 7"></polyline>
                 <line x1="21" y1="12" x2="9" y2="12"></line>
               </svg>
-              <span>خروج</span>
+              <span data-i18n="menu_signout">خروج</span>
             </button>
           </div>
         </div>
@@ -1726,26 +1726,26 @@
       <div class="welcome-card">
         <div class="welcome-icon">👋</div>
         <div class="welcome-content">
-          <h2>خوش آمدید، <span id="userFirstName">کاربر</span></h2>
-          <p>از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.</p>
+          <h2><span data-i18n="welcome_greeting">خوش آمدید، </span><span id="userFirstName">کاربر</span></h2>
+          <p data-i18n="welcome_desc">از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.</p>
         </div>
 
         <!-- Status Section -->
         <div class="welcome-stats">
           <div class="stat-item">
             <div class="stat-icon">🟢</div>
-            <p class="stat-label">وضعیت حساب</p>
-            <p class="stat-value">فعال</p>
+            <p class="stat-label" data-i18n="account_status_label">وضعیت حساب</p>
+            <p class="stat-value" data-i18n="account_status_value">فعال</p>
           </div>
           <div class="stat-item">
             <div class="stat-icon">⏱️</div>
-            <p class="stat-label">آخرین بروزرسانی</p>
+            <p class="stat-label" data-i18n="last_update_label">آخرین بروزرسانی</p>
             <p class="stat-value" id="lastUpdateWelcome">-</p>
           </div>
           <div class="stat-item">
             <div class="stat-icon">✅</div>
-            <p class="stat-label">پروفایل</p>
-            <p class="stat-value">تکمیل شده</p>
+            <p class="stat-label" data-i18n="profile_status_label">پروفایل</p>
+            <p class="stat-value" data-i18n="profile_status_value">تکمیل شده</p>
           </div>
         </div>
 
@@ -1753,23 +1753,23 @@
         <div class="welcome-buttons">
           <button class="btn-welcome primary" id="editProfileBtn">
             <span>✏️</span>
-            <span>ویرایش پروفایل</span>
+            <span data-i18n="edit_profile">ویرایش پروفایل</span>
           </button>
           <button class="btn-welcome" id="viewExamsBtn">
             <span>📝</span>
-            <span>آزمون‌ها</span>
+            <span data-i18n="view_exams">آزمون‌ها</span>
           </button>
           <button class="btn-welcome" id="manageFilesBtn2">
             <span>📂</span>
-            <span>مدیریت فایل‌ها</span>
+            <span data-i18n="manage_files">مدیریت فایل‌ها</span>
           </button>
           <button class="btn-welcome" id="sendSupportBtn2">
             <span>💬</span>
-            <span>ارتباط با پشتیبانی</span>
+            <span data-i18n="contact_support">ارتباط با پشتیبانی</span>
           </button>
           <button class="btn-welcome" id="sendSuggestionBtn2">
             <span>⭐</span>
-            <span>ارسال پیشنهاد</span>
+            <span data-i18n="send_suggestion_btn">ارسال پیشنهاد</span>
           </button>
         </div>
       </div>
@@ -1779,69 +1779,69 @@
     <div class="main-content" id="mainContent">
       <!-- Tabs -->
       <div class="tabs">
-        <button class="tab-btn active" data-tab="personal">مشخصات شخصی</button>
-        <button class="tab-btn" data-tab="exams">📝 آزمون ها</button>
-        <button class="tab-btn" data-tab="support">پشتیبانی</button>
-        <button class="tab-btn" data-tab="suggestions">پیشنهادات</button>
-        <button class="tab-btn" data-tab="files">مدیریت فایل‌ها</button>
+        <button class="tab-btn active" data-tab="personal" data-i18n="tab_personal">مشخصات شخصی</button>
+        <button class="tab-btn" data-tab="exams" data-i18n="tab_exams">📝 آزمون ها</button>
+        <button class="tab-btn" data-tab="support" data-i18n="tab_support">پشتیبانی</button>
+        <button class="tab-btn" data-tab="suggestions" data-i18n="tab_suggestions">پیشنهادات</button>
+        <button class="tab-btn" data-tab="files" data-i18n="tab_files">مدیریت فایل‌ها</button>
       </div>
 
       <!-- Messages -->
-      <div class="message success" id="successMsg">✅ عملیات موفقیت‌آمیز بود!</div>
-      <div class="message error" id="errorMsg">❌ خطایی رخ داد</div>
+      <div class="message success" id="successMsg" data-i18n="success_generic">✅ عملیات موفقیت‌آمیز بود!</div>
+      <div class="message error" id="errorMsg" data-i18n="error_generic">❌ خطایی رخ داد</div>
 
       <!-- Personal Settings Tab -->
       <div class="tab-content active" id="personal-tab">
         <div class="card">
-          <h3>🔐 اطلاعات حساب</h3>
+          <h3 data-i18n="account_info_title">🔐 اطلاعات حساب</h3>
           <div class="form-group">
-            <label>ایمیل</label>
+            <label data-i18n="email_label">ایمیل</label>
             <input type="email" id="emailInput" disabled>
           </div>
           <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
             <div class="form-group">
-              <label>نام</label>
-              <input type="text" id="firstNameInput" placeholder="نام خود را وارد کنید">
+              <label data-i18n="first_name_label">نام</label>
+              <input type="text" id="firstNameInput" data-i18n-placeholder="first_name_placeholder" placeholder="نام خود را وارد کنید">
             </div>
             <div class="form-group">
-              <label>نام خانوادگی</label>
-              <input type="text" id="lastNameInput" placeholder="نام خانوادگی خود را وارد کنید">
+              <label data-i18n="last_name_label">نام خانوادگی</label>
+              <input type="text" id="lastNameInput" data-i18n-placeholder="last_name_placeholder" placeholder="نام خانوادگی خود را وارد کنید">
             </div>
           </div>
         </div>
 
         <div class="card">
-          <h3>👤 اطلاعات اضافی</h3>
+          <h3 data-i18n="additional_info_title">👤 اطلاعات اضافی</h3>
           <div class="form-group">
-            <label>نام کاربری</label>
-            <input type="text" id="usernameInput" placeholder="نام کاربری خود را وارد کنید">
+            <label data-i18n="username_label">نام کاربری</label>
+            <input type="text" id="usernameInput" data-i18n-placeholder="username_placeholder" placeholder="نام کاربری خود را وارد کنید">
           </div>
           <div class="form-group">
-            <label>تلفن</label>
-            <input type="tel" id="phoneInput" placeholder="شماره تماس خود را وارد کنید">
+            <label data-i18n="phone_label">تلفن</label>
+            <input type="tel" id="phoneInput" data-i18n-placeholder="phone_placeholder" placeholder="شماره تماس خود را وارد کنید">
           </div>
           <div class="form-group">
-            <label>URL آواتار</label>
+            <label data-i18n="avatar_url_label">URL آواتار</label>
             <input type="url" id="avatarUrlInput" placeholder="https://example.com/avatar.jpg">
           </div>
         </div>
 
         <!-- Avatar Preview -->
         <div class="card">
-          <h3>🖼️ پیش‌نمایش آواتار</h3>
+          <h3 data-i18n="avatar_preview_title">🖼️ پیش‌نمایش آواتار</h3>
           <div style="display: flex; align-items: center; gap: 20px;">
             <div class="avatar" style="width: 80px; height: 80px;" id="avatarPreview">
               <span id="previewInitial">A</span>
             </div>
             <div>
-              <p style="margin: 0 0 8px; color: var(--muted);">این تصویر در پروفایل شما نمایش داده می‌شود</p>
-              <button class="btn-secondary" onclick="document.getElementById('avatarUrlInput').focus()">تغییر تصویر</button>
+              <p style="margin: 0 0 8px; color: var(--muted);" data-i18n="avatar_preview_desc">این تصویر در پروفایل شما نمایش داده می‌شود</p>
+              <button class="btn-secondary" onclick="document.getElementById('avatarUrlInput').focus()" data-i18n="change_image">تغییر تصویر</button>
             </div>
           </div>
         </div>
 
         <!-- Save Button -->
-        <button class="btn" id="saveBtn">💾 ذخیره تغییرات</button>
+        <button class="btn" id="saveBtn" data-i18n="save_changes">💾 ذخیره تغییرات</button>
       </div>
 
       <!-- Exams Tab -->
@@ -1849,8 +1849,8 @@
         <a href="./python02.html" class="course-link-card">
           <div class="course-link-icon">🐍</div>
           <div class="course-link-text">
-            <h3>آزمون پایتون</h3>
-            <p>انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات</p>
+            <h3 data-i18n="python_exam_title">آزمون پایتون</h3>
+            <p data-i18n="python_exam_desc">انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات</p>
           </div>
           <div class="course-link-arrow">←</div>
         </a>
@@ -1858,8 +1858,8 @@
         <a href="./linux02.html" class="course-link-card">
           <div class="course-link-icon">🐧</div>
           <div class="course-link-text">
-            <h3>آزمون لینوکس (LPIC)</h3>
-            <p>آمادگی برای آزمون‌های LPIC-1 و LPIC-2</p>
+            <h3 data-i18n="linux_exam_title">آزمون لینوکس (LPIC)</h3>
+            <p data-i18n="linux_exam_desc">آمادگی برای آزمون‌های LPIC-1 و LPIC-2</p>
           </div>
           <div class="course-link-arrow">←</div>
         </a>
@@ -1868,36 +1868,36 @@
       <!-- Support Tab -->
       <div class="tab-content" id="support-tab">
         <div class="card">
-          <h3>📧 ارسال پیام به پشتیبانی</h3>
+          <h3 data-i18n="send_support_title">📧 ارسال پیام به پشتیبانی</h3>
           <div class="form-group">
-            <label>موضوع</label>
-            <input type="text" id="supportSubject" placeholder="موضوع پیام خود را وارد کنید">
+            <label data-i18n="subject_label">موضوع</label>
+            <input type="text" id="supportSubject" data-i18n-placeholder="subject_placeholder" placeholder="موضوع پیام خود را وارد کنید">
           </div>
           <div class="form-group">
-            <label>پیام</label>
-            <textarea id="supportMessage" placeholder="پیام خود را اینجا بنویسید..."></textarea>
+            <label data-i18n="message_label">پیام</label>
+            <textarea id="supportMessage" data-i18n-placeholder="message_placeholder" placeholder="پیام خود را اینجا بنویسید..."></textarea>
           </div>
           <div style="display: flex; gap: 12px;">
-            <button class="btn" id="sendSupportMessageBtn">📤 ارسال پیام</button>
-            <button class="btn-secondary btn" onclick="document.getElementById('supportSubject').value = ''; document.getElementById('supportMessage').value = '';">🔄 پاک کردن</button>
+            <button class="btn" id="sendSupportMessageBtn" data-i18n="send_message">📤 ارسال پیام</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('supportSubject').value = ''; document.getElementById('supportMessage').value = '';" data-i18n="clear">🔄 پاک کردن</button>
           </div>
         </div>
 
         <!-- Support Info -->
         <div class="card">
-          <h3>📞 اطلاعات تماس</h3>
+          <h3 data-i18n="contact_info_title">📞 اطلاعات تماس</h3>
           <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
             <div style="display: flex; align-items: center; gap: 12px;">
               <div style="font-size: 24px;">📧</div>
               <div>
-                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">ایمیل</p>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="email_label">ایمیل</p>
                 <p style="font-weight: 600; margin: 0; font-size: 1rem;">amirali.gholian.1380.80@gmail.com</p>
               </div>
             </div>
             <div style="display: flex; align-items: center; gap: 12px;">
               <div style="font-size: 24px;">📱</div>
               <div>
-                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;">تلفن</p>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="phone_label">تلفن</p>
                 <p style="font-weight: 600; margin: 0; font-size: 1rem; direction: ltr;">09378835414</p>
               </div>
             </div>
@@ -1909,35 +1909,35 @@
       <div class="tab-content" id="files-tab">
         <!-- Upload File -->
         <div class="card">
-          <h3>📤 آپلود فایل جدید</h3>
+          <h3 data-i18n="upload_new_file_title">📤 آپلود فایل جدید</h3>
           <div class="form-group">
-            <label>انتخاب فایل</label>
+            <label data-i18n="select_file_label">انتخاب فایل</label>
             <div class="file-input-wrapper">
               <input type="file" id="fileInput" accept="*/*">
               <label for="fileInput" class="file-input-label">
-                <span>📁 فایل را اینجا بیندازید یا کلیک کنید</span>
+                <span data-i18n="drop_file_here">📁 فایل را اینجا بیندازید یا کلیک کنید</span>
               </label>
               <div class="file-selected-info" id="fileSelectedInfo">
-                <p>✅ <strong id="selectedFileName">فایل انتخاب شد</strong></p>
-                <p>📤 برای آپلود فایل‌های بیشتر، دکمه <strong>"آپلود"</strong> را بزنید</p>
+                <p>✅ <strong id="selectedFileName" data-i18n="file_selected">فایل انتخاب شد</strong></p>
+                <p><span data-i18n="file_selected_hint_prefix">📤 برای آپلود فایل‌های بیشتر، دکمه </span><strong data-i18n="file_selected_hint_button">"آپلود"</strong><span data-i18n="file_selected_hint_suffix"> را بزنید</span></p>
               </div>
             </div>
-            <p style="font-size: .85rem; color: var(--muted); margin: 8px 0 0;">حداکثر اندازه: 50MB</p>
+            <p style="font-size: .85rem; color: var(--muted); margin: 8px 0 0;" data-i18n="max_file_size">حداکثر اندازه: 50MB</p>
           </div>
           <div style="display: flex; gap: 12px;">
-            <button class="btn" id="uploadBtn">📤 آپلود فایل</button>
-            <button class="btn-secondary btn" onclick="document.getElementById('fileInput').value = '';">🔄 پاک کردن</button>
+            <button class="btn" id="uploadBtn" data-i18n="upload_file">📤 آپلود فایل</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('fileInput').value = '';" data-i18n="clear">🔄 پاک کردن</button>
           </div>
         </div>
 
         <!-- Files List -->
         <div class="card">
-          <h3>📂 فایل‌های شما</h3>
+          <h3 data-i18n="your_files_title">📂 فایل‌های شما</h3>
           <div id="filesContainer">
             <div class="empty-state">
               <div class="empty-state-icon">📭</div>
-              <h3>هنوز فایلی آپلود نشده است</h3>
-              <p>فایل‌های خود را از بخش بالا آپلود کنید</p>
+              <h3 data-i18n="no_files">هنوز فایلی آپلود نشده است</h3>
+              <p data-i18n="no_files_desc">فایل‌های خود را از بخش بالا آپلود کنید</p>
             </div>
           </div>
         </div>
@@ -1947,42 +1947,42 @@
       <div class="tab-content" id="suggestions-tab">
         <!-- Send Suggestion -->
         <div class="card">
-          <h3>⭐ ارسال پیشنهاد جدید</h3>
+          <h3 data-i18n="send_new_suggestion_title">⭐ ارسال پیشنهاد جدید</h3>
           <div class="form-group">
-            <label>دسته‌بندی</label>
+            <label data-i18n="category_label">دسته‌بندی</label>
             <div class="dropdown-wrapper">
               <button class="dropdown-toggle" id="categoryToggle">
-                <span id="categoryLabel">✨ ویژگی جدید</span>
+                <span id="categoryLabel" data-i18n="cat_feature">✨ ویژگی جدید</span>
                 <span>▼</span>
               </button>
               <div class="dropdown-content" id="categoryDropdown">
-                <div class="dropdown-option selected" data-value="feature">✨ ویژگی جدید</div>
-                <div class="dropdown-option" data-value="improvement">🚀 بهبود</div>
-                <div class="dropdown-option" data-value="bug">🐞 گزارش باگ</div>
-                <div class="dropdown-option" data-value="other">📌 سایر</div>
+                <div class="dropdown-option selected" data-value="feature" data-i18n="cat_feature">✨ ویژگی جدید</div>
+                <div class="dropdown-option" data-value="improvement" data-i18n="cat_improvement">🚀 بهبود</div>
+                <div class="dropdown-option" data-value="bug" data-i18n="cat_bug">🐞 گزارش باگ</div>
+                <div class="dropdown-option" data-value="other" data-i18n="cat_other">📌 سایر</div>
               </div>
             </div>
             <input type="hidden" id="suggestionCategory" value="feature">
           </div>
           <div class="form-group">
-            <label>عنوان پیشنهاد</label>
-            <input type="text" id="suggestionTitle" placeholder="عنوان پیشنهاد را وارد کنید">
+            <label data-i18n="suggestion_title">عنوان پیشنهاد</label>
+            <input type="text" id="suggestionTitle" data-i18n-placeholder="suggestion_title_placeholder" placeholder="عنوان پیشنهاد را وارد کنید">
           </div>
           <div class="form-group">
-            <label>توضیحات</label>
-            <textarea id="suggestionText" placeholder="توضیحات پیشنهاد را بنویسید..."></textarea>
+            <label data-i18n="suggestion_description">توضیحات</label>
+            <textarea id="suggestionText" data-i18n-placeholder="suggestion_desc_placeholder" placeholder="توضیحات پیشنهاد را بنویسید..."></textarea>
           </div>
-          <button class="btn" id="sendSuggestionBtn">📤 ارسال پیشنهاد</button>
+          <button class="btn" id="sendSuggestionBtn" data-i18n="send_suggestion">📤 ارسال پیشنهاد</button>
         </div>
 
         <!-- Recent Suggestions -->
         <div class="card">
-          <h3>📋 پیشنهادات اخیر شما</h3>
+          <h3 data-i18n="recent_suggestions_title">📋 پیشنهادات اخیر شما</h3>
           <div id="suggestionsContainer">
             <div class="empty-state">
               <div class="empty-state-icon">📭</div>
-              <h3>هنوز پیشنهادی ارسال نشده است</h3>
-              <p>پیشنهادات شما را از بخش بالا ارسال کنید</p>
+              <h3 data-i18n="no_suggestions">هنوز پیشنهادی ارسال نشده است</h3>
+              <p data-i18n="no_suggestions_desc">پیشنهادات شما را از بخش بالا ارسال کنید</p>
             </div>
           </div>
         </div>
@@ -2000,6 +2000,7 @@
         back: '← Back',
         menu_title: 'Quick Menu',
         personal_settings: 'Personal Settings',
+        support_menu: 'Support',
         files: 'Files',
         suggestions: 'Suggestions',
         sign_out: 'Sign Out',
@@ -2007,6 +2008,7 @@
         select_file: 'Select a file',
         file_selected: 'File selected',
         no_files: 'No files uploaded yet',
+        no_files_desc: 'Upload your files from the section above',
         upload: 'Upload Files',
         download: '📥 Download',
         delete: '🗑️ Delete',
@@ -2029,11 +2031,108 @@
         delete_error: 'Error deleting file',
         delete_success: 'File deleted successfully',
         upload_error: 'Error uploading file',
+
+        brand_title: 'My Profile',
+        brand_subtitle: 'Account Management',
+        menu_personal: 'Details',
+        menu_support: 'Support',
+        menu_suggestions: 'Suggestions',
+        menu_signout: 'Sign Out',
+
+        welcome_greeting: 'Welcome, ',
+        welcome_user_fallback: 'User',
+        welcome_desc: 'From your personal dashboard you can manage your account info, support messages, and suggestions.',
+        account_status_label: 'Account Status',
+        account_status_value: 'Active',
+        last_update_label: 'Last Update',
+        profile_status_label: 'Profile',
+        profile_status_value: 'Complete',
+        edit_profile: 'Edit Profile',
+        view_exams: 'Exams',
+        manage_files: 'Manage Files',
+        contact_support: 'Contact Support',
+        send_suggestion_btn: 'Send Suggestion',
+
+        tab_personal: 'Personal Details',
+        tab_exams: '📝 Exams',
+        tab_support: 'Support',
+        tab_suggestions: 'Suggestions',
+        tab_files: 'Manage Files',
+
+        success_generic: '✅ Operation successful!',
+        error_generic: '❌ An error occurred',
+
+        account_info_title: '🔐 Account Information',
+        email_label: 'Email',
+        first_name_label: 'First Name',
+        first_name_placeholder: 'Enter your first name',
+        last_name_label: 'Last Name',
+        last_name_placeholder: 'Enter your last name',
+        additional_info_title: '👤 Additional Information',
+        username_label: 'Username',
+        username_placeholder: 'Enter your username',
+        phone_label: 'Phone',
+        phone_placeholder: 'Enter your phone number',
+        avatar_url_label: 'Avatar URL',
+        avatar_preview_title: '🖼️ Avatar Preview',
+        avatar_preview_desc: 'This image will be shown on your profile',
+        change_image: 'Change Image',
+        save_changes: '💾 Save Changes',
+
+        python_exam_title: 'Python Exam',
+        python_exam_desc: 'Choose a level, start the exam, and view your score history',
+        linux_exam_title: 'Linux Exam (LPIC)',
+        linux_exam_desc: 'Preparation for LPIC-1 and LPIC-2 exams',
+
+        send_support_title: '📧 Send a Message to Support',
+        subject_label: 'Subject',
+        subject_placeholder: 'Enter your message subject',
+        message_label: 'Message',
+        message_placeholder: 'Write your message here...',
+        send_message: '📤 Send Message',
+        clear: '🔄 Clear',
+        contact_info_title: '📞 Contact Information',
+
+        upload_new_file_title: '📤 Upload New File',
+        select_file_label: 'Select File',
+        drop_file_here: '📁 Drop a file here or click',
+        max_file_size: 'Max size: 50MB',
+        your_files_title: '📂 Your Files',
+        file_selected_hint_prefix: '📤 To upload more files, click the ',
+        file_selected_hint_button: '"Upload"',
+        file_selected_hint_suffix: ' button',
+
+        send_new_suggestion_title: '⭐ Send a New Suggestion',
+        category_label: 'Category',
+        suggestion_title_placeholder: 'Enter the suggestion title',
+        suggestion_desc_placeholder: 'Write the suggestion description...',
+        recent_suggestions_title: '📋 Your Recent Suggestions',
+        no_suggestions: 'No suggestions sent yet',
+        no_suggestions_desc: 'Send your suggestions from the section above',
+
+        cat_feature: '✨ New Feature',
+        cat_improvement: '🚀 Improvement',
+        cat_bug: '🐞 Bug Report',
+        cat_other: '📌 Other',
+
+        status_pending: '⏳ Pending Review',
+        status_reviewed: '👀 Reviewed',
+        status_done: '✅ Done',
+
+        just_now: 'Just now',
+        minutes_ago: 'minutes ago',
+        hours_ago: 'hours ago',
+        saving: '💾 Saving...',
+        support_fields_required: 'Please enter a subject and message',
+        save_error: 'Error saving information',
+        support_send_error: 'Error sending message',
+        suggestion_send_error: 'Error sending suggestion',
       },
       fa: {
-        back: '<span data-i18n="back">← Back</span>',
+        back: '→ بازگشت',
         menu_title: 'منو سریع',
         personal_settings: 'تنظیمات شخصی',
+        support_menu: 'پشتیبانی',
         files: 'فایل‌ها',
         suggestions: 'پیشنهادات',
         sign_out: 'خروج',
@@ -2041,6 +2140,7 @@
         select_file: 'انتخاب یک فایل',
         file_selected: 'فایل انتخاب شد',
         no_files: 'هنوز فایلی آپلود نشده است',
+        no_files_desc: 'فایل‌های خود را از بخش بالا آپلود کنید',
         upload: 'آپلود فایل‌ها',
         download: '📥 دانلود',
         delete: '🗑️ حذف',
@@ -2063,6 +2163,102 @@
         delete_error: 'خطا در حذف فایل',
         delete_success: 'فایل با موفقیت حذف شد',
         upload_error: 'خطا در آپلود فایل',
+
+        brand_title: 'پروفایل من',
+        brand_subtitle: 'مدیریت حساب',
+        menu_personal: 'مشخصات',
+        menu_support: 'پشتیبانی',
+        menu_suggestions: 'پیشنهادات',
+        menu_signout: 'خروج',
+
+        welcome_greeting: 'خوش آمدید، ',
+        welcome_user_fallback: 'کاربر',
+        welcome_desc: 'از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.',
+        account_status_label: 'وضعیت حساب',
+        account_status_value: 'فعال',
+        last_update_label: 'آخرین بروزرسانی',
+        profile_status_label: 'پروفایل',
+        profile_status_value: 'تکمیل شده',
+        edit_profile: 'ویرایش پروفایل',
+        view_exams: 'آزمون‌ها',
+        manage_files: 'مدیریت فایل‌ها',
+        contact_support: 'ارتباط با پشتیبانی',
+        send_suggestion_btn: 'ارسال پیشنهاد',
+
+        tab_personal: 'مشخصات شخصی',
+        tab_exams: '📝 آزمون ها',
+        tab_support: 'پشتیبانی',
+        tab_suggestions: 'پیشنهادات',
+        tab_files: 'مدیریت فایل‌ها',
+
+        success_generic: '✅ عملیات موفقیت‌آمیز بود!',
+        error_generic: '❌ خطایی رخ داد',
+
+        account_info_title: '🔐 اطلاعات حساب',
+        email_label: 'ایمیل',
+        first_name_label: 'نام',
+        first_name_placeholder: 'نام خود را وارد کنید',
+        last_name_label: 'نام خانوادگی',
+        last_name_placeholder: 'نام خانوادگی خود را وارد کنید',
+        additional_info_title: '👤 اطلاعات اضافی',
+        username_label: 'نام کاربری',
+        username_placeholder: 'نام کاربری خود را وارد کنید',
+        phone_label: 'تلفن',
+        phone_placeholder: 'شماره تماس خود را وارد کنید',
+        avatar_url_label: 'URL آواتار',
+        avatar_preview_title: '🖼️ پیش‌نمایش آواتار',
+        avatar_preview_desc: 'این تصویر در پروفایل شما نمایش داده می‌شود',
+        change_image: 'تغییر تصویر',
+        save_changes: '💾 ذخیره تغییرات',
+
+        python_exam_title: 'آزمون پایتون',
+        python_exam_desc: 'انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات',
+        linux_exam_title: 'آزمون لینوکس (LPIC)',
+        linux_exam_desc: 'آمادگی برای آزمون‌های LPIC-1 و LPIC-2',
+
+        send_support_title: '📧 ارسال پیام به پشتیبانی',
+        subject_label: 'موضوع',
+        subject_placeholder: 'موضوع پیام خود را وارد کنید',
+        message_label: 'پیام',
+        message_placeholder: 'پیام خود را اینجا بنویسید...',
+        send_message: '📤 ارسال پیام',
+        clear: '🔄 پاک کردن',
+        contact_info_title: '📞 اطلاعات تماس',
+
+        upload_new_file_title: '📤 آپلود فایل جدید',
+        select_file_label: 'انتخاب فایل',
+        drop_file_here: '📁 فایل را اینجا بیندازید یا کلیک کنید',
+        max_file_size: 'حداکثر اندازه: 50MB',
+        your_files_title: '📂 فایل‌های شما',
+        file_selected_hint_prefix: '📤 برای آپلود فایل‌های بیشتر، دکمه ',
+        file_selected_hint_button: '"آپلود"',
+        file_selected_hint_suffix: ' را بزنید',
+
+        send_new_suggestion_title: '⭐ ارسال پیشنهاد جدید',
+        category_label: 'دسته‌بندی',
+        suggestion_title_placeholder: 'عنوان پیشنهاد را وارد کنید',
+        suggestion_desc_placeholder: 'توضیحات پیشنهاد را بنویسید...',
+        recent_suggestions_title: '📋 پیشنهادات اخیر شما',
+        no_suggestions: 'هنوز پیشنهادی ارسال نشده است',
+        no_suggestions_desc: 'پیشنهادات شما را از بخش بالا ارسال کنید',
+
+        cat_feature: '✨ ویژگی جدید',
+        cat_improvement: '🚀 بهبود',
+        cat_bug: '🐞 گزارش باگ',
+        cat_other: '📌 سایر',
+
+        status_pending: '⏳ در انتظار بررسی',
+        status_reviewed: '👀 بررسی شده',
+        status_done: '✅ انجام شده',
+
+        just_now: 'همین الآن',
+        minutes_ago: 'دقیقه پیش',
+        hours_ago: 'ساعت پیش',
+        saving: '💾 درحال ذخیره...',
+        support_fields_required: 'لطفا موضوع و پیام را وارد کنید',
+        save_error: 'خطا در ذخیره اطلاعات',
+        support_send_error: 'خطا در ارسال پیام',
+        suggestion_send_error: 'خطا در ارسال پیشنهاد',
       }
     };
 
@@ -2098,6 +2294,32 @@
         document.documentElement.lang = lang;
         document.body.setAttribute('data-lang', lang);
         this.updateLangButton();
+        this.applyTranslations();
+      }
+
+      applyTranslations() {
+        const dict = translations[this.currentLang] || translations.en;
+
+        // Plain text content
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] !== undefined) {
+            el.textContent = dict[key];
+          }
+        });
+
+        // Placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-i18n-placeholder');
+          if (dict[key] !== undefined) {
+            el.placeholder = dict[key];
+          }
+        });
+
+        // Re-render any dynamic lists so they pick up the new language too
+        if (typeof refreshDynamicTranslations === 'function') {
+          refreshDynamicTranslations();
+        }
       }
 
       updateLangButton() {
@@ -2119,9 +2341,6 @@
         return translations[this.currentLang][key] || key;
       }
     }
-
-    // راه‌اندازی Language Manager
-    const languageManager = new LanguageManager();
 
     // ============================================
     // ✅ Supabase initialization - دقیقاً مثل index.html
@@ -2355,7 +2574,7 @@
       usernameInput.value = profile.username || '';
       phoneInput.value = profile.phone || '';
       avatarUrlInput.value = profile.avatar_url || '';
-      document.getElementById('userFirstName').textContent = profile.first_name || 'کاربر';
+      document.getElementById('userFirstName').textContent = profile.first_name || translations[languageManager.currentLang].welcome_user_fallback;
 
       updateAvatarPreview(profile);
 
@@ -2363,15 +2582,17 @@
         const updated = new Date(profile.updated_at);
         const now = new Date();
         const diff = Math.floor((now - updated) / 1000);
-        
+        const dict = translations[languageManager.currentLang];
+        const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
+
         if (diff < 60) {
-          lastUpdateWelcome.textContent = 'همین الآن';
+          lastUpdateWelcome.textContent = dict.just_now;
         } else if (diff < 3600) {
-          lastUpdateWelcome.textContent = `${Math.floor(diff / 60)} دقیقه پیش`;
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 60)} ${dict.minutes_ago}`;
         } else if (diff < 86400) {
-          lastUpdateWelcome.textContent = `${Math.floor(diff / 3600)} ساعت پیش`;
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 3600)} ${dict.hours_ago}`;
         } else {
-          lastUpdateWelcome.textContent = updated.toLocaleDateString('fa-IR');
+          lastUpdateWelcome.textContent = updated.toLocaleDateString(dateLocale);
         }
       }
     }
@@ -2408,7 +2629,7 @@
       };
 
       saveBtn.disabled = true;
-      saveBtn.textContent = '💾 درحال ذخیره...';
+      saveBtn.textContent = translations[languageManager.currentLang].saving;
 
       try {
         const { error } = await SUPABASE
@@ -2423,15 +2644,15 @@
 
         currentProfile = { ...currentProfile, ...updates };
         updateAvatarPreview(currentProfile);
-        document.getElementById('userFirstName').textContent = firstNameInput.value || 'کاربر';
-        lastUpdateWelcome.textContent = 'همین الآن';
+        document.getElementById('userFirstName').textContent = firstNameInput.value || translations[languageManager.currentLang].welcome_user_fallback;
+        lastUpdateWelcome.textContent = translations[languageManager.currentLang].just_now;
         showSuccess();
       } catch (err) {
         console.error('خطا:', err);
-        showError(err.message || 'خطا در ذخیره اطلاعات');
+        showError(err.message || translations[languageManager.currentLang].save_error);
       } finally {
         saveBtn.disabled = false;
-        saveBtn.textContent = '💾 ذخیره تغییرات';
+        saveBtn.textContent = translations[languageManager.currentLang].save_changes;
       }
     });
 
@@ -2441,12 +2662,12 @@
       const message = supportMessage.value.trim();
       
       if (!subject || !message) {
-        showError('لطفا موضوع و پیام را وارد کنید');
+        showError('support_fields_required');
         return;
       }
 
       sendSupportMessageBtn.disabled = true;
-      sendSupportMessageBtn.textContent = '📤 درحال ارسال...';
+      sendSupportMessageBtn.textContent = translations[languageManager.currentLang].sending;
 
       try {
         const { error } = await SUPABASE
@@ -2466,14 +2687,16 @@
         supportMessage.value = '';
       } catch (err) {
         console.error('خطا:', err);
-        showError(err.message || 'خطا در ارسال پیام');
+        showError(err.message || translations[languageManager.currentLang].support_send_error);
       } finally {
         sendSupportMessageBtn.disabled = false;
-        sendSupportMessageBtn.textContent = '📤 ارسال پیام';
+        sendSupportMessageBtn.textContent = translations[languageManager.currentLang].send_message;
       }
     });
 
     // Load suggestions
+    let lastSuggestionsData = [];
+
     async function loadSuggestions() {
       try {
         const { data, error } = await SUPABASE
@@ -2484,7 +2707,8 @@
 
         if (error) throw error;
 
-        displaySuggestions(data || []);
+        lastSuggestionsData = data || [];
+        displaySuggestions(lastSuggestionsData);
       } catch (err) {
         console.error('خطا در بارگیری پیشنهادات:', err);
       }
@@ -2492,27 +2716,36 @@
 
     // Display suggestions
     function displaySuggestions(suggestions) {
+      const dict = translations[languageManager.currentLang];
+      const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
+
       if (suggestions.length === 0) {
         suggestionsContainer.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>هنوز پیشنهادی ارسال نشده است</h3>
-            <p>پیشنهادات شما را از بخش بالا ارسال کنید</p>
+            <h3>${dict.no_suggestions}</h3>
+            <p>${dict.no_suggestions_desc}</p>
           </div>
         `;
         return;
       }
 
       const categoryNames = {
-        'feature': '✨ ویژگی جدید',
-        'improvement': '🚀 بهبود',
-        'bug': '🐞 گزارش باگ',
-        'other': '📌 سایر'
+        'feature': dict.cat_feature,
+        'improvement': dict.cat_improvement,
+        'bug': dict.cat_bug,
+        'other': dict.cat_other
+      };
+
+      const statusNames = {
+        'pending': dict.status_pending,
+        'reviewed': dict.status_reviewed,
+        'done': dict.status_done
       };
 
       suggestionsContainer.innerHTML = suggestions.map(suggestion => {
         const date = new Date(suggestion.created_at);
-        const dateStr = date.toLocaleDateString('fa-IR', {
+        const dateStr = date.toLocaleDateString(dateLocale, {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
@@ -2528,9 +2761,7 @@
             <div style="display: flex; justify-content: space-between; align-items: center;">
               <span class="suggestion-item-date">${dateStr}</span>
               <span class="suggestion-item-status ${suggestion.status}">
-                ${suggestion.status === 'pending' ? '⏳ در انتظار بررسی' : 
-                  suggestion.status === 'reviewed' ? '👀 بررسی شده' : 
-                  '✅ انجام شده'}
+                ${statusNames[suggestion.status] || statusNames.done}
               </span>
             </div>
           </div>
@@ -2545,12 +2776,12 @@
       const category = suggestionCategory.value;
 
       if (!title || !text) {
-        showError('لطفا عنوان و توضیحات را وارد کنید');
+        showError('error_required');
         return;
       }
 
       sendSuggestionBtn.disabled = true;
-      sendSuggestionBtn.textContent = '📤 درحال ارسال...';
+      sendSuggestionBtn.textContent = translations[languageManager.currentLang].sending;
 
       try {
         const { error } = await SUPABASE
@@ -2570,7 +2801,7 @@
         suggestionTitle.value = '';
         suggestionText.value = '';
         suggestionCategory.value = 'feature';
-        categoryLabel.textContent = '✨ ویژگی جدید';
+        categoryLabel.textContent = translations[languageManager.currentLang].cat_feature;
         categoryOptions.forEach(o => o.classList.remove('selected'));
         categoryOptions[0].classList.add('selected');
 
@@ -2578,10 +2809,10 @@
         await loadSuggestions();
       } catch (err) {
         console.error('خطا:', err);
-        showError(err.message || 'خطا در ارسال پیشنهاد');
+        showError(err.message || translations[languageManager.currentLang].suggestion_send_error);
       } finally {
         sendSuggestionBtn.disabled = false;
-        sendSuggestionBtn.textContent = '📤 ارسال پیشنهاد';
+        sendSuggestionBtn.textContent = translations[languageManager.currentLang].send_suggestion;
       }
     });
 
@@ -2682,6 +2913,8 @@
       }
     });
 
+    let lastFilesData = [];
+
     // Load files
     async function loadFiles() {
       try {
@@ -2693,7 +2926,8 @@
 
         if (error) throw error;
 
-        displayFiles(data || []);
+        lastFilesData = data || [];
+        displayFiles(lastFilesData);
       } catch (err) {
         console.error('خطا در بارگیری فایل‌ها:', err);
       }
@@ -2701,12 +2935,15 @@
 
     // Display files
     function displayFiles(files) {
+      const dict = translations[languageManager.currentLang];
+      const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
+
       if (files.length === 0) {
         filesContainer.innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>هنوز فایلی آپلود نشده است</h3>
-            <p>فایل‌های خود را از بخش بالا آپلود کنید</p>
+            <h3>${dict.no_files}</h3>
+            <p>${dict.no_files_desc}</p>
           </div>
         `;
         return;
@@ -2747,13 +2984,13 @@
 
       filesContainer.innerHTML = files.map(file => {
         const date = new Date(file.uploaded_at);
-        const dateStr = date.toLocaleDateString('fa-IR', {
+        const dateStr = date.toLocaleDateString(dateLocale, {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
         });
 
-        const timeStr = date.toLocaleTimeString('fa-IR', {
+        const timeStr = date.toLocaleTimeString(dateLocale, {
           hour: '2-digit',
           minute: '2-digit'
         });
@@ -2774,8 +3011,8 @@
               </div>
             </div>
             <div class="file-item-actions">
-              <button class="file-btn" onclick="downloadFile('${file.file_path}', '${file.file_name}')">📥 دانلود</button>
-              <button class="file-btn delete" onclick="deleteFile('${file.id}', '${file.file_path}')">🗑️ حذف</button>
+              <button class="file-btn" onclick="downloadFile('${file.file_path}', '${file.file_name}')">${dict.download}</button>
+              <button class="file-btn delete" onclick="deleteFile('${file.id}', '${file.file_path}')">${dict.delete}</button>
             </div>
           </div>
         `;
@@ -2834,6 +3071,23 @@
         showError('delete_error');
       }
     }
+
+    // Re-render any dynamically built lists so they pick up the new language
+    function refreshDynamicTranslations() {
+      if (typeof filesContainer !== 'undefined' && filesContainer) {
+        displayFiles(lastFilesData);
+      }
+      if (typeof suggestionsContainer !== 'undefined' && suggestionsContainer) {
+        displaySuggestions(lastSuggestionsData);
+      }
+      if (typeof categoryLabel !== 'undefined' && categoryLabel && typeof categoryOptions !== 'undefined') {
+        const selectedOption = Array.from(categoryOptions).find(o => o.classList.contains('selected'));
+        if (selectedOption) categoryLabel.textContent = selectedOption.textContent;
+      }
+    }
+
+    // راه‌اندازی Language Manager (بعد از تعریف تمام المان‌ها و توابع)
+    const languageManager = new LanguageManager();
 
     // Initialize
     checkAuth();
