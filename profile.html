@@ -1672,7 +1672,7 @@
         </div>
       </a>
       <nav>
-        <button class="back-btn" id="backBtn">← بازگشت</button>
+        <button class="back-btn" id="backBtn"><span data-i18n="back">← Back</span></button>
         
         <!-- Language Toggle Button -->
         <button class="lang-btn" id="langBtn">
@@ -2031,7 +2031,7 @@
         upload_error: 'Error uploading file',
       },
       fa: {
-        back: '← بازگشت',
+        back: '<span data-i18n="back">← Back</span>',
         menu_title: 'منو سریع',
         personal_settings: 'تنظیمات شخصی',
         files: 'فایل‌ها',
@@ -2073,7 +2073,7 @@
       }
 
       init() {
-        this.setLanguage(this.currentLang);
+        this.applyLanguage(this.currentLang);
         this.setupEventListeners();
       }
 
@@ -2088,10 +2088,15 @@
       }
 
       setLanguage(lang) {
+        localStorage.setItem('language', lang);
+        // صفحه رو reload کن تا تمام محتوا به زبان جدید نشان داده شود
+        location.reload();
+      }
+
+      applyLanguage(lang) {
         this.currentLang = lang;
         document.documentElement.lang = lang;
         document.body.setAttribute('data-lang', lang);
-        localStorage.setItem('language', lang);
         this.updateLangButton();
       }
 
