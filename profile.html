@@ -2315,11 +2315,6 @@
             el.placeholder = dict[key];
           }
         });
-
-        // Re-render any dynamic lists so they pick up the new language too
-        if (typeof refreshDynamicTranslations === 'function') {
-          refreshDynamicTranslations();
-        }
       }
 
       updateLangButton() {
@@ -3069,20 +3064,6 @@
       } catch (err) {
         console.error('خطا:', err);
         showError('delete_error');
-      }
-    }
-
-    // Re-render any dynamically built lists so they pick up the new language
-    function refreshDynamicTranslations() {
-      if (typeof filesContainer !== 'undefined' && filesContainer) {
-        displayFiles(lastFilesData);
-      }
-      if (typeof suggestionsContainer !== 'undefined' && suggestionsContainer) {
-        displaySuggestions(lastSuggestionsData);
-      }
-      if (typeof categoryLabel !== 'undefined' && categoryLabel && typeof categoryOptions !== 'undefined') {
-        const selectedOption = Array.from(categoryOptions).find(o => o.classList.contains('selected'));
-        if (selectedOption) categoryLabel.textContent = selectedOption.textContent;
       }
     }
 
