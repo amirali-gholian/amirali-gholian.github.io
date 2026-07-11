@@ -335,6 +335,120 @@
       margin: 0 0 8px;
     }
 
+    /* Chart Section */
+    .chart-section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 28px;
+      margin-bottom: 36px;
+    }
+
+    .chart-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+
+    .chart-header .section-title {
+      margin: 0;
+    }
+
+    .chart-subtitle {
+      color: var(--muted);
+      font-size: .85rem;
+      margin: 4px 0 20px;
+    }
+
+    .chart-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 4px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+    }
+
+    .chart-tab {
+      padding: 8px 16px;
+      border-radius: 9px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: .85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all .2s ease;
+      white-space: nowrap;
+    }
+
+    .chart-tab:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .chart-tab.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .75));
+      color: #fff;
+      box-shadow: 0 6px 18px rgba(56, 189, 248, .25);
+    }
+
+    .chart-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .chart-stat-card {
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px 16px;
+      text-align: center;
+    }
+
+    .chart-stat-value {
+      display: block;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    .chart-stat-value.trend-up { color: var(--accent-2); }
+    .chart-stat-value.trend-down { color: #f87171; }
+    .chart-stat-value.trend-flat { color: var(--muted); }
+
+    .chart-stat-label {
+      display: block;
+      font-size: .78rem;
+      color: var(--muted);
+    }
+
+    .chart-wrapper {
+      position: relative;
+      width: 100%;
+      height: 340px;
+      margin-top: 8px;
+      display: none;
+    }
+
+    .chart-empty {
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      .chart-wrapper {
+        height: 280px;
+      }
+    }
+
     /* Responsive */
     @media (max-width: 768px) {
       .course-title {
@@ -506,6 +620,37 @@
       </div>
     </div>
 
+    <!-- Progress Chart Section -->
+    <div class="chart-section">
+      <div class="chart-header">
+        <div>
+          <h2 class="section-title">📈 روند پیشرفت</h2>
+          <p class="chart-subtitle">نمره‌های شما در طول زمان — به صورت کلی یا برای هر آزمون جداگانه</p>
+        </div>
+        <div class="chart-tabs" id="chartTabs">
+          <button class="chart-tab active" data-level="all">همه آزمون‌ها</button>
+          <button class="chart-tab" data-level="101">🥇 101</button>
+          <button class="chart-tab" data-level="102">🥇 102</button>
+          <button class="chart-tab" data-level="201">🥈 201</button>
+          <button class="chart-tab" data-level="202">🥈 202</button>
+        </div>
+      </div>
+
+      <div class="chart-stats" id="chartStats"></div>
+
+      <div class="chart-wrapper" id="chartWrapper">
+        <canvas id="progressChart"></canvas>
+      </div>
+
+      <div class="chart-empty" id="chartEmpty">
+        <div class="empty-state">
+          <div class="empty-state-icon">📈</div>
+          <h3>هنوز داده‌ای برای نمودار وجود ندارد</h3>
+          <p>پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود</p>
+        </div>
+      </div>
+    </div>
+
     <!-- History Section -->
     <div class="history-section">
       <h2 class="section-title" id="historyTitle">📊 تاریخچه آزمون‌ها</h2>
@@ -520,6 +665,8 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="./linux-questions.js"></script>
   <script>
     // ============ تنظیمات Supabase ============
@@ -530,12 +677,21 @@
 
     let currentUser = null;
     let allExamResults = [];
+    let progressChart = null;
+    let currentChartLevel = 'all';
 
     const LEVEL_NAMES = {
       '101': '1️⃣ آزمون 101',
       '102': '2️⃣ آزمون 102',
       '201': '1️⃣ آزمون 201',
       '202': '2️⃣ آزمون 202'
+    };
+
+    const LEVEL_CONFIG = {
+      '101': { name: 'آزمون 101', emoji: '🥇', color: '#38bdf8' },
+      '102': { name: 'آزمون 102', emoji: '🥇', color: '#a78bfa' },
+      '201': { name: 'آزمون 201', emoji: '🥈', color: '#22c55e' },
+      '202': { name: 'آزمون 202', emoji: '🥈', color: '#f59e0b' }
     };
 
     // Section switching (LPIC-1 / LPIC-2)
@@ -591,6 +747,8 @@
           // Display history - last 10 attempts
           displayHistory(data);
         }
+
+        renderChart(currentChartLevel);
       } catch (err) {
         console.error('خطا در بارگیری داده‌ها:', err);
       }
@@ -627,6 +785,191 @@
 
       document.getElementById('historyContainer').innerHTML = html;
     }
+
+    // ============ نمودار روند پیشرفت ============
+
+    function buildLevelPoints(level) {
+      return allExamResults
+        .filter(e => e.level === level)
+        .slice()
+        .sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+        .map((e, idx) => {
+          const totalQ = 60;
+          return { x: new Date(e.created_at), y: e.score, attempt: idx + 1, correct: e.correct_answers, total: totalQ };
+        });
+    }
+
+    function renderChart(levelFilter) {
+      currentChartLevel = levelFilter;
+      const wrapper = document.getElementById('chartWrapper');
+      const emptyEl = document.getElementById('chartEmpty');
+
+      updateChartStats(levelFilter);
+
+      const hasAnyData = allExamResults.length > 0;
+      if (!hasAnyData) {
+        wrapper.style.display = 'none';
+        emptyEl.style.display = 'block';
+        if (progressChart) { progressChart.destroy(); progressChart = null; }
+        return;
+      }
+
+      let datasets = [];
+
+      if (levelFilter === 'all') {
+        Object.keys(LEVEL_CONFIG).forEach(lvl => {
+          const points = buildLevelPoints(lvl);
+          if (points.length > 0) {
+            datasets.push({
+              label: `${LEVEL_CONFIG[lvl].emoji} ${LEVEL_CONFIG[lvl].name}`,
+              data: points,
+              borderColor: LEVEL_CONFIG[lvl].color,
+              backgroundColor: LEVEL_CONFIG[lvl].color + '26',
+              pointBackgroundColor: LEVEL_CONFIG[lvl].color,
+              pointBorderColor: '#0b1120',
+              pointBorderWidth: 1.5,
+              pointRadius: 5,
+              pointHoverRadius: 7,
+              borderWidth: 3,
+              tension: 0.35,
+              spanGaps: true,
+              fill: false
+            });
+          }
+        });
+      } else {
+        const points = buildLevelPoints(levelFilter);
+        const cfg = LEVEL_CONFIG[levelFilter];
+        datasets.push({
+          label: `${cfg.emoji} ${cfg.name}`,
+          data: points,
+          borderColor: cfg.color,
+          backgroundColor: cfg.color + '33',
+          pointBackgroundColor: '#fff',
+          pointBorderColor: cfg.color,
+          pointBorderWidth: 2,
+          pointRadius: 6,
+          pointHoverRadius: 8,
+          borderWidth: 3,
+          tension: 0.35,
+          fill: true
+        });
+      }
+
+      if (datasets.length === 0) {
+        wrapper.style.display = 'none';
+        emptyEl.style.display = 'block';
+        if (progressChart) { progressChart.destroy(); progressChart = null; }
+        return;
+      }
+
+      wrapper.style.display = 'block';
+      emptyEl.style.display = 'none';
+
+      const ctx = document.getElementById('progressChart').getContext('2d');
+      if (progressChart) progressChart.destroy();
+
+      progressChart = new Chart(ctx, {
+        type: 'line',
+        data: { datasets },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          interaction: { mode: 'nearest', axis: 'x', intersect: false },
+          scales: {
+            x: {
+              type: 'time',
+              time: { unit: 'day', tooltipFormat: 'yyyy/MM/dd - HH:mm', displayFormats: { day: 'MM/dd' } },
+              grid: { color: 'rgba(148,163,184,.08)' },
+              ticks: { color: '#94a3b8', font: { family: 'Inter' } }
+            },
+            y: {
+              min: 0,
+              max: 100,
+              grid: { color: 'rgba(148,163,184,.08)' },
+              ticks: { color: '#94a3b8', stepSize: 20, font: { family: 'Inter' } }
+            }
+          },
+          plugins: {
+            legend: {
+              display: levelFilter === 'all',
+              position: 'top',
+              align: 'end',
+              labels: { color: '#e5e7eb', usePointStyle: true, pointStyle: 'circle', padding: 18, font: { family: 'Inter', size: 12 } }
+            },
+            tooltip: {
+              backgroundColor: 'rgba(11,17,32,.95)',
+              borderColor: 'rgba(56,189,248,.35)',
+              borderWidth: 1,
+              padding: 12,
+              titleColor: '#fff',
+              bodyColor: '#cbd5e1',
+              titleFont: { family: 'Inter', weight: '600' },
+              bodyFont: { family: 'Inter' },
+              callbacks: {
+                label: (item) => {
+                  const p = item.raw;
+                  return `نمره: ${p.y}  (${p.correct}/${p.total} صحیح)`;
+                }
+              }
+            }
+          }
+        }
+      });
+    }
+
+    function updateChartStats(levelFilter) {
+      const statsEl = document.getElementById('chartStats');
+
+      const source = levelFilter === 'all' ? allExamResults : allExamResults.filter(e => e.level === levelFilter);
+
+      if (source.length === 0) {
+        statsEl.innerHTML = '';
+        return;
+      }
+
+      const sorted = source.slice().sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+      const scores = sorted.map(e => e.score);
+      const count = scores.length;
+      const best = Math.max(...scores);
+      const avg = Math.round(scores.reduce((s, v) => s + v, 0) / count);
+      const first = scores[0];
+      const last = scores[count - 1];
+      const diff = last - first;
+
+      let trendClass = 'trend-flat';
+      let trendText = `${diff}`;
+      let trendIcon = '→';
+      if (diff > 0) { trendClass = 'trend-up'; trendIcon = '↑'; trendText = `+${diff}`; }
+      else if (diff < 0) { trendClass = 'trend-down'; trendIcon = '↓'; }
+      else { trendText = '0'; }
+
+      const cards = [
+        { value: count, label: 'تعداد آزمون' },
+        { value: best, label: 'بهترین نمره' },
+        { value: avg, label: 'میانگین نمره' }
+      ];
+
+      if (count > 1) {
+        cards.push({ value: `${trendIcon} ${trendText}`, label: 'تغییر نسبت به اولین آزمون', cls: trendClass });
+      }
+
+      statsEl.innerHTML = cards.map(c => `
+        <div class="chart-stat-card">
+          <span class="chart-stat-value ${c.cls || ''}">${c.value}</span>
+          <span class="chart-stat-label">${c.label}</span>
+        </div>
+      `).join('');
+    }
+
+    // Chart tab switching
+    document.getElementById('chartTabs').addEventListener('click', (e) => {
+      const btn = e.target.closest('.chart-tab');
+      if (!btn) return;
+      document.querySelectorAll('.chart-tab').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderChart(btn.dataset.level);
+    });
 
     // Start exam
     function startExam(level) {
