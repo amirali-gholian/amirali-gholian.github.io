@@ -4,11 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>امتحان Python | Amirali Gholian</title>
-  <link rel="icon" href="./logo.png" type="image/png">
+  <link rel="icon" href="./logo.webp" type="image/webp">
   
   <meta name="theme-color" content="#050814">
   <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+  <script async src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
   
   <style>
     :root {
@@ -196,6 +197,28 @@
       font-size: 1.05rem;
       line-height: 1.6;
       color: #fff;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .question-text .question-line {
+      display: block;
+    }
+
+    .question-text .code-block {
+      display: block;
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #0f1419;
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 8px;
+      color: #e8f05a;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: .9rem;
+      line-height: 1.6;
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: plaintext;
       white-space: pre-wrap;
       word-wrap: break-word;
     }
@@ -471,6 +494,176 @@
         padding: 24px;
       }
     }
+
+    /* IDE Styles */
+    .question-ide {
+      background: rgba(0, 0, 0, .3);
+      border: 1px solid rgba(56, 189, 248, .15);
+      border-radius: 12px;
+      padding: 16px;
+      margin: 20px 0;
+    }
+
+    .ide-label {
+      font-weight: 600;
+      color: var(--accent);
+      font-size: .9rem;
+      margin-bottom: 12px;
+    }
+
+    .ide-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    @media (max-width: 768px) {
+      .ide-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .code-input {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .input-label {
+      font-size: .85rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .code-textarea {
+      width: 100%;
+      padding: 12px;
+      background: #0f1419;
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 8px;
+      color: #e8f05a;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 13px;
+      min-height: 120px;
+      resize: vertical;
+      line-height: 1.5;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .code-textarea:focus {
+      outline: none;
+      border-color: rgba(56, 189, 248, .5);
+      box-shadow: 0 0 12px rgba(56, 189, 248, .1);
+    }
+
+    .output-box {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .console {
+      width: 100%;
+      padding: 12px;
+      background: #0f1419;
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 8px;
+      color: #e8f05a;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: 13px;
+      min-height: 120px;
+      max-height: 250px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      line-height: 1.5;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .console.empty {
+      color: var(--muted);
+    }
+
+    .console::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .console::-webkit-scrollbar-thumb {
+      background: rgba(56, 189, 248, .3);
+      border-radius: 3px;
+    }
+
+    .console.error {
+      color: #f87171;
+    }
+
+    .console.success {
+      color: #e8f05a;
+    }
+
+    .ide-buttons {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .run-btn {
+      padding: 8px 16px;
+      background: linear-gradient(135deg, var(--accent-2), #16a34a);
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: .9rem;
+      transition: all .25s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .run-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 16px rgba(34, 197, 94, .3);
+    }
+
+    .run-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .clear-btn {
+      padding: 8px 16px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .15);
+      border-radius: 8px;
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 500;
+      font-size: .9rem;
+      transition: all .25s ease;
+    }
+
+    .clear-btn:hover {
+      background: rgba(255, 255, 255, .12);
+    }
+
+    .spinner {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border: 2px solid rgba(255, 255, 255, .3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.6s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
   </style>
 </head>
 <body>
@@ -708,6 +901,7 @@
       constructor() {
         this.SUPABASE = null;
         this.currentUser = null;
+        this.pyodideReady = false;
         
         this.exam = {
           course: 'Python',
@@ -727,8 +921,42 @@
         };
       }
 
+      async initPyodide() {
+        try {
+          if (this.pyodideReady && window.pyodide) {
+            return;
+          }
+          
+          console.log('🔄 Pyodide load شروع...');
+          
+          // صبر کنیم تا loadPyodide موجود شود
+          let attempts = 0;
+          while (typeof loadPyodide === 'undefined' && attempts < 50) {
+            await new Promise(r => setTimeout(r, 100));
+            attempts++;
+          }
+
+          if (typeof loadPyodide === 'undefined') {
+            throw new Error('loadPyodide failed to load');
+          }
+
+          window.pyodide = await loadPyodide({
+            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/'
+          });
+          
+          this.pyodideReady = true;
+          console.log('✅ Pyodide آماده است');
+        } catch (err) {
+          console.error('❌ Pyodide خطا:', err);
+          this.pyodideReady = false;
+        }
+      }
+
       async init() {
         try {
+          // Initialize Pyodide اول
+          await this.initPyodide();
+
           // Use shared Supabase client
           this.SUPABASE = SUPABASE;
 
@@ -798,6 +1026,20 @@
         document.getElementById('questionNumber').textContent = `سوال ${answered} از ${total}`;
       }
 
+      formatQuestionText(text) {
+        // اولین بخش قبل از خط خالی، سوال فارسی (راست‌چین) است
+        // بخش بعدی (در صورت وجود) کد پایتون است و باید چپ‌چین نمایش داده شود
+        const parts = text.split('\n\n');
+        const question = parts[0];
+        const code = parts.slice(1).join('\n\n');
+
+        let html = `<span class="question-line">${question}</span>`;
+        if (code) {
+          html += `<code class="code-block">${code}</code>`;
+        }
+        return html;
+      }
+
       renderQuestions() {
         const html = this.exam.questions.map((q, idx) => `
           <div class="question-item ${this.exam.answers[idx] !== undefined ? 'answered' : ''}">
@@ -805,7 +1047,31 @@
               <h3>سوال ${idx + 1}</h3>
               <span class="question-status">${this.exam.answers[idx] !== undefined ? '✓' : '○'}</span>
             </div>
-            <p class="question-text">${q.text}</p>
+            <p class="question-text">${this.formatQuestionText(q.text)}</p>
+            
+            <!-- IDE Section -->
+            <div class="question-ide">
+              <div class="ide-label">💻 تست کد</div>
+              <div class="ide-grid">
+                <div class="code-input">
+                  <div class="input-label">📝 کد شما</div>
+                  <textarea class="code-textarea" id="code-${idx}" dir="ltr" placeholder="کد Python خود را اینجا بنویسید..."></textarea>
+                </div>
+                <div class="output-box">
+                  <div class="input-label">📤 خروجی</div>
+                  <div class="console empty" id="output-${idx}" dir="ltr">منتظر اجرا...</div>
+                </div>
+              </div>
+              <div class="ide-buttons">
+                <button class="run-btn" onclick="examSystem.runCode(${idx})">
+                  <span>▶</span>
+                  <span>اجرا</span>
+                  <span class="spinner" id="loader-${idx}" style="display:none;"></span>
+                </button>
+                <button class="clear-btn" onclick="examSystem.clearCode(${idx})">🗑️ پاک‌کردن</button>
+              </div>
+            </div>
+            
             <div class="options">
               ${q.options.map((opt, optIdx) => `
                 <button class="option ${this.exam.answers[idx] === optIdx ? 'selected' : ''}"
@@ -836,6 +1102,83 @@
         `;
 
         document.getElementById('examFooter').innerHTML = html;
+      }
+
+      async runCode(idx) {
+        const codeEl = document.getElementById(`code-${idx}`);
+        const outputEl = document.getElementById(`output-${idx}`);
+        const loaderEl = document.getElementById(`loader-${idx}`);
+        const btnEl = event.target.closest('.run-btn');
+
+        const code = codeEl.value.trim();
+        if (!code) {
+          outputEl.textContent = '⚠️ لطفاً کدی بنویسید';
+          outputEl.className = 'console empty';
+          return;
+        }
+
+        btnEl.disabled = true;
+        loaderEl.style.display = 'inline-block';
+        outputEl.textContent = '⏳ در حال آماده‌سازی...';
+        outputEl.className = 'console';
+
+        // صبر کنیم تا Pyodide آماده شود
+        let attempts = 0;
+        while (!this.pyodideReady && attempts < 30) {
+          await new Promise(r => setTimeout(r, 100));
+          attempts++;
+        }
+
+        if (!this.pyodideReady) {
+          outputEl.textContent = '❌ Pyodide آماده نشد. صفحه را دوباره بارگذاری کنید';
+          outputEl.className = 'console error';
+          btnEl.disabled = false;
+          loaderEl.style.display = 'none';
+          return;
+        }
+
+        try {
+          outputEl.textContent = '⏳ در حال اجرا...';
+          
+          const lines = [];
+          
+          // Capture print output
+          const printFunc = window.pyodide.globals.get('print');
+          window.pyodide.globals.set('print', (...args) => {
+            lines.push(args.join(' '));
+          });
+
+          // Run code
+          const result = await window.pyodide.runPythonAsync(code);
+          
+          // Restore print
+          window.pyodide.globals.set('print', printFunc);
+
+          // Show output
+          if (lines.length > 0) {
+            outputEl.textContent = lines.join('\n');
+            outputEl.className = 'console success';
+          } else if (result !== null && result !== undefined) {
+            outputEl.textContent = String(result);
+            outputEl.className = 'console success';
+          } else {
+            outputEl.textContent = '✅ کد با موفقیت اجرا شد';
+            outputEl.className = 'console success';
+          }
+        } catch (err) {
+          outputEl.textContent = `❌ خطا:\n${err.message}`;
+          outputEl.className = 'console error';
+        } finally {
+          btnEl.disabled = false;
+          loaderEl.style.display = 'none';
+        }
+      }
+
+      clearCode(idx) {
+        document.getElementById(`code-${idx}`).value = '';
+        const outputEl = document.getElementById(`output-${idx}`);
+        outputEl.textContent = 'منتظر اجرا...';
+        outputEl.className = 'console empty';
       }
 
       selectAnswer(questionIdx, optionIdx) {
@@ -1010,11 +1353,11 @@
       }
 
       goHome() {
-        window.location.href = './profile.html';
+        window.location.href = './python02.html';
       }
 
       retakeExam() {
-        window.location.href = `./python.html`;
+        window.location.href = `./exam.html`;
       }
 
       saveToStorage() {
