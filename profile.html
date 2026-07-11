@@ -1820,10 +1820,6 @@
             <label data-i18n="phone_label">تلفن</label>
             <input type="tel" id="phoneInput" data-i18n-placeholder="phone_placeholder" placeholder="شماره تماس خود را وارد کنید">
           </div>
-          <div class="form-group">
-            <label data-i18n="avatar_url_label">URL آواتار</label>
-            <input type="url" id="avatarUrlInput" placeholder="https://example.com/avatar.jpg">
-          </div>
         </div>
 
         <!-- Avatar Preview -->
@@ -1835,7 +1831,8 @@
             </div>
             <div>
               <p style="margin: 0 0 8px; color: var(--muted);" data-i18n="avatar_preview_desc">این تصویر در پروفایل شما نمایش داده می‌شود</p>
-              <button class="btn-secondary" onclick="document.getElementById('avatarUrlInput').focus()" data-i18n="change_image">تغییر تصویر</button>
+              <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+              <button class="btn-secondary" id="changeAvatarBtn" data-i18n="change_image">تغییر تصویر</button>
             </div>
           </div>
         </div>
@@ -2364,7 +2361,8 @@
     const lastNameInput = document.getElementById('lastNameInput');
     const usernameInput = document.getElementById('usernameInput');
     const phoneInput = document.getElementById('phoneInput');
-    const avatarUrlInput = document.getElementById('avatarUrlInput');
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
     const avatarPreview = document.getElementById('avatarPreview');
     const previewInitial = document.getElementById('previewInitial');
     const avatarInitial = document.getElementById('previewInitial');
@@ -2568,7 +2566,6 @@
       lastNameInput.value = profile.last_name || '';
       usernameInput.value = profile.username || '';
       phoneInput.value = profile.phone || '';
-      avatarUrlInput.value = profile.avatar_url || '';
       document.getElementById('userFirstName').textContent = profile.first_name || translations[languageManager.currentLang].welcome_user_fallback;
 
       updateAvatarPreview(profile);
@@ -2604,11 +2601,58 @@
       }
     }
 
-    // Live avatar preview
-    avatarUrlInput.addEventListener('change', () => {
-      if (avatarUrlInput.value) {
-        const firstChar = (firstNameInput.value || usernameInput.value || currentUser.email)[0].toUpperCase();
-        avatarPreview.innerHTML = `<img src="${avatarUrlInput.value}" alt="avatar" onerror="this.parentElement.innerHTML='<span id=\\\"previewInitial\\\">${firstChar}</span>'">`;
+    // Open gallery/file picker
+    changeAvatarBtn.addEventListener('click', () => {
+      avatarInput.click();
+    });
+
+    // Upload avatar to Supabase Storage when a file is chosen
+    avatarInput.addEventListener('change', async () => {
+      const file = avatarInput.files[0];
+      if (!file) return;
+
+      const originalLabel = changeAvatarBtn.textContent;
+      changeAvatarBtn.disabled = true;
+      changeAvatarBtn.textContent = translations[languageManager.currentLang].uploading;
+
+      try {
+        const extension = file.name.split('.').pop();
+        const filePath = `${currentUser.id}/avatar.${extension}`;
+
+        const { error: uploadError } = await SUPABASE
+          .storage
+          .from('avatars')
+          .upload(filePath, file, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = SUPABASE
+          .storage
+          .from('avatars')
+          .getPublicUrl(filePath);
+
+        const avatarUrl = data.publicUrl + '?t=' + Date.now();
+
+        const { error: dbError } = await SUPABASE
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            email: currentUser.email,
+            avatar_url: avatarUrl
+          });
+
+        if (dbError) throw dbError;
+
+        currentProfile = { ...currentProfile, avatar_url: avatarUrl };
+        updateAvatarPreview(currentProfile);
+        showSuccess('upload_success');
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || translations[languageManager.currentLang].upload_error);
+      } finally {
+        avatarInput.value = '';
+        changeAvatarBtn.disabled = false;
+        changeAvatarBtn.textContent = originalLabel;
       }
     });
 
@@ -2619,7 +2663,6 @@
         last_name: lastNameInput.value,
         username: usernameInput.value,
         phone: phoneInput.value,
-        avatar_url: avatarUrlInput.value,
         updated_at: new Date()
       };
 
