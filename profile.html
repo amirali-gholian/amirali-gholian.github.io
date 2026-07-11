@@ -1967,6 +1967,10 @@
             <span>📝</span>
             <span data-i18n="view_exams">آزمون‌ها</span>
           </button>
+          <button class="btn-welcome" id="openIdeBtn2">
+            <span>💻</span>
+            <span data-i18n="ide_welcome_label">IDE آنلاین</span>
+          </button>
           <button class="btn-welcome" id="manageFilesBtn2">
             <span>📂</span>
             <span data-i18n="manage_files">مدیریت فایل‌ها</span>
@@ -2083,7 +2087,7 @@
               <select id="ideLanguageSelect"></select>
             </div>
             <div class="ide-toolbar-actions">
-              <span class="ide-badge" id="ideRuntimeBadge">🐧 <span data-i18n="ide_linux_runtime">اجرا روی Linux</span></span>
+              <span class="ide-badge" id="ideRuntimeBadge">🐧 <span data-i18n="ide_linux_runtime">سندباکس لینوکسی</span></span>
               <button class="btn" id="ideRunBtn" style="width:auto; margin:0;" data-i18n="ide_run">▶️ اجرا</button>
               <button class="btn-secondary btn" id="ideClearBtn" style="width:auto; margin:0;" data-i18n="ide_clear">🔄 پاک کردن</button>
             </div>
@@ -2384,10 +2388,11 @@
         suggestion_send_error: 'Error sending suggestion',
 
         tab_ide: '💻 IDE',
+        ide_welcome_label: 'Online IDE',
         ide_title: '💻 Online Multi-Language IDE',
         ide_subtitle: 'Write code, run it and see the output — or use a real Linux terminal',
         ide_language_label: 'Programming Language',
-        ide_linux_runtime: 'Running on Linux',
+        ide_linux_runtime: 'Linux sandbox',
         ide_run: '▶️ Run',
         ide_running: '⏳ Running...',
         ide_clear: '🔄 Clear',
@@ -2395,13 +2400,14 @@
         ide_output_label: 'Output',
         ide_output_placeholder: 'Click Run to see the output...',
         ide_terminal_placeholder: 'Type a Linux command and press Enter...',
-        ide_note: '⚠️ Your code runs on a secure, isolated Linux virtual machine (the public Judge0 service). Each run happens in a fresh environment, so state is not preserved between commands. Requests are rate-limited.',
+        ide_note: '⚠️ Code runs on the free public Judge0 sandbox. In the Linux Terminal, files/cd from earlier commands in this session are replayed and kept, but everything resets on page reload. This free service is sometimes blocked by the browser (CORS) or rate-limited — if every run fails, that is the likely cause and a small server-side proxy would fix it permanently.',
         ide_exit_code: 'Exit code',
         ide_time: 'Time',
         ide_memory: 'Memory',
         ide_status: 'Status',
         ide_network_error: 'Could not reach the execution service. Please try again.',
         ide_rate_limit_error: '⏳ Too many requests right now. Please wait a few seconds and try again.',
+        ide_cors_error: '🚫 The browser blocked the connection to the execution service (likely a CORS/network restriction from the free public runner). This needs a small server-side proxy to fix reliably.',
         ide_empty_code_error: 'Please write some code first',
       },
       fa: {
@@ -2537,10 +2543,11 @@
         suggestion_send_error: 'خطا در ارسال پیشنهاد',
 
         tab_ide: '💻 IDE',
+        ide_welcome_label: 'IDE آنلاین',
         ide_title: '💻 IDE آنلاین چند زبانه',
         ide_subtitle: 'کد بنویسید، اجرا کنید و خروجی را ببینید — یا از ترمینال لینوکس واقعی استفاده کنید',
         ide_language_label: 'زبان برنامه‌نویسی',
-        ide_linux_runtime: 'اجرا روی Linux',
+        ide_linux_runtime: 'سندباکس لینوکسی',
         ide_run: '▶️ اجرا',
         ide_running: '⏳ درحال اجرا...',
         ide_clear: '🔄 پاک کردن',
@@ -2548,13 +2555,14 @@
         ide_output_label: 'خروجی',
         ide_output_placeholder: 'برای مشاهده خروجی، دکمه اجرا را بزنید...',
         ide_terminal_placeholder: 'یک دستور لینوکسی بنویسید و Enter بزنید...',
-        ide_note: '⚠️ کد شما روی یک ماشین مجازی لینوکسی امن و ایزوله (سرویس عمومی Judge0) اجرا می‌شود؛ هر اجرا در یک محیط تازه انجام می‌شود، پس تغییرات بین دستورها ذخیره نمی‌ماند. حجم درخواست‌ها محدود است.',
+        ide_note: '⚠️ کد شما روی سرویس رایگان و عمومی Judge0 اجرا می‌شود. توی «ترمینال لینوکس»، فایل‌ها و cd دستورهای قبلیِ همین جلسه حفظ می‌شن، ولی با رفرش صفحه همه چیز از اول شروع می‌شه. این سرویس رایگان گاهی از سمت مرورگر مسدود می‌شه (CORS) یا محدودیت تعداد درخواست داره؛ اگه همیشه خطا گرفتی، احتمالاً همینه و برای رفع قطعی نیاز به یه واسطه (proxy) سمت سرور داره.',
         ide_exit_code: 'کد خروج',
         ide_time: 'زمان',
         ide_memory: 'حافظه',
         ide_status: 'وضعیت',
         ide_network_error: 'اتصال به سرویس اجرا برقرار نشد. دوباره تلاش کنید.',
         ide_rate_limit_error: '⏳ تعداد درخواست‌ها زیاده. چند ثانیه صبر کن و دوباره امتحان کن.',
+        ide_cors_error: '🚫 مرورگر اتصال به سرویس اجراکننده کد رو مسدود کرد (به احتمال زیاد محدودیت CORS این سرویس رایگان). برای رفع قطعی این مشکل باید یه واسطه (proxy) سمت سرور اضافه بشه.',
         ide_empty_code_error: 'لطفاً ابتدا کدی بنویسید',
       }
     };
@@ -2743,6 +2751,11 @@
     document.getElementById('viewExamsBtn').addEventListener('click', () => {
       showMainContent();
       document.querySelector('[data-tab="exams"]').click();
+    });
+
+    document.getElementById('openIdeBtn2').addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="ide"]').click();
     });
 
     sendSupportBtn2.addEventListener('click', () => {
@@ -3506,15 +3519,21 @@
     }
 
     async function judge0Execute(languageId, sourceCode, stdin) {
-      const createRes = await fetch(`${JUDGE0_BASE}/submissions/?base64_encoded=true&wait=true`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          language_id: languageId,
-          source_code: b64Encode(sourceCode),
-          stdin: b64Encode(stdin || '')
-        })
-      });
+      let createRes;
+      try {
+        createRes = await fetch(`${JUDGE0_BASE}/submissions/?base64_encoded=true&wait=true`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            language_id: languageId,
+            source_code: b64Encode(sourceCode),
+            stdin: b64Encode(stdin || '')
+          })
+        });
+      } catch (networkErr) {
+        // fetch() throws a plain TypeError for both CORS blocks and connectivity issues
+        throw new Error('network_blocked');
+      }
 
       if (createRes.status === 429) throw new Error('rate_limited');
       if (!createRes.ok) throw new Error('http_error');
@@ -3530,7 +3549,12 @@
     async function judge0Poll(token) {
       for (let i = 0; i < 20; i++) {
         await new Promise(r => setTimeout(r, 1000));
-        const res = await fetch(`${JUDGE0_BASE}/submissions/${token}?base64_encoded=true`);
+        let res;
+        try {
+          res = await fetch(`${JUDGE0_BASE}/submissions/${token}?base64_encoded=true`);
+        } catch (networkErr) {
+          throw new Error('network_blocked');
+        }
         if (res.status === 429) throw new Error('rate_limited');
         if (!res.ok) continue;
         const data = await res.json();
@@ -3572,6 +3596,7 @@
     function ideErrorMessage(err) {
       const dict = translations[languageManager.currentLang];
       if (err && err.message === 'rate_limited') return dict.ide_rate_limit_error;
+      if (err && err.message === 'network_blocked') return dict.ide_cors_error;
       return dict.ide_network_error;
     }
 
@@ -3618,6 +3643,13 @@
     }
 
     // ----- Linux Terminal mode -----
+    // Judge0 runs every submission in a brand-new sandbox, so to fake a persistent
+    // session (cd, created files, variables...) we replay the full command history
+    // together with the new command in a single script, and only show the output
+    // of the newest command.
+    const MAX_TERMINAL_HISTORY = 40;
+    let terminalHistory = [];
+
     function appendTerminalLine(html) {
       const line = document.createElement('div');
       line.className = 'term-line';
@@ -3626,11 +3658,26 @@
       linuxTerminal.scrollTop = linuxTerminal.scrollHeight;
     }
 
+    function buildTerminalScript(newCmd) {
+      const previous = terminalHistory
+        .map(c => `{ ${c}\n} > /dev/null 2>&1`)
+        .join('\n');
+      return previous ? `${previous}\n${newCmd}` : newCmd;
+    }
+
     async function runTerminalCommand(cmd) {
       appendTerminalLine(`<span class="term-prompt">user@linux:~$</span> <span class="term-cmd">${escapeHtml(cmd)}</span>`);
+
+      // Client-side only shortcut: clear the visible terminal without hitting the API
+      if (cmd === 'clear' || cmd === 'cls') {
+        linuxTerminal.innerHTML = '';
+        return;
+      }
+
       const bashLang = IDE_LANGUAGES.find(l => l.terminal);
+      const script = buildTerminalScript(cmd);
       try {
-        const data = await judge0Execute(bashLang.judge0Id, cmd, '');
+        const data = await judge0Execute(bashLang.judge0Id, script, '');
         const stdout = b64Decode(data.stdout);
         const stderr = b64Decode(data.stderr);
         if (stdout) appendTerminalLine(`<span class="term-stdout">${escapeHtml(stdout).replace(/\n/g, '<br>')}</span>`);
@@ -3639,6 +3686,9 @@
           const statusDesc = (data.status && data.status.description) || '';
           appendTerminalLine(`<span style="color:var(--muted);">${escapeHtml(statusDesc)}</span>`);
         }
+        // Only keep the command in history if the sandbox actually accepted/ran it
+        terminalHistory.push(cmd);
+        if (terminalHistory.length > MAX_TERMINAL_HISTORY) terminalHistory.shift();
       } catch (err) {
         console.error('Terminal error:', err);
         appendTerminalLine(`<span class="term-stderr">${escapeHtml(ideErrorMessage(err))}</span>`);
