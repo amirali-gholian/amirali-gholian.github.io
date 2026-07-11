@@ -1245,10 +1245,17 @@
         event.target.classList.add('active');
     }
 
-    // Check authentication
+    // ✅ بهبود Check authentication با retry logic
     async function checkAuth() {
         try {
-            const user = await AdminAuth.checkAuth();
+            // سعی کن تا 3 بار session را بررسی کن (برای اطمینان از creation)
+            let user = null;
+            for (let i = 0; i < 3; i++) {
+                user = await AdminAuth.checkAuth();
+                if (user) break;
+                if (i < 2) await new Promise(r => setTimeout(r, 300));
+            }
+
             if (!user) {
                 window.location.href = '/';
                 return;
