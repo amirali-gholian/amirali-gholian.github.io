@@ -1665,7 +1665,7 @@
   <div class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand">
-        <div class="avatar"><span>A</span></div>
+        <div class="avatar" id="headerAvatar"><span>A</span></div>
         <div>
           <h1 data-i18n="brand_title">پروفایل من</h1>
           <small data-i18n="brand_subtitle">مدیریت حساب</small>
@@ -2594,10 +2594,14 @@
       const firstChar = (profile.first_name || profile.username || profile.email || 'A')[0].toUpperCase();
       previewInitial.textContent = firstChar;
 
+      const headerAvatar = document.getElementById('headerAvatar');
+
       if (profile.avatar_url) {
         avatarPreview.innerHTML = `<img src="${profile.avatar_url}" alt="avatar">`;
+        if (headerAvatar) headerAvatar.innerHTML = `<img src="${profile.avatar_url}" alt="avatar">`;
       } else {
         avatarPreview.innerHTML = `<span id="previewInitial">${firstChar}</span>`;
+        if (headerAvatar) headerAvatar.innerHTML = `<span>${firstChar}</span>`;
       }
     }
 
