@@ -1720,16 +1720,7 @@ opacity:1;
       }
     }
 
-    // ✅ بررسی صحیح session و redirect
-    async function initializeApp() {
-      const { data: { session } } = await SUPABASE.auth.getSession();
-      if (session && session.user) {
-        // اگر logged in است، بروز رسانی UI
-        await loadUserProfile(session.user.id, session.user.email);
-      }
-    }
-
-    initializeApp();
+    checkUserSession();
     
     // پاک کردن flag قدیمی اگر وجود داشته باشد
     sessionStorage.removeItem('loginRedirecting');
@@ -1827,10 +1818,10 @@ opacity:1;
           }
         ).catch(err => console.error('Email send failed', err));
 
-        // ✅ Redirect to profile after 2 seconds (با اطمینان از session creation)
+        // Redirect to profile after 1.5 seconds
         setTimeout(() => {
           window.location.href = './profile.html?fromLogin=true';
-        }, 2000);
+        }, 1500);
      }
     }
     checkGoogleCallback();
@@ -1941,10 +1932,10 @@ opacity:1;
       authForm.style.display = 'none';
       authSuccess.style.display = 'block';
       userDisplay.textContent = e;
-      // ✅ ریدایرکت با URL parameter (2 ثانیه برای اطمینان از session)
+      // ریدایرکت با URL parameter
       setTimeout(() => {
         window.location.href = './profile.html?fromLogin=true';
-      }, 2000);
+      }, 1500);
     }
 
     signOutBtn.addEventListener('click', async () => {
