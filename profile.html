@@ -286,176 +286,289 @@
       transform: translateY(-8px) scale(.95);
       transition: all .25s cubic-bezier(0.16, 1, 0.3, 1);
       z-index: 1000;
-      padding: 12px;
-      max-height: 70vh;
-      overflow-y: auto;
+      pointer-events: none;
+      overflow: hidden;
     }
 
-    .dropdown-menu.show {
+    .dropdown-menu.open {
       opacity: 1;
       visibility: visible;
       transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .dropdown-header {
+      padding: 16px 16px 12px;
+      border-bottom: 1px solid rgba(56, 189, 248, .15);
+      text-align: center;
+    }
+
+    .dropdown-header p {
+      margin: 0;
+      font-size: .85rem;
+      color: var(--accent);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .dropdown-items {
+      display: flex;
+      flex-direction: column;
+      padding: 8px 0;
     }
 
     .dropdown-item {
+      padding: 12px 16px;
+      border: none;
+      background: none;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      text-align: right;
+      font-size: .95rem;
+      transition: all .2s ease;
+      border-left: 3px solid transparent;
       display: flex;
       align-items: center;
       gap: 12px;
-      width: 100%;
-      padding: 12px 16px;
-      background: transparent;
-      border: none;
-      border-radius: 10px;
-      color: #dbe4ef;
-      cursor: pointer;
-      font-size: .95rem;
-      font-family: inherit;
+      text-decoration: none;
       font-weight: 500;
-      text-align: left;
-      transition: all .2s ease;
     }
 
     .dropdown-item:hover {
-      background: rgba(56, 189, 248, .15);
+      background: rgba(56, 189, 248, .1);
+      border-left-color: var(--accent);
       color: #fff;
-      transform: translateX(-4px);
+      padding-left: 20px;
+      padding-right: 12px;
+    }
+
+    .dropdown-item svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+      stroke-width: 2.5;
+    }
+
+    .dropdown-item.danger {
+      color: #f87171;
     }
 
     .dropdown-item.danger:hover {
-      background: rgba(239, 68, 68, .15);
-      color: #fca5a5;
+      background: rgba(248, 113, 113, .1);
+      border-left-color: #f87171;
     }
 
-    .dropdown-divider {
-      height: 1px;
-      background: rgba(255, 255, 255, .08);
-      margin: 8px 0;
-    }
-
-    /* Admin Badge */
-    .admin-badge {
-      display: inline-block;
-      padding: 4px 10px;
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: #fff;
-      margin-left: 8px;
-    }
-
-    body[data-lang="fa"] .admin-badge {
-      margin-left: 0;
-      margin-right: 8px;
-    }
-
-    /* Main Container */
     .container {
-      flex: 1;
       width: min(var(--max), calc(100% - 32px));
       margin: 0 auto;
       padding: 32px 0;
+      flex: 1;
+      overflow: visible;
     }
 
-    /* Sections */
-    .section {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      padding: 32px 28px;
-      margin-bottom: 24px;
-      backdrop-filter: blur(10px);
-    }
-
-    .section-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-
-    .section-title small {
-      font-size: 0.75rem;
-      font-weight: 600;
-      color: var(--muted);
-    }
-
-    /* Profile Header */
-    .profile-header {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: center;
-      margin-bottom: 32px;
-    }
-
-    .profile-left {
+    /* Welcome Screen - بهتر شده */
+    .welcome-screen {
       display: flex;
       flex-direction: column;
-      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      min-height: 70vh;
+      gap: 32px;
+      animation: fadeInUp .6s ease-out;
     }
 
-    .profile-avatar {
-      width: 200px;
-      height: 200px;
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, .1), rgba(167, 139, 250, .1));
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 24px;
+      padding: 48px 32px;
+      max-width: 600px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .1);
+    }
+
+    .welcome-icon {
+      width: 140px;
+      height: 140px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
       display: grid;
       place-items: center;
-      border: 3px solid rgba(255, 255, 255, .15);
-      box-shadow: 0 20px 60px rgba(56, 189, 248, .2);
-      font-size: 5rem;
-      overflow: hidden;
+      font-size: 56px;
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .3);
+      animation: welcomePulse 2.5s ease-in-out infinite;
+      margin: 0 auto 24px;
     }
 
-    .profile-avatar img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    @keyframes welcomePulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.08); }
     }
 
-    .profile-info h2 {
-      margin: 0 0 8px 0;
-      font-size: 1.8rem;
-      color: #fff;
+    .welcome-content h2 {
+      margin: 0 0 16px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #fff, var(--soft));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
     }
 
-    .profile-info p {
+    .welcome-content p {
       margin: 0;
+      font-size: 1.05rem;
       color: var(--muted);
-      font-size: 0.95rem;
+      line-height: 1.6;
+      letter-spacing: 0.3px;
     }
 
+    /* Status Section */
+    .welcome-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin: 32px 0;
+      width: 100%;
+    }
+
+    .stat-item {
+      background: rgba(15, 23, 42, .6);
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+    }
+
+    .stat-item:hover {
+      border-color: rgba(56, 189, 248, .3);
+      background: rgba(56, 189, 248, .05);
+      transform: translateY(-4px);
+    }
+
+    .stat-icon {
+      font-size: 32px;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: .9rem;
+      color: var(--muted);
+      font-weight: 500;
+      margin: 0;
+    }
+
+    .stat-value {
+      font-size: 1.1rem;
+      color: var(--accent-2);
+      font-weight: 700;
+      margin: 4px 0 0;
+    }
+
+    /* Welcome Buttons */
+    .welcome-buttons {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      width: 100%;
+      margin-top: 24px;
+    }
+
+    .btn-welcome {
+      padding: 14px 24px;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: rgba(255, 255, 255, .08);
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all .25s ease;
+      font-family: inherit;
+      font-size: .95rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-welcome:hover {
+      background: rgba(56, 189, 248, .2);
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .btn-welcome.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
+    }
+
+    .btn-welcome.primary:hover {
+      box-shadow: 0 12px 32px rgba(56, 189, 248, .3);
+      transform: translateY(-4px);
+    }
+
+    /* Main Content */
+    .main-content {
+      display: none;
+      overflow: visible;
+    }
+
+    .main-content.show {
+      display: block;
+      overflow: visible;
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* Tabs */
     .tabs {
       display: flex;
-      gap: 8px;
+      gap: 12px;
       border-bottom: 1px solid var(--line);
-      margin-bottom: 24px;
-      overflow-x: auto;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
     }
 
     .tab-btn {
-      padding: 12px 16px;
+      padding: 10px 20px;
       border: none;
-      background: transparent;
+      background: none;
       color: var(--muted);
       cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 500;
-      border-bottom: 2px solid transparent;
-      transition: all .25s;
-      white-space: nowrap;
+      font-weight: 600;
+      transition: all .25s ease;
+      border-bottom: 3px solid transparent;
+      font-family: inherit;
+      position: relative;
+      bottom: -16px;
     }
 
     .tab-btn.active {
-      color: var(--accent);
+      color: #fff;
       border-bottom-color: var(--accent);
+      bottom: -16px;
     }
 
-    .tab-btn:hover:not(.active) {
-      color: var(--text);
+    .tab-btn:hover {
+      color: var(--soft);
     }
 
     .tab-content {
@@ -466,202 +579,244 @@
       display: block;
     }
 
-    /* File Upload */
-    .upload-zone {
-      border: 2px dashed rgba(56, 189, 248, .3);
-      border-radius: 16px;
-      padding: 32px;
-      text-align: center;
-      cursor: pointer;
-      transition: all .25s;
-      background: rgba(56, 189, 248, .05);
+    /* Personal Settings */
+    .form-group {
+      margin-bottom: 24px;
+      overflow: visible;
+      position: relative;
     }
 
-    .upload-zone:hover {
-      border-color: var(--accent);
-      background: rgba(56, 189, 248, .1);
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: var(--soft);
+      font-weight: 600;
+      font-size: .95rem;
     }
 
-    .upload-zone.dragover {
-      border-color: var(--accent);
-      background: rgba(56, 189, 248, .15);
-    }
-
-    .upload-zone-icon {
-      font-size: 3rem;
-      margin-bottom: 12px;
-    }
-
-    .upload-zone-text {
-      color: var(--text);
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, .6);
+      color: #fff;
+      font-family: inherit;
+      transition: all .25s ease;
       font-size: 1rem;
-      font-weight: 500;
-      margin-bottom: 4px;
     }
 
-    .upload-zone-hint {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    #fileInput {
-      display: none;
-    }
-
-    .file-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px;
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      margin-bottom: 12px;
-      transition: all .25s;
-    }
-
-    .file-item:hover {
-      background: rgba(56, 189, 248, .08);
-      border-color: rgba(56, 189, 248, .3);
-    }
-
-    .file-item-info {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      flex: 1;
-    }
-
-    .file-item-icon {
-      font-size: 1.8rem;
-    }
-
-    .file-item-details p {
-      margin: 0;
-    }
-
-    .file-item-name {
-      color: #fff;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .file-item-meta {
-      color: var(--muted);
-      font-size: 0.85rem;
-    }
-
-    .file-item-actions {
-      display: flex;
-      gap: 8px;
-    }
-
-    .file-btn {
-      padding: 8px 12px;
-      border: 1px solid rgba(56, 189, 248, .3);
-      background: transparent;
-      color: var(--accent);
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      font-weight: 500;
-      transition: all .25s;
-    }
-
-    .file-btn:hover {
-      background: rgba(56, 189, 248, .2);
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+      outline: none;
       border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+      box-shadow: 0 0 0 3px rgba(56, 189, 248, .1);
     }
 
-    .file-btn.delete {
-      color: #fca5a5;
-      border-color: rgba(239, 68, 68, .3);
+    .form-group textarea {
+      resize: vertical;
+      min-height: 100px;
     }
 
-    .file-btn.delete:hover {
-      background: rgba(239, 68, 68, .2);
-      border-color: #fca5a5;
+    /* Custom Dropdown */
+    .dropdown-wrapper {
+      position: relative;
+      z-index: 100;
+      overflow: visible;
     }
 
-    .empty-state {
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .empty-state-icon {
-      font-size: 3rem;
-      margin-bottom: 16px;
-    }
-
-    .empty-state h3 {
-      margin: 0 0 8px 0;
+    .dropdown-toggle {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 10px;
+      background: rgba(15, 23, 42, .6);
       color: #fff;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      transition: all .25s ease;
+      position: relative;
+      z-index: 100;
     }
 
-    .empty-state p {
-      margin: 0;
-      color: var(--muted);
+    .dropdown-toggle:hover {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+    }
+
+    .dropdown-toggle.open {
+      border-color: var(--accent);
+      background: rgba(15, 23, 42, .8);
+    }
+
+    .dropdown-content {
+      position: absolute;
+      top: calc(100% + 4px);
+      left: 0;
+      right: 0;
+      background: rgba(15, 23, 42, .95);
+      border: 1px solid var(--accent);
+      border-radius: 10px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, .3);
+      z-index: 10000;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px) scaleY(.95);
+      transform-origin: top;
+      transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+      max-height: 200px;
+      overflow-y: auto;
+      pointer-events: none;
+    }
+
+    .dropdown-content.open {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0) scaleY(1);
+      max-height: 200px;
+      pointer-events: auto;
+    }
+
+    .dropdown-option {
+      padding: 12px 16px;
+      color: var(--text);
+      cursor: pointer;
+      transition: all .15s ease;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border-left: 3px solid transparent;
+      white-space: nowrap;
+    }
+
+    .dropdown-option:hover {
+      background: rgba(56, 189, 248, .1);
+      border-left-color: var(--accent);
+      color: #fff;
+      padding-left: 20px;
+    }
+
+    .dropdown-option.selected {
+      background: rgba(56, 189, 248, .15);
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    /* Cards */
+    .card {
+      background: linear-gradient(135deg, rgba(56, 189, 248, .05), rgba(167, 139, 250, .05));
+      border: 1px solid rgba(255, 255, 255, .08);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      backdrop-filter: blur(10px);
+      transition: all .3s ease;
+      overflow: visible;
+      position: relative;
+    }
+
+    .card:hover {
+      border-color: rgba(56, 189, 248, .2);
+      background: linear-gradient(135deg, rgba(56, 189, 248, .08), rgba(167, 139, 250, .08));
+    }
+
+    .card h3 {
+      margin: 0 0 16px;
+      font-size: 1.2rem;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(34, 197, 94, .15);
+      border: 1px solid rgba(34, 197, 94, .3);
+      border-radius: 8px;
+      color: var(--accent-2);
+      font-size: .9rem;
+      font-weight: 600;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-2);
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .5; }
     }
 
     /* Buttons */
     .btn {
-      padding: 10px 16px;
-      border: 1px solid transparent;
-      border-radius: 8px;
-      background: rgba(56, 189, 248, .1);
-      color: var(--text);
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #000;
       cursor: pointer;
-      font-size: 0.95rem;
-      font-weight: 500;
-      transition: all .25s;
-      text-decoration: none;
+      font-weight: 600;
+      transition: all .25s ease;
+      font-family: inherit;
+      font-size: 1rem;
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
 
-    .btn:hover {
-      background: rgba(56, 189, 248, .2);
-      border-color: var(--accent);
-      transform: translateY(-1px);
+    .btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 32px rgba(56, 189, 248, .3);
     }
 
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #0ea5e9);
+    .btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .btn:disabled {
+      opacity: .6;
+      cursor: not-allowed;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, .1);
       color: #fff;
-      border-color: var(--accent);
     }
 
-    .btn-primary:hover {
-      box-shadow: 0 8px 20px rgba(56, 189, 248, .3);
+    .btn-secondary:hover:not(:disabled) {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .2);
     }
 
     /* Messages */
-    .alert {
-      padding: 16px 20px;
-      border-radius: 12px;
+    .message {
+      padding: 16px;
+      border-radius: 10px;
       margin-bottom: 16px;
       display: none;
-      animation: slideIn .3s ease;
+      animation: slideDown .3s ease-out;
     }
 
-    .alert.show {
-      display: block;
-    }
-
-    .alert.success {
-      background: rgba(34, 197, 94, .15);
-      border: 1px solid rgba(34, 197, 94, .3);
-      color: #86efac;
-    }
-
-    .alert.error {
-      background: rgba(239, 68, 68, .15);
-      border: 1px solid rgba(239, 68, 68, .3);
-      color: #fca5a5;
-    }
-
-    @keyframes slideIn {
+    @keyframes slideDown {
       from {
         opacity: 0;
         transform: translateY(-10px);
@@ -672,932 +827,2295 @@
       }
     }
 
-    /* Forms */
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 8px;
-      color: var(--text);
-      font-weight: 500;
-      font-size: 0.95rem;
-    }
-
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
-      width: 100%;
-      padding: 12px;
-      border: 1px solid var(--line);
-      background: rgba(255, 255, 255, .05);
-      color: var(--text);
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: all .25s;
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
-      outline: none;
-      border-color: var(--accent);
-      background: rgba(56, 189, 248, .05);
-      box-shadow: 0 0 0 3px rgba(56, 189, 248, .1);
-    }
-
-    .form-group textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
-
-    /* Dropdown */
-    .category-options {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .category-option {
-      padding: 10px 16px;
-      border: 1px solid var(--line);
-      background: transparent;
-      color: var(--text);
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all .25s;
-      font-weight: 500;
-    }
-
-    .category-option:hover {
-      border-color: var(--accent);
-      background: rgba(56, 189, 248, .1);
-    }
-
-    .category-option.selected {
-      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .3));
-      border-color: var(--accent);
-      color: #fff;
-    }
-
-    /* Grid */
-    .grid-2 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 16px;
-    }
-
-    .grid-3 {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 16px;
-    }
-
-    /* Cards */
-    .card {
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid var(--line);
-      border-radius: 12px;
-      padding: 20px;
-      transition: all .25s;
-    }
-
-    .card:hover {
-      background: rgba(56, 189, 248, .08);
-      border-color: rgba(56, 189, 248, .3);
-    }
-
-    .card-title {
-      color: #fff;
-      font-weight: 600;
-      margin-bottom: 8px;
-    }
-
-    .card-text {
-      color: var(--muted);
-      font-size: 0.9rem;
-      margin: 0;
-    }
-
-    .fileSelectedInfo {
-      display: none;
-      padding: 12px 16px;
+    .message.success {
       background: rgba(34, 197, 94, .15);
       border: 1px solid rgba(34, 197, 94, .3);
-      border-radius: 8px;
-      color: #86efac;
+      color: var(--accent-2);
+    }
+
+    .message.error {
+      background: rgba(248, 113, 113, .15);
+      border: 1px solid rgba(248, 113, 113, .3);
+      color: #f87171;
+    }
+
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 48px 24px;
+      color: var(--muted);
+    }
+
+    .empty-state-icon {
+      font-size: 48px;
       margin-bottom: 16px;
-      font-size: 0.9rem;
+      opacity: .5;
     }
 
-    .fileSelectedInfo.show {
-      display: block;
+    .empty-state h3 {
+      margin: 0 0 8px;
+      color: var(--soft);
+      font-size: 1.1rem;
     }
 
-    /* Message Container */
-    .message-item {
-      background: rgba(255, 255, 255, .03);
-      border: 1px solid var(--line);
+    .empty-state p {
+      margin: 0;
+      font-size: .95rem;
+    }
+
+    /* Suggestion Item */
+    .suggestion-item {
+      background: rgba(15, 23, 42, .4);
+      border: 1px solid rgba(255, 255, 255, .06);
       border-radius: 12px;
       padding: 16px;
       margin-bottom: 12px;
+      transition: all .25s ease;
+      overflow-wrap: break-word;
+      word-break: break-word;
     }
 
-    .message-header {
+    .suggestion-item:hover {
+      background: rgba(15, 23, 42, .6);
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .suggestion-item-header {
       display: flex;
       justify-content: space-between;
-      align-items: start;
-      margin-bottom: 12px;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
     }
 
-    .message-author {
+    .suggestion-item-title {
       font-weight: 600;
+      color: #fff;
+      margin: 0;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .suggestion-item-category {
+      font-size: .8rem;
+      background: rgba(56, 189, 248, .15);
+      border: 1px solid rgba(56, 189, 248, .3);
+      color: var(--accent);
+      padding: 4px 10px;
+      border-radius: 6px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .suggestion-item-status {
+      font-size: .8rem;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-weight: 500;
+    }
+
+    .suggestion-item-status.pending {
+      background: rgba(234, 179, 8, .15);
+      color: #eab308;
+    }
+
+    .suggestion-item-status.reviewed {
+      background: rgba(56, 189, 248, .15);
+      color: var(--accent);
+    }
+
+    .suggestion-item-status.completed {
+      background: rgba(34, 197, 94, .15);
+      color: var(--accent-2);
+    }
+
+    .suggestion-item-description {
+      color: var(--muted);
+      font-size: .95rem;
+      margin: 8px 0 8px;
+      line-height: 1.5;
+      word-break: break-word;
+      overflow-wrap: break-word;
+    }
+
+    .suggestion-item-date {
+      font-size: .85rem;
+      color: var(--muted);
+    }
+
+    /* File Input */
+    .file-input-wrapper {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .file-input-wrapper input[type="file"] {
+      display: none;
+    }
+
+    .file-input-label {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 24px;
+      border: 2px dashed var(--accent);
+      border-radius: 12px;
+      background: rgba(56, 189, 248, .05);
+      cursor: pointer;
+      transition: all .25s ease;
+      text-align: center;
+    }
+
+    .file-input-label:hover {
+      background: rgba(56, 189, 248, .1);
+      border-color: var(--accent-2);
+    }
+
+    .file-input-label span {
+      font-size: 1rem;
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* File Item */
+    .file-item {
+      background: rgba(15, 23, 42, .4);
+      border: 1px solid rgba(255, 255, 255, .06);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      transition: all .25s ease;
+    }
+
+    .file-item:hover {
+      background: rgba(15, 23, 42, .6);
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .file-item-info {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .file-item-icon {
+      font-size: 24px;
+      flex-shrink: 0;
+    }
+
+    .file-item-details {
+      flex: 1;
+    }
+
+    .file-item-name {
+      font-weight: 600;
+      color: #fff;
+      margin: 0;
+      word-break: break-word;
+    }
+
+    .file-item-meta {
+      display: flex;
+      gap: 12px;
+      font-size: .85rem;
+      color: var(--muted);
+      margin: 4px 0 0;
+    }
+
+    .file-item-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .file-btn {
+      padding: 6px 12px;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, .06);
+      color: var(--text);
+      cursor: pointer;
+      font-size: .85rem;
+      font-weight: 500;
+      transition: all .2s ease;
+      font-family: inherit;
+    }
+
+    .file-btn:hover {
+      background: rgba(255, 255, 255, .12);
+      border-color: rgba(255, 255, 255, .2);
+    }
+
+    .file-btn.delete {
+      color: #f87171;
+    }
+
+    .file-selected-info {
+      display: none;
+      padding: 16px;
+      background: rgba(34, 197, 94, .1);
+      border: 1px solid rgba(34, 197, 94, .3);
+      border-radius: 10px;
+      margin-top: 12px;
+      color: var(--accent-2);
+      font-size: .95rem;
+      animation: slideDown .3s ease;
+    }
+
+    .file-selected-info.show {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .file-selected-info p {
+      margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .file-selected-info strong {
       color: #fff;
     }
 
-    .message-time {
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .file-btn.delete:hover {
+      background: rgba(248, 113, 113, .1);
+      border-color: rgba(248, 113, 113, .3);
+    }
+
+    /* Exam Styles */
+    .exam-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .exam-card {
+      padding: 28px 24px;
+      border: 2px solid transparent;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(15, 23, 42, .6), rgba(30, 41, 59, .5));
+      cursor: pointer;
+      transition: all .35s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .exam-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 50% 0%, rgba(56, 189, 248, .1), transparent 60%);
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+
+    .exam-card.beginner {
+      border-color: rgba(34, 197, 94, .2);
+    }
+
+    .exam-card.beginner:hover {
+      border-color: rgba(34, 197, 94, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(34, 197, 94, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.beginner:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card.intermediate {
+      border-color: rgba(56, 189, 248, .2);
+    }
+
+    .exam-card.intermediate:hover {
+      border-color: rgba(56, 189, 248, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(56, 189, 248, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.intermediate:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card.advanced {
+      border-color: rgba(248, 113, 113, .2);
+    }
+
+    .exam-card.advanced:hover {
+      border-color: rgba(248, 113, 113, .5);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .8), rgba(30, 41, 59, .7));
+      box-shadow: 0 12px 40px rgba(248, 113, 113, .15);
+      transform: translateY(-4px);
+    }
+
+    .exam-card.advanced:hover::before {
+      opacity: 1;
+    }
+
+    .exam-card-icon {
+      font-size: 3.5rem;
+      margin-bottom: 16px;
+      transition: transform .35s ease;
+    }
+
+    .exam-card:hover .exam-card-icon {
+      transform: scale(1.15) rotateZ(5deg);
+    }
+
+    .exam-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.4rem;
+      color: #fff;
+      font-weight: 700;
+      position: relative;
+      z-index: 1;
+    }
+
+    .exam-card p {
+      margin: 0 0 16px;
       color: var(--muted);
-      font-size: 0.85rem;
+      font-size: .95rem;
+      position: relative;
+      z-index: 1;
     }
 
-    .message-text {
-      color: var(--text);
-      line-height: 1.5;
+    .exam-card-stats {
+      display: flex;
+      gap: 8px;
+      margin-top: auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Course link card (exams tab) */
+    .course-link-card {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      padding: 36px 40px;
+      border: 2px solid rgba(56, 189, 248, .25);
+      border-radius: var(--radius);
+      background:
+        radial-gradient(circle at 15% 20%, rgba(56, 189, 248, .12), transparent 55%),
+        linear-gradient(135deg, rgba(15, 23, 42, .75), rgba(30, 41, 59, .6));
+      text-decoration: none;
+      cursor: pointer;
+      transition: all .35s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, .25);
+    }
+
+    .course-link-card:hover {
+      border-color: rgba(56, 189, 248, .55);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(56, 189, 248, .18);
+    }
+
+    .course-link-icon {
+      font-size: 3.2rem;
+      flex-shrink: 0;
+      width: 84px;
+      height: 84px;
+      display: grid;
+      place-items: center;
+      border-radius: 20px;
+      background: rgba(56, 189, 248, .12);
+      border: 1px solid rgba(56, 189, 248, .25);
+    }
+
+    .course-link-text {
+      flex: 1;
+    }
+
+    .course-link-text h3 {
+      margin: 0 0 6px;
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .course-link-text p {
       margin: 0;
+      color: var(--muted);
+      font-size: .95rem;
     }
 
-    /* Responsive */
-    @media (max-width: 768px) {
-      .profile-header {
-        grid-template-columns: 1fr;
+    .course-link-arrow {
+      font-size: 1.6rem;
+      color: var(--accent);
+      flex-shrink: 0;
+      transition: transform .3s ease;
+    }
+
+    .course-link-card:hover .course-link-arrow {
+      transform: translateX(-6px);
+    }
+
+    @media (max-width: 600px) {
+      .course-link-card {
+        padding: 24px;
         gap: 16px;
       }
 
-      .profile-avatar {
-        width: 120px;
-        height: 120px;
-        font-size: 3rem;
-        margin: 0 auto;
+      .course-link-icon {
+        width: 60px;
+        height: 60px;
+        font-size: 2.2rem;
       }
 
-      .section {
-        padding: 20px 16px;
+      .course-link-text h3 {
+        font-size: 1.2rem;
+      }
+    }
+
+    .score-badge {
+      padding: 6px 14px;
+      background: rgba(56, 189, 248, .15);
+      border: 1px solid rgba(56, 189, 248, .3);
+      border-radius: 20px;
+      color: var(--accent);
+      font-size: .85rem;
+      font-weight: 600;
+    }
+
+    .history-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .history-item {
+      padding: 16px;
+      background: rgba(56, 189, 248, .05);
+      border: 1px solid rgba(56, 189, 248, .15);
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all .25s ease;
+    }
+
+    .history-item:hover {
+      background: rgba(56, 189, 248, .1);
+      border-color: rgba(56, 189, 248, .3);
+    }
+
+    .history-item-info h4 {
+      margin: 0 0 4px;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .history-item-info p {
+      margin: 0;
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .history-item-score {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .score-value {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--accent);
+      min-width: 60px;
+      text-align: center;
+    }
+
+    @media (max-width: 768px) {
+      :root {
+        --max: 100%;
+      }
+
+      .topbar-inner {
+        width: calc(100% - 24px);
+        gap: 12px;
+        padding: 10px 0;
+      }
+
+      .brand {
+        gap: 8px;
+      }
+
+      .brand h1 {
+        font-size: .9rem;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+      }
+
+      .welcome-card {
+        padding: 28px 20px;
+      }
+
+      .welcome-content h2 {
+        font-size: 1.6rem;
+        line-height: 1.3;
+      }
+
+      .welcome-stats {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-buttons {
+        grid-template-columns: 1fr;
+        gap: 10px;
+      }
+
+      .btn-welcome {
+        padding: 12px 16px;
+        font-size: .9rem;
+      }
+
+      .tabs {
+        gap: 6px;
+        overflow-x: auto;
+        padding-bottom: 8px;
+      }
+
+      .tab-btn {
+        white-space: nowrap;
+        padding: 8px 12px;
+        font-size: .85rem;
+      }
+
+      .container {
+        width: calc(100% - 24px);
+        padding: 20px 0;
+      }
+
+      .card {
+        padding: 16px;
+        margin-bottom: 16px;
+      }
+
+      .card h3 {
+        font-size: 1.1rem;
+        margin: 0 0 12px;
+      }
+
+      .form-group {
+        margin-bottom: 16px;
+      }
+
+      .file-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .file-item-info {
+        width: 100%;
+      }
+
+      .file-item-actions {
+        width: 100%;
+        flex-direction: column;
+      }
+
+      .file-btn {
+        width: 100%;
+      }
+
+      .suggestion-item {
+        padding: 14px;
+      }
+
+      .dropdown-menu {
+        width: calc(100vw - 40px);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .topbar-inner {
+        width: calc(100% - 16px);
+        gap: 8px;
+      }
+
+      .brand {
+        gap: 6px;
+      }
+
+      .brand h1 {
+        font-size: .8rem;
+      }
+
+      .brand small {
+        font-size: .65rem;
+      }
+
+      .avatar {
+        width: 36px;
+        height: 36px;
+      }
+
+      .welcome-card {
+        padding: 24px 16px;
+      }
+
+      .welcome-icon {
+        font-size: 64px;
+      }
+
+      .welcome-content h2 {
+        font-size: 1.4rem;
+      }
+
+      .welcome-content p {
+        font-size: .95rem;
+      }
+
+      .welcome-stats {
+        gap: 8px;
+      }
+
+      .stat-item {
+        padding: 12px;
+        font-size: .85rem;
+      }
+
+      .welcome-buttons {
+        gap: 8px;
+      }
+
+      .btn-welcome {
+        padding: 10px 12px;
+        font-size: .85rem;
       }
 
       .tabs {
         gap: 4px;
+        padding: 12px 0;
       }
 
       .tab-btn {
-        padding: 10px 12px;
-        font-size: 0.85rem;
+        padding: 6px 10px;
+        font-size: .8rem;
       }
 
-      .grid-2,
-      .grid-3 {
-        grid-template-columns: 1fr;
+      .container {
+        width: calc(100% - 12px);
+        padding: 16px 0;
+      }
+
+      .card {
+        padding: 14px;
+        margin-bottom: 12px;
+      }
+
+      .card h3 {
+        font-size: 1rem;
+        margin: 0 0 10px;
+      }
+
+      .form-group label {
+        font-size: .85rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        font-size: 16px;
+        padding: 10px 12px;
+      }
+
+      .file-item-meta {
+        flex-direction: column;
+        gap: 4px;
+      }
+
+      .file-btn {
+        padding: 6px 10px;
+        font-size: .8rem;
+      }
+
+      .btn {
+        padding: 10px 14px;
+        font-size: .9rem;
+      }
+
+      .suggestion-item {
+        padding: 12px;
+      }
+
+      .suggestion-item-title {
+        font-size: .95rem;
+      }
+
+      .suggestion-item-category {
+        font-size: .7rem;
+      }
+
+      .dropdown-menu {
+        width: calc(100vw - 32px);
+        right: 16px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brand h1 {
+        display: none;
+      }
+
+      .avatar {
+        width: 32px;
+        height: 32px;
+      }
+
+      .welcome-card {
+        padding: 20px 12px;
+      }
+
+      .welcome-content h2 {
+        font-size: 1.2rem;
+      }
+
+      .btn-welcome {
+        padding: 8px 10px;
+        font-size: .8rem;
+      }
+
+      .tabs {
+        gap: 2px;
+      }
+
+      .tab-btn {
+        padding: 6px 8px;
+        font-size: .75rem;
+      }
+
+      .container {
+        width: calc(100% - 8px);
+        padding: 12px 0;
+      }
+
+      .card {
+        padding: 12px;
+        margin-bottom: 10px;
+      }
+
+      .card h3 {
+        font-size: .95rem;
+      }
+
+      .form-group input,
+      .form-group textarea {
+        font-size: 16px;
+      }
+
+      .file-item {
+        gap: 8px;
+      }
+
+      .file-btn {
+        padding: 6px 8px;
+        font-size: .75rem;
+      }
+
+      .btn {
+        padding: 8px 12px;
+        font-size: .85rem;
+      }
+
+      .stat-item {
+        padding: 10px;
+      }
+
+      .dropdown-menu {
+        width: calc(100vw - 24px);
       }
     }
   </style>
 </head>
-<body data-lang="en">
+<body>
   <!-- Topbar -->
   <div class="topbar">
     <div class="topbar-inner">
       <a href="/" class="brand">
-        <div class="avatar">
-          <span>A</span>
-        </div>
+        <div class="avatar" id="headerAvatar"><span>A</span></div>
         <div>
-          <h1>Amirali Gholian</h1>
-          <small>Developer</small>
+          <h1 data-i18n="brand_title">پروفایل من</h1>
+          <small data-i18n="brand_subtitle">مدیریت حساب</small>
         </div>
       </a>
       <nav>
-        <button class="back-btn" onclick="window.history.back()">← Back</button>
-        <button class="lang-btn active" data-lang="en" title="English">EN</button>
-        <button class="lang-btn" data-lang="fa" title="فارسی">FA</button>
-        <button class="menu-btn" id="menuBtn">⋮</button>
-      </nav>
-      <div class="dropdown-menu" id="dropdownMenu">
-        <button class="dropdown-item" onclick="alert('حساب کاربری شما')">👤 Profile</button>
-        <button class="dropdown-item" id="adminPanelBtn" style="display:none;">
-          🛡️ Admin Panel
+        <button class="back-btn" id="backBtn"><span data-i18n="back">← Back</span></button>
+        
+        <!-- Language Toggle Button -->
+        <button class="lang-btn" id="langBtn">
+          <span id="langIcon">🌍</span>
+          <span id="langText">فارسی</span>
         </button>
-        <div class="dropdown-divider"></div>
-        <button class="dropdown-item" onclick="toggleLanguage()">🌍 Language</button>
-        <button class="dropdown-item danger" id="signOutDropdownBtn">🚪 Sign Out</button>
-      </div>
+
+        <button class="menu-btn" id="menuBtn">⋮</button>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <div class="dropdown-header">
+            <p data-i18n="menu_title">منو سریع</p>
+          </div>
+          <div class="dropdown-items">
+            <button class="dropdown-item" id="personalSettingsBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              <span data-i18n="menu_personal">مشخصات</span>
+            </button>
+            <button class="dropdown-item" id="supportBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+              </svg>
+              <span data-i18n="menu_support">پشتیبانی</span>
+            </button>
+            <button class="dropdown-item" id="suggestionsBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L15.09 8.26H22L17.55 12.5L20.16 18.5H12L7.46 14.27L1 14.27L5.5 9.73L2.5 3.73H10M12 5.64L9.04 11.01H14.96L12 5.64Z" fill="currentColor"></path>
+              </svg>
+              <span data-i18n="menu_suggestions">پیشنهادات</span>
+            </button>
+            <button class="dropdown-item danger" id="signOutDropdownBtn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                <polyline points="16 17 21 12 16 7"></polyline>
+                <line x1="21" y1="12" x2="9" y2="12"></line>
+              </svg>
+              <span data-i18n="menu_signout">خروج</span>
+            </button>
+          </div>
+        </div>
+      </nav>
     </div>
   </div>
 
-  <!-- Main Content -->
+  <!-- Container -->
   <div class="container">
-    <!-- Profile Section -->
-    <div class="section" id="profileSection">
-      <div class="profile-header">
-        <div class="profile-left">
-          <div class="profile-avatar" id="profileAvatar">A</div>
+    <!-- Welcome Screen -->
+    <div class="welcome-screen" id="welcomeScreen">
+      <div class="welcome-card">
+        <div class="welcome-icon">👋</div>
+        <div class="welcome-content">
+          <h2><span data-i18n="welcome_greeting">خوش آمدید، </span><span id="userFirstName">کاربر</span></h2>
+          <p data-i18n="welcome_desc">از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.</p>
         </div>
-        <div class="profile-info">
-          <h2 id="profileName">Loading...</h2>
-          <p id="profileEmail">-</p>
-          <p id="profileRole">-</p>
+
+        <!-- Status Section -->
+        <div class="welcome-stats">
+          <div class="stat-item">
+            <div class="stat-icon">🟢</div>
+            <p class="stat-label" data-i18n="account_status_label">وضعیت حساب</p>
+            <p class="stat-value" data-i18n="account_status_value">فعال</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">⏱️</div>
+            <p class="stat-label" data-i18n="last_update_label">آخرین بروزرسانی</p>
+            <p class="stat-value" id="lastUpdateWelcome">-</p>
+          </div>
+          <div class="stat-item">
+            <div class="stat-icon">✅</div>
+            <p class="stat-label" data-i18n="profile_status_label">پروفایل</p>
+            <p class="stat-value" data-i18n="profile_status_value">تکمیل شده</p>
+          </div>
+        </div>
+
+        <!-- Welcome Buttons -->
+        <div class="welcome-buttons">
+          <button class="btn-welcome primary" id="editProfileBtn">
+            <span>✏️</span>
+            <span data-i18n="edit_profile">ویرایش پروفایل</span>
+          </button>
+          <button class="btn-welcome" id="viewExamsBtn">
+            <span>📝</span>
+            <span data-i18n="view_exams">آزمون‌ها</span>
+          </button>
+          <button class="btn-welcome" id="manageFilesBtn2">
+            <span>📂</span>
+            <span data-i18n="manage_files">مدیریت فایل‌ها</span>
+          </button>
+          <button class="btn-welcome" id="sendSupportBtn2">
+            <span>💬</span>
+            <span data-i18n="contact_support">ارتباط با پشتیبانی</span>
+          </button>
+          <button class="btn-welcome" id="sendSuggestionBtn2">
+            <span>⭐</span>
+            <span data-i18n="send_suggestion_btn">ارسال پیشنهاد</span>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- Alerts -->
-    <div class="alert success" id="successMsg"></div>
-    <div class="alert error" id="errorMsg"></div>
-
-    <!-- Tabs -->
-    <div class="section">
+    <!-- Main Content -->
+    <div class="main-content" id="mainContent">
+      <!-- Tabs -->
       <div class="tabs">
-        <button class="tab-btn active" onclick="switchTab('files')">📁 Files</button>
-        <button class="tab-btn" onclick="switchTab('messages')">💬 Messages</button>
-        <button class="tab-btn" onclick="switchTab('suggestions')">💡 Suggestions</button>
+        <button class="tab-btn active" data-tab="personal" data-i18n="tab_personal">مشخصات شخصی</button>
+        <button class="tab-btn" data-tab="exams" data-i18n="tab_exams">📝 آزمون ها</button>
+        <button class="tab-btn" data-tab="support" data-i18n="tab_support">پشتیبانی</button>
+        <button class="tab-btn" data-tab="suggestions" data-i18n="tab_suggestions">پیشنهادات</button>
+        <button class="tab-btn" data-tab="files" data-i18n="tab_files">مدیریت فایل‌ها</button>
+      </div>
+
+      <!-- Messages -->
+      <div class="message success" id="successMsg" data-i18n="success_generic">✅ عملیات موفقیت‌آمیز بود!</div>
+      <div class="message error" id="errorMsg" data-i18n="error_generic">❌ خطایی رخ داد</div>
+
+      <!-- Personal Settings Tab -->
+      <div class="tab-content active" id="personal-tab">
+        <div class="card">
+          <h3 data-i18n="account_info_title">🔐 اطلاعات حساب</h3>
+          <div class="form-group">
+            <label data-i18n="email_label">ایمیل</label>
+            <input type="email" id="emailInput" disabled>
+          </div>
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+            <div class="form-group">
+              <label data-i18n="first_name_label">نام</label>
+              <input type="text" id="firstNameInput" data-i18n-placeholder="first_name_placeholder" placeholder="نام خود را وارد کنید">
+            </div>
+            <div class="form-group">
+              <label data-i18n="last_name_label">نام خانوادگی</label>
+              <input type="text" id="lastNameInput" data-i18n-placeholder="last_name_placeholder" placeholder="نام خانوادگی خود را وارد کنید">
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 data-i18n="additional_info_title">👤 اطلاعات اضافی</h3>
+          <div class="form-group">
+            <label data-i18n="username_label">نام کاربری</label>
+            <input type="text" id="usernameInput" data-i18n-placeholder="username_placeholder" placeholder="نام کاربری خود را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label data-i18n="phone_label">تلفن</label>
+            <input type="tel" id="phoneInput" data-i18n-placeholder="phone_placeholder" placeholder="شماره تماس خود را وارد کنید">
+          </div>
+        </div>
+
+        <!-- Avatar Preview -->
+        <div class="card">
+          <h3 data-i18n="avatar_preview_title">🖼️ پیش‌نمایش آواتار</h3>
+          <div style="display: flex; align-items: center; gap: 20px;">
+            <div class="avatar" style="width: 80px; height: 80px;" id="avatarPreview">
+              <span id="previewInitial">A</span>
+            </div>
+            <div>
+              <p style="margin: 0 0 8px; color: var(--muted);" data-i18n="avatar_preview_desc">این تصویر در پروفایل شما نمایش داده می‌شود</p>
+              <input type="file" id="avatarInput" accept="image/*" style="display:none;">
+              <button class="btn-secondary" id="changeAvatarBtn" data-i18n="change_image">تغییر تصویر</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <button class="btn" id="saveBtn" data-i18n="save_changes">💾 ذخیره تغییرات</button>
+      </div>
+
+      <!-- Exams Tab -->
+      <div class="tab-content" id="exams-tab">
+        <a href="./python02.html" class="course-link-card">
+          <div class="course-link-icon">🐍</div>
+          <div class="course-link-text">
+            <h3 data-i18n="python_exam_title">آزمون پایتون</h3>
+            <p data-i18n="python_exam_desc">انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات</p>
+          </div>
+          <div class="course-link-arrow">←</div>
+        </a>
+        
+        <a href="./linux02.html" class="course-link-card">
+          <div class="course-link-icon">🐧</div>
+          <div class="course-link-text">
+            <h3 data-i18n="linux_exam_title">آزمون لینوکس (LPIC)</h3>
+            <p data-i18n="linux_exam_desc">آمادگی برای آزمون‌های LPIC-1 و LPIC-2</p>
+          </div>
+          <div class="course-link-arrow">←</div>
+        </a>
+      </div>
+
+      <!-- Support Tab -->
+      <div class="tab-content" id="support-tab">
+        <div class="card">
+          <h3 data-i18n="send_support_title">📧 ارسال پیام به پشتیبانی</h3>
+          <div class="form-group">
+            <label data-i18n="subject_label">موضوع</label>
+            <input type="text" id="supportSubject" data-i18n-placeholder="subject_placeholder" placeholder="موضوع پیام خود را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label data-i18n="message_label">پیام</label>
+            <textarea id="supportMessage" data-i18n-placeholder="message_placeholder" placeholder="پیام خود را اینجا بنویسید..."></textarea>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn" id="sendSupportMessageBtn" data-i18n="send_message">📤 ارسال پیام</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('supportSubject').value = ''; document.getElementById('supportMessage').value = '';" data-i18n="clear">🔄 پاک کردن</button>
+          </div>
+        </div>
+
+        <!-- Support Info -->
+        <div class="card">
+          <h3 data-i18n="contact_info_title">📞 اطلاعات تماس</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-size: 24px;">📧</div>
+              <div>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="email_label">ایمیل</p>
+                <p style="font-weight: 600; margin: 0; font-size: 1rem;">amirali.gholian.1380.80@gmail.com</p>
+              </div>
+            </div>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <div style="font-size: 24px;">📱</div>
+              <div>
+                <p style="color: var(--muted); font-size: .85rem; margin: 0 0 4px; text-transform: uppercase; letter-spacing: 0.5px;" data-i18n="phone_label">تلفن</p>
+                <p style="font-weight: 600; margin: 0; font-size: 1rem; direction: ltr;">09378835414</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
 
       <!-- Files Tab -->
-      <div id="files" class="tab-content active">
-        <h3 class="section-title">📁 My Files</h3>
-        
-        <div class="upload-zone" id="uploadZone">
-          <div class="upload-zone-icon">📤</div>
-          <div class="upload-zone-text">Click or drag files here</div>
-          <div class="upload-zone-hint">Max file size: 50 MB</div>
-          <input type="file" id="fileInput" />
+      <div class="tab-content" id="files-tab">
+        <!-- Upload File -->
+        <div class="card">
+          <h3 data-i18n="upload_new_file_title">📤 آپلود فایل جدید</h3>
+          <div class="form-group">
+            <label data-i18n="select_file_label">انتخاب فایل</label>
+            <div class="file-input-wrapper">
+              <input type="file" id="fileInput" accept="*/*">
+              <label for="fileInput" class="file-input-label">
+                <span data-i18n="drop_file_here">📁 فایل را اینجا بیندازید یا کلیک کنید</span>
+              </label>
+              <div class="file-selected-info" id="fileSelectedInfo">
+                <p>✅ <strong id="selectedFileName" data-i18n="file_selected">فایل انتخاب شد</strong></p>
+                <p><span data-i18n="file_selected_hint_prefix">📤 برای آپلود فایل‌های بیشتر، دکمه </span><strong data-i18n="file_selected_hint_button">"آپلود"</strong><span data-i18n="file_selected_hint_suffix"> را بزنید</span></p>
+              </div>
+            </div>
+            <p style="font-size: .85rem; color: var(--muted); margin: 8px 0 0;" data-i18n="max_file_size">حداکثر اندازه: 50MB</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn" id="uploadBtn" data-i18n="upload_file">📤 آپلود فایل</button>
+            <button class="btn-secondary btn" onclick="document.getElementById('fileInput').value = '';" data-i18n="clear">🔄 پاک کردن</button>
+          </div>
         </div>
 
-        <div style="margin-top: 16px;" id="fileSelectedInfo" class="fileSelectedInfo">
-          ✅ Selected: <span id="selectedFileName"></span>
+        <!-- Files List -->
+        <div class="card">
+          <h3 data-i18n="your_files_title">📂 فایل‌های شما</h3>
+          <div id="filesContainer">
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <h3 data-i18n="no_files">هنوز فایلی آپلود نشده است</h3>
+              <p data-i18n="no_files_desc">فایل‌های خود را از بخش بالا آپلود کنید</p>
+            </div>
+          </div>
         </div>
-
-        <button class="btn btn-primary" id="uploadBtn" style="margin-top: 12px;">
-          📤 Upload File
-        </button>
-
-        <div id="filesContainer" style="margin-top: 24px;"></div>
-      </div>
-
-      <!-- Messages Tab -->
-      <div id="messages" class="tab-content">
-        <h3 class="section-title">💬 Messages</h3>
-        <div id="messagesContainer"></div>
       </div>
 
       <!-- Suggestions Tab -->
-      <div id="suggestions" class="tab-content">
-        <h3 class="section-title">💡 Send Suggestion</h3>
-        <div class="form-group">
-          <label>Title</label>
-          <input type="text" id="suggestionTitle" placeholder="Enter suggestion title...">
-        </div>
-        <div class="form-group">
-          <label>Category</label>
-          <div class="category-options" id="categoryOptions">
-            <button class="category-option selected" data-category="feature">✨ Feature</button>
-            <button class="category-option" data-category="bug">🐛 Bug</button>
-            <button class="category-option" data-category="improvement">🚀 Improvement</button>
+      <div class="tab-content" id="suggestions-tab">
+        <!-- Send Suggestion -->
+        <div class="card">
+          <h3 data-i18n="send_new_suggestion_title">⭐ ارسال پیشنهاد جدید</h3>
+          <div class="form-group">
+            <label data-i18n="category_label">دسته‌بندی</label>
+            <div class="dropdown-wrapper">
+              <button class="dropdown-toggle" id="categoryToggle">
+                <span id="categoryLabel" data-i18n="cat_feature">✨ ویژگی جدید</span>
+                <span>▼</span>
+              </button>
+              <div class="dropdown-content" id="categoryDropdown">
+                <div class="dropdown-option selected" data-value="feature" data-i18n="cat_feature">✨ ویژگی جدید</div>
+                <div class="dropdown-option" data-value="improvement" data-i18n="cat_improvement">🚀 بهبود</div>
+                <div class="dropdown-option" data-value="bug" data-i18n="cat_bug">🐞 گزارش باگ</div>
+                <div class="dropdown-option" data-value="other" data-i18n="cat_other">📌 سایر</div>
+              </div>
+            </div>
+            <input type="hidden" id="suggestionCategory" value="feature">
           </div>
-          <input type="hidden" id="suggestionCategory" value="feature">
+          <div class="form-group">
+            <label data-i18n="suggestion_title">عنوان پیشنهاد</label>
+            <input type="text" id="suggestionTitle" data-i18n-placeholder="suggestion_title_placeholder" placeholder="عنوان پیشنهاد را وارد کنید">
+          </div>
+          <div class="form-group">
+            <label data-i18n="suggestion_description">توضیحات</label>
+            <textarea id="suggestionText" data-i18n-placeholder="suggestion_desc_placeholder" placeholder="توضیحات پیشنهاد را بنویسید..."></textarea>
+          </div>
+          <button class="btn" id="sendSuggestionBtn" data-i18n="send_suggestion">📤 ارسال پیشنهاد</button>
         </div>
-        <div class="form-group">
-          <label>Description</label>
-          <textarea id="suggestionText" placeholder="Describe your suggestion..."></textarea>
+
+        <!-- Recent Suggestions -->
+        <div class="card">
+          <h3 data-i18n="recent_suggestions_title">📋 پیشنهادات اخیر شما</h3>
+          <div id="suggestionsContainer">
+            <div class="empty-state">
+              <div class="empty-state-icon">📭</div>
+              <h3 data-i18n="no_suggestions">هنوز پیشنهادی ارسال نشده است</h3>
+              <p data-i18n="no_suggestions_desc">پیشنهادات شما را از بخش بالا ارسال کنید</p>
+            </div>
+          </div>
         </div>
-        <button class="btn btn-primary" id="sendSuggestionBtn">Send Suggestion</button>
-        <div id="suggestionsContainer" style="margin-top: 24px;"></div>
       </div>
     </div>
   </div>
 
-  <!-- Supabase -->
-  <script async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- Auth System -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
   <script>
-    // =====================================================================
-    // 🔧 تنظیم Supabase
-    // =====================================================================
-    const SUPABASE_URL = "https://cwwqmushilpxzpcpjute.supabase.co";
-    const SUPABASE_KEY = "sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK";
-
-    const { createClient } = window.supabase;
-    const SUPABASE = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    // =====================================================================
-    // احراز هویت و مدیریت نقش‌های کاربری
-    // =====================================================================
-    class AdminAuth {
-        static async checkAuth() {
-            const { data: { user } } = await SUPABASE.auth.getUser();
-            return user;
-        }
-
-        static async getUserProfile() {
-            const user = await this.checkAuth();
-            if (!user) return null;
-
-            const { data, error } = await SUPABASE
-                .from("profiles")
-                .select("*")
-                .eq("id", user.id)
-                .single();
-
-            if (error) {
-                console.error("خطا در بدست آوردن پروفایل:", error);
-                return null;
-            }
-
-            return data;
-        }
-
-        static async isAdmin() {
-            const profile = await this.getUserProfile();
-            return profile?.role === "admin";
-        }
-
-        static async makeAdmin(userId) {
-            const { error } = await SUPABASE
-                .from("profiles")
-                .update({ role: "admin" })
-                .eq("id", userId);
-
-            if (error) throw error;
-
-            await this.logAdminAction("user_role_changed", userId, "user", {
-                old_role: "user",
-                new_role: "admin"
-            });
-
-            return true;
-        }
-
-        static async removeAdmin(userId) {
-            const { error } = await SUPABASE
-                .from("profiles")
-                .update({ role: "user" })
-                .eq("id", userId);
-
-            if (error) throw error;
-
-            await this.logAdminAction("user_role_changed", userId, "user", {
-                old_role: "admin",
-                new_role: "user"
-            });
-
-            return true;
-        }
-
-        static async logAdminAction(action, targetId, targetType, details = {}) {
-            const user = await this.checkAuth();
-            if (!user) return;
-
-            await SUPABASE
-                .from("admin_logs")
-                .insert({
-                    admin_id: user.id,
-                    action,
-                    target_id: targetId,
-                    target_type: targetType,
-                    details: details || {}
-                });
-        }
-
-        static async initRoleBasedUI() {
-            const profile = await this.getUserProfile();
-
-            if (!profile || profile.role !== "admin") {
-                const adminBtn = document.getElementById("adminPanelBtn");
-                if (adminBtn) adminBtn.style.display = "none";
-                return null;
-            }
-
-            const adminBtn = document.getElementById("adminPanelBtn");
-            if (adminBtn) {
-                adminBtn.style.display = "block";
-                adminBtn.addEventListener("click", () => {
-                    window.location.href = "/admin.html";
-                });
-            }
-
-            return profile;
-        }
-
-        static async logout() {
-            const { error } = await SUPABASE.auth.signOut();
-            if (error) throw error;
-        }
-    }
-
-    window.AdminAuth = AdminAuth;
-  </script>
-
-  <script>
-    // =====================================================================
-    // 🌍 Language Manager
-    // =====================================================================
-    class LanguageManager {
-        constructor() {
-            this.currentLang = localStorage.getItem('lang') || 'en';
-            this.body = document.body;
-            this.init();
-        }
-
-        init() {
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.addEventListener('click', (e) => this.switchLanguage(e.target.dataset.lang));
-            });
-            this.applyLanguage();
-        }
-
-        switchLanguage(lang) {
-            this.currentLang = lang;
-            localStorage.setItem('lang', lang);
-            this.applyLanguage();
-        }
-
-        applyLanguage() {
-            this.body.setAttribute('data-lang', this.currentLang);
-            document.querySelectorAll('.lang-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.lang === this.currentLang);
-            });
-        }
-
-        t(key) {
-            return translations[this.currentLang][key] || key;
-        }
-    }
-
+    // ============================================
+    // سیستم تغییر زبان
+    // ============================================
     const translations = {
-        en: {
-            upload_success: 'File uploaded successfully',
-            upload_error: 'Error uploading file',
-            delete_success: 'File deleted successfully',
-            delete_error: 'Error deleting file',
-            delete_confirm: 'Are you sure you want to delete this file?',
-            download: 'Download',
-            delete: 'Delete',
-            no_files: 'No files yet',
-            no_files_desc: 'Upload your first file to get started',
-            upload_file: 'Upload File',
-            uploading: 'Uploading...',
-            file_not_selected: 'Please select a file',
-            file_size_error: 'File size must be less than 50 MB',
-            download_error: 'Error downloading file',
-            send_suggestion: 'Send Suggestion',
-            suggestion_send_error: 'Error sending suggestion',
-            cat_feature: '✨ Feature',
-            cat_bug: '🐛 Bug',
-            cat_improvement: '🚀 Improvement'
-        },
-        fa: {
-            upload_success: 'فایل با موفقیت آپلود شد',
-            upload_error: 'خطا در آپلود فایل',
-            delete_success: 'فایل با موفقیت حذف شد',
-            delete_error: 'خطا در حذف فایل',
-            delete_confirm: 'آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟',
-            download: 'دانلود',
-            delete: 'حذف',
-            no_files: 'فایلی وجود ندارد',
-            no_files_desc: 'فایل اول خود را آپلود کنید',
-            upload_file: 'آپلود فایل',
-            uploading: 'در حال آپلود...',
-            file_not_selected: 'لطفا یک فایل انتخاب کنید',
-            file_size_error: 'اندازه فایل باید کمتر از 50 مگابایت باشد',
-            download_error: 'خطا در دانلود فایل',
-            send_suggestion: 'ارسال پیشنهاد',
-            suggestion_send_error: 'خطا در ارسال پیشنهاد',
-            cat_feature: '✨ ویژگی',
-            cat_bug: '🐛 باگ',
-            cat_improvement: '🚀 بهبود'
-        }
+      en: {
+        back: '← Back',
+        menu_title: 'Quick Menu',
+        personal_settings: 'Personal Settings',
+        support_menu: 'Support',
+        files: 'Files',
+        suggestions: 'Suggestions',
+        sign_out: 'Sign Out',
+        upload_file: '📤 Upload File',
+        select_file: 'Select a file',
+        file_selected: 'File selected',
+        no_files: 'No files uploaded yet',
+        no_files_desc: 'Upload your files from the section above',
+        upload: 'Upload Files',
+        download: '📥 Download',
+        delete: '🗑️ Delete',
+        suggestions_title: 'Suggestions',
+        suggestion_title: 'Suggestion Title',
+        suggestion_description: 'Description',
+        category: 'Category',
+        new_feature: '✨ New Feature',
+        bug_report: '🐛 Bug Report',
+        improvement: '⚡ Improvement',
+        send_suggestion: '📤 Send Suggestion',
+        error_required: 'Please enter title and description',
+        file_size_error: 'File size cannot exceed 50MB',
+        file_not_selected: 'Please select a file',
+        uploading: '📤 Uploading...',
+        sending: '📤 Sending...',
+        delete_confirm: 'Are you sure you want to delete this file?',
+        upload_success: 'File uploaded successfully',
+        download_error: 'Error downloading file',
+        delete_error: 'Error deleting file',
+        delete_success: 'File deleted successfully',
+        upload_error: 'Error uploading file',
+
+        brand_title: 'My Profile',
+        brand_subtitle: 'Account Management',
+        menu_personal: 'Details',
+        menu_support: 'Support',
+        menu_suggestions: 'Suggestions',
+        menu_signout: 'Sign Out',
+
+        welcome_greeting: 'Welcome, ',
+        welcome_user_fallback: 'User',
+        welcome_desc: 'From your personal dashboard you can manage your account info, support messages, and suggestions.',
+        account_status_label: 'Account Status',
+        account_status_value: 'Active',
+        last_update_label: 'Last Update',
+        profile_status_label: 'Profile',
+        profile_status_value: 'Complete',
+        edit_profile: 'Edit Profile',
+        view_exams: 'Exams',
+        manage_files: 'Manage Files',
+        contact_support: 'Contact Support',
+        send_suggestion_btn: 'Send Suggestion',
+
+        tab_personal: 'Personal Details',
+        tab_exams: '📝 Exams',
+        tab_support: 'Support',
+        tab_suggestions: 'Suggestions',
+        tab_files: 'Manage Files',
+
+        success_generic: '✅ Operation successful!',
+        error_generic: '❌ An error occurred',
+
+        account_info_title: '🔐 Account Information',
+        email_label: 'Email',
+        first_name_label: 'First Name',
+        first_name_placeholder: 'Enter your first name',
+        last_name_label: 'Last Name',
+        last_name_placeholder: 'Enter your last name',
+        additional_info_title: '👤 Additional Information',
+        username_label: 'Username',
+        username_placeholder: 'Enter your username',
+        phone_label: 'Phone',
+        phone_placeholder: 'Enter your phone number',
+        avatar_url_label: 'Avatar URL',
+        avatar_preview_title: '🖼️ Avatar Preview',
+        avatar_preview_desc: 'This image will be shown on your profile',
+        change_image: 'Change Image',
+        save_changes: '💾 Save Changes',
+
+        python_exam_title: 'Python Exam',
+        python_exam_desc: 'Choose a level, start the exam, and view your score history',
+        linux_exam_title: 'Linux Exam (LPIC)',
+        linux_exam_desc: 'Preparation for LPIC-1 and LPIC-2 exams',
+
+        send_support_title: '📧 Send a Message to Support',
+        subject_label: 'Subject',
+        subject_placeholder: 'Enter your message subject',
+        message_label: 'Message',
+        message_placeholder: 'Write your message here...',
+        send_message: '📤 Send Message',
+        clear: '🔄 Clear',
+        contact_info_title: '📞 Contact Information',
+
+        upload_new_file_title: '📤 Upload New File',
+        select_file_label: 'Select File',
+        drop_file_here: '📁 Drop a file here or click',
+        max_file_size: 'Max size: 50MB',
+        your_files_title: '📂 Your Files',
+        file_selected_hint_prefix: '📤 To upload more files, click the ',
+        file_selected_hint_button: '"Upload"',
+        file_selected_hint_suffix: ' button',
+
+        send_new_suggestion_title: '⭐ Send a New Suggestion',
+        category_label: 'Category',
+        suggestion_title_placeholder: 'Enter the suggestion title',
+        suggestion_desc_placeholder: 'Write the suggestion description...',
+        recent_suggestions_title: '📋 Your Recent Suggestions',
+        no_suggestions: 'No suggestions sent yet',
+        no_suggestions_desc: 'Send your suggestions from the section above',
+
+        cat_feature: '✨ New Feature',
+        cat_improvement: '🚀 Improvement',
+        cat_bug: '🐞 Bug Report',
+        cat_other: '📌 Other',
+
+        status_pending: '⏳ Pending Review',
+        status_reviewed: '👀 Reviewed',
+        status_done: '✅ Done',
+
+        just_now: 'Just now',
+        minutes_ago: 'minutes ago',
+        hours_ago: 'hours ago',
+        saving: '💾 Saving...',
+        support_fields_required: 'Please enter a subject and message',
+        save_error: 'Error saving information',
+        support_send_error: 'Error sending message',
+        suggestion_send_error: 'Error sending suggestion',
+      },
+      fa: {
+        back: '→ بازگشت',
+        menu_title: 'منو سریع',
+        personal_settings: 'تنظیمات شخصی',
+        support_menu: 'پشتیبانی',
+        files: 'فایل‌ها',
+        suggestions: 'پیشنهادات',
+        sign_out: 'خروج',
+        upload_file: '📤 آپلود فایل',
+        select_file: 'انتخاب یک فایل',
+        file_selected: 'فایل انتخاب شد',
+        no_files: 'هنوز فایلی آپلود نشده است',
+        no_files_desc: 'فایل‌های خود را از بخش بالا آپلود کنید',
+        upload: 'آپلود فایل‌ها',
+        download: '📥 دانلود',
+        delete: '🗑️ حذف',
+        suggestions_title: 'پیشنهادات',
+        suggestion_title: 'عنوان پیشنهاد',
+        suggestion_description: 'توضیحات',
+        category: 'دسته‌بندی',
+        new_feature: '✨ ویژگی جدید',
+        bug_report: '🐛 گزارش اشکال',
+        improvement: '⚡ بهبود',
+        send_suggestion: '📤 ارسال پیشنهاد',
+        error_required: 'لطفا عنوان و توضیحات را وارد کنید',
+        file_size_error: 'حجم فایل نمی‌تواند بیش‌تر از 50MB باشد',
+        file_not_selected: 'لطفا فایلی را انتخاب کنید',
+        uploading: '📤 درحال آپلود...',
+        sending: '📤 درحال ارسال...',
+        delete_confirm: 'آیا مطمئن هستید که می‌خواهید این فایل را حذف کنید؟',
+        upload_success: 'فایل با موفقیت آپلود شد',
+        download_error: 'خطا در دانلود فایل',
+        delete_error: 'خطا در حذف فایل',
+        delete_success: 'فایل با موفقیت حذف شد',
+        upload_error: 'خطا در آپلود فایل',
+
+        brand_title: 'پروفایل من',
+        brand_subtitle: 'مدیریت حساب',
+        menu_personal: 'مشخصات',
+        menu_support: 'پشتیبانی',
+        menu_suggestions: 'پیشنهادات',
+        menu_signout: 'خروج',
+
+        welcome_greeting: 'خوش آمدید، ',
+        welcome_user_fallback: 'کاربر',
+        welcome_desc: 'از داشبورد شخصی خود می‌توانید اطلاعات حساب، پیام‌های پشتیبانی و پیشنهادات را مدیریت کنید.',
+        account_status_label: 'وضعیت حساب',
+        account_status_value: 'فعال',
+        last_update_label: 'آخرین بروزرسانی',
+        profile_status_label: 'پروفایل',
+        profile_status_value: 'تکمیل شده',
+        edit_profile: 'ویرایش پروفایل',
+        view_exams: 'آزمون‌ها',
+        manage_files: 'مدیریت فایل‌ها',
+        contact_support: 'ارتباط با پشتیبانی',
+        send_suggestion_btn: 'ارسال پیشنهاد',
+
+        tab_personal: 'مشخصات شخصی',
+        tab_exams: '📝 آزمون ها',
+        tab_support: 'پشتیبانی',
+        tab_suggestions: 'پیشنهادات',
+        tab_files: 'مدیریت فایل‌ها',
+
+        success_generic: '✅ عملیات موفقیت‌آمیز بود!',
+        error_generic: '❌ خطایی رخ داد',
+
+        account_info_title: '🔐 اطلاعات حساب',
+        email_label: 'ایمیل',
+        first_name_label: 'نام',
+        first_name_placeholder: 'نام خود را وارد کنید',
+        last_name_label: 'نام خانوادگی',
+        last_name_placeholder: 'نام خانوادگی خود را وارد کنید',
+        additional_info_title: '👤 اطلاعات اضافی',
+        username_label: 'نام کاربری',
+        username_placeholder: 'نام کاربری خود را وارد کنید',
+        phone_label: 'تلفن',
+        phone_placeholder: 'شماره تماس خود را وارد کنید',
+        avatar_url_label: 'URL آواتار',
+        avatar_preview_title: '🖼️ پیش‌نمایش آواتار',
+        avatar_preview_desc: 'این تصویر در پروفایل شما نمایش داده می‌شود',
+        change_image: 'تغییر تصویر',
+        save_changes: '💾 ذخیره تغییرات',
+
+        python_exam_title: 'آزمون پایتون',
+        python_exam_desc: 'انتخاب سطح، شروع آزمون و مشاهده تاریخچه نمرات',
+        linux_exam_title: 'آزمون لینوکس (LPIC)',
+        linux_exam_desc: 'آمادگی برای آزمون‌های LPIC-1 و LPIC-2',
+
+        send_support_title: '📧 ارسال پیام به پشتیبانی',
+        subject_label: 'موضوع',
+        subject_placeholder: 'موضوع پیام خود را وارد کنید',
+        message_label: 'پیام',
+        message_placeholder: 'پیام خود را اینجا بنویسید...',
+        send_message: '📤 ارسال پیام',
+        clear: '🔄 پاک کردن',
+        contact_info_title: '📞 اطلاعات تماس',
+
+        upload_new_file_title: '📤 آپلود فایل جدید',
+        select_file_label: 'انتخاب فایل',
+        drop_file_here: '📁 فایل را اینجا بیندازید یا کلیک کنید',
+        max_file_size: 'حداکثر اندازه: 50MB',
+        your_files_title: '📂 فایل‌های شما',
+        file_selected_hint_prefix: '📤 برای آپلود فایل‌های بیشتر، دکمه ',
+        file_selected_hint_button: '"آپلود"',
+        file_selected_hint_suffix: ' را بزنید',
+
+        send_new_suggestion_title: '⭐ ارسال پیشنهاد جدید',
+        category_label: 'دسته‌بندی',
+        suggestion_title_placeholder: 'عنوان پیشنهاد را وارد کنید',
+        suggestion_desc_placeholder: 'توضیحات پیشنهاد را بنویسید...',
+        recent_suggestions_title: '📋 پیشنهادات اخیر شما',
+        no_suggestions: 'هنوز پیشنهادی ارسال نشده است',
+        no_suggestions_desc: 'پیشنهادات شما را از بخش بالا ارسال کنید',
+
+        cat_feature: '✨ ویژگی جدید',
+        cat_improvement: '🚀 بهبود',
+        cat_bug: '🐞 گزارش باگ',
+        cat_other: '📌 سایر',
+
+        status_pending: '⏳ در انتظار بررسی',
+        status_reviewed: '👀 بررسی شده',
+        status_done: '✅ انجام شده',
+
+        just_now: 'همین الآن',
+        minutes_ago: 'دقیقه پیش',
+        hours_ago: 'ساعت پیش',
+        saving: '💾 درحال ذخیره...',
+        support_fields_required: 'لطفا موضوع و پیام را وارد کنید',
+        save_error: 'خطا در ذخیره اطلاعات',
+        support_send_error: 'خطا در ارسال پیام',
+        suggestion_send_error: 'خطا در ارسال پیشنهاد',
+      }
     };
 
-    const languageManager = new LanguageManager();
-  </script>
+    class LanguageManager {
+      constructor() {
+        this.currentLang = localStorage.getItem('language') || 'en';
+        this.init();
+      }
 
-  <script>
-    // =====================================================================
-    // 🎯 UI Logic
-    // =====================================================================
-    const menuBtn = document.getElementById('menuBtn');
+      init() {
+        this.applyLanguage(this.currentLang);
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        const langBtn = document.getElementById('langBtn');
+        if (langBtn) {
+          langBtn.addEventListener('click', () => {
+            const newLang = this.currentLang === 'en' ? 'fa' : 'en';
+            this.setLanguage(newLang);
+          });
+        }
+      }
+
+      setLanguage(lang) {
+        localStorage.setItem('language', lang);
+        // صفحه رو reload کن تا تمام محتوا به زبان جدید نشان داده شود
+        location.reload();
+      }
+
+      applyLanguage(lang) {
+        this.currentLang = lang;
+        document.documentElement.lang = lang;
+        document.body.setAttribute('data-lang', lang);
+        this.updateLangButton();
+        this.applyTranslations();
+      }
+
+      applyTranslations() {
+        const dict = translations[this.currentLang] || translations.en;
+
+        // Plain text content
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (dict[key] !== undefined) {
+            el.textContent = dict[key];
+          }
+        });
+
+        // Placeholders
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+          const key = el.getAttribute('data-i18n-placeholder');
+          if (dict[key] !== undefined) {
+            el.placeholder = dict[key];
+          }
+        });
+      }
+
+      updateLangButton() {
+        const langBtn = document.getElementById('langBtn');
+        const langText = document.getElementById('langText');
+        
+        if (langBtn && langText) {
+          if (this.currentLang === 'en') {
+            langText.textContent = 'فارسی';
+            langBtn.classList.add('active');
+          } else {
+            langText.textContent = 'English';
+            langBtn.classList.remove('active');
+          }
+        }
+      }
+
+      t(key) {
+        return translations[this.currentLang][key] || key;
+      }
+    }
+
+    // ============================================
+    // ✅ Supabase initialization - دقیقاً مثل index.html
+    const SUPABASE = window.supabase.createClient(
+      'https://cwwqmushilpxzpcpjute.supabase.co',
+      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
+    );
+
+    let currentUser = null;
+    let currentProfile = null;
+    let isFirstTime = false;
+
+    // Elements
+    const welcomeScreen = document.getElementById('welcomeScreen');
+    const mainContent = document.getElementById('mainContent');
     const dropdownMenu = document.getElementById('dropdownMenu');
-    const uploadZone = document.getElementById('uploadZone');
-    const fileInput = document.getElementById('fileInput');
-    const uploadBtn = document.getElementById('uploadBtn');
-    const filesContainer = document.getElementById('filesContainer');
-    const messagesContainer = document.getElementById('messagesContainer');
-    const suggestionsContainer = document.getElementById('suggestionsContainer');
-    const successMsg = document.getElementById('successMsg');
-    const errorMsg = document.getElementById('errorMsg');
-    const profileName = document.getElementById('profileName');
-    const profileEmail = document.getElementById('profileEmail');
-    const profileRole = document.getElementById('profileRole');
-    const profileAvatar = document.getElementById('profileAvatar');
+    const menuBtn = document.getElementById('menuBtn');
+    const personalSettingsBtn = document.getElementById('personalSettingsBtn');
+    const supportBtn = document.getElementById('supportBtn');
+    const suggestionsBtn = document.getElementById('suggestionsBtn');
+    const signOutDropdownBtn = document.getElementById('signOutDropdownBtn');
+
+    // Form Elements
+    const emailInput = document.getElementById('emailInput');
+    const firstNameInput = document.getElementById('firstNameInput');
+    const lastNameInput = document.getElementById('lastNameInput');
+    const usernameInput = document.getElementById('usernameInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const avatarInput = document.getElementById('avatarInput');
+    const changeAvatarBtn = document.getElementById('changeAvatarBtn');
+    const avatarPreview = document.getElementById('avatarPreview');
+    const previewInitial = document.getElementById('previewInitial');
+    const avatarInitial = document.getElementById('previewInitial');
+    const saveBtn = document.getElementById('saveBtn');
+
+    // Support Elements
+    const supportSubject = document.getElementById('supportSubject');
+    const supportMessage = document.getElementById('supportMessage');
+    const sendSupportMessageBtn = document.getElementById('sendSupportMessageBtn');
+
+    // Suggestions Elements
     const suggestionTitle = document.getElementById('suggestionTitle');
     const suggestionText = document.getElementById('suggestionText');
     const suggestionCategory = document.getElementById('suggestionCategory');
+    const categoryToggle = document.getElementById('categoryToggle');
+    const categoryDropdown = document.getElementById('categoryDropdown');
+    const categoryLabel = document.getElementById('categoryLabel');
     const sendSuggestionBtn = document.getElementById('sendSuggestionBtn');
-    const categoryOptions = document.querySelectorAll('.category-option');
-    const categoryLabel = document.querySelector('.category-label');
-    const signOutDropdownBtn = document.getElementById('signOutDropdownBtn');
+    const suggestionsContainer = document.getElementById('suggestionsContainer');
 
-    let currentUser = null;
+    // File Elements
+    const fileInput = document.getElementById('fileInput');
+    const uploadBtn = document.getElementById('uploadBtn');
+    const filesContainer = document.getElementById('filesContainer');
+    const backBtn = document.getElementById('backBtn');
 
-    // Toggle dropdown menu
+    // Messages
+    const successMsg = document.getElementById('successMsg');
+    const errorMsg = document.getElementById('errorMsg');
+
+    // Welcome buttons
+    const editProfileBtn = document.getElementById('editProfileBtn');
+    const manageFilesBtn2 = document.getElementById('manageFilesBtn2');
+    const sendSupportBtn2 = document.getElementById('sendSupportBtn2');
+    const sendSuggestionBtn2 = document.getElementById('sendSuggestionBtn2');
+    const lastUpdateWelcome = document.getElementById('lastUpdateWelcome');
+
+    // Menu toggle
     menuBtn.addEventListener('click', () => {
-        dropdownMenu.classList.toggle('show');
+      dropdownMenu.classList.toggle('open');
     });
 
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('.menu-btn') && !e.target.closest('.dropdown-menu')) {
-            dropdownMenu.classList.remove('show');
-        }
+      if (!e.target.closest('nav')) {
+        dropdownMenu.classList.remove('open');
+      }
     });
 
-    // Upload zone
-    uploadZone.addEventListener('click', () => fileInput.click());
-    uploadZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadZone.classList.add('dragover');
-    });
-    uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
-    uploadZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadZone.classList.remove('dragover');
-        if (e.dataTransfer.files.length > 0) {
-            fileInput.files = e.dataTransfer.files;
-            fileInput.dispatchEvent(new Event('change', { bubbles: true }));
-        }
+    // Back Button
+    backBtn.addEventListener('click', () => {
+      hideMainContent();
+      backBtn.classList.remove('show');
     });
 
     // Tab switching
-    function switchTab(tabName) {
-        document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-        document.getElementById(tabName).classList.add('active');
-        event.target.classList.add('active');
-    }
-
-    // ✅ بهبود Check authentication با retry logic
-    async function checkAuth() {
-        try {
-            // سعی کن تا 3 بار session را بررسی کن (برای اطمینان از creation)
-            let user = null;
-            for (let i = 0; i < 3; i++) {
-                user = await AdminAuth.checkAuth();
-                if (user) break;
-                if (i < 2) await new Promise(r => setTimeout(r, 300));
-            }
-
-            if (!user) {
-                window.location.href = '/';
-                return;
-            }
-
-            const profile = await AdminAuth.getUserProfile();
-            currentUser = user;
-
-            if (profile) {
-                profileName.textContent = profile.full_name || profile.email || 'User';
-                profileEmail.textContent = profile.email;
-                profileRole.textContent = `Role: ${profile.role === 'admin' ? '🛡️ Admin' : '👤 User'}`;
-                profileAvatar.textContent = (profile.full_name || profile.email || 'U')[0].toUpperCase();
-            }
-
-            // Check if user is admin and show admin panel button
-            await AdminAuth.initRoleBasedUI();
-
-            // Load initial data
-            await loadFiles();
-            await loadMessages();
-            await loadSuggestions();
-
-        } catch (error) {
-            console.error('Auth error:', error);
-            window.location.href = '/';
-        }
-    }
-
-    // Category selection
-    categoryOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            categoryOptions.forEach(o => o.classList.remove('selected'));
-            option.classList.add('selected');
-            suggestionCategory.value = option.dataset.category;
-        });
+    const tabButtons = document.querySelectorAll('.tab-btn');
+    tabButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        tabButtons.forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(`${btn.dataset.tab}-tab`).classList.add('active');
+      });
     });
+
+    // Menu item clicks
+    editProfileBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="personal"]').click();
+    });
+
+    manageFilesBtn2.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="files"]').click();
+      loadFiles();
+    });
+
+    document.getElementById('viewExamsBtn').addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="exams"]').click();
+    });
+
+    sendSupportBtn2.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="support"]').click();
+    });
+
+    sendSuggestionBtn2.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="suggestions"]').click();
+    });
+
+    personalSettingsBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="personal"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    supportBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="support"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    suggestionsBtn.addEventListener('click', () => {
+      showMainContent();
+      document.querySelector('[data-tab="suggestions"]').click();
+      dropdownMenu.classList.remove('open');
+    });
+
+    function showMainContent() {
+      welcomeScreen.classList.add('hidden');
+      mainContent.classList.add('show');
+      backBtn.classList.add('show');
+    }
+
+    function hideMainContent() {
+      welcomeScreen.classList.remove('hidden');
+      mainContent.classList.remove('show');
+      backBtn.classList.remove('show');
+    }
+
+    // Custom Dropdown
+    categoryToggle.addEventListener('click', () => {
+      categoryToggle.classList.toggle('open');
+      categoryDropdown.classList.toggle('open');
+    });
+
+    // Update dropdown position on scroll
+    window.addEventListener('scroll', () => {
+      if (categoryDropdown.classList.contains('open')) {
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown-wrapper')) {
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
+      }
+    });
+
+    const categoryOptions = categoryDropdown.querySelectorAll('.dropdown-option');
+    categoryOptions.forEach(option => {
+      option.addEventListener('click', () => {
+        categoryOptions.forEach(o => o.classList.remove('selected'));
+        option.classList.add('selected');
+        suggestionCategory.value = option.dataset.value;
+        categoryLabel.textContent = option.textContent;
+        categoryToggle.classList.remove('open');
+        categoryDropdown.classList.remove('open');
+      });
+    });
+
+    // Check Authentication
+    async function checkAuth() {
+      const { data: { session } } = await SUPABASE.auth.getSession();
+      if (!session) {
+        window.location.href = '/';
+        return;
+      }
+      currentUser = session.user;
+      await loadProfile();
+      await loadSuggestions();
+      await loadFiles();
+    }
+
+    // Load profile data
+    async function loadProfile() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('profiles')
+          .select('*')
+          .eq('id', currentUser.id)
+          .single();
+
+        if (error && error.code === 'PGRST116') {
+          isFirstTime = true;
+          return;
+        }
+
+        if (error) throw error;
+        currentProfile = data;
+        displayProfile(data);
+        // ❌ حذف شد: showMainContent();
+        // ✅ کاربر در صفحه خوش‌آمدگویی می‌ماند
+      } catch (err) {
+        console.error('خطا در بارگیری پروفایل:', err);
+        if (isFirstTime) {
+          currentProfile = { id: currentUser.id, email: currentUser.email };
+          displayProfile(currentProfile);
+        }
+      }
+    }
+
+    // Display profile
+    function displayProfile(profile) {
+      emailInput.value = profile.email || '';
+      firstNameInput.value = profile.first_name || '';
+      lastNameInput.value = profile.last_name || '';
+      usernameInput.value = profile.username || '';
+      phoneInput.value = profile.phone || '';
+      document.getElementById('userFirstName').textContent = profile.first_name || translations[languageManager.currentLang].welcome_user_fallback;
+
+      updateAvatarPreview(profile);
+
+      if (profile.updated_at) {
+        const updated = new Date(profile.updated_at);
+        const now = new Date();
+        const diff = Math.floor((now - updated) / 1000);
+        const dict = translations[languageManager.currentLang];
+        const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
+
+        if (diff < 60) {
+          lastUpdateWelcome.textContent = dict.just_now;
+        } else if (diff < 3600) {
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 60)} ${dict.minutes_ago}`;
+        } else if (diff < 86400) {
+          lastUpdateWelcome.textContent = `${Math.floor(diff / 3600)} ${dict.hours_ago}`;
+        } else {
+          lastUpdateWelcome.textContent = updated.toLocaleDateString(dateLocale);
+        }
+      }
+    }
+
+    // Update avatar preview
+    function updateAvatarPreview(profile) {
+      const firstChar = (profile.first_name || profile.username || profile.email || 'A')[0].toUpperCase();
+      previewInitial.textContent = firstChar;
+
+      const headerAvatar = document.getElementById('headerAvatar');
+
+      if (profile.avatar_url) {
+        avatarPreview.innerHTML = `<img src="${profile.avatar_url}" alt="avatar">`;
+        if (headerAvatar) headerAvatar.innerHTML = `<img src="${profile.avatar_url}" alt="avatar">`;
+      } else {
+        avatarPreview.innerHTML = `<span id="previewInitial">${firstChar}</span>`;
+        if (headerAvatar) headerAvatar.innerHTML = `<span>${firstChar}</span>`;
+      }
+    }
+
+    // Open gallery/file picker
+    changeAvatarBtn.addEventListener('click', () => {
+      avatarInput.click();
+    });
+
+    // Upload avatar to Supabase Storage when a file is chosen
+    avatarInput.addEventListener('change', async () => {
+      const file = avatarInput.files[0];
+      if (!file) return;
+
+      const originalLabel = changeAvatarBtn.textContent;
+      changeAvatarBtn.disabled = true;
+      changeAvatarBtn.textContent = translations[languageManager.currentLang].uploading;
+
+      try {
+        const extension = file.name.split('.').pop();
+        const filePath = `${currentUser.id}/avatar.${extension}`;
+
+        const { error: uploadError } = await SUPABASE
+          .storage
+          .from('avatars')
+          .upload(filePath, file, { upsert: true });
+
+        if (uploadError) throw uploadError;
+
+        const { data } = SUPABASE
+          .storage
+          .from('avatars')
+          .getPublicUrl(filePath);
+
+        const avatarUrl = data.publicUrl + '?t=' + Date.now();
+
+        const { error: dbError } = await SUPABASE
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            email: currentUser.email,
+            avatar_url: avatarUrl
+          });
+
+        if (dbError) throw dbError;
+
+        currentProfile = { ...currentProfile, avatar_url: avatarUrl };
+        updateAvatarPreview(currentProfile);
+        showSuccess('upload_success');
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || translations[languageManager.currentLang].upload_error);
+      } finally {
+        avatarInput.value = '';
+        changeAvatarBtn.disabled = false;
+        changeAvatarBtn.textContent = originalLabel;
+      }
+    });
+
+    // Save profile
+    saveBtn.addEventListener('click', async () => {
+      const updates = {
+        first_name: firstNameInput.value,
+        last_name: lastNameInput.value,
+        username: usernameInput.value,
+        phone: phoneInput.value,
+        updated_at: new Date()
+      };
+
+      saveBtn.disabled = true;
+      saveBtn.textContent = translations[languageManager.currentLang].saving;
+
+      try {
+        const { error } = await SUPABASE
+          .from('profiles')
+          .upsert({
+            id: currentUser.id,
+            email: currentUser.email,
+            ...updates
+          });
+
+        if (error) throw error;
+
+        currentProfile = { ...currentProfile, ...updates };
+        updateAvatarPreview(currentProfile);
+        document.getElementById('userFirstName').textContent = firstNameInput.value || translations[languageManager.currentLang].welcome_user_fallback;
+        lastUpdateWelcome.textContent = translations[languageManager.currentLang].just_now;
+        showSuccess();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || translations[languageManager.currentLang].save_error);
+      } finally {
+        saveBtn.disabled = false;
+        saveBtn.textContent = translations[languageManager.currentLang].save_changes;
+      }
+    });
+
+    // Send support message
+    sendSupportMessageBtn.addEventListener('click', async () => {
+      const subject = supportSubject.value.trim();
+      const message = supportMessage.value.trim();
+      
+      if (!subject || !message) {
+        showError('support_fields_required');
+        return;
+      }
+
+      sendSupportMessageBtn.disabled = true;
+      sendSupportMessageBtn.textContent = translations[languageManager.currentLang].sending;
+
+      try {
+        const { error } = await SUPABASE
+          .from('support_messages')
+          .insert({
+            user_id: currentUser.id,
+            email: currentUser.email,
+            subject: subject,
+            message: message,
+            created_at: new Date()
+          });
+
+        if (error) throw error;
+
+        showSuccess();
+        supportSubject.value = '';
+        supportMessage.value = '';
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || translations[languageManager.currentLang].support_send_error);
+      } finally {
+        sendSupportMessageBtn.disabled = false;
+        sendSupportMessageBtn.textContent = translations[languageManager.currentLang].send_message;
+      }
+    });
+
+    // Load suggestions
+    let lastSuggestionsData = [];
+
+    async function loadSuggestions() {
+      try {
+        const { data, error } = await SUPABASE
+          .from('suggestions')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('created_at', { ascending: false });
+
+        if (error) throw error;
+
+        lastSuggestionsData = data || [];
+        displaySuggestions(lastSuggestionsData);
+      } catch (err) {
+        console.error('خطا در بارگیری پیشنهادات:', err);
+      }
+    }
+
+    // Display suggestions
+    function displaySuggestions(suggestions) {
+      const dict = translations[languageManager.currentLang];
+      const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
+
+      if (suggestions.length === 0) {
+        suggestionsContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>${dict.no_suggestions}</h3>
+            <p>${dict.no_suggestions_desc}</p>
+          </div>
+        `;
+        return;
+      }
+
+      const categoryNames = {
+        'feature': dict.cat_feature,
+        'improvement': dict.cat_improvement,
+        'bug': dict.cat_bug,
+        'other': dict.cat_other
+      };
+
+      const statusNames = {
+        'pending': dict.status_pending,
+        'reviewed': dict.status_reviewed,
+        'done': dict.status_done
+      };
+
+      suggestionsContainer.innerHTML = suggestions.map(suggestion => {
+        const date = new Date(suggestion.created_at);
+        const dateStr = date.toLocaleDateString(dateLocale, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
+
+        return `
+          <div class="suggestion-item">
+            <div class="suggestion-item-header">
+              <h4 class="suggestion-item-title">${suggestion.title}</h4>
+              <span class="suggestion-item-category">${categoryNames[suggestion.category] || suggestion.category}</span>
+            </div>
+            <p class="suggestion-item-description">${suggestion.description}</p>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span class="suggestion-item-date">${dateStr}</span>
+              <span class="suggestion-item-status ${suggestion.status}">
+                ${statusNames[suggestion.status] || statusNames.done}
+              </span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
 
     // Send suggestion
     sendSuggestionBtn.addEventListener('click', async () => {
-        if (!suggestionTitle.value || !suggestionText.value) {
-            showError('Please fill in all fields');
-            return;
-        }
+      const title = suggestionTitle.value.trim();
+      const text = suggestionText.value.trim();
+      const category = suggestionCategory.value;
 
-        sendSuggestionBtn.disabled = true;
-        sendSuggestionBtn.textContent = languageManager.t('uploading');
+      if (!title || !text) {
+        showError('error_required');
+        return;
+      }
 
-        try {
-            const { error } = await SUPABASE
-                .from('suggestions')
-                .insert({
-                    user_id: currentUser.id,
-                    title: suggestionTitle.value,
-                    text: suggestionText.value,
-                    category: suggestionCategory.value,
-                    created_at: new Date()
-                });
+      sendSuggestionBtn.disabled = true;
+      sendSuggestionBtn.textContent = translations[languageManager.currentLang].sending;
 
-            if (error) throw error;
+      try {
+        const { error } = await SUPABASE
+          .from('suggestions')
+          .insert({
+            user_id: currentUser.id,
+            email: currentUser.email,
+            title: title,
+            description: text,
+            category: category,
+            created_at: new Date()
+          });
 
-            showSuccess('suggestion_send_error');
-            suggestionTitle.value = '';
-            suggestionText.value = '';
-            suggestionCategory.value = 'feature';
-            categoryOptions.forEach(o => o.classList.remove('selected'));
-            categoryOptions[0].classList.add('selected');
+        if (error) throw error;
 
-            await loadSuggestions();
-        } catch (err) {
-            console.error('Error:', err);
-            showError(err.message || 'Error sending suggestion');
-        } finally {
-            sendSuggestionBtn.disabled = false;
-            sendSuggestionBtn.textContent = languageManager.t('send_suggestion');
-        }
+        showSuccess();
+        suggestionTitle.value = '';
+        suggestionText.value = '';
+        suggestionCategory.value = 'feature';
+        categoryLabel.textContent = translations[languageManager.currentLang].cat_feature;
+        categoryOptions.forEach(o => o.classList.remove('selected'));
+        categoryOptions[0].classList.add('selected');
+
+        // Reload suggestions
+        await loadSuggestions();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError(err.message || translations[languageManager.currentLang].suggestion_send_error);
+      } finally {
+        sendSuggestionBtn.disabled = false;
+        sendSuggestionBtn.textContent = translations[languageManager.currentLang].send_suggestion;
+      }
     });
 
     // Sign out
     signOutDropdownBtn.addEventListener('click', async () => {
-        await AdminAuth.logout();
-        window.location.href = '/';
+      await SUPABASE.auth.signOut();
+      window.location.href = '/';
     });
 
+    // Show messages
     function showSuccess(keyOrMsg = 'upload_success') {
-        const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
-        successMsg.textContent = '✅ ' + message;
-        successMsg.classList.add('show');
-        setTimeout(() => {
-            successMsg.classList.remove('show');
-        }, 4000);
+      const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
+      successMsg.textContent = '✅ ' + message;
+      successMsg.style.display = 'block';
+      setTimeout(() => {
+        successMsg.style.display = 'none';
+      }, 4000);
     }
 
     function showError(keyOrMsg = 'upload_error') {
-        const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
-        errorMsg.textContent = '❌ ' + message;
-        errorMsg.classList.add('show');
-        setTimeout(() => {
-            errorMsg.classList.remove('show');
-        }, 4000);
+      const message = translations[languageManager.currentLang][keyOrMsg] || keyOrMsg;
+      errorMsg.textContent = '❌ ' + message;
+      errorMsg.style.display = 'block';
+      setTimeout(() => {
+        errorMsg.style.display = 'none';
+      }, 4000);
     }
 
     // File selection info
     fileInput.addEventListener('change', (e) => {
-        const fileSelectedInfo = document.getElementById('fileSelectedInfo');
-        const selectedFileName = document.getElementById('selectedFileName');
-        
-        if (fileInput.files.length > 0) {
-            const file = fileInput.files[0];
-            selectedFileName.textContent = file.name;
-            fileSelectedInfo.classList.add('show');
-        } else {
-            fileSelectedInfo.classList.remove('show');
-        }
-    });
-
-    // Upload file
-    uploadBtn.addEventListener('click', async () => {
+      const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+      const selectedFileName = document.getElementById('selectedFileName');
+      
+      if (fileInput.files.length > 0) {
         const file = fileInput.files[0];
-        if (!file) {
-            showError('file_not_selected');
-            return;
-        }
-
-        if (file.size > 50 * 1024 * 1024) {
-            showError('file_size_error');
-            return;
-        }
-
-        uploadBtn.disabled = true;
-        uploadBtn.textContent = languageManager.t('uploading');
-
-        try {
-            const fileName = `${currentUser.id}/${Date.now()}-${file.name}`;
-
-            const { data, error: uploadError } = await SUPABASE
-                .storage
-                .from('user-files')
-                .upload(fileName, file);
-
-            if (uploadError) throw uploadError;
-
-            const { error: dbError } = await SUPABASE
-                .from('user_files')
-                .insert({
-                    user_id: currentUser.id,
-                    file_name: file.name,
-                    file_size: file.size,
-                    file_path: fileName,
-                    file_type: file.type,
-                    uploaded_at: new Date()
-                });
-
-            if (dbError) throw dbError;
-
-            showSuccess('upload_success');
-            fileInput.value = '';
-            
-            const fileSelectedInfo = document.getElementById('fileSelectedInfo');
-            fileSelectedInfo.classList.remove('show');
-            
-            await loadFiles();
-        } catch (err) {
-            console.error('Error:', err);
-            showError('upload_error');
-        } finally {
-            uploadBtn.disabled = false;
-            uploadBtn.textContent = languageManager.t('upload_file');
-        }
+        selectedFileName.textContent = file.name;
+        fileSelectedInfo.classList.add('show');
+      } else {
+        fileSelectedInfo.classList.remove('show');
+      }
     });
 
+    // File Upload
+    uploadBtn.addEventListener('click', async () => {
+      const file = fileInput.files[0];
+      if (!file) {
+        showError('file_not_selected');
+        return;
+      }
+
+      if (file.size > 50 * 1024 * 1024) {
+        showError('file_size_error');
+        return;
+      }
+
+      uploadBtn.disabled = true;
+      uploadBtn.textContent = languageManager.t('uploading');
+
+      try {
+        const fileName = `${currentUser.id}/${Date.now()}-${file.name}`;
+
+        // Upload to Supabase Storage
+        const { data, error: uploadError } = await SUPABASE
+          .storage
+          .from('user-files')
+          .upload(fileName, file);
+
+        if (uploadError) throw uploadError;
+
+        // Insert record in database
+        const { error: dbError } = await SUPABASE
+          .from('user_files')
+          .insert({
+            user_id: currentUser.id,
+            file_name: file.name,
+            file_size: file.size,
+            file_path: fileName,
+            file_type: file.type,
+            uploaded_at: new Date()
+          });
+
+        if (dbError) throw dbError;
+
+        showSuccess('upload_success');
+        fileInput.value = '';
+        
+        // ✅ حذف پیام سبز فایل انتخاب شده
+        const fileSelectedInfo = document.getElementById('fileSelectedInfo');
+        fileSelectedInfo.classList.remove('show');
+        
+        await loadFiles();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError('upload_error');
+      } finally {
+        uploadBtn.disabled = false;
+        uploadBtn.textContent = languageManager.t('upload_file');
+      }
+    });
+
+    let lastFilesData = [];
+
+    // Load files
     async function loadFiles() {
-        try {
-            const { data, error } = await SUPABASE
-                .from('user_files')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('uploaded_at', { ascending: false });
+      try {
+        const { data, error } = await SUPABASE
+          .from('user_files')
+          .select('*')
+          .eq('user_id', currentUser.id)
+          .order('uploaded_at', { ascending: false });
 
-            if (error) throw error;
+        if (error) throw error;
 
-            displayFiles(data || []);
-        } catch (err) {
-            console.error('Error loading files:', err);
-        }
+        lastFilesData = data || [];
+        displayFiles(lastFilesData);
+      } catch (err) {
+        console.error('خطا در بارگیری فایل‌ها:', err);
+      }
     }
 
+    // Display files
     function displayFiles(files) {
-        if (files.length === 0) {
-            filesContainer.innerHTML = `
-              <div class="empty-state">
-                <div class="empty-state-icon">📭</div>
-                <h3>${languageManager.t('no_files')}</h3>
-                <p>${languageManager.t('no_files_desc')}</p>
-              </div>
-            `;
-            return;
-        }
+      const dict = translations[languageManager.currentLang];
+      const dateLocale = languageManager.currentLang === 'fa' ? 'fa-IR' : 'en-US';
 
-        const getFileIcon = (fileName) => {
-            const ext = fileName.split('.').pop().toLowerCase();
-            const icons = {
-                'pdf': '📄', 'doc': '📝', 'docx': '📝',
-                'xls': '📊', 'xlsx': '📊', 'ppt': '🎬', 'pptx': '🎬',
-                'jpg': '🖼️', 'jpeg': '🖼️', 'png': '🖼️', 'gif': '🖼️',
-                'zip': '🗜️', 'rar': '🗜️', 'txt': '📋',
-                'mp3': '🎵', 'mp4': '🎬', 'avi': '🎬', 'mkv': '🎬'
-            };
-            return icons[ext] || '📎';
+      if (files.length === 0) {
+        filesContainer.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-state-icon">📭</div>
+            <h3>${dict.no_files}</h3>
+            <p>${dict.no_files_desc}</p>
+          </div>
+        `;
+        return;
+      }
+
+      const getFileIcon = (fileName) => {
+        const ext = fileName.split('.').pop().toLowerCase();
+        const icons = {
+          'pdf': '📄',
+          'doc': '📝',
+          'docx': '📝',
+          'xls': '📊',
+          'xlsx': '📊',
+          'ppt': '🎬',
+          'pptx': '🎬',
+          'jpg': '🖼️',
+          'jpeg': '🖼️',
+          'png': '🖼️',
+          'gif': '🖼️',
+          'zip': '🗜️',
+          'rar': '🗜️',
+          'txt': '📋',
+          'mp3': '🎵',
+          'mp4': '🎬',
+          'avi': '🎬',
+          'mkv': '🎬'
         };
+        return icons[ext] || '📎';
+      };
 
-        const formatFileSize = (bytes) => {
-            if (bytes === 0) return '0 Bytes';
-            const k = 1024;
-            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
-            const i = Math.floor(Math.log(bytes) / Math.log(k));
-            return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
-        };
+      const formatFileSize = (bytes) => {
+        if (bytes === 0) return '0 Bytes';
+        const k = 1024;
+        const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+      };
 
-        filesContainer.innerHTML = files.map(file => {
-            const date = new Date(file.uploaded_at);
-            const dateStr = date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric'
-            });
+      filesContainer.innerHTML = files.map(file => {
+        const date = new Date(file.uploaded_at);
+        const dateStr = date.toLocaleDateString(dateLocale, {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        });
 
-            const timeStr = date.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit'
-            });
+        const timeStr = date.toLocaleTimeString(dateLocale, {
+          hour: '2-digit',
+          minute: '2-digit'
+        });
 
-            return `
-              <div class="file-item">
-                <div class="file-item-info">
-                  <div class="file-item-icon">${getFileIcon(file.file_name)}</div>
-                  <div class="file-item-details">
-                    <p class="file-item-name">${file.file_name}</p>
-                    <div class="file-item-meta">
-                      <span>${formatFileSize(file.file_size)}</span>
-                      <span>•</span>
-                      <span>${dateStr}</span>
-                      <span>•</span>
-                      <span>${timeStr}</span>
-                    </div>
-                  </div>
-                </div>
-                <div class="file-item-actions">
-                  <button class="file-btn" onclick="downloadFile('${file.file_path}', '${file.file_name}')">${languageManager.t('download')}</button>
-                  <button class="file-btn delete" onclick="deleteFile('${file.id}', '${file.file_path}')">${languageManager.t('delete')}</button>
+        return `
+          <div class="file-item">
+            <div class="file-item-info">
+              <div class="file-item-icon">${getFileIcon(file.file_name)}</div>
+              <div class="file-item-details">
+                <p class="file-item-name">${file.file_name}</p>
+                <div class="file-item-meta">
+                  <span>${formatFileSize(file.file_size)}</span>
+                  <span>•</span>
+                  <span>${dateStr}</span>
+                  <span>•</span>
+                  <span>${timeStr}</span>
                 </div>
               </div>
-            `;
-        }).join('');
+            </div>
+            <div class="file-item-actions">
+              <button class="file-btn" onclick="downloadFile('${file.file_path}', '${file.file_name}')">${dict.download}</button>
+              <button class="file-btn delete" onclick="deleteFile('${file.id}', '${file.file_path}')">${dict.delete}</button>
+            </div>
+          </div>
+        `;
+      }).join('');
     }
 
+    // Download file
     async function downloadFile(filePath, fileName) {
-        try {
-            const { data, error } = await SUPABASE
-                .storage
-                .from('user-files')
-                .download(filePath);
+      try {
+        const { data, error } = await SUPABASE
+          .storage
+          .from('user-files')
+          .download(filePath);
 
-            if (error) throw error;
+        if (error) throw error;
 
-            const url = URL.createObjectURL(data);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-        } catch (err) {
-            console.error('Error:', err);
-            showError('download_error');
-        }
+        const url = URL.createObjectURL(data);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        URL.revokeObjectURL(url);
+      } catch (err) {
+        console.error('خطا:', err);
+        showError('download_error');
+      }
     }
 
+    // Delete file
     async function deleteFile(fileId, filePath) {
-        if (!confirm(languageManager.t('delete_confirm'))) {
-            return;
-        }
+      if (!confirm(languageManager.t('delete_confirm'))) {
+        return;
+      }
 
-        try {
-            const { error: storageError } = await SUPABASE
-                .storage
-                .from('user-files')
-                .remove([filePath]);
+      try {
+        // Delete from storage
+        const { error: storageError } = await SUPABASE
+          .storage
+          .from('user-files')
+          .remove([filePath]);
 
-            if (storageError) throw storageError;
+        if (storageError) throw storageError;
 
-            const { error: dbError } = await SUPABASE
-                .from('user_files')
-                .delete()
-                .eq('id', fileId);
+        // Delete from database
+        const { error: dbError } = await SUPABASE
+          .from('user_files')
+          .delete()
+          .eq('id', fileId);
 
-            if (dbError) throw dbError;
+        if (dbError) throw dbError;
 
-            showSuccess('delete_success');
-            await loadFiles();
-        } catch (err) {
-            console.error('Error:', err);
-            showError('delete_error');
-        }
+        showSuccess('delete_success');
+        await loadFiles();
+      } catch (err) {
+        console.error('خطا:', err);
+        showError('delete_error');
+      }
     }
 
-    async function loadMessages() {
-        // Placeholder for loading messages
-        messagesContainer.innerHTML = '<p style="color: var(--muted);">No messages yet</p>';
-    }
-
-    async function loadSuggestions() {
-        try {
-            const { data, error } = await SUPABASE
-                .from('suggestions')
-                .select('*')
-                .eq('user_id', currentUser.id)
-                .order('created_at', { ascending: false });
-
-            if (error) throw error;
-
-            if (data && data.length > 0) {
-                suggestionsContainer.innerHTML = data.map(s => `
-                  <div class="message-item">
-                    <div class="message-header">
-                      <span class="message-author">${s.title}</span>
-                      <span class="message-time">${new Date(s.created_at).toLocaleDateString()}</span>
-                    </div>
-                    <p class="message-text">${s.text}</p>
-                  </div>
-                `).join('');
-            } else {
-                suggestionsContainer.innerHTML = '<p style="color: var(--muted);">No suggestions yet</p>';
-            }
-        } catch (err) {
-            console.error('Error loading suggestions:', err);
-        }
-    }
-
-    function toggleLanguage() {
-        const newLang = languageManager.currentLang === 'en' ? 'fa' : 'en';
-        languageManager.switchLanguage(newLang);
-    }
+    // راه‌اندازی Language Manager (بعد از تعریف تمام المان‌ها و توابع)
+    const languageManager = new LanguageManager();
 
     // Initialize
     checkAuth();
