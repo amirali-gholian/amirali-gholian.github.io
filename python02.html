@@ -620,24 +620,29 @@
       async init() {
         this.setLanguage(this.currentLang);
         this.initSupabase();
+        await this.checkAuth();
         await this.loadExamResults();
         this.render();
       }
 
       initSupabase() {
-        const supabaseUrl = 'https://mkazouyufagfttllbsqf.supabase.co';
-        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rYXpvdXl1ZmFnZnR0bGxic3FmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDcyNzI5ODgsImV4cCI6MjAyMjg0ODk4OH0.ZHgCkGIYQfkIKx9u-k4w2gN1F3qRBvGlR72ChfCVKBU';
+        const supabaseUrl = 'https://cwwqmushilpxzpcpjute.supabase.co';
+        const supabaseKey = 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK';
 
         this.SUPABASE = window.supabase.createClient(supabaseUrl, supabaseKey);
-        this.checkAuth();
       }
 
       async checkAuth() {
         try {
-          const { data } = await this.SUPABASE.auth.getUser();
-          this.currentUser = data.user;
+          const { data: { session } } = await this.SUPABASE.auth.getSession();
+          if (!session) {
+            window.location.href = './profile.html';
+            return;
+          }
+          this.currentUser = session.user;
         } catch (err) {
           console.error('Auth error:', err);
+          window.location.href = './profile.html';
         }
       }
 
