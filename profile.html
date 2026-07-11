@@ -1658,6 +1658,214 @@
         width: calc(100vw - 24px);
       }
     }
+
+    /* ===== IDE / Code Runner ===== */
+    .ide-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .ide-toolbar .form-group {
+      margin-bottom: 0;
+      min-width: 220px;
+      flex: 1 1 220px;
+    }
+
+    .ide-toolbar-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .ide-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(34, 197, 94, .12);
+      border: 1px solid rgba(34, 197, 94, .35);
+      color: var(--accent-2);
+      font-size: .75rem;
+      font-weight: 700;
+    }
+
+    .ide-editor-wrap {
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, .1);
+      background: #0a0f1c;
+    }
+
+    .code-editor {
+      width: 100%;
+      min-height: 260px;
+      resize: vertical;
+      border: none;
+      outline: none;
+      background: #0a0f1c;
+      color: #e5e7eb;
+      font-family: "Fira Code", Consolas, "SFMono-Regular", Menlo, Monaco, monospace;
+      font-size: .92rem;
+      line-height: 1.6;
+      padding: 16px;
+      direction: ltr;
+      text-align: left;
+      tab-size: 4;
+    }
+
+    .code-editor:focus {
+      box-shadow: 0 0 0 2px rgba(56, 189, 248, .25) inset;
+    }
+
+    .ide-stdin {
+      width: 100%;
+      min-height: 70px;
+      resize: vertical;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-top: none;
+      background: rgba(15, 23, 42, .6);
+      color: #e5e7eb;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: .85rem;
+      padding: 10px 16px;
+      direction: ltr;
+      text-align: left;
+      border-radius: 0 0 14px 14px;
+    }
+
+    .ide-output-wrap {
+      margin-top: 16px;
+    }
+
+    .ide-output-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+
+    .ide-output-meta {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: .78rem;
+      color: var(--muted);
+      direction: ltr;
+    }
+
+    .ide-output-meta span b {
+      color: var(--soft);
+    }
+
+    .ide-output {
+      width: 100%;
+      min-height: 140px;
+      max-height: 360px;
+      overflow: auto;
+      background: #05070d;
+      border: 1px solid rgba(255, 255, 255, .1);
+      border-radius: 14px;
+      padding: 14px 16px;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+      word-break: break-word;
+      direction: ltr;
+      text-align: left;
+      color: #d1d5db;
+    }
+
+    .ide-output .out-stderr { color: #f87171; }
+    .ide-output .out-status { color: var(--accent-3); font-weight: 700; }
+    .ide-output .out-empty { color: var(--muted); }
+
+    /* Linux Terminal mode */
+    .linux-terminal {
+      background: #050805;
+      border: 1px solid rgba(34, 197, 94, .25);
+      border-radius: 14px;
+      padding: 14px 16px;
+      min-height: 340px;
+      max-height: 460px;
+      overflow-y: auto;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      direction: ltr;
+      text-align: left;
+      color: #86efac;
+    }
+
+    .linux-terminal .term-line {
+      white-space: pre-wrap;
+      word-break: break-word;
+      margin-bottom: 2px;
+    }
+
+    .linux-terminal .term-prompt {
+      color: #4ade80;
+      font-weight: 700;
+    }
+
+    .linux-terminal .term-cmd {
+      color: #e5e7eb;
+    }
+
+    .linux-terminal .term-stderr {
+      color: #f87171;
+    }
+
+    .linux-terminal .term-stdout {
+      color: #d1d5db;
+    }
+
+    .terminal-input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      background: #050805;
+      border: 1px solid rgba(34, 197, 94, .25);
+      border-radius: 12px;
+      padding: 10px 14px;
+    }
+
+    .terminal-input-row .term-prompt {
+      color: #4ade80;
+      font-weight: 700;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      white-space: nowrap;
+    }
+
+    .terminal-input-row input {
+      flex: 1;
+      background: none;
+      border: none;
+      outline: none;
+      color: #e5e7eb;
+      font-family: Consolas, Menlo, Monaco, monospace;
+      font-size: .92rem;
+      direction: ltr;
+      text-align: left;
+    }
+
+    .ide-note {
+      font-size: .8rem;
+      color: var(--muted);
+      margin-top: 10px;
+      line-height: 1.7;
+    }
+
+    .ide-hidden {
+      display: none !important;
+    }
   </style>
 </head>
 <body>
@@ -1781,6 +1989,7 @@
       <div class="tabs">
         <button class="tab-btn active" data-tab="personal" data-i18n="tab_personal">مشخصات شخصی</button>
         <button class="tab-btn" data-tab="exams" data-i18n="tab_exams">📝 آزمون ها</button>
+        <button class="tab-btn" data-tab="ide" data-i18n="tab_ide">💻 IDE</button>
         <button class="tab-btn" data-tab="support" data-i18n="tab_support">پشتیبانی</button>
         <button class="tab-btn" data-tab="suggestions" data-i18n="tab_suggestions">پیشنهادات</button>
         <button class="tab-btn" data-tab="files" data-i18n="tab_files">مدیریت فایل‌ها</button>
@@ -1860,6 +2069,55 @@
           </div>
           <div class="course-link-arrow">←</div>
         </a>
+      </div>
+
+      <!-- IDE Tab -->
+      <div class="tab-content" id="ide-tab">
+        <div class="card">
+          <h3 data-i18n="ide_title">💻 IDE آنلاین چند زبانه</h3>
+          <p style="color: var(--muted); margin: -8px 0 18px; font-size: .9rem;" data-i18n="ide_subtitle">کد بنویسید، اجرا کنید و خروجی را ببینید — یا از ترمینال لینوکس واقعی استفاده کنید</p>
+
+          <div class="ide-toolbar">
+            <div class="form-group">
+              <label data-i18n="ide_language_label">زبان برنامه‌نویسی</label>
+              <select id="ideLanguageSelect"></select>
+            </div>
+            <div class="ide-toolbar-actions">
+              <span class="ide-badge" id="ideRuntimeBadge">🐧 <span data-i18n="ide_linux_runtime">اجرا روی Linux</span></span>
+              <button class="btn" id="ideRunBtn" style="width:auto; margin:0;" data-i18n="ide_run">▶️ اجرا</button>
+              <button class="btn-secondary btn" id="ideClearBtn" style="width:auto; margin:0;" data-i18n="ide_clear">🔄 پاک کردن</button>
+            </div>
+          </div>
+
+          <!-- Code editor mode -->
+          <div id="ideCodeMode">
+            <div class="ide-editor-wrap">
+              <textarea class="code-editor" id="ideCodeEditor" spellcheck="false"></textarea>
+              <textarea class="ide-stdin" id="ideStdin" data-i18n-placeholder="ide_stdin_placeholder" placeholder="ورودی برنامه (stdin) - اختیاری"></textarea>
+            </div>
+
+            <div class="ide-output-wrap">
+              <div class="ide-output-head">
+                <strong data-i18n="ide_output_label" style="font-size:.9rem;">خروجی</strong>
+                <div class="ide-output-meta" id="ideOutputMeta"></div>
+              </div>
+              <div class="ide-output" id="ideOutput"><span class="out-empty" data-i18n="ide_output_placeholder">برای مشاهده خروجی، دکمه اجرا را بزنید...</span></div>
+            </div>
+          </div>
+
+          <!-- Linux terminal mode -->
+          <div id="ideTerminalMode" class="ide-hidden">
+            <div class="linux-terminal" id="linuxTerminal">
+              <div class="term-line" style="color:#4ade80;">Linux Terminal — bash (Judge0 sandbox)</div>
+            </div>
+            <div class="terminal-input-row">
+              <span class="term-prompt">user@linux:~$</span>
+              <input type="text" id="terminalInput" autocomplete="off" spellcheck="false" data-i18n-placeholder="ide_terminal_placeholder" placeholder="یک دستور لینوکسی بنویسید و Enter بزنید...">
+            </div>
+          </div>
+
+          <p class="ide-note" id="ideNote" data-i18n="ide_note">⚠️ کد شما روی یک ماشین مجازی لینوکسی امن و ایزوله (سرویس عمومی Judge0) اجرا می‌شود؛ هر اجرا در یک محیط تازه انجام می‌شود، پس تغییرات بین دستورها ذخیره نمی‌ماند. حجم درخواست‌ها محدود است.</p>
+        </div>
       </div>
 
       <!-- Support Tab -->
@@ -2124,6 +2382,27 @@
         save_error: 'Error saving information',
         support_send_error: 'Error sending message',
         suggestion_send_error: 'Error sending suggestion',
+
+        tab_ide: '💻 IDE',
+        ide_title: '💻 Online Multi-Language IDE',
+        ide_subtitle: 'Write code, run it and see the output — or use a real Linux terminal',
+        ide_language_label: 'Programming Language',
+        ide_linux_runtime: 'Running on Linux',
+        ide_run: '▶️ Run',
+        ide_running: '⏳ Running...',
+        ide_clear: '🔄 Clear',
+        ide_stdin_placeholder: 'Program input (stdin) - optional',
+        ide_output_label: 'Output',
+        ide_output_placeholder: 'Click Run to see the output...',
+        ide_terminal_placeholder: 'Type a Linux command and press Enter...',
+        ide_note: '⚠️ Your code runs on a secure, isolated Linux virtual machine (the public Judge0 service). Each run happens in a fresh environment, so state is not preserved between commands. Requests are rate-limited.',
+        ide_exit_code: 'Exit code',
+        ide_time: 'Time',
+        ide_memory: 'Memory',
+        ide_status: 'Status',
+        ide_network_error: 'Could not reach the execution service. Please try again.',
+        ide_rate_limit_error: '⏳ Too many requests right now. Please wait a few seconds and try again.',
+        ide_empty_code_error: 'Please write some code first',
       },
       fa: {
         back: '→ بازگشت',
@@ -2256,6 +2535,27 @@
         save_error: 'خطا در ذخیره اطلاعات',
         support_send_error: 'خطا در ارسال پیام',
         suggestion_send_error: 'خطا در ارسال پیشنهاد',
+
+        tab_ide: '💻 IDE',
+        ide_title: '💻 IDE آنلاین چند زبانه',
+        ide_subtitle: 'کد بنویسید، اجرا کنید و خروجی را ببینید — یا از ترمینال لینوکس واقعی استفاده کنید',
+        ide_language_label: 'زبان برنامه‌نویسی',
+        ide_linux_runtime: 'اجرا روی Linux',
+        ide_run: '▶️ اجرا',
+        ide_running: '⏳ درحال اجرا...',
+        ide_clear: '🔄 پاک کردن',
+        ide_stdin_placeholder: 'ورودی برنامه (stdin) - اختیاری',
+        ide_output_label: 'خروجی',
+        ide_output_placeholder: 'برای مشاهده خروجی، دکمه اجرا را بزنید...',
+        ide_terminal_placeholder: 'یک دستور لینوکسی بنویسید و Enter بزنید...',
+        ide_note: '⚠️ کد شما روی یک ماشین مجازی لینوکسی امن و ایزوله (سرویس عمومی Judge0) اجرا می‌شود؛ هر اجرا در یک محیط تازه انجام می‌شود، پس تغییرات بین دستورها ذخیره نمی‌ماند. حجم درخواست‌ها محدود است.',
+        ide_exit_code: 'کد خروج',
+        ide_time: 'زمان',
+        ide_memory: 'حافظه',
+        ide_status: 'وضعیت',
+        ide_network_error: 'اتصال به سرویس اجرا برقرار نشد. دوباره تلاش کنید.',
+        ide_rate_limit_error: '⏳ تعداد درخواست‌ها زیاده. چند ثانیه صبر کن و دوباره امتحان کن.',
+        ide_empty_code_error: 'لطفاً ابتدا کدی بنویسید',
       }
     };
 
@@ -3114,8 +3414,260 @@
       }
     }
 
+    // ============================================
+    // 💻 IDE / Code Runner (Judge0 CE public API - runs on real Linux sandboxes)
+    // ============================================
+    const JUDGE0_BASE = 'https://ce.judge0.com';
+
+    // Curated list of widely-used languages + a dedicated "Linux Terminal" (bash) mode
+    const IDE_LANGUAGES = [
+      { id: 'terminal', judge0Id: 46,  label: 'ترمینال لینوکس (Bash)', labelEn: 'Linux Terminal (Bash)', terminal: true },
+      { id: 'python3',  judge0Id: 71,  label: 'Python 3',        labelEn: 'Python 3',        sample: 'print("Hello, World!")' },
+      { id: 'javascript',judge0Id: 63, label: 'JavaScript (Node.js)', labelEn: 'JavaScript (Node.js)', sample: 'console.log("Hello, World!");' },
+      { id: 'typescript',judge0Id: 74, label: 'TypeScript',      labelEn: 'TypeScript',      sample: 'const msg: string = "Hello, World!";\nconsole.log(msg);' },
+      { id: 'c',        judge0Id: 50,  label: 'C (GCC)',         labelEn: 'C (GCC)',         sample: '#include <stdio.h>\n\nint main(void) {\n  printf("Hello, World!\\n");\n  return 0;\n}' },
+      { id: 'cpp',      judge0Id: 54,  label: 'C++ (GCC)',       labelEn: 'C++ (GCC)',       sample: '#include <iostream>\n\nint main() {\n  std::cout << "Hello, World!" << std::endl;\n  return 0;\n}' },
+      { id: 'csharp',   judge0Id: 51,  label: 'C# (Mono)',       labelEn: 'C# (Mono)',       sample: 'using System;\n\nclass Program {\n  static void Main() {\n    Console.WriteLine("Hello, World!");\n  }\n}' },
+      { id: 'java',     judge0Id: 62,  label: 'Java',            labelEn: 'Java',            sample: 'public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello, World!");\n  }\n}' },
+      { id: 'go',       judge0Id: 60,  label: 'Go',              labelEn: 'Go',              sample: 'package main\n\nimport "fmt"\n\nfunc main() {\n  fmt.Println("Hello, World!")\n}' },
+      { id: 'rust',     judge0Id: 73,  label: 'Rust',            labelEn: 'Rust',            sample: 'fn main() {\n  println!("Hello, World!");\n}' },
+      { id: 'php',      judge0Id: 68,  label: 'PHP',             labelEn: 'PHP',             sample: '<?php\necho "Hello, World!\\n";' },
+      { id: 'ruby',     judge0Id: 72,  label: 'Ruby',            labelEn: 'Ruby',            sample: 'puts "Hello, World!"' },
+      { id: 'lua',      judge0Id: 64,  label: 'Lua',             labelEn: 'Lua',             sample: 'print("Hello, World!")' },
+      { id: 'haskell',  judge0Id: 61,  label: 'Haskell',         labelEn: 'Haskell',         sample: 'main :: IO ()\nmain = putStrLn "Hello, World!"' },
+      { id: 'ocaml',    judge0Id: 65,  label: 'OCaml',           labelEn: 'OCaml',           sample: 'print_endline "Hello, World!"' },
+      { id: 'pascal',   judge0Id: 67,  label: 'Pascal',          labelEn: 'Pascal',          sample: 'program Hello;\nbegin\n  writeln(\'Hello, World!\');\nend.' },
+      { id: 'fortran',  judge0Id: 59,  label: 'Fortran',         labelEn: 'Fortran',         sample: 'program hello\n  print *, "Hello, World!"\nend program hello' },
+      { id: 'perl_prolog', judge0Id: 69, label: 'Prolog',        labelEn: 'Prolog',          sample: ":- initialization(main).\nmain :- write('Hello, World!'), nl." },
+      { id: 'elixir',   judge0Id: 57,  label: 'Elixir',          labelEn: 'Elixir',          sample: 'IO.puts "Hello, World!"' },
+      { id: 'erlang',   judge0Id: 58,  label: 'Erlang',          labelEn: 'Erlang',          sample: '-module(main).\n-export([main/0]).\nmain() -> io:format("Hello, World!~n").' },
+      { id: 'dlang',    judge0Id: 56,  label: 'D',               labelEn: 'D',               sample: 'import std.stdio;\n\nvoid main() {\n  writeln("Hello, World!");\n}' },
+      { id: 'lisp',     judge0Id: 55,  label: 'Common Lisp',     labelEn: 'Common Lisp',     sample: '(format t "Hello, World!~%")' },
+      { id: 'octave',   judge0Id: 66,  label: 'Octave (MATLAB-like)', labelEn: 'Octave (MATLAB-like)', sample: 'disp("Hello, World!")' },
+      { id: 'basic',    judge0Id: 47,  label: 'Basic',           labelEn: 'Basic',           sample: 'PRINT "Hello, World!"' },
+      { id: 'asm',      judge0Id: 45,  label: 'Assembly (NASM)', labelEn: 'Assembly (NASM)', sample: 'section .data\n  msg db "Hello, World!", 0xA\n  len equ $ - msg\nsection .text\n  global _start\n_start:\n  mov rax, 1\n  mov rdi, 1\n  mov rsi, msg\n  mov rdx, len\n  syscall\n  mov rax, 60\n  xor rdi, rdi\n  syscall' }
+    ];
+
+    const ideLanguageSelect = document.getElementById('ideLanguageSelect');
+    const ideCodeEditor = document.getElementById('ideCodeEditor');
+    const ideStdin = document.getElementById('ideStdin');
+    const ideRunBtn = document.getElementById('ideRunBtn');
+    const ideClearBtn = document.getElementById('ideClearBtn');
+    const ideOutput = document.getElementById('ideOutput');
+    const ideOutputMeta = document.getElementById('ideOutputMeta');
+    const ideCodeMode = document.getElementById('ideCodeMode');
+    const ideTerminalMode = document.getElementById('ideTerminalMode');
+    const linuxTerminal = document.getElementById('linuxTerminal');
+    const terminalInput = document.getElementById('terminalInput');
+
+    let ideBusy = false;
+
+    function populateIdeLanguages() {
+      if (!ideLanguageSelect) return;
+      ideLanguageSelect.innerHTML = IDE_LANGUAGES.map(l =>
+        `<option value="${l.id}">${languageManager && languageManager.currentLang === 'fa' ? l.label : l.labelEn}</option>`
+      ).join('');
+    }
+
+    function getSelectedIdeLanguage() {
+      const id = ideLanguageSelect.value;
+      return IDE_LANGUAGES.find(l => l.id === id) || IDE_LANGUAGES[1];
+    }
+
+    function switchIdeMode() {
+      const lang = getSelectedIdeLanguage();
+      if (lang.terminal) {
+        ideCodeMode.classList.add('ide-hidden');
+        ideTerminalMode.classList.remove('ide-hidden');
+      } else {
+        ideTerminalMode.classList.add('ide-hidden');
+        ideCodeMode.classList.remove('ide-hidden');
+        if (!ideCodeEditor.value.trim() && lang.sample) {
+          ideCodeEditor.value = lang.sample;
+        }
+      }
+    }
+
+    if (ideLanguageSelect) {
+      ideLanguageSelect.addEventListener('change', switchIdeMode);
+    }
+
+    // Base64 helpers that support UTF-8 text
+    function b64Encode(str) {
+      return btoa(unescape(encodeURIComponent(str || '')));
+    }
+    function b64Decode(str) {
+      if (!str) return '';
+      try {
+        return decodeURIComponent(escape(atob(str)));
+      } catch (e) {
+        try { return atob(str); } catch (e2) { return ''; }
+      }
+    }
+
+    async function judge0Execute(languageId, sourceCode, stdin) {
+      const createRes = await fetch(`${JUDGE0_BASE}/submissions/?base64_encoded=true&wait=true`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          language_id: languageId,
+          source_code: b64Encode(sourceCode),
+          stdin: b64Encode(stdin || '')
+        })
+      });
+
+      if (createRes.status === 429) throw new Error('rate_limited');
+      if (!createRes.ok) throw new Error('http_error');
+      let data = await createRes.json();
+
+      // Some Judge0 hosts don't support wait=true; fall back to polling by token
+      if (data && data.token && data.status === undefined && data.stdout === undefined) {
+        data = await judge0Poll(data.token);
+      }
+      return data;
+    }
+
+    async function judge0Poll(token) {
+      for (let i = 0; i < 20; i++) {
+        await new Promise(r => setTimeout(r, 1000));
+        const res = await fetch(`${JUDGE0_BASE}/submissions/${token}?base64_encoded=true`);
+        if (res.status === 429) throw new Error('rate_limited');
+        if (!res.ok) continue;
+        const data = await res.json();
+        if (data.status && data.status.id > 2) return data; // > 2 means finished (not in queue/processing)
+      }
+      throw new Error('timeout');
+    }
+
+    function renderIdeOutput(data) {
+      const dict = translations[languageManager.currentLang];
+      const stdout = b64Decode(data.stdout);
+      const stderr = b64Decode(data.stderr);
+      const compileOutput = b64Decode(data.compile_output);
+      const statusDesc = (data.status && data.status.description) || '';
+
+      let html = '';
+      if (compileOutput) html += `<div class="out-stderr">${escapeHtml(compileOutput)}</div>`;
+      if (stdout) html += `<div>${escapeHtml(stdout)}</div>`;
+      if (stderr) html += `<div class="out-stderr">${escapeHtml(stderr)}</div>`;
+      if (!stdout && !stderr && !compileOutput) {
+        html = `<span class="out-status">${escapeHtml(statusDesc || '—')}</span>`;
+      }
+      ideOutput.innerHTML = html;
+
+      const metaParts = [];
+      if (statusDesc) metaParts.push(`<span>${dict.ide_status}: <b>${escapeHtml(statusDesc)}</b></span>`);
+      if (data.time) metaParts.push(`<span>${dict.ide_time}: <b>${data.time}s</b></span>`);
+      if (data.memory) metaParts.push(`<span>${dict.ide_memory}: <b>${Math.round(data.memory)}KB</b></span>`);
+      if (data.exit_code !== null && data.exit_code !== undefined) metaParts.push(`<span>${dict.ide_exit_code}: <b>${data.exit_code}</b></span>`);
+      ideOutputMeta.innerHTML = metaParts.join('');
+    }
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    function ideErrorMessage(err) {
+      const dict = translations[languageManager.currentLang];
+      if (err && err.message === 'rate_limited') return dict.ide_rate_limit_error;
+      return dict.ide_network_error;
+    }
+
+    if (ideRunBtn) {
+      ideRunBtn.addEventListener('click', async () => {
+        if (ideBusy) return;
+        const dict = translations[languageManager.currentLang];
+        const lang = getSelectedIdeLanguage();
+        const code = ideCodeEditor.value;
+
+        if (!code.trim()) {
+          showError(dict.ide_empty_code_error);
+          return;
+        }
+
+        ideBusy = true;
+        ideRunBtn.disabled = true;
+        ideRunBtn.textContent = dict.ide_running;
+        ideOutput.innerHTML = `<span class="out-status">${dict.ide_running}</span>`;
+        ideOutputMeta.innerHTML = '';
+
+        try {
+          const data = await judge0Execute(lang.judge0Id, code, ideStdin.value);
+          renderIdeOutput(data);
+        } catch (err) {
+          console.error('IDE error:', err);
+          ideOutput.innerHTML = `<span class="out-stderr">${escapeHtml(ideErrorMessage(err))}</span>`;
+        } finally {
+          ideBusy = false;
+          ideRunBtn.disabled = false;
+          ideRunBtn.textContent = dict.ide_run;
+        }
+      });
+    }
+
+    if (ideClearBtn) {
+      ideClearBtn.addEventListener('click', () => {
+        const dict = translations[languageManager.currentLang];
+        ideCodeEditor.value = '';
+        ideStdin.value = '';
+        ideOutput.innerHTML = `<span class="out-empty">${dict.ide_output_placeholder}</span>`;
+        ideOutputMeta.innerHTML = '';
+      });
+    }
+
+    // ----- Linux Terminal mode -----
+    function appendTerminalLine(html) {
+      const line = document.createElement('div');
+      line.className = 'term-line';
+      line.innerHTML = html;
+      linuxTerminal.appendChild(line);
+      linuxTerminal.scrollTop = linuxTerminal.scrollHeight;
+    }
+
+    async function runTerminalCommand(cmd) {
+      appendTerminalLine(`<span class="term-prompt">user@linux:~$</span> <span class="term-cmd">${escapeHtml(cmd)}</span>`);
+      const bashLang = IDE_LANGUAGES.find(l => l.terminal);
+      try {
+        const data = await judge0Execute(bashLang.judge0Id, cmd, '');
+        const stdout = b64Decode(data.stdout);
+        const stderr = b64Decode(data.stderr);
+        if (stdout) appendTerminalLine(`<span class="term-stdout">${escapeHtml(stdout).replace(/\n/g, '<br>')}</span>`);
+        if (stderr) appendTerminalLine(`<span class="term-stderr">${escapeHtml(stderr).replace(/\n/g, '<br>')}</span>`);
+        if (!stdout && !stderr) {
+          const statusDesc = (data.status && data.status.description) || '';
+          appendTerminalLine(`<span style="color:var(--muted);">${escapeHtml(statusDesc)}</span>`);
+        }
+      } catch (err) {
+        console.error('Terminal error:', err);
+        appendTerminalLine(`<span class="term-stderr">${escapeHtml(ideErrorMessage(err))}</span>`);
+      }
+    }
+
+    if (terminalInput) {
+      let terminalBusy = false;
+      terminalInput.addEventListener('keydown', async (e) => {
+        if (e.key === 'Enter' && !terminalBusy) {
+          const cmd = terminalInput.value.trim();
+          if (!cmd) return;
+          terminalBusy = true;
+          terminalInput.value = '';
+          terminalInput.disabled = true;
+          await runTerminalCommand(cmd);
+          terminalInput.disabled = false;
+          terminalInput.focus();
+          terminalBusy = false;
+        }
+      });
+    }
+
     // راه‌اندازی Language Manager (بعد از تعریف تمام المان‌ها و توابع)
     const languageManager = new LanguageManager();
+
+    // Initialize IDE section
+    populateIdeLanguages();
+    switchIdeMode();
 
     // Initialize
     checkAuth();
