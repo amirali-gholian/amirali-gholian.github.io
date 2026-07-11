@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>پنل ادمین | Amirali Gholian</title>
+    <link rel="icon" href="./logo.png" type="image/png">
+    <link rel="manifest" href="/manifest.json">
+    
+    <style>
+        :root {
+            --bg0: #050814;
+            --bg1: #070b16;
+            --panel: rgba(15, 23, 42, .72);
+            --line: rgba(148, 163, 184, .16);
+            --text: #e5e7eb;
+            --muted: #94a3b8;
+            --soft: #cbd5e1;
+            --accent: #38bdf8;
+            --accent-2: #22c55e;
+            --accent-3: #a78bfa;
+            --accent-danger: #ef4444;
+            --shadow: 0 20px 60px rgba(0, 0, 0, .42);
+            --radius: 16px;
+            --max: 1400px;
+        }
+
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        
+        body {
+            margin: 0;
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b);
+            color: var(--text);
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* Topbar */
+        .topbar {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(4, 8, 15, .95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--line);
+            padding: 16px 0;
+        }
+
+        .topbar-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 24px;
+            width: min(var(--max), calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--accent);
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .nav-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 10px 16px;
+            border-radius: 8px;
+            border: 1px solid transparent;
+            background: rgba(56, 189, 248, .1);
+            color: var(--text);
+            cursor: pointer;
+            font-size: .95rem;
+            font-weight: 500;
+            transition: all .25s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn:hover {
+            background: rgba(56, 189, 248, .2);
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, .1);
+            color: #fca5a5;
+            border-color: rgba(239, 68, 68, .3);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, .2);
+            border-color: #ef4444;
+            color: #fff;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            background: var(--panel);
+            border-radius: 8px;
+            border: 1px solid var(--line);
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-3));
+            display: grid;
+            place-items: center;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Layout */
+        .container {
+            width: min(var(--max), calc(100% - 32px));
+            margin: 0 auto;
+            padding: 32px 0;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            gap: 24px;
+        }
+
+        .page-header h1 {
+            margin: 0;
+            font-size: 2rem;
+            background: linear-gradient(135deg, var(--text), var(--soft));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--line);
+            overflow-x: auto;
+            padding-bottom: 12px;
+        }
+
+        .tab {
+            padding: 12px 20px;
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all .25s;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab:hover {
+            color: var(--text);
+        }
+
+        .tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+        }
+
+        /* Panels */
+        .panel {
+            display: none;
+            animation: fadeIn .3s ease;
+        }
+
+        .panel.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            padding: 24px;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            display: block;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent);
+            margin-bottom: 8px;
+        }
+
+        .stat-card .label {
+            display: block;
+            color: var(--muted);
+            font-size: .95rem;
+        }
+
+        /* Table */
+        .table-wrapper {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            overflow: hidden;
+            margin-bottom: 32px;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .95rem;
+        }
+
+        .table th {
+            background: rgba(56, 189, 248, .05);
+            padding: 16px;
+            text-align: right;
+            border-bottom: 1px solid var(--line);
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .table td {
+            padding: 16px;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .table tbody tr:hover {
+            background: rgba(56, 189, 248, .05);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px;
+            background: rgba(0, 0, 0, .3);
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: var(--text);
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all .25s;
+        }
+
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            outline: none;
+            border-color: var(--accent);
+            background: rgba(56, 189, 248, .05);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            margin: 0 0 8px 0;
+            font-size: 1.2rem;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: .85rem;
+            font-weight: 600;
+        }
+
+        .badge-admin {
+            background: rgba(56, 189, 248, .2);
+            color: var(--accent);
+            border: 1px solid var(--accent);
+        }
+
+        .badge-user {
+            background: rgba(148, 163, 184, .1);
+            color: var(--muted);
+            border: 1px solid var(--line);
+        }
+
+        .badge-success {
+            background: rgba(34, 197, 94, .2);
+            color: var(--accent-2);
+            border: 1px solid var(--accent-2);
+        }
+
+        .badge-warning {
+            background: rgba(245, 158, 11, .2);
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+        }
+
+        .badge-danger {
+            background: rgba(239, 68, 68, .2);
+            color: #fca5a5;
+            border: 1px solid #ef4444;
+        }
+
+        /* Toast/Alert */
+        .alert {
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideDown .3s ease;
+        }
+
+        .alert-success {
+            background: rgba(34, 197, 94, .1);
+            border: 1px solid var(--accent-2);
+            color: var(--accent-2);
+        }
+
+        .alert-danger {
+            background: rgba(239, 68, 68, .1);
+            border: 1px solid var(--accent-danger);
+            color: #fca5a5;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .table {
+                font-size: .85rem;
+            }
+
+            .table th, .table td {
+                padding: 12px 8px;
+            }
+
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Topbar -->
+    <div class="topbar">
+        <div class="topbar-inner">
+            <a href="/profile.html" class="brand">🛡️ پنل ادمین</a>
+            <div class="nav-actions">
+                <span class="user-info">
+                    <div class="user-avatar" id="user-avatar">👤</div>
+                    <span id="user-name">بارگذاری...</span>
+                </span>
+                <button class="btn btn-danger" id="logout-btn">خروج</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Alerts -->
+        <div id="alerts-container"></div>
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <div>
+                <h1>پنل کنترل ادمین</h1>
+                <p style="color: var(--muted); margin: 8px 0 0 0;">خوش آمدید به پنل مدیریت</p>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" data-tab="dashboard">📊 داشبورد</button>
+            <button class="tab" data-tab="users">👥 کاربران</button>
+            <button class="tab" data-tab="files">📁 فایل‌ها</button>
+            <button class="tab" data-tab="messages">💬 پیام‌ها</button>
+            <button class="tab" data-tab="suggestions">💡 پیشنهادها</button>
+            <button class="tab" data-tab="announcements">📢 اطلاعیه‌ها</button>
+            <button class="tab" data-tab="logs">📋 لاگ‌های فعالیت</button>
+        </div>
+
+        <!-- ===== DASHBOARD TAB ===== -->
+        <div class="panel active" id="panel-dashboard">
+            <div class="grid" id="stats-grid">
+                <!-- آمار بارگذاری می‌شود از طریق JavaScript -->
+            </div>
+
+            <h2>فعالیت اخیر</h2>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عملیات</th>
+                            <th>مقصد</th>
+                            <th>ادمین</th>
+                            <th>زمان</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logs-tbody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== USERS TAB ===== -->
+        <div class="panel" id="panel-users">
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="users-search"
+                    placeholder="جستجو بر اساس نام یا ایمیل..."
+                    style="flex: 1;"
+                />
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>نام</th>
+                            <th>ایمیل</th>
+                            <th>نقش</th>
+                            <th>تاریخ ثبت‌نام</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="users-tbody">
+                        <tr><td colspan="5" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== FILES TAB ===== -->
+        <div class="panel" id="panel-files">
+            <h3>آپلود فایل جدید</h3>
+            <form id="file-upload-form" style="margin-bottom: 32px;">
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="form-group">
+                        <label class="form-label">عنوان فایل</label>
+                        <input type="text" class="form-input" id="file-title" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">دسته‌بندی</label>
+                        <select class="form-select" id="file-category">
+                            <option value="document">سند</option>
+                            <option value="image">تصویر</option>
+                            <option value="video">ویدیو</option>
+                            <option value="audio">صوت</option>
+                            <option value="archive">آرشیو</option>
+                            <option value="other">سایر</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">توضیحات</label>
+                    <textarea class="form-textarea" id="file-desc"></textarea>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">انتخاب فایل</label>
+                    <input type="file" class="form-input" id="file-input" required>
+                </div>
+                <div style="display: flex; gap: 12px;">
+                    <label style="flex: 1; display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                        <input type="checkbox" id="file-featured">
+                        <span>فایل ویژه</span>
+                    </label>
+                    <button type="submit" class="btn" style="background: rgba(34, 197, 94, .2); color: var(--accent-2);">
+                        📤 آپلود
+                    </button>
+                </div>
+            </form>
+
+            <h3>فایل‌های موجود</h3>
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="files-search"
+                    placeholder="جستجو..."
+                    style="flex: 1;"
+                />
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>دسته</th>
+                            <th>حجم</th>
+                            <th>دانلودها</th>
+                            <th>وضعیت</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="files-tbody">
+                        <tr><td colspan="6" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== MESSAGES TAB ===== -->
+        <div class="panel" id="panel-messages">
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="messages-search"
+                    placeholder="جستجو..."
+                    style="flex: 1;"
+                />
+                <select class="form-select" id="messages-filter" style="width: 150px;">
+                    <option value="">همه</option>
+                    <option value="unread">خوانده نشده</option>
+                    <option value="read">خوانده شده</option>
+                    <option value="replied">پاسخ داده شده</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>موضوع</th>
+                            <th>فرستنده</th>
+                            <th>وضعیت</th>
+                            <th>تاریخ</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="messages-tbody">
+                        <tr><td colspan="5" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== SUGGESTIONS TAB ===== -->
+        <div class="panel" id="panel-suggestions">
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="suggestions-search"
+                    placeholder="جستجو..."
+                    style="flex: 1;"
+                />
+                <select class="form-select" id="suggestions-filter" style="width: 150px;">
+                    <option value="">همه</option>
+                    <option value="open">باز</option>
+                    <option value="under_review">در بررسی</option>
+                    <option value="implemented">اجرا شده</option>
+                    <option value="rejected">رد شده</option>
+                </select>
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>دسته</th>
+                            <th>کاربر</th>
+                            <th>وضعیت</th>
+                            <th>رای‌ها</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="suggestions-tbody">
+                        <tr><td colspan="6" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== ANNOUNCEMENTS TAB ===== -->
+        <div class="panel" id="panel-announcements">
+            <h3>اطلاعیه جدید</h3>
+            <form id="announcement-form" style="margin-bottom: 32px;">
+                <div class="form-group">
+                    <label class="form-label">عنوان</label>
+                    <input type="text" class="form-input" id="announcement-title" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">محتوا</label>
+                    <textarea class="form-textarea" id="announcement-content" required></textarea>
+                </div>
+                <div class="grid" style="grid-template-columns: 1fr 1fr;">
+                    <div class="form-group">
+                        <label class="form-label">نوع</label>
+                        <select class="form-select" id="announcement-type">
+                            <option value="info">اطلاعات</option>
+                            <option value="warning">هشدار</option>
+                            <option value="success">موفقیت</option>
+                            <option value="error">خطا</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">تاریخ انقضا</label>
+                        <input type="date" class="form-input" id="announcement-expires">
+                    </div>
+                </div>
+                <button type="submit" class="btn" style="background: rgba(34, 197, 94, .2); color: var(--accent-2);">
+                    📢 ایجاد اطلاعیه
+                </button>
+            </form>
+
+            <h3>اطلاعیه‌های موجود</h3>
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عنوان</th>
+                            <th>نوع</th>
+                            <th>فعال</th>
+                            <th>انقضا</th>
+                            <th>عملیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="announcements-tbody">
+                        <tr><td colspan="5" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ===== LOGS TAB ===== -->
+        <div class="panel" id="panel-logs">
+            <div style="display: flex; gap: 12px; margin-bottom: 20px;">
+                <input 
+                    type="text" 
+                    class="form-input" 
+                    id="logs-search"
+                    placeholder="جستجو..."
+                    style="flex: 1;"
+                />
+            </div>
+
+            <div class="table-wrapper">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>عملیات</th>
+                            <th>هدف</th>
+                            <th>ادمین</th>
+                            <th>تاریخ</th>
+                            <th>جزئیات</th>
+                        </tr>
+                    </thead>
+                    <tbody id="full-logs-tbody">
+                        <tr><td colspan="5" class="empty-state">بارگذاری...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script async src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
