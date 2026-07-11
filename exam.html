@@ -893,23 +893,44 @@
           intermediate: 20 * 60,
           advanced: 25 * 60
         };
-
-        this.initPyodide();
       }
 
       async initPyodide() {
         try {
+          if (this.pyodideReady && window.pyodide) {
+            return;
+          }
+          
+          console.log('🔄 Pyodide load شروع...');
+          
+          // صبر کنیم تا loadPyodide موجود شود
+          let attempts = 0;
+          while (typeof loadPyodide === 'undefined' && attempts < 50) {
+            await new Promise(r => setTimeout(r, 100));
+            attempts++;
+          }
+
+          if (typeof loadPyodide === 'undefined') {
+            throw new Error('loadPyodide failed to load');
+          }
+
           window.pyodide = await loadPyodide({
             indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/'
           });
+          
           this.pyodideReady = true;
+          console.log('✅ Pyodide آماده است');
         } catch (err) {
           console.error('❌ Pyodide خطا:', err);
+          this.pyodideReady = false;
         }
       }
 
       async init() {
         try {
+          // Initialize Pyodide اول
+          await this.initPyodide();
+
           // Use shared Supabase client
           this.SUPABASE = SUPABASE;
 
@@ -1044,11 +1065,6 @@
       }
 
       async runCode(idx) {
-        if (!this.pyodideReady) {
-          alert('⏳ Pyodide هنوز آماده نیست...');
-          return;
-        }
-
         const codeEl = document.getElementById(`code-${idx}`);
         const outputEl = document.getElementById(`output-${idx}`);
         const loaderEl = document.getElementById(`loader-${idx}`);
@@ -1063,20 +1079,42 @@
 
         btnEl.disabled = true;
         loaderEl.style.display = 'inline-block';
-        outputEl.textContent = '⏳ در حال اجرا...';
+        outputEl.textContent = '⏳ در حال آماده‌سازی...';
         outputEl.className = 'console';
 
+        // صبر کنیم تا Pyodide آماده شود
+        let attempts = 0;
+        while (!this.pyodideReady && attempts < 30) {
+          await new Promise(r => setTimeout(r, 100));
+          attempts++;
+        }
+
+        if (!this.pyodideReady) {
+          outputEl.textContent = '❌ Pyodide آماده نشد. صفحه را دوباره بارگذاری کنید';
+          outputEl.className = 'console error';
+          btnEl.disabled = false;
+          loaderEl.style.display = 'none';
+          return;
+        }
+
         try {
+          outputEl.textContent = '⏳ در حال اجرا...';
+          
           const lines = [];
-          const print = window.pyodide.globals.get('print');
+          
+          // Capture print output
+          const printFunc = window.pyodide.globals.get('print');
           window.pyodide.globals.set('print', (...args) => {
             lines.push(args.join(' '));
           });
 
+          // Run code
           const result = await window.pyodide.runPythonAsync(code);
           
-          window.pyodide.globals.set('print', print);
+          // Restore print
+          window.pyodide.globals.set('print', printFunc);
 
+          // Show output
           if (lines.length > 0) {
             outputEl.textContent = lines.join('\n');
             outputEl.className = 'console success';
@@ -1084,11 +1122,11 @@
             outputEl.textContent = String(result);
             outputEl.className = 'console success';
           } else {
-            outputEl.textContent = '✅ اجرا شد';
+            outputEl.textContent = '✅ کد با موفقیت اجرا شد';
             outputEl.className = 'console success';
           }
         } catch (err) {
-          outputEl.textContent = `❌ ${err.message}`;
+          outputEl.textContent = `❌ خطا:\n${err.message}`;
           outputEl.className = 'console error';
         } finally {
           btnEl.disabled = false;
