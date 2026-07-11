@@ -201,6 +201,28 @@
       word-wrap: break-word;
     }
 
+    .question-text .question-line {
+      display: block;
+    }
+
+    .question-text .code-block {
+      display: block;
+      margin-top: 12px;
+      padding: 12px 14px;
+      background: #0f1419;
+      border: 1px solid rgba(56, 189, 248, .2);
+      border-radius: 8px;
+      color: #e8f05a;
+      font-family: 'Monaco', 'Consolas', monospace;
+      font-size: .9rem;
+      line-height: 1.6;
+      direction: ltr;
+      text-align: left;
+      unicode-bidi: plaintext;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
     .options {
       display: flex;
       flex-direction: column;
@@ -526,6 +548,8 @@
       min-height: 120px;
       resize: vertical;
       line-height: 1.5;
+      direction: ltr;
+      text-align: left;
     }
 
     .code-textarea:focus {
@@ -555,6 +579,8 @@
       white-space: pre-wrap;
       word-wrap: break-word;
       line-height: 1.5;
+      direction: ltr;
+      text-align: left;
     }
 
     .console.empty {
@@ -1000,6 +1026,20 @@
         document.getElementById('questionNumber').textContent = `سوال ${answered} از ${total}`;
       }
 
+      formatQuestionText(text) {
+        // اولین بخش قبل از خط خالی، سوال فارسی (راست‌چین) است
+        // بخش بعدی (در صورت وجود) کد پایتون است و باید چپ‌چین نمایش داده شود
+        const parts = text.split('\n\n');
+        const question = parts[0];
+        const code = parts.slice(1).join('\n\n');
+
+        let html = `<span class="question-line">${question}</span>`;
+        if (code) {
+          html += `<code class="code-block">${code}</code>`;
+        }
+        return html;
+      }
+
       renderQuestions() {
         const html = this.exam.questions.map((q, idx) => `
           <div class="question-item ${this.exam.answers[idx] !== undefined ? 'answered' : ''}">
@@ -1007,7 +1047,7 @@
               <h3>سوال ${idx + 1}</h3>
               <span class="question-status">${this.exam.answers[idx] !== undefined ? '✓' : '○'}</span>
             </div>
-            <p class="question-text">${q.text}</p>
+            <p class="question-text">${this.formatQuestionText(q.text)}</p>
             
             <!-- IDE Section -->
             <div class="question-ide">
@@ -1015,11 +1055,11 @@
               <div class="ide-grid">
                 <div class="code-input">
                   <div class="input-label">📝 کد شما</div>
-                  <textarea class="code-textarea" id="code-${idx}" placeholder="کد Python خود را اینجا بنویسید..."></textarea>
+                  <textarea class="code-textarea" id="code-${idx}" dir="ltr" placeholder="کد Python خود را اینجا بنویسید..."></textarea>
                 </div>
                 <div class="output-box">
                   <div class="input-label">📤 خروجی</div>
-                  <div class="console empty" id="output-${idx}">منتظر اجرا...</div>
+                  <div class="console empty" id="output-${idx}" dir="ltr">منتظر اجرا...</div>
                 </div>
               </div>
               <div class="ide-buttons">
@@ -1313,11 +1353,11 @@
       }
 
       goHome() {
-        window.location.href = './python02.html';
+        window.location.href = './profile.html';
       }
 
-       retakeExam() {
-        window.location.href = `./exam.html?course=${encodeURIComponent(this.exam.course)}&level=${encodeURIComponent(this.exam.level)}`;
+      retakeExam() {
+        window.location.href = `./python.html`;
       }
 
       saveToStorage() {
