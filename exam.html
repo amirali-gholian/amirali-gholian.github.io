@@ -1009,12 +1009,20 @@
         this.goHome();
       }
 
+      // مسیر صفحه اصلی هر درس - وقتی درس جدیدی اضافه شد، اینجا هم اضافه کنید
+      courseHomeUrl() {
+        const courseHomePages = {
+          'Python': './python02.html'
+        };
+        return courseHomePages[this.exam.course] || './profile.html';
+      }
+
       goHome() {
-        window.location.href = './profile.html';
+        window.location.href = this.courseHomeUrl();
       }
 
       retakeExam() {
-        window.location.href = `./python.html`;
+        window.location.href = `./exam.html?course=${encodeURIComponent(this.exam.course)}&level=${encodeURIComponent(this.exam.level)}`;
       }
 
       saveToStorage() {
@@ -1030,16 +1038,32 @@
       loadFromStorage() {
         const key = `exam_${this.exam.course}_${this.exam.level}`;
         const stored = localStorage.getItem(key);
-        
+
         if (stored) {
           try {
             const data = JSON.parse(stored);
-            this.exam.answers = data.answers || {};
-            
+
+            if (!data.startTime) {
+              this.clearStorage();
+              return;
+            }
+
             const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
-            this.exam.timeRemaining = Math.max(0, data.timeRemaining - elapsed);
+            const remaining = data.timeRemaining - elapsed;
+
+            // اگر جلسه قبلی منقضی شده (زمانش تمام شده)، آن را نادیده بگیر
+            // و اجازه بده یک آزمون کاملاً تازه شروع شود
+            if (remaining <= 0) {
+              this.clearStorage();
+              return;
+            }
+
+            this.exam.answers = data.answers || {};
+            this.exam.timeRemaining = remaining;
+            this.exam.startTime = data.startTime; // برای محاسبه صحیح «زمان صرف‌شده» در نتیجه نهایی
           } catch (err) {
             console.error('خطا:', err);
+            this.clearStorage();
           }
         }
       }
