@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>امتحان Python | Amirali Gholian</title>
-  <link rel="icon" href="./logo.webp" type="image/webp">
+  <title>Exam | Amirali Gholian</title>
+  <link rel="icon" href="./logo.png" type="image/png">
   
   <meta name="theme-color" content="#050814">
   <link rel="manifest" href="/manifest.json">
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
-  <script async src="https://cdn.jsdelivr.net/pyodide/v0.24.1/full/pyodide.js"></script>
+  <script src="./questions.js"></script>
   
   <style>
     :root {
@@ -43,6 +43,52 @@
       flex-direction: column;
     }
 
+    /* Topbar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(4, 8, 15, .62);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, .08);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
+      padding: 12px 20px;
+    }
+
+    .topbar-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: var(--max);
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .lang-btn {
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, .15);
+      background: rgba(56, 189, 248, .1);
+      color: var(--accent);
+      cursor: pointer;
+      transition: all .25s ease;
+      font-size: .85rem;
+      font-family: inherit;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+    }
+
+    .lang-btn:hover {
+      background: rgba(56, 189, 248, .2);
+      border-color: var(--accent);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .3));
+      border-color: var(--accent);
+      color: #fff;
+    }
+
     #examContainer {
       flex: 1;
       max-width: var(--max);
@@ -60,6 +106,7 @@
       margin-bottom: 32px;
       padding-bottom: 20px;
       border-bottom: 1px solid rgba(148, 163, 184, .16);
+      flex-wrap: wrap;
     }
 
     .header-left {
@@ -67,6 +114,7 @@
       align-items: center;
       gap: 16px;
       flex: 1;
+      min-width: 200px;
     }
 
     .back-button {
@@ -90,6 +138,7 @@
 
     .header-info {
       flex: 1;
+      min-width: 150px;
     }
 
     .course-level {
@@ -201,28 +250,6 @@
       word-wrap: break-word;
     }
 
-    .question-text .question-line {
-      display: block;
-    }
-
-    .question-text .code-block {
-      display: block;
-      margin-top: 12px;
-      padding: 12px 14px;
-      background: #0f1419;
-      border: 1px solid rgba(56, 189, 248, .2);
-      border-radius: 8px;
-      color: #e8f05a;
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: .9rem;
-      line-height: 1.6;
-      direction: ltr;
-      text-align: left;
-      unicode-bidi: plaintext;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-    }
-
     .options {
       display: flex;
       flex-direction: column;
@@ -305,87 +332,68 @@
 
     .exam-info {
       color: var(--muted);
-      font-size: .9rem;
+      font-size: .95rem;
     }
 
     .submit-btn {
       width: 100%;
-      padding: 16px;
+      padding: 16px 24px;
       border-radius: 12px;
-      border: none;
-      background: linear-gradient(135deg, var(--accent-2), rgba(34, 197, 94, .8));
+      border: 2px solid var(--accent);
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
       color: #fff;
       font-weight: 600;
-      font-size: 1rem;
       cursor: pointer;
+      font-family: inherit;
+      font-size: 1.05rem;
       transition: all .3s ease;
     }
 
     .submit-btn:hover {
       transform: translateY(-2px);
-      box-shadow: 0 12px 30px rgba(34, 197, 94, .25);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, .25);
     }
 
-    /* Modal */
-    .result-modal {
+    /* Result Modal */
+    #resultModal {
+      display: none;
       position: fixed;
       top: 0;
       left: 0;
-      right: 0;
-      bottom: 0;
+      width: 100%;
+      height: 100%;
       background: rgba(0, 0, 0, .7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      backdrop-filter: blur(8px);
       z-index: 1000;
-      opacity: 0;
-      visibility: hidden;
-      transition: all .3s ease;
+      place-items: center;
     }
 
-    .result-modal.show {
-      opacity: 1;
-      visibility: visible;
+    #resultModal.show {
+      display: grid;
     }
 
     #resultContent {
-      background: var(--panel);
+      background: linear-gradient(135deg, rgba(15, 23, 42, .99), rgba(12, 17, 35, .97));
       border: 1px solid rgba(56, 189, 248, .2);
       border-radius: var(--radius);
-      padding: 40px;
-      max-width: 500px;
-      width: 100%;
-      animation: slideUp .4s ease;
-    }
-
-    @keyframes slideUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .result-content {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
+      padding: 48px 32px;
+      max-width: 600px;
+      width: 90%;
       text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .5);
+      max-height: 90vh;
+      overflow-y: auto;
     }
 
     .result-message {
-      font-size: 1.2rem;
-      color: #fff;
+      font-size: 1.3rem;
+      margin-bottom: 24px;
+      color: var(--soft);
       font-weight: 600;
-      margin-bottom: 16px;
     }
 
     .big-score {
-      font-size: 4rem;
+      font-size: 5rem;
       font-weight: 800;
       background: linear-gradient(135deg, var(--accent), var(--accent-2));
       -webkit-background-clip: text;
@@ -396,24 +404,23 @@
 
     .result-label {
       color: var(--muted);
-      font-size: .95rem;
+      margin-bottom: 32px;
     }
 
     .result-details {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 20px;
+      margin-bottom: 32px;
+      padding: 24px;
+      background: rgba(255, 255, 255, .04);
+      border-radius: 16px;
     }
 
     .detail-item {
-      background: rgba(255, 255, 255, .04);
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 12px;
-      padding: 16px;
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 8px;
+      gap: 12px;
     }
 
     .detail-icon {
@@ -421,30 +428,31 @@
     }
 
     .detail-label {
-      font-size: .85rem;
       color: var(--muted);
+      font-size: .9rem;
     }
 
     .detail-value {
-      font-size: 1.6rem;
+      color: var(--accent);
       font-weight: 700;
-      color: #fff;
+      font-size: 1.3rem;
     }
 
     .result-actions {
       display: flex;
-      gap: 12px;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .action-btn {
-      flex: 1;
-      padding: 14px;
-      border-radius: 10px;
-      border: none;
+      padding: 14px 32px;
+      border-radius: 12px;
+      border: 1px solid transparent;
       font-weight: 600;
-      font-size: .95rem;
       cursor: pointer;
       font-family: inherit;
+      font-size: 1rem;
       transition: all .25s ease;
     }
 
@@ -455,229 +463,58 @@
 
     .action-btn.primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 8px 20px rgba(56, 189, 248, .25);
+      box-shadow: 0 12px 30px rgba(56, 189, 248, .25);
     }
 
     .action-btn.secondary {
-      background: rgba(255, 255, 255, .08);
-      color: var(--text);
-      border: 1px solid rgba(255, 255, 255, .15);
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
     }
 
     .action-btn.secondary:hover {
-      background: rgba(255, 255, 255, .12);
+      background: rgba(56, 189, 248, .1);
     }
 
     @media (max-width: 768px) {
-      #examContainer {
-        padding: 12px;
-      }
-
       .exam-header {
         flex-direction: column;
         align-items: flex-start;
       }
 
-      .question-item {
-        padding: 20px;
+      #timer {
+        align-self: flex-end;
       }
 
       .result-details {
         grid-template-columns: 1fr;
       }
-
-      .big-score {
-        font-size: 3rem;
-      }
-
-      #resultContent {
-        padding: 24px;
-      }
-    }
-
-    /* IDE Styles */
-    .question-ide {
-      background: rgba(0, 0, 0, .3);
-      border: 1px solid rgba(56, 189, 248, .15);
-      border-radius: 12px;
-      padding: 16px;
-      margin: 20px 0;
-    }
-
-    .ide-label {
-      font-weight: 600;
-      color: var(--accent);
-      font-size: .9rem;
-      margin-bottom: 12px;
-    }
-
-    .ide-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 12px;
-    }
-
-    @media (max-width: 768px) {
-      .ide-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .code-input {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .input-label {
-      font-size: .85rem;
-      color: var(--muted);
-      font-weight: 500;
-    }
-
-    .code-textarea {
-      width: 100%;
-      padding: 12px;
-      background: #0f1419;
-      border: 1px solid rgba(56, 189, 248, .2);
-      border-radius: 8px;
-      color: #e8f05a;
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: 13px;
-      min-height: 120px;
-      resize: vertical;
-      line-height: 1.5;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .code-textarea:focus {
-      outline: none;
-      border-color: rgba(56, 189, 248, .5);
-      box-shadow: 0 0 12px rgba(56, 189, 248, .1);
-    }
-
-    .output-box {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-
-    .console {
-      width: 100%;
-      padding: 12px;
-      background: #0f1419;
-      border: 1px solid rgba(56, 189, 248, .2);
-      border-radius: 8px;
-      color: #e8f05a;
-      font-family: 'Monaco', 'Consolas', monospace;
-      font-size: 13px;
-      min-height: 120px;
-      max-height: 250px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      word-wrap: break-word;
-      line-height: 1.5;
-      direction: ltr;
-      text-align: left;
-    }
-
-    .console.empty {
-      color: var(--muted);
-    }
-
-    .console::-webkit-scrollbar {
-      width: 6px;
-    }
-
-    .console::-webkit-scrollbar-thumb {
-      background: rgba(56, 189, 248, .3);
-      border-radius: 3px;
-    }
-
-    .console.error {
-      color: #f87171;
-    }
-
-    .console.success {
-      color: #e8f05a;
-    }
-
-    .ide-buttons {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .run-btn {
-      padding: 8px 16px;
-      background: linear-gradient(135deg, var(--accent-2), #16a34a);
-      border: none;
-      border-radius: 8px;
-      color: #fff;
-      cursor: pointer;
-      font-weight: 600;
-      font-size: .9rem;
-      transition: all .25s ease;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .run-btn:hover:not(:disabled) {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 16px rgba(34, 197, 94, .3);
-    }
-
-    .run-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-
-    .clear-btn {
-      padding: 8px 16px;
-      background: rgba(255, 255, 255, .08);
-      border: 1px solid rgba(255, 255, 255, .15);
-      border-radius: 8px;
-      color: var(--text);
-      cursor: pointer;
-      font-weight: 500;
-      font-size: .9rem;
-      transition: all .25s ease;
-    }
-
-    .clear-btn:hover {
-      background: rgba(255, 255, 255, .12);
-    }
-
-    .spinner {
-      display: inline-block;
-      width: 10px;
-      height: 10px;
-      border: 2px solid rgba(255, 255, 255, .3);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
     }
   </style>
 </head>
 <body>
+  <!-- Topbar -->
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div></div>
+      <div style="display: flex; gap: 8px;">
+        <button class="lang-btn active" id="langBtnEn" onclick="examSystem.setLanguage('en')">EN</button>
+        <button class="lang-btn" id="langBtnFa" onclick="examSystem.setLanguage('fa')">FA</button>
+      </div>
+    </div>
+  </div>
+
   <div id="examContainer">
     <!-- Header -->
     <div class="exam-header">
       <div class="header-left">
-        <button class="back-button" onclick="examSystem.goBack()">← بازگشت</button>
+        <button class="back-button" onclick="examSystem.goBack()" id="backBtnText">← Back</button>
         <div class="header-info">
-          <span class="course-level">Python</span>
-          <span id="questionNumber">سوال ۱ از ۱۰</span>
+          <span class="course-level"></span>
+          <span id="questionNumber"></span>
         </div>
       </div>
-      <div id="timer">15:00</div>
+      <div id="timer">30:00</div>
     </div>
 
     <!-- Progress Bar -->
@@ -693,317 +530,146 @@
   </div>
 
   <!-- Result Modal -->
-  <div class="result-modal" id="resultModal">
+  <div id="resultModal">
     <div id="resultContent"></div>
   </div>
 
   <script>
-    // ============ تنظیمات Supabase ============
-    const SUPABASE = window.supabase.createClient(
-      'https://cwwqmushilpxzpcpjute.supabase.co',
-      'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
-    );
-
-    // ============ سوالات Python ============
-    const PYTHON_QUESTIONS = {
-      beginner: [
-        {
-          id: 1,
-          text: 'خروجی دستور زیر چیست؟\n\nprint(2 + 3 * 2)',
-          options: ['10', '8', '6', '7'],
-          correct: 1
-        },
-        {
-          id: 2,
-          text: 'کدام یک از موارد زیر یک متغیر معتبر در Python است؟',
-          options: ['2var', '_var', 'class', 'def'],
-          correct: 1
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\nname = "Python"\nprint(len(name))',
-          options: ['5', '6', '7', 'خطا'],
-          correct: 1
-        },
-        {
-          id: 4,
-          text: 'لیست در Python چیست؟',
-          options: ['مجموعه نامرتب', 'دنباله مرتب', 'مجموعه بدون تکرار', 'فرهنگ'],
-          correct: 1
-        },
-        {
-          id: 5,
-          text: 'خروجی کد زیر چیست؟\n\nx = [1, 2, 3]\nx.append(4)\nprint(x)',
-          options: ['[1, 2, 3, 4]', '[1, 2, 3]', '4', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'مقدار i در انتهای حلقه چیست؟\n\nfor i in range(5):\n    pass',
-          options: ['4', '5', '0', '6'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'خروجی کد زیر چیست؟\n\nif 5 > 3:\n    print("بله")\nelse:\n    print("خیر")',
-          options: ['خیر', 'بله', 'خطا', 'هیچکدام'],
-          correct: 1
-        },
-        {
-          id: 8,
-          text: 'کدام تابع برای دریافت طول یک رشته استفاده می‌شود؟',
-          options: ['length()', 'size()', 'len()', 'count()'],
-          correct: 2
-        },
-        {
-          id: 9,
-          text: 'نوع داده متغیر x چیست؟\n\nx = 3.14',
-          options: ['int', 'str', 'float', 'bool'],
-          correct: 2
-        },
-        {
-          id: 10,
-          text: 'خروجی کد زیر چیست؟\n\nprint("Hello" + " " + "World")',
-          options: ['Hello World', 'Hello + + World', '"Hello World"', 'خطا'],
-          correct: 0
-        }
-      ],
-
-      intermediate: [
-        {
-          id: 1,
-          text: 'خروجی کد زیر چیست؟\n\ndef add(a, b):\n    return a + b\nprint(add(2, 3))',
-          options: ['5', 'add(2, 3)', 'None', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 2,
-          text: 'lambda در Python برای چه استفاده می‌شود؟',
-          options: ['تابع ناشناس', 'حلقه', 'شرط', 'مودول'],
-          correct: 0
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\nmy_dict = {"name": "Ali", "age": 25}\nprint(my_dict["name"])',
-          options: ['Ali', 'name', 'خطا', 'None'],
-          correct: 0
-        },
-        {
-          id: 4,
-          text: 'خروجی list comprehension زیر چیست؟\n\n[x*2 for x in range(3)]',
-          options: ['[0, 2, 4]', '[1, 2, 3]', '[2, 4, 6]', '[0, 1, 2]'],
-          correct: 0
-        },
-        {
-          id: 5,
-          text: 'تفاوت بین extend() و append() چیست؟',
-          options: ['append عنصر، extend لیست اضافه می‌کند', 'extend عنصر، append لیست', 'بدون تفاوت', 'extend فقط برای لیست'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'خروجی کد زیر چیست؟\n\nmy_set = {1, 2, 2, 3}\nprint(len(my_set))',
-          options: ['3', '4', '2', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'خروجی کد زیر چیست؟\n\ntry:\n    print(1/0)\nexcept:\n    print("خطا")',
-          options: ['خطا', '1', 'Exception', 'None'],
-          correct: 0
-        },
-        {
-          id: 8,
-          text: 'کدام تابع فاصله‌های خالی را حذف می‌کند؟',
-          options: ['clean()', 'strip()', 'remove()', 'trim()'],
-          correct: 1
-        },
-        {
-          id: 9,
-          text: 'خروجی کد زیر چیست؟\n\na = [1, 2, 3]\nprint(a[-1])',
-          options: ['3', '-1', '1', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 10,
-          text: 'import math برای چه استفاده می‌شود؟',
-          options: ['ماژول ریاضی', 'متغیر ریاضی', 'اصلاح خطا', 'تایید اعداد'],
-          correct: 0
-        }
-      ],
-
-      advanced: [
-        {
-          id: 1,
-          text: 'خروجی کد زیر چیست؟\n\nclass Animal:\n    def sound(self):\n        return "صدا"\nclass Dog(Animal):\n    def sound(self):\n        return "واو"\nprint(Dog().sound())',
-          options: ['واو', 'صدا', 'خطا', 'None'],
-          correct: 0
-        },
-        {
-          id: 2,
-          text: 'Decorator برای چه استفاده می‌شود؟',
-          options: ['تغییر رفتار تابع', 'تابع جدید', 'ذخیره داده', 'بهتری performance'],
-          correct: 0
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\ndef outer():\n    x = 10\n    def inner():\n        return x\n    return inner()\nprint(outer())',
-          options: ['10', 'خطا', 'None', 'inner'],
-          correct: 0
-        },
-        {
-          id: 4,
-          text: 'خروجی کد زیر چیست؟\n\nfrom functools import reduce\nfrom operator import add\nresult = reduce(add, [1, 2, 3, 4])\nprint(result)',
-          options: ['10', '[1, 2, 3, 4]', '4', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 5,
-          text: '*args برای چه استفاده می‌شود؟',
-          options: ['آرگومان نامشخص', 'یک آرگومان', 'لیست', 'دیکشنری'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'خروجی کد زیر چیست؟\n\nimport json\ndata = {"name": "Ali"}\njson_str = json.dumps(data)\nprint(type(json_str))',
-          options: ["&lt;class 'str'&gt;", "&lt;class 'dict'&gt;", "&lt;class 'list'&gt;", 'خطا'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'Generator چیست؟',
-          options: ['تابع yield', 'تابع یکبار', 'بدون return', 'خصوصی'],
-          correct: 0
-        },
-        {
-          id: 8,
-          text: 'خروجی کد زیر چیست؟\n\ndef multi(a, b=2):\n    return a ** b\nprint(multi(3))',
-          options: ['9', '6', '3', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 9,
-          text: 'Context manager (with) برای چه استفاده می‌شود؟',
-          options: ['مدیریت منابع', 'متغیر', 'حلقه', 'کلاس'],
-          correct: 0
-        },
-        {
-          id: 10,
-          text: 'خروجی کد زیر چیست؟\n\nfrom collections import defaultdict\ndd = defaultdict(list)\ndd["key"].append(1)\nprint(dd["key"])',
-          options: ['[1]', 'خطا', '[]', '1'],
-          correct: 0
-        }
-      ]
-    };
-
-    // ============ سیستم امتحان ============
     class ExamSystem {
       constructor() {
         this.SUPABASE = null;
         this.currentUser = null;
-        this.pyodideReady = false;
-        
+        this.currentLang = localStorage.getItem('examLang') || 'en';
         this.exam = {
-          course: 'Python',
-          level: 'beginner',
+          course: '',
+          level: '',
           questions: [],
           answers: {},
-          startTime: null,
-          timeRemaining: 0,
+          timeRemaining: 30 * 60,
           timerInterval: null,
-          submitted: false
+          submitted: false,
+          startTime: Date.now()
         };
 
-        this.levelTimes = {
-          beginner: 15 * 60,
-          intermediate: 20 * 60,
-          advanced: 25 * 60
+        this.text = {
+          en: {
+            back: '← Back',
+            question: 'Question',
+            questionOf: 'Question',
+            of: 'of',
+            previous: '← Previous',
+            next: 'Next →',
+            answeredInfo: 'Questions answered',
+            submitBtn: 'Submit Exam ✓',
+            confirmBack: 'Are you sure? Your data will not be saved',
+            excellent: '🎉 Excellent! You got an outstanding result!',
+            good: '✅ Good! You got a good result',
+            average: '📚 You got an average result',
+            tryAgain: '💪 Try again in a few days',
+            correctAnswers: 'Correct Answers',
+            wrongAnswers: 'Wrong Answers',
+            timeSpent: 'Time Spent',
+            out100: 'out of 100',
+            goBack: 'Go Back',
+            retake: 'Retake'
+          },
+          fa: {
+            back: '← بازگشت',
+            question: 'سوال',
+            questionOf: 'سوال',
+            of: 'از',
+            previous: '← قبلی',
+            next: 'بعدی →',
+            answeredInfo: 'سوال پاسخ داده شد',
+            submitBtn: 'پایان آزمون ✓',
+            confirmBack: 'آیا مطمئن هستید؟ داده‌های شما ذخیره نخواهد شد',
+            excellent: '🎉 عالی! نتیجه فوق‌العاده‌ای گرفتید!',
+            good: '✅ خوب! نتیجه خوبی گرفتید',
+            average: '📚 نتیجه متوسطی دریافت کردید',
+            tryAgain: '💪 چند روز دیگر دوباره تلاش کنید',
+            correctAnswers: 'پاسخ صحیح',
+            wrongAnswers: 'پاسخ غلط',
+            timeSpent: 'زمان',
+            out100: 'از 100',
+            goBack: 'بازگشت',
+            retake: 'دوباره'
+          }
+        };
+
+        this.levelNames = {
+          en: {
+            beginner: '🌱 Beginner',
+            intermediate: '🎯 Intermediate',
+            advanced: '🚀 Advanced'
+          },
+          fa: {
+            beginner: '🌱 مقدماتی',
+            intermediate: '🎯 متوسط',
+            advanced: '🚀 پیشرفته'
+          }
         };
       }
 
-      async initPyodide() {
-        try {
-          if (this.pyodideReady && window.pyodide) {
-            return;
-          }
-          
-          console.log('🔄 Pyodide load شروع...');
-          
-          // صبر کنیم تا loadPyodide موجود شود
-          let attempts = 0;
-          while (typeof loadPyodide === 'undefined' && attempts < 50) {
-            await new Promise(r => setTimeout(r, 100));
-            attempts++;
-          }
-
-          if (typeof loadPyodide === 'undefined') {
-            throw new Error('loadPyodide failed to load');
-          }
-
-          window.pyodide = await loadPyodide({
-            indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.24.1/full/'
-          });
-          
-          this.pyodideReady = true;
-          console.log('✅ Pyodide آماده است');
-        } catch (err) {
-          console.error('❌ Pyodide خطا:', err);
-          this.pyodideReady = false;
-        }
+      setLanguage(lang) {
+        this.currentLang = lang;
+        localStorage.setItem('examLang', lang);
+        
+        // Update HTML attributes
+        document.documentElement.lang = lang;
+        document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+        
+        // Update language buttons
+        document.getElementById('langBtnEn').classList.toggle('active', lang === 'en');
+        document.getElementById('langBtnFa').classList.toggle('active', lang === 'fa');
+        
+        // Re-render all content
+        this.render();
       }
 
       async init() {
         try {
-          // Initialize Pyodide اول
-          await this.initPyodide();
-
-          // Use shared Supabase client
-          this.SUPABASE = SUPABASE;
-
-          // Check auth
-          const { data: { session } } = await this.SUPABASE.auth.getSession();
-          if (!session) {
-            this.goHome();
-            return;
-          }
-          this.currentUser = session.user;
-
-          // Parse URL
           const params = new URLSearchParams(window.location.search);
-          this.exam.level = params.get('level') || 'beginner';
           this.exam.course = params.get('course') || 'Python';
-          
-          // Set time
-          this.exam.timeRemaining = this.levelTimes[this.exam.level] || 15 * 60;
-          this.exam.startTime = Date.now();
+          this.exam.level = params.get('level') || 'beginner';
 
-          // Load questions
-          this.loadQuestions();
+          // Set initial language
+          this.setLanguage(this.currentLang);
+
+          // Initialize Supabase
+          this.initSupabase();
+
+          // Get questions
+          const questions = getRandomQuestions(this.exam.level, 10, this.currentLang);
+          this.exam.questions = questions;
+
+          // Load saved progress
           this.loadFromStorage();
+
+          // Render
           this.render();
+
+          // Start timer
           this.startTimer();
-
-          // Auto-save
-          setInterval(() => this.saveToStorage(), 10000);
-
-          // Prevent leaving without saving
-          window.addEventListener('beforeunload', (e) => {
-            if (!this.exam.submitted && Object.keys(this.exam.answers).length > 0) {
-              e.preventDefault();
-              e.returnValue = '';
-            }
-          });
         } catch (err) {
-          console.error('خطا:', err);
-          alert('خطا در بارگیری صفحه');
-          this.goHome();
+          console.error('Error:', err);
         }
       }
 
-      loadQuestions() {
-        const questions = PYTHON_QUESTIONS[this.exam.level] || [];
-        const shuffled = [...questions].sort(() => Math.random() - 0.5);
-        this.exam.questions = shuffled.slice(0, 10);
+      initSupabase() {
+        const supabaseUrl = 'https://mkazouyufagfttllbsqf.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1rYXpvdXl1ZmFnZnR0bGxic3FmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MDcyNzI5ODgsImV4cCI6MjAyMjg0ODk4OH0.ZHgCkGIYQfkIKx9u-k4w2gN1F3qRBvGlR72ChfCVKBU';
+
+        this.SUPABASE = window.supabase.createClient(supabaseUrl, supabaseKey);
+        this.checkAuth();
+      }
+
+      async checkAuth() {
+        try {
+          const { data } = await this.SUPABASE.auth.getUser();
+          this.currentUser = data.user;
+        } catch (err) {
+          console.error('Auth error:', err);
+        }
       }
 
       render() {
@@ -1013,172 +679,62 @@
       }
 
       renderHeader() {
-        const levelNames = {
-          beginner: '🌱 مقدماتی',
-          intermediate: '🎯 متوسط',
-          advanced: '🚀 پیشرفته'
-        };
-
+        const t = this.text[this.currentLang];
         const answered = Object.keys(this.exam.answers).length;
         const total = this.exam.questions.length;
         
-        document.querySelector('.course-level').textContent = `${this.exam.course} - ${levelNames[this.exam.level]}`;
-        document.getElementById('questionNumber').textContent = `سوال ${answered} از ${total}`;
-      }
-
-      formatQuestionText(text) {
-        // اولین بخش قبل از خط خالی، سوال فارسی (راست‌چین) است
-        // بخش بعدی (در صورت وجود) کد پایتون است و باید چپ‌چین نمایش داده شود
-        const parts = text.split('\n\n');
-        const question = parts[0];
-        const code = parts.slice(1).join('\n\n');
-
-        let html = `<span class="question-line">${question}</span>`;
-        if (code) {
-          html += `<code class="code-block">${code}</code>`;
-        }
-        return html;
+        document.querySelector('.course-level').textContent = `${this.exam.course} - ${this.levelNames[this.currentLang][this.exam.level]}`;
+        document.getElementById('questionNumber').textContent = `${t.question} ${answered} ${t.of} ${total}`;
+        document.getElementById('backBtnText').textContent = t.back;
       }
 
       renderQuestions() {
-        const html = this.exam.questions.map((q, idx) => `
-          <div class="question-item ${this.exam.answers[idx] !== undefined ? 'answered' : ''}">
-            <div class="question-header">
-              <h3>سوال ${idx + 1}</h3>
-              <span class="question-status">${this.exam.answers[idx] !== undefined ? '✓' : '○'}</span>
-            </div>
-            <p class="question-text">${this.formatQuestionText(q.text)}</p>
-            
-            <!-- IDE Section -->
-            <div class="question-ide">
-              <div class="ide-label">💻 تست کد</div>
-              <div class="ide-grid">
-                <div class="code-input">
-                  <div class="input-label">📝 کد شما</div>
-                  <textarea class="code-textarea" id="code-${idx}" dir="ltr" placeholder="کد Python خود را اینجا بنویسید..."></textarea>
-                </div>
-                <div class="output-box">
-                  <div class="input-label">📤 خروجی</div>
-                  <div class="console empty" id="output-${idx}" dir="ltr">منتظر اجرا...</div>
-                </div>
+        const t = this.text[this.currentLang];
+        const html = this.exam.questions.map((q, idx) => {
+          const questionText = typeof q.text === 'object' ? q.text[this.currentLang] : q.text;
+          const options = typeof q.options === 'object' && Array.isArray(q.options[this.currentLang]) 
+            ? q.options[this.currentLang] 
+            : q.options;
+          
+          return `
+            <div class="question-item ${this.exam.answers[idx] !== undefined ? 'answered' : ''}">
+              <div class="question-header">
+                <h3>${t.question} ${idx + 1}</h3>
+                <span class="question-status">${this.exam.answers[idx] !== undefined ? '✓' : '○'}</span>
               </div>
-              <div class="ide-buttons">
-                <button class="run-btn" onclick="examSystem.runCode(${idx})">
-                  <span>▶</span>
-                  <span>اجرا</span>
-                  <span class="spinner" id="loader-${idx}" style="display:none;"></span>
-                </button>
-                <button class="clear-btn" onclick="examSystem.clearCode(${idx})">🗑️ پاک‌کردن</button>
+              <p class="question-text">${questionText}</p>
+              <div class="options">
+                ${options.map((opt, optIdx) => `
+                  <button class="option ${this.exam.answers[idx] === optIdx ? 'selected' : ''}"
+                          onclick="examSystem.selectAnswer(${idx}, ${optIdx})">
+                    <span class="option-radio"></span>
+                    <span>${opt}</span>
+                  </button>
+                `).join('')}
               </div>
             </div>
-            
-            <div class="options">
-              ${q.options.map((opt, optIdx) => `
-                <button class="option ${this.exam.answers[idx] === optIdx ? 'selected' : ''}"
-                        onclick="examSystem.selectAnswer(${idx}, ${optIdx})">
-                  <span class="option-radio"></span>
-                  <span>${opt}</span>
-                </button>
-              `).join('')}
-            </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
 
         document.getElementById('examContent').innerHTML = html;
         this.updateProgress();
       }
 
       renderFooter() {
+        const t = this.text[this.currentLang];
         const answered = Object.keys(this.exam.answers).length;
         const total = this.exam.questions.length;
         
         const html = `
           <div class="exam-nav">
-            <button class="nav-btn" onclick="examSystem.previousQuestion()">← قبلی</button>
-            <span class="exam-info">${answered}/${total} سوال پاسخ داده شد</span>
-            <button class="nav-btn" onclick="examSystem.nextQuestion()">بعدی →</button>
+            <button class="nav-btn" onclick="examSystem.previousQuestion()">${t.previous}</button>
+            <span class="exam-info">${answered}/${total} ${t.answeredInfo}</span>
+            <button class="nav-btn" onclick="examSystem.nextQuestion()">${t.next}</button>
           </div>
-          <button class="submit-btn" onclick="examSystem.submitExam()">پایان آزمون ✓</button>
+          <button class="submit-btn" onclick="examSystem.submitExam()">${t.submitBtn}</button>
         `;
 
         document.getElementById('examFooter').innerHTML = html;
-      }
-
-      async runCode(idx) {
-        const codeEl = document.getElementById(`code-${idx}`);
-        const outputEl = document.getElementById(`output-${idx}`);
-        const loaderEl = document.getElementById(`loader-${idx}`);
-        const btnEl = event.target.closest('.run-btn');
-
-        const code = codeEl.value.trim();
-        if (!code) {
-          outputEl.textContent = '⚠️ لطفاً کدی بنویسید';
-          outputEl.className = 'console empty';
-          return;
-        }
-
-        btnEl.disabled = true;
-        loaderEl.style.display = 'inline-block';
-        outputEl.textContent = '⏳ در حال آماده‌سازی...';
-        outputEl.className = 'console';
-
-        // صبر کنیم تا Pyodide آماده شود
-        let attempts = 0;
-        while (!this.pyodideReady && attempts < 30) {
-          await new Promise(r => setTimeout(r, 100));
-          attempts++;
-        }
-
-        if (!this.pyodideReady) {
-          outputEl.textContent = '❌ Pyodide آماده نشد. صفحه را دوباره بارگذاری کنید';
-          outputEl.className = 'console error';
-          btnEl.disabled = false;
-          loaderEl.style.display = 'none';
-          return;
-        }
-
-        try {
-          outputEl.textContent = '⏳ در حال اجرا...';
-          
-          const lines = [];
-          
-          // Capture print output
-          const printFunc = window.pyodide.globals.get('print');
-          window.pyodide.globals.set('print', (...args) => {
-            lines.push(args.join(' '));
-          });
-
-          // Run code
-          const result = await window.pyodide.runPythonAsync(code);
-          
-          // Restore print
-          window.pyodide.globals.set('print', printFunc);
-
-          // Show output
-          if (lines.length > 0) {
-            outputEl.textContent = lines.join('\n');
-            outputEl.className = 'console success';
-          } else if (result !== null && result !== undefined) {
-            outputEl.textContent = String(result);
-            outputEl.className = 'console success';
-          } else {
-            outputEl.textContent = '✅ کد با موفقیت اجرا شد';
-            outputEl.className = 'console success';
-          }
-        } catch (err) {
-          outputEl.textContent = `❌ خطا:\n${err.message}`;
-          outputEl.className = 'console error';
-        } finally {
-          btnEl.disabled = false;
-          loaderEl.style.display = 'none';
-        }
-      }
-
-      clearCode(idx) {
-        document.getElementById(`code-${idx}`).value = '';
-        const outputEl = document.getElementById(`output-${idx}`);
-        outputEl.textContent = 'منتظر اجرا...';
-        outputEl.className = 'console empty';
       }
 
       selectAnswer(questionIdx, optionIdx) {
@@ -1285,56 +841,56 @@
           });
 
           if (error) {
-            console.error('خطا Supabase:', error);
-            alert('خطا در ذخیره نتیجه');
+            console.error('Supabase error:', error);
             return;
           }
 
-          console.log('✓ نتیجه ذخیره شد');
+          console.log('✓ Result saved');
         } catch (err) {
-          console.error('خطا:', err);
+          console.error('Error:', err);
         }
       }
 
       showResult(score, correctCount, timeSpent) {
+        const t = this.text[this.currentLang];
         const minutes = Math.floor(timeSpent / 60);
         const seconds = timeSpent % 60;
 
         let message = '';
-        if (score >= 90) message = '🎉 عالی! نتیجه فوق‌العاده‌ای گرفتید!';
-        else if (score >= 75) message = '✅ خوب! نتیجه خوبی گرفتید';
-        else if (score >= 50) message = '📚 نتیجه متوسطی دریافت کردید';
-        else message = '💪 چند روز دیگر دوباره تلاش کنید';
+        if (score >= 90) message = t.excellent;
+        else if (score >= 75) message = t.good;
+        else if (score >= 50) message = t.average;
+        else message = t.tryAgain;
 
         const resultHTML = `
           <div class="result-content">
             <div class="result-message">${message}</div>
             <div class="big-score">${score}</div>
-            <div class="result-label">از 100</div>
+            <div class="result-label">${t.out100}</div>
 
             <div class="result-details">
               <div class="detail-item">
                 <span class="detail-icon">✓</span>
-                <div class="detail-label">پاسخ صحیح</div>
+                <div class="detail-label">${t.correctAnswers}</div>
                 <div class="detail-value">${correctCount}</div>
               </div>
 
               <div class="detail-item">
                 <span class="detail-icon">✗</span>
-                <div class="detail-label">پاسخ غلط</div>
+                <div class="detail-label">${t.wrongAnswers}</div>
                 <div class="detail-value">${this.exam.questions.length - correctCount}</div>
               </div>
 
               <div class="detail-item">
                 <span class="detail-icon">⏱</span>
-                <div class="detail-label">زمان</div>
+                <div class="detail-label">${t.timeSpent}</div>
                 <div class="detail-value">${minutes}:${String(seconds).padStart(2, '0')}</div>
               </div>
             </div>
 
             <div class="result-actions">
-              <button class="action-btn primary" onclick="examSystem.goHome()">بازگشت</button>
-              <button class="action-btn secondary" onclick="examSystem.retakeExam()">دوباره</button>
+              <button class="action-btn primary" onclick="examSystem.goHome()">${t.goBack}</button>
+              <button class="action-btn secondary" onclick="examSystem.retakeExam()">${t.retake}</button>
             </div>
           </div>
         `;
@@ -1345,7 +901,8 @@
 
       goBack() {
         if (Object.keys(this.exam.answers).length > 0) {
-          if (!confirm('آیا مطمئن هستید؟ داده‌های شما ذخیره نخواهد شد')) {
+          const confirmText = this.text[this.currentLang].confirmBack;
+          if (!confirm(confirmText)) {
             return;
           }
         }
@@ -1353,11 +910,11 @@
       }
 
       goHome() {
-        window.location.href = './python02.html';
+        window.location.href = './profile.html';
       }
 
       retakeExam() {
-        window.location.href = `./exam.html`;
+        window.location.href = `./python02.html?course=${this.exam.course}&level=${this.exam.level}`;
       }
 
       saveToStorage() {
@@ -1382,7 +939,7 @@
             const elapsed = Math.floor((Date.now() - data.startTime) / 1000);
             this.exam.timeRemaining = Math.max(0, data.timeRemaining - elapsed);
           } catch (err) {
-            console.error('خطا:', err);
+            console.error('Error:', err);
           }
         }
       }
