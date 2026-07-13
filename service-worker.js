@@ -17,7 +17,7 @@ const STATIC_FILES = [
     "/manifest.json",
     "/offline.html",
     "/logo_2.png",
-    "/favicon.ico"
+    "/logo.webp"
 ];
 
 // ===============================
