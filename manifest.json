@@ -1,8 +1,8 @@
 {
   "name": "Amirali Gholian",
   "short_name": "Amirali",
-  "description": "سایت شخصی امیرعلی قولیان",
-  "start_url": "https://amiraligholian.ir/",
+  "description": "سایت شخصی امیرعلی قلیان",
+  "start_url": "/",
   "scope": "/",
   "display": "standalone",
   "orientation": "portrait-primary",
@@ -10,11 +10,15 @@
   "theme_color": "#2196F3",
   "icons": [
     {
-      "src": "/logo.webp",
-      "sizes": "any",
-      "type": "image/webp",
-      "purpose": "any"
+      "src": "/logo_2.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ],
-  "categories": ["productivity", "utilities"]
+  "categories": [
+    "education",
+    "productivity",
+    "utilities"
+  ]
 }
