@@ -11,7 +11,7 @@
   "icons": [
     {
       "src": "/logo_2.png",
-      "sizes": "512x512",
+      "sizes": "any",
       "type": "image/png",
       "purpose": "any"
     }
