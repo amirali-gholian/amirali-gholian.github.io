@@ -141,6 +141,21 @@
       color:#fff;
       letter-spacing:.5px;
     }
+    .brand-avatar{
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      object-fit:cover;
+      flex:0 0 auto;
+      border:2px solid rgba(255,255,255,.14);
+      box-shadow:0 8px 20px rgba(0,0,0,.30);
+      background:#0f172a;
+    }
+    .brand-avatar-fallback{
+      width:44px;
+      height:44px;
+      font-size:1rem;
+    }
     .brand h1{
       margin:0;
       font-size:1rem;
@@ -898,6 +913,25 @@
       .contact-links{justify-content:start}
       .floating{right:12px;bottom:12px}
       .profile-photo{width:88px;height:88px}
+      .stats-bar{grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px}
+      .stat-box{min-height:76px;padding:10px 4px}
+      .stat-number{font-size:1.2rem}
+      .stat-label{font-size:.72rem}
+      .profile-dropdown{width:min(280px, calc(100vw - 24px))}
+    }
+
+    @media (max-width: 480px){
+      .wrap{width:calc(100% - 24px)}
+      .brand-avatar,.brand-avatar-fallback{width:36px;height:36px}
+      .brand h1{font-size:.9rem}
+      .brand small{font-size:.72rem}
+      .topbar-inner{padding:10px 0}
+      .hero h2{letter-spacing:-.03em}
+      .cta-row .btn{padding:11px 14px;font-size:.9rem}
+      .certificate-grid{grid-template-columns:1fr}
+      .avatar-btn{width:36px;height:36px}
+      .footer-links{gap:10px}
+      .floating a{width:46px;height:46px;font-size:1rem}
     }
 
     #learning-hub{
@@ -1029,16 +1063,14 @@ opacity:1;
     text-align:center;
 }
   </style>
-  <link rel="manifest" href="/manifest.json">
-<meta name="theme-color" content="#2196F3">
 </head>
 
 <body>
   <header class="topbar">
     <div class="wrap topbar-inner">
       <div class="brand">
-        <img class="profile-photo" src="profile.webp" alt="Amirali Gholian profile photo"
-              onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin','&lt;div class=&quot;avatar&quot; style=&quot;width:96px;height:96px;font-size:1.45rem;&quot;&gt;&lt;span&gt;AG&lt;/span&gt;&lt;/div&gt;')" />
+        <img class="brand-avatar" src="profile.webp" alt="Amirali Gholian profile photo"
+              onerror="this.style.display='none'; this.parentElement.insertAdjacentHTML('afterbegin','&lt;div class=&quot;avatar brand-avatar-fallback&quot;&gt;&lt;span&gt;AG&lt;/span&gt;&lt;/div&gt;')" />
         <div class="profile-copy">
           <div>
             <h1>Amirali Gholian</h1>
