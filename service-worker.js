@@ -1,10 +1,9 @@
-// =====================================================
+// ===============================
 // Amirali Gholian PWA Service Worker
-// Production Version 3.0.0
-// Optimized for Supabase + PWA
-// =====================================================
+// Version 1.0.0
+// ===============================
 
-const VERSION = "3.0.0";
+const VERSION = "1.0.1";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -15,15 +14,15 @@ const OFFLINE_PAGE = "/offline.html";
 const STATIC_FILES = [
     "/",
     "/index.html",
-    "/offline.html",
     "/manifest.json",
-    "/logo.webp",
-    "/logo_2.png"
+    "/offline.html",
+    "/logo_2.png",
+    "/logo.webp"
 ];
 
-// ============================================
+// ===============================
 // Install
-// ============================================
+// ===============================
 
 self.addEventListener("install", event => {
 
@@ -39,26 +38,26 @@ self.addEventListener("install", event => {
 
 });
 
-// ============================================
+// ===============================
 // Activate
-// ============================================
+// ===============================
 
 self.addEventListener("activate", event => {
 
     event.waitUntil(
 
-        (async () => {
+        caches.keys().then(keys => {
 
-            const keys = await caches.keys();
-
-            await Promise.all(
+            return Promise.all(
 
                 keys.map(key => {
 
                     if (
 
                         key !== STATIC_CACHE &&
+
                         key !== DYNAMIC_CACHE &&
+
                         key !== IMAGE_CACHE
 
                     ) {
@@ -71,101 +70,52 @@ self.addEventListener("activate", event => {
 
             );
 
-            await self.clients.claim();
-
-        })()
+        })
 
     );
+
+    self.clients.claim();
 
 });
 
-// ============================================
-// Helper
-// ============================================
-
-function isSupabase(url) {
-
-    return (
-
-        url.hostname.includes("supabase.co") ||
-
-        url.pathname.startsWith("/rest/v1") ||
-
-        url.pathname.startsWith("/auth/v1") ||
-
-        url.pathname.startsWith("/storage/v1") ||
-
-        url.pathname.startsWith("/functions/v1")
-
-    );
-
-}
-
-function isStatic(request) {
-
-    return (
-
-        request.destination === "script" ||
-
-        request.destination === "style" ||
-
-        request.destination === "font"
-
-    );
-
-}
-
-// ============================================
+// ===============================
 // Fetch
-// ============================================
+// ===============================
 
 self.addEventListener("fetch", event => {
 
+    if (event.request.method !== "GET") return;
+
     const request = event.request;
 
-    if (request.method !== "GET") return;
+    const accept = request.headers.get("accept") || "";
 
-    const url = new URL(request.url);
-
-    // Never cache Supabase
-
-    if (isSupabase(url)) {
-
-        return;
-
-    }
-        // ============================================
-    // HTML
-    // Network First
-    // ============================================
-
-    if (request.mode === "navigate") {
+    // HTML Pages
+    if (accept.includes("text/html")) {
 
         event.respondWith(
 
-            (async () => {
+            fetch(request)
 
-                try {
+                .then(response => {
 
-                    const response = await fetch(request);
+                    const clone = response.clone();
 
-                    const cache = await caches.open(DYNAMIC_CACHE);
+                    caches.open(DYNAMIC_CACHE)
 
-                    cache.put(request, response.clone());
+                        .then(cache => cache.put(request, clone));
 
                     return response;
 
-                } catch (error) {
+                })
 
-                    const cached = await caches.match(request);
+                .catch(() =>
 
-                    if (cached) return cached;
+                    caches.match(request)
 
-                    return caches.match(OFFLINE_PAGE);
+                        .then(res => res || caches.match(OFFLINE_PAGE))
 
-                }
-
-            })()
+                )
 
         );
 
@@ -173,42 +123,32 @@ self.addEventListener("fetch", event => {
 
     }
 
-    // ============================================
     // Images
-    // Cache First
-    // ============================================
-
     if (request.destination === "image") {
 
         event.respondWith(
 
-            (async () => {
+            caches.match(request)
 
-                const cached = await caches.match(request);
+                .then(cache => {
 
-                if (cached) {
+                    if (cache) return cache;
 
-                    return cached;
+                    return fetch(request)
 
-                }
+                        .then(response => {
 
-                try {
+                            const clone = response.clone();
 
-                    const response = await fetch(request);
+                            caches.open(IMAGE_CACHE)
 
-                    const cache = await caches.open(IMAGE_CACHE);
+                                .then(cache => cache.put(request, clone));
 
-                    cache.put(request, response.clone());
+                            return response;
 
-                    return response;
+                        });
 
-                } catch {
-
-                    return caches.match("/logo.webp");
-
-                }
-
-            })()
+                })
 
         );
 
@@ -216,98 +156,38 @@ self.addEventListener("fetch", event => {
 
     }
 
-    // ============================================
-    // JS / CSS / Fonts
-    // Stale While Revalidate
-    // ============================================
+    // CSS JS Fonts
+    event.respondWith(
 
-    if (isStatic(request)) {
+        caches.match(request)
 
-        event.respondWith(
+            .then(cache => {
 
-            (async () => {
+                if (cache) return cache;
 
-                const cache = await caches.open(DYNAMIC_CACHE);
-
-                const cached = await cache.match(request);
-
-                const networkFetch = fetch(request)
+                return fetch(request)
 
                     .then(response => {
 
-                        if (response.ok) {
+                        const clone = response.clone();
 
-                            cache.put(request, response.clone());
+                        caches.open(DYNAMIC_CACHE)
 
-                        }
+                            .then(cache => cache.put(request, clone));
 
                         return response;
 
-                    })
+                    });
 
-                    .catch(() => cached);
-
-                return cached || networkFetch;
-
-            })()
-
-        );
-
-        return;
-
-    }
-        // ============================================
-    // Other Requests
-    // Network First
-    // ============================================
-
-    event.respondWith(
-
-        (async () => {
-
-            try {
-
-                const response = await fetch(request);
-
-                if (response.ok) {
-
-                    const cache = await caches.open(DYNAMIC_CACHE);
-
-                    cache.put(request, response.clone());
-
-                }
-
-                return response;
-
-            } catch {
-
-                const cached = await caches.match(request);
-
-                if (cached) {
-
-                    return cached;
-
-                }
-
-                return new Response("Offline", {
-
-                    status: 503,
-
-                    statusText: "Offline"
-
-                });
-
-            }
-
-        })()
+            })
 
     );
 
 });
 
-// ============================================
+// ===============================
 // Message
-// ============================================
+// ===============================
 
 self.addEventListener("message", event => {
 
@@ -317,29 +197,11 @@ self.addEventListener("message", event => {
 
     }
 
-    if (event.data === "clearCache") {
-
-        event.waitUntil(
-
-            caches.keys().then(keys =>
-
-                Promise.all(
-
-                    keys.map(key => caches.delete(key))
-
-                )
-
-            )
-
-        );
-
-    }
-
 });
 
-// ============================================
-// Background Sync
-// ============================================
+// ===============================
+// Background Sync (Optional)
+// ===============================
 
 self.addEventListener("sync", event => {
 
@@ -354,9 +216,10 @@ self.addEventListener("sync", event => {
     }
 
 });
-// ============================================
-// Push Notifications
-// ============================================
+
+// ===============================
+// Push Notifications (Future)
+// ===============================
 
 self.addEventListener("push", event => {
 
@@ -364,132 +227,18 @@ self.addEventListener("push", event => {
 
     const data = event.data.json();
 
-    const options = {
-
-        body: data.body || "",
-
-        icon: "/logo_2.png",
-
-        badge: "/logo_2.png",
-
-        vibrate: [200, 100, 200],
-
-        requireInteraction: false,
-
-        renotify: true,
-
-        data: data.url || "/"
-
-    };
-
     event.waitUntil(
 
-        self.registration.showNotification(
+        self.registration.showNotification(data.title, {
 
-            data.title || "Notification",
+            body: data.body,
 
-            options
+            icon: "/logo_2.png",
 
-        )
-
-    );
-
-});
-
-// ============================================
-// Notification Click
-// ============================================
-
-self.addEventListener("notificationclick", event => {
-
-    event.notification.close();
-
-    event.waitUntil(
-
-        clients.matchAll({
-
-            type: "window",
-
-            includeUncontrolled: true
-
-        }).then(windowClients => {
-
-            for (const client of windowClients) {
-
-                if ("focus" in client) {
-
-                    client.focus();
-
-                    if (event.notification.data) {
-
-                        client.navigate(event.notification.data);
-
-                    }
-
-                    return;
-
-                }
-
-            }
-
-            if (clients.openWindow) {
-
-                return clients.openWindow(
-
-                    event.notification.data || "/"
-
-                );
-
-            }
+            badge: "/logo_2.png"
 
         })
 
     );
 
 });
-
-// ============================================
-// Periodic Cleanup
-// ============================================
-
-self.addEventListener("periodicsync", event => {
-
-    if (event.tag === "cleanup-cache") {
-
-        event.waitUntil(
-
-            caches.keys().then(keys =>
-
-                Promise.all(
-
-                    keys.map(key => {
-
-                        if (
-
-                            key !== STATIC_CACHE &&
-
-                            key !== DYNAMIC_CACHE &&
-
-                            key !== IMAGE_CACHE
-
-                        ) {
-
-                            return caches.delete(key);
-
-                        }
-
-                    })
-
-                )
-
-            )
-
-        );
-
-    }
-
-});
-
-// ============================================
-// End of File
-// ============================================
