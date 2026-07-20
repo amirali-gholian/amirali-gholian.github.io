@@ -600,12 +600,14 @@
 
         if (error) throw error;
 
-        if (data && data.length > 0) {
-          allExamResults = data;
+        // همیشه تخصیص بده، حتی اگر خالی باشد
+        allExamResults = data || [];
+
+        if (allExamResults.length > 0) {
           // Update score badges - best score for each level
           const levels = ['beginner', 'intermediate', 'advanced'];
           levels.forEach(level => {
-            const levelResults = data.filter(r => r.level === level);
+            const levelResults = allExamResults.filter(r => r.level === level);
             if (levelResults.length > 0) {
               const bestScore = Math.max(...levelResults.map(r => r.score));
               document.getElementById(`${level}-score`).textContent = bestScore;
@@ -613,12 +615,14 @@
           });
 
           // Display history - last 10 attempts
-          displayHistory(data);
+          displayHistory(allExamResults);
         }
 
         renderChart(currentChartLevel);
       } catch (err) {
         console.error('خطا در بارگیری داده‌ها:', err);
+        allExamResults = [];
+        renderChart(currentChartLevel);
       }
     }
 
@@ -892,7 +896,24 @@
       window.location.href = './profile.html';
     }
 
-    // Initialize
+    // ============ Handle Back/Forward Cache (bfcache) ============
+    // 🔧 هنگام بازگشت از exam، نمرات را دوباره بارگیری کن
+    window.addEventListener("pageshow", (event) => {
+      if (event.persisted) {
+        console.log("✨ صفحه از bfcache بازیابی شد - بارگیری مجدد نمرات");
+        loadScores();
+      }
+    });
+
+    // 🔧 هنگام بازگشت به تب (tab می‌شود فعال)، نمرات را رفرش کن
+    document.addEventListener("visibilitychange", () => {
+      if (!document.hidden && currentUser) {
+        console.log("✨ صفحه فعال شد - بارگیری مجدد نمرات");
+        loadScores();
+      }
+    });
+
+    // Initialize on first load
     checkAuth();
   </script>
 </body>
