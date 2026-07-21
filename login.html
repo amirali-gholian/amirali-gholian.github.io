@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Sign in to Amirali Gholian Portfolio - Access your profile and learning resources.">
+  <meta name="theme-color" content="#060913">
+  <title>Sign In | Amirali Gholian</title>
+  <link rel="icon" href="./logo.webp?v=2" type="image/webp">
+  <link rel="canonical" href="https://amiraligholian.ir/login.html">
+
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="X-Frame-Options" content="DENY">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://amiraligholian.ir/login.html">
+  <meta property="og:title" content="Sign In | Amirali Gholian">
+  <meta property="og:description" content="Sign in to access your profile and learning resources.">
+  <meta property="og:image" content="https://amiraligholian.ir/logo.webp">
+
+  <style>
+    :root{
+      --bg0:#050814;--bg1:#070b16;--panel:rgba(15,23,42,.72);--panel-2:rgba(17,24,39,.86);
+      --line:rgba(148,163,184,.16);--text:#e5e7eb;--muted:#94a3b8;--soft:#cbd5e1;
+      --accent:#38bdf8;--accent-2:#22c55e;--accent-3:#a78bfa;
+      --shadow:0 20px 60px rgba(0,0,0,.42);--radius:26px;--radius-sm:18px;
+      --error:#ef4444;--success:#22c55e;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      background:radial-gradient(circle at top left,rgba(56,189,248,.14),transparent 28%),
+        radial-gradient(circle at top right,rgba(167,139,250,.12),transparent 24%),
+        radial-gradient(circle at bottom left,rgba(34,197,94,.10),transparent 22%),
+        linear-gradient(180deg,var(--bg0),var(--bg1) 55%,#04060b 100%);
+      color:var(--text);overflow-x:hidden;
+      min-height:100vh;display:flex;align-items:center;justify-content:center;
+      padding:20px;
+    }
+
+    /* Animated background particles */
+    .bg-particles{
+      position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
+    }
+    .particle{
+      position:absolute;border-radius:50%;opacity:.15;animation:float 20s infinite ease-in-out;
+    }
+    .particle:nth-child(1){width:300px;height:300px;background:var(--accent);top:-100px;left:-100px;animation-duration:25s;}
+    .particle:nth-child(2){width:200px;height:200px;background:var(--accent-2);bottom:-50px;right:-50px;animation-duration:20s;animation-delay:-5s;}
+    .particle:nth-child(3){width:150px;height:150px;background:var(--accent-3);top:40%;right:10%;animation-duration:30s;animation-delay:-10s;}
+    .particle:nth-child(4){width:100px;height:100px;background:var(--accent);bottom:20%;left:15%;animation-duration:22s;animation-delay:-8s;}
+
+    @keyframes float{
+      0%,100%{transform:translate(0,0) scale(1)}
+      25%{transform:translate(30px,-30px) scale(1.1)}
+      50%{transform:translate(-20px,20px) scale(.9)}
+      75%{transform:translate(20px,10px) scale(1.05)}
+    }
+
+    .login-container{
+      position:relative;z-index:1;width:100%;max-width:420px;
+    }
+
+    /* Back button */
+    .back-btn{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;border-radius:12px;
+      background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+      color:var(--muted);font-size:.9rem;text-decoration:none;
+      transition:.25s ease;margin-bottom:20px;
+    }
+    .back-btn:hover{
+      background:rgba(255,255,255,.08);color:#fff;
+      transform:translateX(-4px);
+    }
+    .back-btn svg{width:18px;height:18px;}
+
+    /* Login card */
+    .login-card{
+      background:linear-gradient(180deg,rgba(15,23,42,.96),rgba(12,17,30,.92));
+      border:1px solid rgba(255,255,255,.08);
+      border-radius:32px;
+      padding:40px 36px;
+      box-shadow:var(--shadow),0 0 80px rgba(56,189,248,.06);
+      position:relative;overflow:hidden;
+    }
+    .login-card::before{
+      content:"";position:absolute;top:-50%;right:-50%;width:200%;height:200%;
+      background:radial-gradient(circle,rgba(56,189,248,.06),transparent 50%);
+      pointer-events:none;
+    }
+
+    /* Logo area */
+    .login-header{
+      text-align:center;margin-bottom:32px;position:relative;z-index:1;
+    }
+    .login-logo{
+      width:72px;height:72px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent),var(--accent-2),var(--accent-3));
+      display:grid;place-items:center;margin:0 auto 16px;
+      border:2px solid rgba(255,255,255,.15);
+      box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 40px rgba(56,189,248,.15);
+      animation:pulse 3s ease-in-out infinite;
+    }
+    @keyframes pulse{
+      0%,100%{box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 40px rgba(56,189,248,.15)}
+      50%{box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 60px rgba(56,189,248,.25)}
+    }
+    .login-logo img{width:60%;height:60%;object-fit:contain;}
+    .login-logo span{font-weight:800;color:#fff;font-size:1.4rem;}
+    .login-header h1{
+      font-size:1.6rem;font-weight:700;margin:0 0 8px;
+      background:linear-gradient(90deg,#fff,#b9eaff 50%,#7ff2a6 100%);
+      -webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .login-header p{color:var(--muted);font-size:.95rem;line-height:1.6;}
+
+    /* Form */
+    .login-form{
+      display:flex;flex-direction:column;gap:16px;
+      position:relative;z-index:1;
+    }
+    .form-group{display:flex;flex-direction:column;gap:6px;}
+    .form-group label{
+      font-size:.85rem;font-weight:500;color:var(--soft);
+      padding-left:4px;
+    }
+    .form-group input{
+      padding:14px 16px;border:1px solid rgba(255,255,255,.10);
+      border-radius:14px;background:rgba(255,255,255,.04);
+      color:var(--text);font-size:.95rem;transition:.25s ease;
+      font-family:inherit;
+    }
+    .form-group input::placeholder{color:var(--muted);}
+    .form-group input:focus{
+      outline:none;border-color:var(--accent);
+      background:rgba(255,255,255,.06);
+      box-shadow:0 0 20px rgba(56,189,248,.1);
+    }
+    .form-group input:hover{
+      border-color:rgba(255,255,255,.18);
+    }
+
+    /* Remember & forgot */
+    .form-options{
+      display:flex;justify-content:space-between;align-items:center;
+      font-size:.85rem;padding:4px 0;
+    }
+    .remember{
+      display:flex;align-items:center;gap:8px;color:var(--muted);cursor:pointer;
+    }
+    .remember input{
+      width:16px;height:16px;accent-color:var(--accent-2);
+      cursor:pointer;
+    }
+    .forgot-link{color:var(--accent);text-decoration:none;font-size:.85rem;transition:.2s;}
+    .forgot-link:hover{text-decoration:underline;}
+
+    /* Submit button */
+    .submit-btn{
+      padding:14px 20px;border-radius:14px;border:none;
+      background:linear-gradient(135deg,var(--accent-2),var(--accent));
+      color:#07111c;font-weight:700;font-size:1rem;cursor:pointer;
+      transition:.25s ease;position:relative;overflow:hidden;
+      font-family:inherit;
+    }
+    .submit-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 14px 30px rgba(34,197,94,.25);
+      filter:brightness(1.05);
+    }
+    .submit-btn:active{transform:translateY(0);}
+    .submit-btn:disabled{
+      opacity:.6;cursor:not-allowed;transform:none;
+      box-shadow:none;
+    }
+    .submit-btn .spinner{
+      display:none;width:18px;height:18px;border:2px solid rgba(0,0,0,.3);
+      border-top-color:#07111c;border-radius:50%;
+      animation:spin .8s linear infinite;margin-right:8px;
+    }
+    .submit-btn.loading .spinner{display:inline-block;}
+    .submit-btn.loading .btn-text{display:none;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    /* Divider */
+    .divider{
+      position:relative;text-align:center;color:var(--muted);
+      font-size:.85rem;margin:8px 0;
+    }
+    .divider::before{
+      content:'';position:absolute;top:50%;left:0;right:0;
+      height:1px;background:var(--line);z-index:0;
+    }
+    .divider::after{
+      content:attr(data-text);background:linear-gradient(180deg,rgba(15,23,42,.96),rgba(12,17,30,.92));
+      padding:0 16px;position:relative;z-index:1;
+    }
+
+    /* Google button */
+    .google-btn{
+      display:flex;align-items:center;justify-content:center;gap:10px;
+      padding:13px 20px;background:rgba(255,255,255,.04);
+      border:1px solid rgba(255,255,255,.10);border-radius:14px;
+      color:var(--text);font-weight:600;font-size:.95rem;
+      cursor:pointer;transition:.25s ease;font-family:inherit;
+    }
+    .google-btn:hover{
+      background:rgba(255,255,255,.08);
+      border-color:rgba(255,255,255,.18);
+      transform:translateY(-2px);
+    }
+    .google-btn svg{flex-shrink:0;}
+
+    /* Toggle mode */
+    .auth-toggle{
+      text-align:center;color:var(--muted);font-size:.9rem;
+      margin-top:8px;
+    }
+    .auth-toggle a{
+      color:var(--accent);text-decoration:none;font-weight:600;
+      transition:.2s;
+    }
+    .auth-toggle a:hover{text-decoration:underline;}
+
+    /* Success state */
+    .success-state{
+      display:none;text-align:center;padding:20px 0;
+      position:relative;z-index:1;
+    }
+    .success-state.show{display:block;animation:fadeIn .5s ease;}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    .success-icon{
+      width:64px;height:64px;border-radius:50%;
+      background:linear-gradient(135deg,var(--accent-2),var(--accent));
+      display:grid;place-items:center;margin:0 auto 20px;
+      box-shadow:0 12px 30px rgba(34,197,94,.25);
+      animation:scaleIn .5s ease;
+    }
+    @keyframes scaleIn{from{transform:scale(0)}to{transform:scale(1)}}
+    .success-icon svg{width:32px;height:32px;color:#07111c;}
+    .success-state h2{font-size:1.3rem;margin:0 0 8px;}
+    .success-state p{color:var(--muted);margin:0 0 20px;font-size:.95rem;}
+    .success-state .redirect-info{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 16px;border-radius:12px;
+      background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.2);
+      color:var(--accent-2);font-size:.9rem;
+    }
+
+    /* Toast */
+    .toast-container{
+      position:fixed;top:20px;right:20px;z-index:2000;
+      display:flex;flex-direction:column;gap:10px;pointer-events:none;
+    }
+    .toast{
+      padding:14px 20px;border-radius:14px;
+      background:var(--panel-2);border:1px solid var(--line);
+      box-shadow:var(--shadow);color:var(--text);font-size:.95rem;
+      max-width:360px;transform:translateX(120%);
+      transition:transform .4s cubic-bezier(0.16,1,0.3,1);pointer-events:auto;
+      display:flex;align-items:center;gap:10px;
+    }
+    .toast.show{transform:translateX(0);}
+    .toast.error{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.1);}
+    .toast.success{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.1);}
+
+    /* Footer */
+    .login-footer{
+      text-align:center;margin-top:24px;
+      color:var(--muted);font-size:.85rem;
+    }
+    .login-footer a{color:var(--accent);text-decoration:none;}
+    .login-footer a:hover{text-decoration:underline;}
+
+    /* Responsive */
+    @media (max-width:480px){
+      body{padding:16px;}
+      .login-card{padding:28px 22px;border-radius:24px;}
+      .login-header h1{font-size:1.4rem;}
+      .back-btn{padding:8px 12px;font-size:.85rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-particles">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+  </div>
+
+  <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
+
+  <div class="login-container">
+    <a href="./index.html" class="back-btn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Back to Home
+    </a>
+
+    <div class="login-card">
+      <div class="login-header">
+        <div class="login-logo">
+          <span>AG</span>
+        </div>
+        <h1 id="authTitle">Welcome Back</h1>
+        <p id="authSubtitle">Sign in to access your profile and learning resources</p>
+      </div>
+
+      <div id="loginForm" class="login-form">
+        <button type="button" id="googleSignInBtn" class="google-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
+            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+          </svg>
+          Sign in with Google
+        </button>
+
+        <div class="divider" data-text="or continue with email"></div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="you@example.com" autocomplete="email" aria-label="Email address" required />
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" autocomplete="current-password" aria-label="Password" required />
+        </div>
+
+        <div class="form-options">
+          <label class="remember">
+            <input type="checkbox" id="rememberMe" />
+            Remember me
+          </label>
+          <a href="#" class="forgot-link" onclick="Toast.show('Contact admin to reset password', 'info'); return false;">Forgot password?</a>
+        </div>
+
+        <button type="button" id="authBtn" class="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-text">Sign In</span>
+        </button>
+
+        <p class="auth-toggle">
+          Don't have an account? <a href="#" id="toggleMode">Create one</a>
+        </p>
+      </div>
+
+      <div id="successState" class="success-state">
+        <div class="success-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </div>
+        <h2>Welcome!</h2>
+        <p id="successEmail">You've successfully signed in.</p>
+        <div class="redirect-info">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+          Redirecting to your profile...
+        </div>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      <p>By signing in, you agree to our <a href="./terms.html">Terms</a> and <a href="./privacy.html">Privacy Policy</a></p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    // Toast notification system
+    const Toast = {
+      container: document.getElementById('toastContainer'),
+      show(message, type = 'info', duration = 4000) {
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.textContent = message;
+        toast.setAttribute('role', 'alert');
+        this.container.appendChild(toast);
+        requestAnimationFrame(() => toast.classList.add('show'));
+        setTimeout(() => {
+          toast.classList.remove('show');
+          setTimeout(() => toast.remove(), 400);
+        }, duration);
+      }
+    };
+
+    // Supabase configuration
+    const SUPABASE_URL = 'https://cwwqmushilpxzpcpjute.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK';
+    const SUPABASE = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+    const email = document.getElementById('email');
+    const password = document.getElementById('password');
+    const authBtn = document.getElementById('authBtn');
+    const authTitle = document.getElementById('authTitle');
+    const authSubtitle = document.getElementById('authSubtitle');
+    const toggleMode = document.getElementById('toggleMode');
+    const loginForm = document.getElementById('loginForm');
+    const successState = document.getElementById('successState');
+    const successEmail = document.getElementById('successEmail');
+    let isSignup = false;
+
+    // Check if already logged in
+    async function checkSession() {
+      try {
+        const { data: { session } } = await SUPABASE.auth.getSession();
+        if (session) {
+          // Already logged in, redirect to profile
+          window.location.href = './profile.html';
+        }
+      } catch (err) {
+        // Silently handle
+      }
+    }
+    checkSession();
+
+    // Toggle signup/signin
+    toggleMode.addEventListener('click', (e) => {
+      e.preventDefault();
+      isSignup = !isSignup;
+      authTitle.textContent = isSignup ? 'Create Account' : 'Welcome Back';
+      authSubtitle.textContent = isSignup 
+        ? 'Sign up to start your learning journey' 
+        : 'Sign in to access your profile and learning resources';
+      authBtn.querySelector('.btn-text').textContent = isSignup ? 'Create Account' : 'Sign In';
+      toggleMode.textContent = isSignup ? 'Sign in instead' : 'Create one';
+      toggleMode.previousSibling.textContent = isSignup ? 'Already have an account? ' : "Don't have an account? ";
+    });
+
+    // Auth handler
+    authBtn.addEventListener('click', async () => {
+      const e = email.value.trim();
+      const p = password.value;
+      if (!e || !p) { Toast.show('Please fill all fields', 'error'); return; }
+
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(e)) { Toast.show('Please enter a valid email address', 'error'); return; }
+      if (p.length < 6) { Toast.show('Password must be at least 6 characters', 'error'); return; }
+
+      authBtn.disabled = true;
+      authBtn.classList.add('loading');
+
+      try {
+        const res = isSignup 
+          ? await SUPABASE.auth.signUp({ email: e, password: p })
+          : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
+        if (res.error) throw res.error;
+
+        if (!isSignup) {
+          // Send welcome email
+          try {
+            await fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${res.data.session?.access_token}`
+              },
+              body: JSON.stringify({
+                to: e,
+                subject: 'Welcome to Amirali Gholian Portfolio',
+                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
+              })
+            });
+          } catch (err) {
+            // Silently handle email send failure
+          }
+        }
+
+        showSuccess(e);
+      } catch (err) {
+        Toast.show('Error: ' + err.message, 'error');
+        authBtn.disabled = false;
+        authBtn.classList.remove('loading');
+      }
+    });
+
+    function showSuccess(e) {
+      loginForm.style.display = 'none';
+      successState.classList.add('show');
+      successEmail.textContent = `Signed in as ${e}`;
+      Toast.show('Successfully signed in!', 'success');
+      setTimeout(() => {
+        window.location.href = './profile.html';
+      }, 2000);
+    }
+
+    // Google Sign In
+    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    if (googleSignInBtn) {
+      googleSignInBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        sessionStorage.setItem('oauthLoginPending', '1');
+        try {
+          const { error } = await SUPABASE.auth.signInWithOAuth({
+            provider: 'google',
+            options: { redirectTo: window.location.origin + '/login.html' }
+          });
+          if (error) {
+            sessionStorage.removeItem('oauthLoginPending');
+            Toast.show('Google Sign In Error: ' + error.message, 'error');
+          }
+        } catch (err) {
+          sessionStorage.removeItem('oauthLoginPending');
+          Toast.show('Error: ' + err.message, 'error');
+        }
+      });
+    }
+
+    // Check for Google OAuth redirect
+    async function checkGoogleCallback() {
+      try {
+        const { data: { session } } = await SUPABASE.auth.getSession();
+        const oauthPending = sessionStorage.getItem('oauthLoginPending');
+        if (session && session.user.email && oauthPending) {
+          sessionStorage.removeItem('oauthLoginPending');
+
+          // Send welcome email
+          try {
+            fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${session.access_token}`
+              },
+              body: JSON.stringify({
+                to: session.user.email,
+                subject: 'Welcome to Amirali Gholian Portfolio',
+                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
+              })
+            }).catch(() => {});
+          } catch (err) {}
+
+          loginForm.style.display = 'none';
+          successState.classList.add('show');
+          successEmail.textContent = `Signed in as ${session.user.email}`;
+          Toast.show('Successfully signed in with Google!', 'success');
+          setTimeout(() => {
+            window.location.href = './profile.html';
+          }, 2000);
+        }
+      } catch (err) {
+        // Silently handle
+      }
+    }
+    checkGoogleCallback();
+
+    // Enter key support
+    password.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') authBtn.click();
+    });
+    email.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') password.focus();
+    });
+  </script>
+</body>
+</html>
