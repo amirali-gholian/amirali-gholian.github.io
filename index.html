@@ -290,10 +290,6 @@
     .skip-link{position:absolute;top:-40px;left:0;background:var(--accent);color:#000;padding:8px;text-decoration:none;z-index:100;transition:top 0.3s;}
     .skip-link:focus{top:0;}
 
-    /* Dropdown social links */
-    .dropdown-social{display:flex;flex-direction:column;}
-    .dropdown-social .dropdown-item svg{color:var(--accent);}
-
     /* Mobile dropdown fix - prevent going off-screen */
     @media (max-width: 640px){
       .profile-dropdown{
@@ -670,21 +666,6 @@
                 Profile
               </a>
               <div class="dropdown-divider"></div>
-              <div class="dropdown-social">
-                <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" class="dropdown-item" role="menuitem">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.11 6.32a2.26 2.26 0 0 0-.095 4.065l3.898 1.225l1.53 5.15a1 1 0 0 0 1.88 0l1.53-5.15l3.898-1.225a2.26 2.26 0 0 0 .095-4.065l-16.11-6.32a2.242 2.242 0 0 0-1.022-.215z"/></svg>
-                  Telegram
-                </a>
-                <a href="https://www.instagram.com/amirali.gh0lian" target="_blank" rel="noopener noreferrer" class="dropdown-item" role="menuitem">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                  Instagram
-                </a>
-                <a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" target="_blank" rel="noopener noreferrer" class="dropdown-item" role="menuitem">
-                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
-                  LinkedIn
-                </a>
-              </div>
-              <div class="dropdown-divider"></div>
               <button type="button" id="signOutDropdownBtn" class="dropdown-item dropdown-logout" role="menuitem">
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg>
                 Sign Out
@@ -774,7 +755,7 @@
             body: JSON.stringify({
               to: session.user.email,
               subject: 'Welcome to Amirali Gholian Portfolio',
-              html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
+              html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
             })
           }).catch(() => {});
 
@@ -829,7 +810,7 @@
               body: JSON.stringify({
                 to: e,
                 subject: 'Welcome to Amirali Gholian Portfolio',
-                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome!</h1><p style="font-size:16px;color:#374151;">Your login was successful.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong>Login Time:</strong> ${new Date().toLocaleString()}</div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p></div>`
+                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
               })
             });
           } catch (err) {
