@@ -286,6 +286,7 @@
       .back-btn{padding:8px 12px;font-size:.85rem;}
     }
   </style>
+<base target="_blank">
 </head>
 <body>
   <div class="bg-particles">
@@ -307,8 +308,8 @@
 
     <div class="login-card">
       <div class="login-header">
-        <div class="login-logo">
-          <img class="brand-avatar" src="profile.webp" alt="Amirali Gholian profile photo" loading="lazy" id="brandAvatar" />
+        <div class="login-logo" style="overflow:hidden;">
+          <img src="profile.webp" alt="Amirali Gholian" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentNode.innerHTML='<span>AG</span>';" />
         </div>
         <h1 id="authTitle">Welcome Back</h1>
         <p id="authSubtitle">Sign in to access your profile and learning resources</p>
