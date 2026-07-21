@@ -334,7 +334,7 @@
         <a href="#certificates">Certificates</a>
         <a href="#contact">Contact</a>
         <div class="auth-user-menu" id="authUserMenu">
-          <a href="./login.html">Sign in</a>
+          <a href="./login/login.html">Sign in</a>
         </div>
       </nav>
     </div>
@@ -587,7 +587,7 @@
       const authUserMenu = document.getElementById('authUserMenu');
 
       if (!profile && !email) {
-        authUserMenu.innerHTML = '<a href="./login.html">Sign in</a>';
+        authUserMenu.innerHTML = '<a href="./login/login.html">Sign in</a>';
       } else {
         const username = profile?.first_name || profile?.username || email.split('@')[0];
         const avatar = profile?.avatar_url;
