@@ -590,6 +590,16 @@
       }
     }
 
+    // Clear any stale OAuth flags on page load (prevents redirect loops)
+    // This ensures if user manually navigates back from profile, they stay on homepage
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('fromLogin') === 'true') {
+      // User was redirected back from profile, clear the flag
+      sessionStorage.removeItem('oauthLoginPending');
+      // Clean up URL
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+
     async function loadUserProfile(userId, email) {
       try {
         const { data } = await SUPABASE
@@ -683,15 +693,19 @@
     if (googleSignInBtn) {
       googleSignInBtn.addEventListener('click', async (e) => {
         e.preventDefault();
+        // Set flag before redirect so we can detect OAuth callback on return
+        sessionStorage.setItem('oauthLoginPending', '1');
         try {
           const { error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
             options: { redirectTo: window.location.origin + '/' }
           });
           if (error) {
+            sessionStorage.removeItem('oauthLoginPending');
             Toast.show('Google Sign In Error: ' + error.message, 'error');
           }
         } catch (err) {
+          sessionStorage.removeItem('oauthLoginPending');
           Toast.show('Error: ' + err.message, 'error');
         }
       });
@@ -701,7 +715,10 @@
     async function checkGoogleCallback() {
       try {
         const { data: { session } } = await SUPABASE.auth.getSession();
-        if (session && session.user.email) {
+        // Only redirect if this is a fresh OAuth callback (flag was set before redirect)
+        const oauthPending = sessionStorage.getItem('oauthLoginPending');
+        if (session && session.user.email && oauthPending) {
+          sessionStorage.removeItem('oauthLoginPending');
           closeModal();
           authForm.style.display = 'none';
           authSuccess.style.display = 'block';
