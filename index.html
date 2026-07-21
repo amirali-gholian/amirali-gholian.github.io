@@ -334,7 +334,7 @@
         <a href="#certificates">Certificates</a>
         <a href="#contact">Contact</a>
         <div class="auth-user-menu" id="authUserMenu">
-          <a id="authLink" style="cursor:pointer;">Sign in</a>
+          <a href="./login.html">Sign in</a>
         </div>
       </nav>
     </div>
@@ -502,35 +502,7 @@
     </div>
   </div>
 
-  <div id="authModal" class="auth-modal" aria-hidden="true">
-    <div class="auth-panel">
-      <div class="auth-header">
-        <h2 id="authTitle">Sign In</h2>
-        <button type="button" id="authClose" class="auth-btn-close" aria-label="Close authentication dialog">&times;</button>
-      </div>
-      <div id="authForm" class="auth-form">
-        <button type="button" id="googleSignInBtn" class="google-login-btn">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
-            <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
-            <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/>
-            <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
-          </svg>
-          Sign in with Google
-        </button>
-        <div class="divider" data-text="or"></div>
-        <input type="email" id="email" placeholder="Email" autocomplete="email" aria-label="Email address" required />
-        <input type="password" id="password" placeholder="Password" autocomplete="current-password" aria-label="Password" required />
-        <button type="button" id="authBtn">Sign In</button>
-        <p class="auth-toggle">Don't have an account? <a href="#" id="toggleMode">Create one</a></p>
-      </div>
-      <div id="authSuccess" class="auth-success" style="display:none;text-align:center;">
-        <p class="success-msg">&#10003; Signed in!</p>
-        <p id="userDisplay"></p>
-        <button type="button" id="signOutBtn">Sign Out</button>
-      </div>
-    </div>
-  </div>
+  
 
   <footer>
     <div class="wrap">
@@ -581,22 +553,10 @@
     document.getElementById('brandAvatar') && setupImageFallback(document.getElementById('brandAvatar'), 'AG');
     document.getElementById('profilePhoto') && setupImageFallback(document.getElementById('profilePhoto'), 'AG');
 
-    // Supabase configuration - NOTE: For production, move to environment variables
+    // Supabase configuration
     const SUPABASE_URL = 'https://cwwqmushilpxzpcpjute.supabase.co';
     const SUPABASE_KEY = 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK';
     const SUPABASE = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-    const modal = document.getElementById('authModal');
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const authBtn = document.getElementById('authBtn');
-    const authTitle = document.getElementById('authTitle');
-    const toggleMode = document.getElementById('toggleMode');
-    const authForm = document.getElementById('authForm');
-    const authSuccess = document.getElementById('authSuccess');
-    const signOutBtn = document.getElementById('signOutBtn');
-    const userDisplay = document.getElementById('userDisplay');
-    let isSignup = false;
 
     // Check session and update UI
     async function checkUserSession() {
@@ -608,16 +568,6 @@
       } catch (err) {
         // Silently handle session check errors
       }
-    }
-
-    // Clear any stale OAuth flags on page load (prevents redirect loops)
-    // This ensures if user manually navigates back from profile, they stay on homepage
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('fromLogin') === 'true') {
-      // User was redirected back from profile, clear the flag
-      sessionStorage.removeItem('oauthLoginPending');
-      // Clean up URL
-      window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     async function loadUserProfile(userId, email) {
@@ -637,8 +587,7 @@
       const authUserMenu = document.getElementById('authUserMenu');
 
       if (!profile && !email) {
-        authUserMenu.innerHTML = '<a id="authLink" style="cursor:pointer;">Sign in</a>';
-        document.getElementById('authLink').addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+        authUserMenu.innerHTML = '<a href="./login.html">Sign in</a>';
       } else {
         const username = profile?.first_name || profile?.username || email.split('@')[0];
         const avatar = profile?.avatar_url;
@@ -698,7 +647,6 @@
       }
     }
 
-    // HTML escape utility to prevent XSS
     function escapeHtml(text) {
       if (!text) return '';
       const div = document.createElement('div');
@@ -708,160 +656,12 @@
 
     checkUserSession();
 
-    // Google Sign In
-    const googleSignInBtn = document.getElementById('googleSignInBtn');
-    if (googleSignInBtn) {
-      googleSignInBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        // Set flag before redirect so we can detect OAuth callback on return
-        sessionStorage.setItem('oauthLoginPending', '1');
-        try {
-          const { error } = await SUPABASE.auth.signInWithOAuth({
-            provider: 'google',
-            options: { redirectTo: window.location.origin + '/' }
-          });
-          if (error) {
-            sessionStorage.removeItem('oauthLoginPending');
-            Toast.show('Google Sign In Error: ' + error.message, 'error');
-          }
-        } catch (err) {
-          sessionStorage.removeItem('oauthLoginPending');
-          Toast.show('Error: ' + err.message, 'error');
-        }
-      });
+    // Clear any stale OAuth flags on page load
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('fromLogin') === 'true') {
+      sessionStorage.removeItem('oauthLoginPending');
+      window.history.replaceState({}, document.title, window.location.pathname);
     }
-
-    // Check for Google OAuth redirect
-    async function checkGoogleCallback() {
-      try {
-        const { data: { session } } = await SUPABASE.auth.getSession();
-        // Only redirect if this is a fresh OAuth callback (flag was set before redirect)
-        const oauthPending = sessionStorage.getItem('oauthLoginPending');
-        if (session && session.user.email && oauthPending) {
-          sessionStorage.removeItem('oauthLoginPending');
-          closeModal();
-          authForm.style.display = 'none';
-          authSuccess.style.display = 'block';
-          userDisplay.textContent = session.user.email;
-
-          // Send welcome email in background
-          fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'apikey': SUPABASE_KEY,
-              'Authorization': `Bearer ${session.access_token}`
-            },
-            body: JSON.stringify({
-              to: session.user.email,
-              subject: 'Welcome to Amirali Gholian Portfolio',
-              html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
-            })
-          }).catch(() => {});
-
-          setTimeout(() => {
-            window.location.href = './profile.html?fromLogin=true';
-          }, 1500);
-        }
-      } catch (err) {
-        // Silently handle callback errors
-      }
-    }
-    checkGoogleCallback();
-
-    // Toggle signup/signin
-    toggleMode.addEventListener('click', (e) => {
-      e.preventDefault();
-      isSignup = !isSignup;
-      authTitle.textContent = isSignup ? 'Create Account' : 'Sign In';
-      authBtn.textContent = isSignup ? 'Sign Up' : 'Sign In';
-      toggleMode.textContent = isSignup ? 'Sign in instead' : 'Create account';
-    });
-
-    // Auth handler
-    authBtn.addEventListener('click', async () => {
-      const e = email.value.trim();
-      const p = password.value;
-      if (!e || !p) { Toast.show('Please fill all fields', 'error'); return; }
-
-      // Basic input validation
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-      if (!emailRegex.test(e)) { Toast.show('Please enter a valid email address', 'error'); return; }
-      if (p.length < 6) { Toast.show('Password must be at least 6 characters', 'error'); return; }
-
-      authBtn.disabled = true;
-      authBtn.textContent = isSignup ? 'Creating account...' : 'Signing in...';
-
-      try {
-        const res = isSignup 
-          ? await SUPABASE.auth.signUp({ email: e, password: p })
-          : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
-        if (res.error) throw res.error;
-
-        if (!isSignup) {
-          try {
-            await fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${res.data.session?.access_token}`
-              },
-              body: JSON.stringify({
-                to: e,
-                subject: 'Welcome to Amirali Gholian Portfolio',
-                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
-              })
-            });
-          } catch (err) {
-            // Silently handle email send failure
-          }
-        }
-        showSuccess(e);
-      } catch (err) {
-        Toast.show('Error: ' + err.message, 'error');
-      }
-      authBtn.disabled = false;
-      authBtn.textContent = isSignup ? 'Sign Up' : 'Sign In';
-    });
-
-    function showSuccess(e) {
-      authForm.style.display = 'none';
-      authSuccess.style.display = 'block';
-      userDisplay.textContent = e;
-      Toast.show('Successfully signed in!', 'success');
-      setTimeout(() => {
-        window.location.href = './profile.html?fromLogin=true';
-      }, 1500);
-    }
-
-    signOutBtn.addEventListener('click', async () => {
-      await SUPABASE.auth.signOut();
-      authForm.style.display = 'block';
-      authSuccess.style.display = 'none';
-      email.value = '';
-      password.value = '';
-      isSignup = false;
-      authTitle.textContent = 'Sign In';
-      authBtn.textContent = 'Sign In';
-      toggleMode.textContent = 'Create account';
-      updateAuthUI();
-      closeModal();
-      Toast.show('Signed out successfully', 'info');
-    });
-
-    function openModal() { modal.classList.add('open'); modal.setAttribute('aria-hidden', 'false'); email.focus(); }
-    function closeModal() { modal.classList.remove('open'); modal.setAttribute('aria-hidden', 'true'); }
-
-    document.getElementById('authClose').addEventListener('click', closeModal);
-
-    const initialAuthLink = document.getElementById('authLink');
-    if (initialAuthLink) {
-      initialAuthLink.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
-    }
-
-    modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
   </script>
 
   <script>
