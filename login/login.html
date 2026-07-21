@@ -6,8 +6,8 @@
   <meta name="description" content="Sign in to Amirali Gholian Portfolio - Access your profile and learning resources.">
   <meta name="theme-color" content="#060913">
   <title>Sign In | Amirali Gholian</title>
-  <link rel="icon" href="./logo.webp?v=2" type="image/webp">
-  <link rel="canonical" href="https://amiraligholian.ir/login.html">
+  <link rel="icon" href="/logo.webp?v=2" type="image/webp">
+  <link rel="canonical" href="https://amiraligholian.ir/login/login.html">
 
   <!-- Security Headers -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
@@ -16,7 +16,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://amiraligholian.ir/login.html">
+  <meta property="og:url" content="https://amiraligholian.ir/login/login.html">
   <meta property="og:title" content="Sign In | Amirali Gholian">
   <meta property="og:description" content="Sign in to access your profile and learning resources.">
   <meta property="og:image" content="https://amiraligholian.ir/logo.webp">
@@ -111,7 +111,7 @@
       0%,100%{box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 40px rgba(56,189,248,.15)}
       50%{box-shadow:0 12px 30px rgba(0,0,0,.35),0 0 60px rgba(56,189,248,.25)}
     }
-    .login-logo img{width:60%;height:60%;object-fit:contain;}
+    .login-logo img{width:100%;height:100%;object-fit:cover;}
     .login-logo span{font-weight:800;color:#fff;font-size:1.4rem;}
     .login-header h1{
       font-size:1.6rem;font-weight:700;margin:0 0 8px;
@@ -299,7 +299,7 @@
   <div class="toast-container" id="toastContainer" aria-live="polite" aria-atomic="true"></div>
 
   <div class="login-container">
-    <a href="./index.html" class="back-btn">
+    <a href="/index.html" class="back-btn">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
@@ -309,7 +309,7 @@
     <div class="login-card">
       <div class="login-header">
         <div class="login-logo" style="overflow:hidden;">
-          <img src="profile.webp" alt="Amirali Gholian" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentNode.innerHTML='<span>AG</span>';" />
+          <img src="/profile.webp" alt="Amirali Gholian" style="width:100%;height:100%;object-fit:cover;" onerror="this.style.display='none';this.parentNode.innerHTML='<span>AG</span>';" />
         </div>
         <h1 id="authTitle">Welcome Back</h1>
         <p id="authSubtitle">Sign in to access your profile and learning resources</p>
@@ -374,7 +374,7 @@
     </div>
 
     <div class="login-footer">
-      <p>By signing in, you agree to our <a href="./terms.html">Terms</a> and <a href="./privacy.html">Privacy Policy</a></p>
+      <p>By signing in, you agree to our <a href="/terms.html">Terms</a> and <a href="/privacy.html">Privacy Policy</a></p>
     </div>
   </div>
 
@@ -418,8 +418,8 @@
       try {
         const { data: { session } } = await SUPABASE.auth.getSession();
         if (session) {
-          // Already logged in, redirect to profile
-          window.location.href = './profile.html';
+          // Already logged in, redirect to profile (absolute path)
+          window.location.href = '/profile.html';
         }
       } catch (err) {
         // Silently handle
@@ -494,7 +494,7 @@
       successEmail.textContent = `Signed in as ${e}`;
       Toast.show('Successfully signed in!', 'success');
       setTimeout(() => {
-        window.location.href = './profile.html';
+        window.location.href = '/profile.html';
       }, 2000);
     }
 
@@ -507,7 +507,7 @@
         try {
           const { error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: window.location.origin + '/profile.html' }
+            options: { redirectTo: window.location.origin + '/profile.html' } // مهم: به پروفایل ریدایرکت می‌شود
           });
           if (error) {
             sessionStorage.removeItem('oauthLoginPending');
@@ -550,7 +550,7 @@
           successEmail.textContent = `Signed in as ${session.user.email}`;
           Toast.show('Successfully signed in with Google!', 'success');
           setTimeout(() => {
-            window.location.href = './profile.html';
+            window.location.href = '/profile.html';
           }, 2000);
         }
       } catch (err) {
