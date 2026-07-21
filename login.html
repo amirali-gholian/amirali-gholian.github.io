@@ -507,7 +507,7 @@
         try {
           const { error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: window.location.origin + '/login.html' }
+            options: { redirectTo: window.location.origin + '/profile.html' }
           });
           if (error) {
             sessionStorage.removeItem('oauthLoginPending');
