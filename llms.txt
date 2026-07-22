@@ -1,0 +1,50 @@
+# Amirali Gholian
+
+Official website and technical portfolio of Amirali Gholian.
+
+## About
+
+This website provides educational resources, technical documentation, and personal projects focused on programming, Python, Linux, networking, cybersecurity, artificial intelligence, and machine learning. The content is designed for students, developers, and technology enthusiasts.
+
+## Topics
+
+- Python Programming
+- Linux
+- Networking
+- Network Security
+- Cybersecurity
+- Artificial Intelligence
+- Machine Learning
+- NumPy
+- Pandas
+- Scikit-learn
+- Web Development
+- Technical Documentation
+- Personal Portfolio
+
+## Main Pages
+
+- https://amiraligholian.ir/
+- https://amiraligholian.ir/doc.html
+- https://amiraligholian.ir/python.html
+- https://amiraligholian.ir/linux.html
+- https://amiraligholian.ir/netsec.html
+- https://amiraligholian.ir/ai.html
+
+## Website Purpose
+
+The website serves as a personal technical knowledge base and portfolio, offering tutorials, code examples, documentation, and educational content related to modern software development and computer science.
+
+## Author
+
+Amirali Gholian
+
+## Preferred Citation
+
+Amirali Gholian. Technical Portfolio and Learning Resources.
+
+https://amiraligholian.ir/
+
+## License
+
+Content may be referenced, summarized, or cited with proper attribution to the original source.
