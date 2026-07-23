@@ -319,13 +319,13 @@
     @media (max-width: 480px) {
       .scroll-top-btn {
         bottom: 80px;
-        right: max(8px, env(safe-area-inset-right));
-        width: 38px;
-        height: 38px;
+        right: 12px;
+        width: 36px;
+        height: 36px;
       }
       .scroll-top-btn svg {
-        width: 18px;
-        height: 18px;
+        width: 16px;
+        height: 16px;
       }
     }
     @media (hover: none) {
@@ -334,6 +334,15 @@
         box-shadow: 0 8px 30px rgba(167,139,250,.3);
       }
     }
+    /* ─── Mobile Button Safeguards ─── */
+    @media (max-width: 480px) {
+      .scroll-top-btn,
+      .sidebar-toggle {
+        max-width: calc(100vw - 24px);
+        max-height: calc(100vh - 24px);
+      }
+    }
+
 
     .sidebar-section { margin-bottom: 8px; }
     .sidebar-header {
@@ -776,9 +785,15 @@
 
     /* RESPONSIVE */
     @media (max-width: 1024px) {
-      .sidebar { transform: translateX(-100%); z-index: 55; }
+      .sidebar { transform: translateX(-100%); z-index: 110; }
       .sidebar.open { transform: translateX(0); }
-      .sidebar-toggle { display: flex; }
+      .sidebar-toggle { 
+        display: flex; 
+        bottom: 24px;
+        left: 12px;
+        width: 44px;
+        height: 44px;
+      }
       .main-content { margin-left: 0; max-width: 100%; padding: 24px; }
       .search-container { max-width: 250px; }
     }
@@ -802,7 +817,7 @@
   </style>
 </head>
 <body>
-  <div id="sidebar-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:54;display:none;" onclick="toggleSidebar()"></div>
+  <div id="sidebar-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:105;display:none;" onclick="toggleSidebar()"></div>
 
   <!-- TOPBAR -->
   <div class="topbar">
