@@ -318,14 +318,18 @@
     }
     @media (max-width: 480px) {
       .scroll-top-btn {
-        bottom: 80px;
-        right: 12px;
-        width: 36px;
-        height: 36px;
+        bottom: 88px;
+        right: 24px;
+        width: 42px;
+        height: 42px;
+        box-shadow: 0 4px 12px rgba(167,139,250,.2);
       }
       .scroll-top-btn svg {
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
+      }
+      .scroll-top-btn.visible {
+        transform: translateY(0) translateX(0);
       }
     }
     @media (hover: none) {
@@ -336,10 +340,15 @@
     }
     /* ─── Mobile Button Safeguards ─── */
     @media (max-width: 480px) {
-      .scroll-top-btn,
+      .scroll-top-btn {
+        max-width: calc(100vw - 48px);
+        max-height: calc(100vh - 48px);
+        margin-right: env(safe-area-inset-right);
+      }
       .sidebar-toggle {
-        max-width: calc(100vw - 24px);
-        max-height: calc(100vh - 24px);
+        max-width: calc(100vw - 48px);
+        max-height: calc(100vh - 48px);
+        margin-left: env(safe-area-inset-left);
       }
     }
 
