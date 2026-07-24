@@ -1,684 +1,1467 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Amirali Gholian",
-  "alternateName":"امیرعلی قولیان",
-  "url":"https://amiraligholian.ir/",
-  "image":"https://amiraligholian.ir/logo.webp",
-  "jobTitle":"Python Developer | Linux & AI Enthusiast",
-  "knowsAbout":[
-    "Python",
-    "Linux",
-    "Networking",
-    "Cybersecurity",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "DevOps",
-    "Cloud Computing"
-  ],
-  "sameAs":[
-    "https://t.me/nexth0p"
-  ]
-}
-</script>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Amirali Gholian - AI & Machine Learning expertise. Learn about neural networks, deep learning, and artificial intelligence." />
-  <meta name="theme-color" content="#060913" />
-  <title>AI & Machine Learning | Amirali Gholian</title>
-  <link rel="icon" href="./logo.webp?v=2" type="image/png">
-  
-  <!-- PWA & Manifest -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete AI & Machine Learning Documentation - Comprehensive AI/ML Tutorial from Beginner to Advanced">
+  <meta name="theme-color" content="#060913">
+  <title>AI & Machine Learning Documentation | Amirali Gholian</title>
+  <link rel="icon" href="/logo.webp?v=2" type="image/png">
   <link rel="manifest" href="/manifest.json">
   <link rel="apple-touch-icon" href="/logo.webp">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Amirali Gholian">
-  
-  <!-- Security -->
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg0:#050814;
-      --bg1:#070b16;
-      --panel:rgba(15, 23, 42, .72);
-      --panel-2:rgba(17, 24, 39, .86);
-      --line:rgba(148, 163, 184, .16);
-      --text:#e5e7eb;
-      --muted:#94a3b8;
-      --soft:#cbd5e1;
-      --accent:#38bdf8;
-      --accent-2:#22c55e;
-      --accent-3:#a78bfa;
-      --shadow:0 20px 60px rgba(0,0,0,.42);
-      --radius:26px;
-      --radius-sm:18px;
-      --max:1180px;
-      
-      --code-keyword: #ff79c6;
-      --code-string: #f1fa8c;
-      --code-comment: #6272a4;
-      --code-function: #50fa7b;
-      --code-number: #bd93f9;
-      --code-variable: #8be9fd;
+    :root {
+      --bg: #060913; --bg-1: #0b0f1a; --bg-2: #0f1525; --bg-card: rgba(15,21,37,.72);
+      --line: rgba(148,163,184,.14); --text: #e5e7eb; --text-dim: #94a3b8; --text-bright: #f1f5f9;
+      --accent: #38bdf8; --accent-2: #22c55e; --accent-3: #a78bfa;
+      --shadow: 0 20px 60px rgba(0,0,0,.42); --radius: 26px; --radius-sm: 18px;
+      --max: 1320px; --sidebar-width: 300px; --topbar-h: 76px;
+      --code-keyword: #ff79c6; --code-string: #f1fa8c; --code-comment: #6272a4;
+      --code-function: #50fa7b; --code-number: #bd93f9; --code-variable: #8be9fd; --code-operator: #ff79c6;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100vw; }
+    body {
+      margin: 0; max-width: 100vw; overflow-x: hidden;
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      background: radial-gradient(ellipse 80% 50% at 20% -10%, rgba(56,189,248,.10), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(167,139,250,.08), transparent),
+        radial-gradient(ellipse 50% 50% at 10% 90%, rgba(34,197,94,.06), transparent),
+        linear-gradient(180deg, var(--bg), var(--bg-1) 40%, #04060b 100%);
+      background-attachment: fixed; color: var(--text); min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(56,189,248,.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,.35); }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
-        radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 22%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
-      color:var(--text);
-      overflow-x:hidden;
-    }
+    .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,9,19,.85); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)); display: grid; place-items: center; border: 1px solid rgba(255,255,255,.15); box-shadow: 0 12px 30px rgba(0,0,0,.35); overflow: hidden; flex: 0 0 auto; cursor: pointer; transition: transform .3s ease; }
+    .avatar:hover { transform: scale(1.1); }
+    .avatar span { font-weight: 800; color: #fff; letter-spacing: .5px; font-size: 1.1rem; }
+    .brand-text h1 { margin: 0; font-size: 1.05rem; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: var(--text-bright); }
+    .brand-text small { display: block; margin-top: 3px; color: var(--text-dim); font-size: .82rem; font-weight: 500; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color: var(--text); font-weight: 600; font-size: .9rem; transition: all .25s cubic-bezier(.4,0,.2,1); cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #07111c; border-color: transparent; box-shadow: 0 14px 30px rgba(34,197,94,.18); }
+    .btn.primary:hover { filter: brightness(1.08); box-shadow: 0 18px 40px rgba(34,197,94,.25); }
+    .btn.back-btn { padding: 10px 16px; font-size: .88rem; background: rgba(56,189,248,.08); border-color: rgba(56,189,248,.2); color: var(--accent); }
+    .btn.back-btn:hover { background: rgba(56,189,248,.15); transform: translateX(4px); border-color: rgba(56,189,248,.35); }
 
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
-    .glass{
-      background:linear-gradient(180deg, rgba(15,23,42,.86), rgba(15,23,42,.58));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
-    }
+    .search-container { position: relative; max-width: 400px; width: 100%; }
+    .search-input { width: 100%; padding: 10px 44px 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color: var(--text); font-family: inherit; font-size: .9rem; transition: all .25s ease; outline: none; }
+    .search-input:focus { border-color: var(--accent); background: rgba(255,255,255,.06); box-shadow: 0 0 0 3px rgba(56,189,248,.1); }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-dim); pointer-events: none; }
+    .search-results { position: absolute; top: calc(100% + 8px); left: 0; background: #0f1525; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-height: 400px; overflow-y: auto; z-index: 200; display: none; }
+    .search-results.active { display: block; }
+    .search-result-item { padding: 12px 16px; cursor: pointer; transition: background .2s ease; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: rgba(56,189,248,.08); }
+    .search-result-item .result-title { font-weight: 600; color: var(--text-bright); font-size: .9rem; }
+    .search-result-item .result-desc { font-size: .8rem; color: var(--text-dim); }
 
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:40;
-      background:rgba(4, 8, 15, .62);
-      backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .topbar-inner{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .avatar{
-      width:48px;height:48px;border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
-      display:grid;place-items:center;
-      border:1px solid rgba(255,255,255,.15);
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-      overflow:hidden;
-      flex:0 0 auto;
-      cursor:pointer;
-      transition:.3s ease;
-    }
-    .avatar:hover{
-      transform:scale(1.1);
-    }
-    .avatar span{
-      font-weight:800;
-      color:#fff;
-      letter-spacing:.5px;
-    }
-    .brand h1{
-      margin:0;
-      font-size:1rem;
-      line-height:1.1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .brand small{display:block;margin-top:4px;color:var(--muted)}
+    .main-layout { display: flex; min-height: calc(100vh - var(--topbar-h)); margin-top: var(--topbar-h); }
 
-    .page{display:none}
-    .page.active{display:block}
+    .sidebar { width: var(--sidebar-width); position: fixed; left: 0; top: var(--topbar-h); bottom: 0; background: rgba(6,9,19,.92); backdrop-filter: blur(20px); border-right: 1px solid var(--line); overflow-y: auto; z-index: 50; padding: 20px 0; transition: transform .3s ease; }
+    .sidebar-toggle { display: none; position: fixed; bottom: 24px; left: 24px; z-index: 60; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #07111c; font-size: 1.3rem; cursor: pointer; box-shadow: 0 8px 30px rgba(56,189,248,.3); transition: transform .3s ease; align-items: center; justify-content: center; }
+    .sidebar-toggle:hover { transform: scale(1.1); }
+    .scroll-top-btn { position: fixed; bottom: 24px; right: 24px; z-index: 61; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-3), var(--accent)); border: none; color: #07111c; font-size: 1.2rem; cursor: pointer; box-shadow: 0 8px 30px rgba(167,139,250,.3); transition: all .3s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(20px); }
+    .scroll-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .scroll-top-btn:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 12px 40px rgba(167,139,250,.4); }
+    .scroll-top-btn:active { transform: scale(0.95); }
 
-    .hero{
-      padding:54px 0 24px;
-      position:relative;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:24px;
-      align-items:stretch;
-    }
-    .hero-card, .side-card{
-      position:relative;
-      border-radius:32px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%),
-        linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92));
-      box-shadow:var(--shadow);
-    }
-    .hero-card{
-      padding:34px;
-      transform-style:preserve-3d;
-      transition:transform .15s ease;
-    }
-    .hero-card::before,
-    .hero-card::after{
-      content:"";
-      position:absolute;
-      border-radius:999px;
-      pointer-events:none;
-      filter:blur(18px);
-      opacity:.55;
-    }
-    .hero-card::before{
-      width:240px;height:240px;
-      background:rgba(56,189,248,.12);
-      top:-70px; right:-40px;
-      animation: drift 10s ease-in-out infinite;
-    }
-    .hero-card::after{
-      width:180px;height:180px;
-      background:rgba(34,197,94,.10);
-      bottom:-55px; left:-30px;
-      animation: drift 12s ease-in-out infinite reverse;
-    }
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.05);
-      color:#dbe4ef;
-      font-size:.9rem;
-      margin-bottom:18px;
-    }
-    .eyebrow .dot{
-      width:9px;height:9px;border-radius:50%;
-      background:var(--accent-2);
-      box-shadow:0 0 0 6px rgba(34,197,94,.12);
-    }
-    .hero h2{
-      margin:0;
-      font-size:clamp(2.2rem, 4vw, 4.8rem);
-      line-height:1.03;
-      letter-spacing:-.045em;
-    }
-    .grad{
-      background:linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .type-row{
-      margin-top:12px;
-      font-size:1.16rem;
-      color:#dbe4ef;
-      min-height:1.7em;
-    }
-    .type-text{
-      color:var(--accent);
-      font-weight:700;
-    }
-    .cursor{
-      animation:blink 1s infinite;
-      color:#fff;
-      margin-left:2px;
-    }
-    .hero p{
-      margin:18px 0 0;
-      max-width:66ch;
-      color:#cbd5e1;
-      line-height:1.85;
-      font-size:1.03rem;
-    }
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:28px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:13px 18px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      color:#e5e7eb;
-      font-weight:600;
-      transition:.25s ease;
-      cursor:pointer;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,.08);
-    }
-    .btn.primary{
-      background:linear-gradient(135deg, var(--accent-2), var(--accent));
-      color:#07111c;
-      border-color:transparent;
-      box-shadow:0 14px 30px rgba(34,197,94,.18);
-    }
-    .btn.primary:hover{filter:brightness(1.03)}
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; cursor: pointer; font-weight: 700; color: var(--text-bright); font-size: .92rem; transition: background .2s ease; user-select: none; }
+    .sidebar-header:hover { background: rgba(255,255,255,.03); }
+    .sidebar-header .chevron { transition: transform .3s ease; font-size: .8rem; }
+    .sidebar-header.collapsed .chevron { transform: rotate(-90deg); }
+    .sidebar-links { list-style: none; padding: 0; margin: 0; overflow: hidden; transition: max-height .3s ease; }
+    .sidebar-links.collapsed { max-height: 0 !important; }
+    .sidebar-links li a { display: block; padding: 8px 20px 8px 32px; color: var(--text-dim); font-size: .88rem; transition: all .2s ease; border-left: 2px solid transparent; }
+    .sidebar-links li a:hover { color: var(--accent); background: rgba(56,189,248,.05); border-left-color: var(--accent); padding-left: 36px; }
+    .sidebar-links li a.active { color: var(--accent); background: rgba(56,189,248,.08); border-left-color: var(--accent-2); font-weight: 600; }
+    .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--line); margin-top: 16px; }
+    .sidebar-progress-label { display: flex; justify-content: space-between; font-size: .82rem; color: var(--text-dim); margin-bottom: 8px; }
+    .sidebar-progress-bar { height: 6px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; }
+    .sidebar-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-2), var(--accent)); border-radius: 3px; transition: width .5s ease; width: 0%; }
 
-    .side-card{
-      padding:24px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:100%;
-    }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; min-width: 0; padding: 32px 40px; max-width: calc(100% - var(--sidebar-width)); }
 
-    .skills-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-      gap:16px;
-      margin-top:20px;
-    }
-    .skill-item{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:12px;
-      border-radius:12px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-    }
-    .skill-item span:first-child{
-      color:var(--accent-2);
-      font-size:1.2rem;
-    }
+    .hero { padding: 40px 0 24px; position: relative; }
+    .hero-card { position: relative; border-radius: 32px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%), radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%), linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92)); box-shadow: var(--shadow); padding: 40px; }
+    .hero-card::before, .hero-card::after { content: ""; position: absolute; border-radius: 999px; pointer-events: none; filter: blur(18px); opacity: .55; }
+    .hero-card::before { width: 240px; height: 240px; background: rgba(56,189,248,.12); top: -70px; right: -40px; animation: drift 10s ease-in-out infinite; }
+    .hero-card::after { width: 180px; height: 180px; background: rgba(34,197,94,.10); bottom: -55px; left: -30px; animation: drift 12s ease-in-out infinite reverse; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.05); color: #dbe4ef; font-size: .88rem; font-weight: 500; margin-bottom: 18px; }
+    .eyebrow .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 0 6px rgba(34,197,94,.12); animation: pulse 2s ease-in-out infinite; }
+    .hero h2 { margin: 0; font-size: clamp(2rem, 3.5vw, 3.5rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
+    .grad { background: linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { margin: 18px 0 0; max-width: 66ch; color: #cbd5e1; line-height: 1.85; font-size: 1.05rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
-    .modules-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-      gap:24px;
-      margin:40px 0;
-    }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: .88rem; color: var(--text-dim); }
+    .breadcrumb a { color: var(--accent); transition: color .2s ease; }
+    .breadcrumb a:hover { color: var(--text-bright); }
+    .breadcrumb .sep { opacity: .5; }
 
-    .module-card{
-      position:relative;
-      border-radius:20px;
-      padding:30px;
-      background:linear-gradient(135deg, rgba(56,189,248,.1), rgba(34,197,94,.05));
-      border:1px solid rgba(56,189,248,.2);
-      transition:.3s ease;
-      cursor:pointer;
-    }
-    .module-card:hover{
-      border-color:var(--accent);
-      background:linear-gradient(135deg, rgba(56,189,248,.15), rgba(34,197,94,.1));
-      transform:translateY(-8px);
-      box-shadow:0 20px 50px rgba(56,189,248,.15);
-    }
-    .module-icon{
-      font-size:3rem;
-      margin-bottom:16px;
-      display:block;
-    }
-    .module-title{
-      font-size:1.3rem;
-      font-weight:700;
-      margin-bottom:12px;
-      color:var(--accent);
-    }
-    .module-desc{
-      color:var(--muted);
-      font-size:.95rem;
-      line-height:1.6;
-      margin-bottom:16px;
-    }
-    .module-topics{
-      font-size:.85rem;
-      color:var(--soft);
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .module-topics span{
-      background:rgba(56,189,248,.2);
-      padding:4px 10px;
-      border-radius:6px;
-    }
+    .content-section { padding: 40px 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--topbar-h) + 14px); }
+    .content-section:last-child { border-bottom: none; }
+    .content-section h2 { font-size: 2rem; margin-bottom: 8px; color: var(--text-bright); font-weight: 800; letter-spacing: -.02em; display: flex; align-items: center; gap: 12px; }
+    .content-section h2 .section-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); color: #07111c; font-size: .9rem; font-weight: 800; flex-shrink: 0; }
+    .content-section .section-subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 32px; line-height: 1.6; }
+    .content-section h3 { font-size: 1.35rem; margin: 32px 0 16px; color: var(--accent); font-weight: 700; }
+    .content-section h4 { font-size: 1.1rem; margin: 24px 0 10px; color: var(--text-bright); font-weight: 600; }
+    .content-section p { color: var(--text-dim); line-height: 1.9; margin-bottom: 16px; font-size: .97rem; }
+    .content-section ul, .content-section ol { color: var(--text-dim); line-height: 1.9; margin: 12px 0 16px 20px; font-size: .97rem; padding-left: 20px; }
+    .content-section li { margin-bottom: 8px; }
+    .content-section a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s ease; }
+    .content-section a:hover { border-bottom-color: var(--accent); }
+    .content-section code.inline { background: rgba(56,189,248,.12); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-family: 'Fira Code', 'Courier New', monospace; font-size: .88em; font-weight: 500; direction: ltr; display: inline-block; }
+    .content-section strong { color: var(--text-bright); }
 
-    /* Learning Content */
-    .content-section{
-      padding:40px 0;
-      border-bottom:1px solid var(--line);
-    }
-    .content-section h2{
-      font-size:2.5rem;
-      margin-bottom:24px;
-      color:var(--accent);
-    }
-    .content-section h3{
-      font-size:1.5rem;
-      margin:32px 0 16px;
-      color:var(--accent);
-    }
-
-    .code-container{
-      position:relative;
-      margin:20px 0;
-      border-radius:12px;
-      overflow:hidden;
-      background:#0a0e1a;
-      border:1px solid rgba(56,189,248,.2);
-    }
-
-    .code-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px 16px;
-      background:rgba(56,189,248,.05);
-      border-bottom:1px solid rgba(56,189,248,.1);
-      font-size:.85rem;
-      color:var(--muted);
-    }
-
-    .code-copy{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 12px;
-      background:var(--accent);
-      color:#07111c;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-      transition:.2s ease;
-      font-size:.85rem;
-    }
-    .code-copy:hover{
-      filter:brightness(1.1);
-      transform:scale(1.05);
-    }
-    .code-copy.copied{
-      background:var(--accent-2);
-    }
-
-    .code-block{
-      padding:16px;
-      overflow-x:auto;
-      font-family:'Fira Code', 'Courier New', monospace;
-      font-size:.9rem;
-      line-height:1.6;
-      background:#0a0e1a;
-      color:#e5e7eb;
-    }
-
-    .code-block::-webkit-scrollbar{
-      height:6px;
-    }
-    .code-block::-webkit-scrollbar-track{
-      background:transparent;
-    }
-    .code-block::-webkit-scrollbar-thumb{
-      background:rgba(56,189,248,.3);
-      border-radius:3px;
-    }
-
-    .kw { color: var(--code-keyword); font-weight:700; }
+    .code-container { position: relative; margin: 24px 0; border-radius: 16px; overflow: hidden; background: #0a0e1a; border: 1px solid rgba(56,189,248,.18); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: rgba(56,189,248,.06); border-bottom: 1px solid rgba(56,189,248,.1); font-size: .85rem; color: var(--text-dim); font-weight: 500; direction: ltr; }
+    .code-header .lang-label { display: flex; align-items: center; gap: 8px; }
+    .code-header .lang-label::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px rgba(34,197,94,.4); }
+    .code-copy { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--accent); color: #07111c; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-family: inherit; transition: all .2s ease; font-size: .82rem; }
+    .code-copy:hover { filter: brightness(1.1); transform: scale(1.05); }
+    .code-copy:active { transform: scale(.95); }
+    .code-copy.copied { background: var(--accent-2); color: #07111c; }
+    .code-block { padding: 18px; overflow-x: auto; font-family: 'Fira Code', 'Courier New', monospace; font-size: .88rem; line-height: 1.8; background: #0a0e1a; color: #e5e7eb; direction: ltr; text-align: left; }
+    .code-block::-webkit-scrollbar { height: 6px; }
+    .code-block::-webkit-scrollbar-track { background: transparent; }
+    .code-block::-webkit-scrollbar-thumb { background: rgba(56,189,248,.3); border-radius: 3px; }
+    .kw { color: var(--code-keyword); font-weight: 700; }
     .str { color: var(--code-string); }
-    .cmm { color: var(--code-comment); font-style:italic; }
-    .fn { color: var(--code-function); font-weight:700; }
+    .cmm { color: var(--code-comment); font-style: italic; }
+    .fn { color: var(--code-function); font-weight: 700; }
     .num { color: var(--code-number); }
     .var { color: var(--code-variable); }
-    .op { color: #ff79c6; }
+    .op { color: var(--code-operator); }
+    .dec { color: #8be9fd; }
 
-    .explanation{
-      background:rgba(34,197,94,.1);
-      border-left:3px solid var(--accent-2);
-      padding:16px;
-      margin:16px 0;
-      border-radius:8px;
-      color:var(--soft);
-      font-size:.95rem;
-      line-height:1.7;
-    }
+    .explanation { background: rgba(34,197,94,.08); border-left: 3px solid var(--accent-2); padding: 18px 20px; margin: 20px 0; border-radius: 12px; color: var(--text-bright); font-size: .95rem; line-height: 1.8; }
+    .explanation strong { color: var(--accent-2); }
+    .explanation.warning { background: rgba(251,191,36,.08); border-left-color: #fbbf24; }
+    .explanation.warning strong { color: #fbbf24; }
+    .explanation.info { background: rgba(56,189,248,.08); border-left-color: var(--accent); }
+    .explanation.info strong { color: var(--accent); }
+    .tip-box { background: rgba(167,139,250,.08); border-right: 3px solid var(--accent-3); padding: 16px 20px; margin: 16px 0; border-radius: 12px; color: var(--text-bright); font-size: .92rem; line-height: 1.7; }
+    .tip-box strong { color: var(--accent-3); }
 
-    .back-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 16px;
-      border-radius:8px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-      color:var(--accent);
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:.3s ease;
-    }
-    .back-btn:hover{
-      background:rgba(56,189,248,.2);
-      transform:translateX(-4px);
-    }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: .9rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+    .data-table th, .data-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+    .data-table th { background: rgba(56,189,248,.08); color: var(--accent); font-weight: 700; }
+    .data-table tr:hover { background: rgba(255,255,255,.02); }
+    .data-table td code { direction: ltr; }
 
-    @keyframes drift{
-      0%, 100%{transform:translate(0,0)}
-      50%{transform:translate(30px,-30px)}
-    }
-    @keyframes blink{
-      0%, 49%{opacity:1}
-      50%, 100%{opacity:0}
-    }
+    .footer { margin-top: 60px; padding: 40px 0 32px; border-top: 1px solid var(--line); text-align: center; color: var(--text-dim); font-size: .88rem; }
+    .footer a { color: var(--accent); transition: color .2s ease; }
+    .footer a:hover { color: var(--text-bright); }
+    .footer-socials { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+    .footer-socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); transition: all .25s ease; }
+    .footer-socials a:hover { background: rgba(56,189,248,.12); border-color: rgba(56,189,248,.25); transform: translateY(-3px); }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-dim); font-size: .85rem; transition: color .2s ease; }
+    .footer-links a:hover { color: var(--accent); }
 
-    @media(max-width:768px){
-      .hero-grid{grid-template-columns:1fr}
-      .topbar-inner{flex-direction:column}
-      .modules-grid{grid-template-columns:1fr}
+    @keyframes drift { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(30px,-30px); } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 6px rgba(34,197,94,.12); } 50% { box-shadow: 0 0 0 10px rgba(34,197,94,.06); } }
+
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); z-index: 110; }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-toggle { display: flex; bottom: 24px; left: 12px; width: 44px; height: 44px; }
+      .main-content { margin-left: 0; max-width: 100%; min-width: 0; width: 100%; padding: 24px; }
+      .search-container { max-width: 250px; }
+    }
+    @media (max-width: 768px) {
+      .hero-card { padding: 24px; }
+      .content-section h2 { font-size: 1.5rem; }
+      .content-section { padding: 28px 0; }
+      .topbar-inner { flex-wrap: wrap; }
+      .search-container { max-width: 100%; order: 3; margin-top: 8px; }
+      .data-table { font-size: .82rem; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+    }
+    @media (max-width: 480px) {
+      .btn { padding: 10px 14px; font-size: .85rem; }
+      .brand { gap: 8px; }
+      .avatar { width: 40px; height: 40px; }
+      .avatar span { font-size: .95rem; }
+      .hero-card { padding: 20px; }
+      .main-content { padding: 16px; }
     }
   </style>
 </head>
 <body>
+  <div id="sidebar-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:105;display:none;" onclick="toggleSidebar()"></div>
   <div class="topbar">
     <div class="wrap">
       <div class="topbar-inner">
         <div class="brand">
-          <a href="doc.html" class="avatar" style="display:grid;place-items:center;text-decoration:none;"><span style="grid-area:1/1;">AG</span><img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" /></a>
-          <div>
+          <a href="index.html" class="avatar" title="Amirali Gholian">
+            <span>AG</span>
+            <img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" />
+          </a>
+          <div class="brand-text">
             <h1>Amirali Gholian</h1>
-            <small>💻 Python | 🐧 Linux | 🚀 AI</small>
+            <small>AI &amp; Machine Learning Documentation</small>
           </div>
         </div>
+        <div class="search-container">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search documentation..." oninput="searchDocs()" onfocus="showSearchResults()" />
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+          <div class="search-results" id="searchResults"></div>
+        </div>
+        <a href="doc.html" class="btn back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Documentation
+        </a>
       </div>
     </div>
   </div>
 
-  <main class="wrap">
-    <div class="page active" id="ai">
-      <a class="back-btn" href="doc.html">← Back to Home</a>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Sidebar Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top" title="Back to top">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
 
-      <div class="content-section">
-        <h2>🤖 AI & Machine Learning</h2>
-        <p style="color:var(--muted);margin-bottom:32px;">Learn the essential libraries and techniques for AI and Machine Learning</p>
-
-        <h3>1. NumPy - Working with Numbers</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> NumPy helps you work with large sets of numbers quickly. It's much faster than regular Python for math operations.
+  <div class="main-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Foundations</span>
+          <span class="chevron">▼</span>
         </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>numpy_tutorial.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
+        <ul class="sidebar-links">
+          <li><a href="#intro" onclick="closeSidebar()">Introduction to AI &amp; ML</a></li>
+          <li><a href="#ml-types" onclick="closeSidebar()">Types of Machine Learning</a></li>
+          <li><a href="#math-foundations" onclick="closeSidebar()">Math Foundations</a></li>
+          <li><a href="#setup" onclick="closeSidebar()">Environment Setup</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Data Handling</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#numpy" onclick="closeSidebar()">NumPy Fundamentals</a></li>
+          <li><a href="#pandas" onclick="closeSidebar()">Pandas for Data</a></li>
+          <li><a href="#visualization" onclick="closeSidebar()">Data Visualization</a></li>
+          <li><a href="#preprocessing" onclick="closeSidebar()">Data Preprocessing</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Classical Machine Learning</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#sklearn" onclick="closeSidebar()">Scikit-learn Basics</a></li>
+          <li><a href="#regression" onclick="closeSidebar()">Regression Algorithms</a></li>
+          <li><a href="#classification" onclick="closeSidebar()">Classification Algorithms</a></li>
+          <li><a href="#clustering" onclick="closeSidebar()">Clustering &amp; Dim. Reduction</a></li>
+          <li><a href="#ensemble" onclick="closeSidebar()">Ensemble Methods</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Model Evaluation</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#metrics" onclick="closeSidebar()">Evaluation Metrics</a></li>
+          <li><a href="#regularization" onclick="closeSidebar()">Overfitting &amp; Regularization</a></li>
+          <li><a href="#tuning" onclick="closeSidebar()">Cross-Validation &amp; Tuning</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Deep Learning</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#neural-networks" onclick="closeSidebar()">Neural Network Fundamentals</a></li>
+          <li><a href="#tensorflow" onclick="closeSidebar()">TensorFlow &amp; Keras</a></li>
+          <li><a href="#pytorch" onclick="closeSidebar()">PyTorch</a></li>
+          <li><a href="#cnn" onclick="closeSidebar()">Convolutional Networks</a></li>
+          <li><a href="#rnn" onclick="closeSidebar()">Recurrent Networks &amp; Sequences</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Modern AI</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#transformers" onclick="closeSidebar()">Transformers &amp; Attention</a></li>
+          <li><a href="#nlp" onclick="closeSidebar()">Natural Language Processing</a></li>
+          <li><a href="#computer-vision" onclick="closeSidebar()">Computer Vision</a></li>
+          <li><a href="#generative-ai" onclick="closeSidebar()">Generative AI &amp; LLMs</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Advanced Topics</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#transfer-learning" onclick="closeSidebar()">Transfer Learning</a></li>
+          <li><a href="#reinforcement-learning" onclick="closeSidebar()">Reinforcement Learning</a></li>
+          <li><a href="#deployment" onclick="closeSidebar()">Model Deployment &amp; MLOps</a></li>
+          <li><a href="#ethics" onclick="closeSidebar()">Ethics &amp; Responsible AI</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-progress">
+        <div class="sidebar-progress-label">
+          <span>Study Progress</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="sidebar-progress-bar">
+          <div class="sidebar-progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content" id="mainContent">
+      <div class="breadcrumb">
+        <a href="doc.html">Documentation</a>
+        <span class="sep">/</span>
+        <span>AI &amp; Machine Learning</span>
+      </div>
+
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">
+            <span class="dot"></span>
+            Comprehensive AI &amp; Machine Learning Documentation
           </div>
+          <h2><span class="grad">Complete AI &amp; ML Guide</span></h2>
+          <p>
+            From <code class="inline">NumPy</code> arrays to Transformers and Generative AI. This documentation covers modern AI frameworks, deep learning techniques, and practical ML workflows — with practical examples, deep explanations, and best practices used across research and industry.
+          </p>
+          <div class="cta-row">
+            <a href="#intro" class="btn primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+              Start Learning
+            </a>
+            <a href="doc.html" class="btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Homepage
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 1: INTRO -->
+      <section class="content-section" id="intro">
+        <h2><span class="section-num">1</span> Introduction to AI &amp; Machine Learning</h2>
+        <p class="section-subtitle">What AI and ML are, and how they relate</p>
+        <p><strong>Artificial Intelligence (AI)</strong> is the broad field of building systems that perform tasks normally requiring human intelligence. <strong>Machine Learning (ML)</strong> is a subset of AI in which systems learn patterns from data instead of following explicitly programmed rules. <strong>Deep Learning</strong> is, in turn, a subset of ML built on multi-layered neural networks capable of learning very complex patterns directly from raw data.</p>
+        <h3>The AI Hierarchy</h3>
+        <table class="data-table">
+          <thead><tr><th>Layer</th><th>Description</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Artificial Intelligence</strong></td><td>Any technique that lets machines mimic intelligent behavior</td><td>Rule-based chess engines, expert systems</td></tr>
+            <tr><td><strong>Machine Learning</strong></td><td>Systems that learn from data rather than fixed rules</td><td>Spam filters, recommendation engines</td></tr>
+            <tr><td><strong>Deep Learning</strong></td><td>ML using multi-layer neural networks</td><td>Image recognition, language models</td></tr>
+          </tbody>
+        </table>
+        <h3>Why Python Dominates AI/ML</h3>
+        <ul>
+          <li><strong>Rich ecosystem:</strong> NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch all mature and interoperable</li>
+          <li><strong>Readable syntax:</strong> Lets researchers focus on ideas instead of boilerplate</li>
+          <li><strong>Community &amp; research adoption:</strong> Most papers ship Python reference implementations</li>
+          <li><strong>Interoperability:</strong> Easy to bind to fast C/C++/CUDA backends under the hood</li>
+        </ul>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># A minimal "hello world" of machine learning</span>
+<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
+
+X = [[<span class="num">1</span>], [<span class="num">2</span>], [<span class="num">3</span>], [<span class="num">4</span>]]
+y = [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>]
+
+model = LinearRegression()
+model.fit(X, y)
+<span class="fn">print</span>(model.predict([[<span class="num">5</span>]]))  <span class="cmm"># [10.]</span></div>
+        </div>
+        <div class="explanation info">
+          <strong>Note:</strong> This documentation uses Python throughout, since it's the de-facto standard language across research and industry for AI and machine learning.
+        </div>
+      </section>
+
+      <!-- SECTION 2: ML TYPES -->
+      <section class="content-section" id="ml-types">
+        <h2><span class="section-num">2</span> Types of Machine Learning</h2>
+        <p class="section-subtitle">The three core learning paradigms</p>
+        <table class="data-table">
+          <thead><tr><th>Type</th><th>Data</th><th>Goal</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Supervised Learning</strong></td><td>Labeled (input, correct output) pairs</td><td>Predict labels for new inputs</td><td>Spam detection, price prediction</td></tr>
+            <tr><td><strong>Unsupervised Learning</strong></td><td>Unlabeled data</td><td>Discover hidden structure</td><td>Customer segmentation, anomaly detection</td></tr>
+            <tr><td><strong>Reinforcement Learning</strong></td><td>Environment + reward signal</td><td>Learn a policy maximizing reward</td><td>Game-playing agents, robotics</td></tr>
+            <tr><td><strong>Semi-supervised</strong></td><td>Small labeled + large unlabeled set</td><td>Combine both signals</td><td>Medical imaging with scarce labels</td></tr>
+            <tr><td><strong>Self-supervised</strong></td><td>Unlabeled data with generated pseudo-labels</td><td>Learn general representations</td><td>Pretraining LLMs, contrastive vision models</td></tr>
+          </tbody>
+        </table>
+        <h3>Supervised Learning: Two Main Tasks</h3>
+        <ul>
+          <li><strong>Regression:</strong> Predict a continuous number (e.g., house price)</li>
+          <li><strong>Classification:</strong> Predict a discrete category (e.g., spam or not spam)</li>
+        </ul>
+        <div class="tip-box">
+          <strong>Tip:</strong> When starting a new project, first ask: "Do I have labels?" — that single question usually decides between supervised and unsupervised approaches.
+        </div>
+      </section>
+
+      <!-- SECTION 3: MATH FOUNDATIONS -->
+      <section class="content-section" id="math-foundations">
+        <h2><span class="section-num">3</span> Math Foundations</h2>
+        <p class="section-subtitle">The minimum math you need to understand what's happening</p>
+        <h3>Linear Algebra</h3>
+        <p>Data in ML is represented as <strong>vectors</strong> and <strong>matrices</strong>. A neural network layer is fundamentally a matrix multiplication followed by a non-linear function.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
 
-<span class="cmm"># Create arrays (like lists, but faster)</span>
-arr = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>, <span class="num">4</span>, <span class="num">5</span>])
-<span class="fn">print</span>(arr)
+<span class="cmm"># Vector and matrix</span>
+v = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+M = np.array([[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]])
 
-<span class="cmm"># Create special arrays</span>
-zeros = np.zeros((<span class="num">3</span>, <span class="num">3</span>))   <span class="cmm"># All zeros</span>
-ones = np.ones((<span class="num">2</span>, <span class="num">4</span>))    <span class="cmm"># All ones</span>
-range_arr = np.arange(<span class="num">0</span>, <span class="num">10</span>, <span class="num">2</span>)  <span class="cmm"># 0,2,4,6,8</span>
+<span class="cmm"># Dot product (core operation in neural network layers)</span>
+result = np.dot(M, v[:<span class="num">2</span>])
 
-<span class="cmm"># Math operations</span>
-result = arr <span class="op">*</span> <span class="num">2</span>               <span class="cmm"># Multiply all by 2</span>
-<span class="fn">print</span>(np.sum(arr))         <span class="cmm"># Add all: 15</span>
-<span class="fn">print</span>(np.mean(arr))        <span class="cmm"># Average: 3</span>
-<span class="fn">print</span>(np.max(arr))         <span class="cmm"># Maximum: 5</span>
-
-<span class="cmm"># 2D arrays (tables)</span>
-matrix = np.array([[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]])
-<span class="fn">print</span>(matrix.shape)        <span class="cmm"># Shows: (2, 2)</span>
-<span class="fn">print</span>(matrix[<span class="num">0</span>, <span class="num">1</span>])        <span class="cmm"># First row, second column: 2</span>
-</div>
+<span class="cmm"># Matrix transpose and inverse</span>
+M.T
+np.linalg.inv(M)</div>
         </div>
-
-        <h3>2. Pandas - Working with Data</h3>
+        <h3>Calculus (Gradients)</h3>
+        <p>Training a model means minimizing a <strong>loss function</strong>. <strong>Gradient descent</strong> uses the derivative of the loss with respect to each parameter to know which direction reduces error, and steps the parameters that way, repeatedly.</p>
+        <h3>Probability &amp; Statistics</h3>
+        <ul>
+          <li><strong>Distributions:</strong> Understanding how data is spread (normal, uniform, etc.)</li>
+          <li><strong>Mean, variance, standard deviation:</strong> Core descriptive statistics used everywhere in preprocessing</li>
+          <li><strong>Bayes' theorem:</strong> Foundation of probabilistic models and Naive Bayes classifiers</li>
+          <li><strong>Conditional probability:</strong> Central to language models predicting the next token</li>
+        </ul>
         <div class="explanation">
-          <strong>What is it?</strong> Pandas lets you work with data like Excel spreadsheets. You can load, organize, and analyze data easily.
+          <strong>Key Insight:</strong> You don't need to derive backpropagation by hand to use deep learning frameworks effectively — but understanding gradients conceptually helps you debug training issues like exploding or vanishing gradients.
         </div>
+      </section>
+
+      <!-- SECTION 4: SETUP -->
+      <section class="content-section" id="setup">
+        <h2><span class="section-num">4</span> Environment Setup</h2>
+        <p class="section-subtitle">Getting your AI/ML development environment ready</p>
         <div class="code-container">
-          <div class="code-header">
-            <span>pandas_tutorial.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Create an isolated virtual environment</span>
+python3 -m venv ai-env
+<span class="kw">source</span> ai-env/bin/activate      <span class="cmm"># Linux/Mac</span>
+ai-env\Scripts\activate         <span class="cmm"># Windows</span>
+
+<span class="cmm"># Or with conda (popular in the ML community)</span>
+conda create -n ai-env python=<span class="num">3.11</span>
+conda activate ai-env
+
+<span class="cmm"># Install the core stack</span>
+pip install numpy pandas matplotlib scikit-learn
+
+<span class="cmm"># Deep learning frameworks</span>
+pip install tensorflow
+pip install torch torchvision torchaudio
+
+<span class="cmm"># Jupyter for interactive notebooks</span>
+pip install jupyterlab
+jupyter lab</div>
+        </div>
+        <h3>Checking GPU Availability</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> torch
+<span class="fn">print</span>(torch.cuda.is_available())
+
+<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="fn">print</span>(tf.config.list_physical_devices(<span class="str">'GPU'</span>))</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Use Google Colab or Kaggle Notebooks for free GPU access if you don't have a local GPU — both come with the core AI/ML stack pre-installed.
+        </div>
+      </section>
+
+      <!-- SECTION 5: NUMPY -->
+      <section class="content-section" id="numpy">
+        <h2><span class="section-num">5</span> NumPy Fundamentals</h2>
+        <p class="section-subtitle">The array library everything else in AI/ML is built on</p>
+        <p><strong>NumPy</strong> provides the <code class="inline">ndarray</code>, a fast, memory-efficient, multi-dimensional array type with vectorized operations that avoid slow Python loops. Every major ML/DL framework either uses NumPy directly or mirrors its API.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
+
+<span class="cmm"># Creating arrays</span>
+a = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+zeros = np.zeros((<span class="num">3</span>, <span class="num">4</span>))
+ones = np.ones((<span class="num">2</span>, <span class="num">2</span>))
+rand = np.random.rand(<span class="num">3</span>, <span class="num">3</span>)
+
+<span class="cmm"># Shape, dtype, reshape</span>
+<span class="fn">print</span>(a.shape, a.dtype)
+b = np.arange(<span class="num">12</span>).reshape(<span class="num">3</span>, <span class="num">4</span>)
+
+<span class="cmm"># Vectorized operations (no explicit loops)</span>
+c = a * <span class="num">2</span> + <span class="num">1</span>
+d = np.sqrt(a)
+
+<span class="cmm"># Broadcasting: operate on arrays of different shapes</span>
+M = np.ones((<span class="num">3</span>, <span class="num">3</span>))
+row = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+result = M + row  <span class="cmm"># row is broadcast across each row of M</span>
+
+<span class="cmm"># Indexing and slicing</span>
+b[<span class="num">0</span>, :]      <span class="cmm"># first row</span>
+b[:, <span class="num">1</span>]      <span class="cmm"># second column</span>
+b[b > <span class="num">5</span>]     <span class="cmm"># boolean mask</span></div>
+        </div>
+        <h3>Common Operations</h3>
+        <table class="data-table">
+          <thead><tr><th>Function</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">np.mean / np.std</code></td><td>Descriptive statistics along an axis</td></tr>
+            <tr><td><code class="inline">np.dot / @</code></td><td>Matrix multiplication</td></tr>
+            <tr><td><code class="inline">np.concatenate / np.stack</code></td><td>Combine arrays</td></tr>
+            <tr><td><code class="inline">np.where</code></td><td>Conditional element selection</td></tr>
+            <tr><td><code class="inline">np.linalg.norm</code></td><td>Vector/matrix norms</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation">
+          <strong>Key Insight:</strong> Prefer vectorized NumPy operations over Python <code class="inline">for</code> loops — they run in optimized C code and can be 10-100x faster on large datasets.
+        </div>
+      </section>
+
+      <!-- SECTION 6: PANDAS -->
+      <section class="content-section" id="pandas">
+        <h2><span class="section-num">6</span> Pandas for Data Manipulation</h2>
+        <p class="section-subtitle">Loading, cleaning, and exploring tabular data</p>
+        <p><strong>Pandas</strong> introduces the <code class="inline">DataFrame</code>, a labeled 2D table structure ideal for real-world, messy datasets — CSVs, SQL query results, spreadsheets, and logs.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> pandas <span class="kw">as</span> pd
 
-<span class="cmm"># Create data (like a table)</span>
-data = {
-    <span class="str">'Name'</span>: [<span class="str">'Alice'</span>, <span class="str">'Bob'</span>, <span class="str">'Charlie'</span>],
-    <span class="str">'Age'</span>: [<span class="num">25</span>, <span class="num">30</span>, <span class="num">35</span>],
-    <span class="str">'City'</span>: [<span class="str">'NYC'</span>, <span class="str">'LA'</span>, <span class="str">'Chicago'</span>]
-}
-df = pd.DataFrame(data)
-<span class="fn">print</span>(df)
-
-<span class="cmm"># Get information</span>
-<span class="fn">print</span>(df[<span class="str">'Name'</span>])       <span class="cmm"># Get one column</span>
-<span class="fn">print</span>(df.iloc[<span class="num">0</span>])      <span class="cmm"># Get first row</span>
-<span class="fn">print</span>(df.shape)          <span class="cmm"># Rows and columns</span>
-
-<span class="cmm"># Filter data</span>
-over30 = df[df[<span class="str">'Age'</span>] > <span class="num">30</span>]
-<span class="fn">print</span>(over30)
-
-<span class="cmm"># Statistics</span>
-<span class="fn">print</span>(df[<span class="str">'Age'</span>].mean())    <span class="cmm"># Average age</span>
-<span class="fn">print</span>(df[<span class="str">'Age'</span>].max())     <span class="cmm"># Oldest age</span>
-
-<span class="cmm"># Read from CSV file</span>
+<span class="cmm"># Loading data</span>
 df = pd.read_csv(<span class="str">'data.csv'</span>)
 
-<span class="cmm"># Save to CSV file</span>
-df.to_csv(<span class="str">'output.csv'</span>, index=<span class="kw">False</span>)
-</div>
-        </div>
+<span class="cmm"># Quick exploration</span>
+df.head()
+df.info()
+df.describe()
+df.shape
 
-        <h3>3. Scikit-Learn - Machine Learning Basics</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Scikit-Learn provides simple tools for machine learning. It handles training models and making predictions.
+<span class="cmm"># Selecting columns and rows</span>
+df[<span class="str">'age'</span>]
+df[[<span class="str">'age'</span>, <span class="str">'income'</span>]]
+df.loc[df[<span class="str">'age'</span>] > <span class="num">30</span>]
+df.iloc[<span class="num">0</span>:<span class="num">5</span>]
+
+<span class="cmm"># Handling missing values</span>
+df.isnull().<span class="fn">sum</span>()
+df.dropna()
+df.fillna(df.mean(numeric_only=<span class="kw">True</span>))
+
+<span class="cmm"># Grouping and aggregation</span>
+df.groupby(<span class="str">'category'</span>)[<span class="str">'sales'</span>].<span class="fn">sum</span>()
+
+<span class="cmm"># Merging datasets</span>
+merged = pd.merge(df1, df2, on=<span class="str">'id'</span>, how=<span class="str">'left'</span>)</div>
         </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Most real-world ML time is spent here, not on modeling — <em>data cleaning and exploration typically take 60-80% of a project's time.</em>
+        </div>
+      </section>
+
+      <!-- SECTION 7: VISUALIZATION -->
+      <section class="content-section" id="visualization">
+        <h2><span class="section-num">7</span> Data Visualization</h2>
+        <p class="section-subtitle">Seeing your data before modeling it</p>
+        <p>Visualization surfaces distributions, outliers, correlations, and class imbalance that summary statistics alone can hide. <strong>Matplotlib</strong> is the low-level foundation; <strong>Seaborn</strong> builds statistical plots on top of it with far less code.</p>
         <div class="code-container">
-          <div class="code-header">
-            <span>sklearn_tutorial.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
-<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
-<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
-<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> accuracy_score
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns
 
-<span class="cmm"># Split data into training and testing</span>
+<span class="cmm"># Distribution of a single feature</span>
+sns.histplot(df[<span class="str">'age'</span>], kde=<span class="kw">True</span>)
+
+<span class="cmm"># Relationship between two features</span>
+sns.scatterplot(data=df, x=<span class="str">'income'</span>, y=<span class="str">'spending'</span>, hue=<span class="str">'segment'</span>)
+
+<span class="cmm"># Correlation heatmap</span>
+sns.heatmap(df.corr(numeric_only=<span class="kw">True</span>), annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>)
+
+<span class="cmm"># Box plot to spot outliers</span>
+sns.boxplot(data=df, x=<span class="str">'category'</span>, y=<span class="str">'price'</span>)
+
+plt.show()</div>
+        </div>
+        <h3>Common Plot Types</h3>
+        <table class="data-table">
+          <thead><tr><th>Plot</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td>Histogram / KDE</td><td>Feature distributions</td></tr>
+            <tr><td>Scatter plot</td><td>Relationship between two variables</td></tr>
+            <tr><td>Box / violin plot</td><td>Outliers and spread by category</td></tr>
+            <tr><td>Correlation heatmap</td><td>Feature interdependence</td></tr>
+            <tr><td>Confusion matrix</td><td>Classification error patterns</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 8: PREPROCESSING -->
+      <section class="content-section" id="preprocessing">
+        <h2><span class="section-num">8</span> Data Preprocessing &amp; Feature Engineering</h2>
+        <p class="section-subtitle">Turning raw data into model-ready features</p>
+        <h3>Scaling &amp; Encoding</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, OneHotEncoder
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
+
+<span class="cmm"># Feature scaling (mean 0, std 1) — required for many algorithms</span>
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_train)
+
+<span class="cmm"># One-hot encoding categorical variables</span>
+encoder = OneHotEncoder(sparse_output=<span class="kw">False</span>)
+X_cat = encoder.fit_transform(df[[<span class="str">'category'</span>]])
+
+<span class="cmm"># Train/test split</span>
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>
-)
-
-<span class="cmm"># Normalize data (make same scale)</span>
-scaler = StandardScaler()
-X_train = scaler.fit_transform(X_train)
-X_test = scaler.transform(X_test)
-
-<span class="cmm"># Train a model</span>
-model = LogisticRegression()
-model.fit(X_train, y_train)
-
-<span class="cmm"># Make predictions</span>
-predictions = model.predict(X_test)
-
-<span class="cmm"># Check accuracy</span>
-<span class="fn">print</span>(accuracy_score(y_test, predictions))
-</div>
+)</div>
         </div>
-
-        <h3>4. TensorFlow - Deep Learning</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> TensorFlow is for building neural networks that can learn complex patterns. Used for advanced AI like image recognition.
+        <h3>Common Preprocessing Steps</h3>
+        <ul>
+          <li><strong>Handling missing data:</strong> Imputation (mean/median/mode) or removal</li>
+          <li><strong>Feature scaling:</strong> Standardization or min-max normalization</li>
+          <li><strong>Encoding categories:</strong> One-hot, ordinal, or target encoding</li>
+          <li><strong>Feature engineering:</strong> Creating new informative features (ratios, dates split into day/month, text length)</li>
+          <li><strong>Outlier handling:</strong> Clipping, transformation, or removal</li>
+          <li><strong>Class imbalance:</strong> Oversampling (SMOTE), undersampling, or class weights</li>
+        </ul>
+        <div class="explanation warning">
+          <strong>Warning:</strong> Always fit scalers/encoders on the training set only, then transform the test set with the same fitted object — fitting on the full dataset leaks test information into training and inflates reported performance.
         </div>
+      </section>
+
+      <!-- SECTION 9: SKLEARN -->
+      <section class="content-section" id="sklearn">
+        <h2><span class="section-num">9</span> Scikit-learn Basics</h2>
+        <p class="section-subtitle">The standard toolkit for classical machine learning</p>
+        <p><strong>Scikit-learn</strong> provides a consistent API — <code class="inline">fit</code>, <code class="inline">predict</code>, <code class="inline">transform</code> — across dozens of algorithms, plus utilities for preprocessing, model selection, and evaluation.</p>
         <div class="code-container">
-          <div class="code-header">
-            <span>tensorflow_tutorial.py</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="kw">from</span> tensorflow <span class="kw">import</span> keras
-<span class="kw">from</span> tensorflow.keras <span class="kw">import</span> layers
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> Pipeline
+<span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
 
-<span class="cmm"># Build a neural network</span>
-model = keras.Sequential([
-    layers.Dense(<span class="num">128</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">784</span>,)),
-    layers.Dropout(<span class="num">0.2</span>),
-    layers.Dense(<span class="num">64</span>, activation=<span class="str">'relu'</span>),
-    layers.Dense(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
+<span class="cmm"># Pipelines chain preprocessing + model into one object</span>
+pipeline = Pipeline([
+    (<span class="str">'scaler'</span>, StandardScaler()),
+    (<span class="str">'model'</span>, RandomForestClassifier(n_estimators=<span class="num">100</span>))
 ])
 
-<span class="cmm"># Set up training</span>
-model.compile(
+pipeline.fit(X_train, y_train)
+predictions = pipeline.predict(X_test)
+accuracy = pipeline.score(X_test, y_test)</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Wrapping preprocessing and modeling in a <code class="inline">Pipeline</code> prevents data leakage automatically and makes cross-validation and deployment far simpler.
+        </div>
+      </section>
+
+      <!-- SECTION 10: REGRESSION -->
+      <section class="content-section" id="regression">
+        <h2><span class="section-num">10</span> Regression Algorithms</h2>
+        <p class="section-subtitle">Predicting continuous values</p>
+        <table class="data-table">
+          <thead><tr><th>Algorithm</th><th>Idea</th><th>When to Use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Linear Regression</strong></td><td>Fits a straight line/hyperplane minimizing squared error</td><td>Simple, interpretable baselines</td></tr>
+            <tr><td><strong>Ridge / Lasso</strong></td><td>Linear regression with L2/L1 penalty on coefficients</td><td>Many features, need regularization</td></tr>
+            <tr><td><strong>Polynomial Regression</strong></td><td>Linear regression on polynomial feature expansions</td><td>Non-linear but smooth relationships</td></tr>
+            <tr><td><strong>Decision Tree Regressor</strong></td><td>Splits data into regions, predicts region average</td><td>Non-linear, interpretable</td></tr>
+            <tr><td><strong>Random Forest / Gradient Boosting</strong></td><td>Ensembles of trees</td><td>Strong tabular baselines</td></tr>
+            <tr><td><strong>SVR</strong></td><td>Support vector machine adapted for regression</td><td>Small-to-medium, high-dimensional data</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestRegressor
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_squared_error, r2_score
+
+model = RandomForestRegressor(n_estimators=<span class="num">200</span>, random_state=<span class="num">42</span>)
+model.fit(X_train, y_train)
+preds = model.predict(X_test)
+
+<span class="fn">print</span>(<span class="str">"RMSE:"</span>, mean_squared_error(y_test, preds, squared=<span class="kw">False</span>))
+<span class="fn">print</span>(<span class="str">"R2:"</span>, r2_score(y_test, preds))</div>
+        </div>
+      </section>
+
+      <!-- SECTION 11: CLASSIFICATION -->
+      <section class="content-section" id="classification">
+        <h2><span class="section-num">11</span> Classification Algorithms</h2>
+        <p class="section-subtitle">Predicting discrete categories</p>
+        <table class="data-table">
+          <thead><tr><th>Algorithm</th><th>Idea</th><th>When to Use</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Logistic Regression</strong></td><td>Linear decision boundary via sigmoid function</td><td>Fast, interpretable baseline</td></tr>
+            <tr><td><strong>k-Nearest Neighbors</strong></td><td>Classifies by majority vote of nearest points</td><td>Small datasets, simple boundaries</td></tr>
+            <tr><td><strong>Decision Tree</strong></td><td>Recursive feature-based splits</td><td>Interpretable, non-linear</td></tr>
+            <tr><td><strong>Random Forest</strong></td><td>Ensemble of decision trees, majority vote</td><td>Strong general-purpose baseline</td></tr>
+            <tr><td><strong>Gradient Boosting (XGBoost/LightGBM)</strong></td><td>Sequentially corrects previous trees' errors</td><td>Top performer on tabular data</td></tr>
+            <tr><td><strong>SVM</strong></td><td>Maximizes margin between classes</td><td>High-dimensional, clear-margin data</td></tr>
+            <tr><td><strong>Naive Bayes</strong></td><td>Probabilistic, assumes feature independence</td><td>Text classification, spam filtering</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix
+
+clf = LogisticRegression(max_iter=<span class="num">1000</span>)
+clf.fit(X_train, y_train)
+preds = clf.predict(X_test)
+
+<span class="fn">print</span>(classification_report(y_test, preds))
+<span class="fn">print</span>(confusion_matrix(y_test, preds))</div>
+        </div>
+      </section>
+
+      <!-- SECTION 12: CLUSTERING -->
+      <section class="content-section" id="clustering">
+        <h2><span class="section-num">12</span> Clustering &amp; Dimensionality Reduction</h2>
+        <p class="section-subtitle">Finding structure without labels</p>
+        <h3>Clustering</h3>
+        <table class="data-table">
+          <thead><tr><th>Algorithm</th><th>Idea</th></tr></thead>
+          <tbody>
+            <tr><td><strong>K-Means</strong></td><td>Partitions data into <em>k</em> clusters by minimizing distance to centroids</td></tr>
+            <tr><td><strong>Hierarchical Clustering</strong></td><td>Builds a tree of nested clusters (dendrogram)</td></tr>
+            <tr><td><strong>DBSCAN</strong></td><td>Density-based; finds arbitrarily shaped clusters and outliers</td></tr>
+            <tr><td><strong>Gaussian Mixture Models</strong></td><td>Soft, probabilistic clustering</td></tr>
+          </tbody>
+        </table>
+        <h3>Dimensionality Reduction</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> PCA
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
+
+<span class="cmm"># PCA: project high-dimensional data onto principal components</span>
+pca = PCA(n_components=<span class="num">2</span>)
+X_reduced = pca.fit_transform(X_scaled)
+<span class="fn">print</span>(pca.explained_variance_ratio_)
+
+<span class="cmm"># K-Means clustering</span>
+kmeans = KMeans(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>, n_init=<span class="str">'auto'</span>)
+labels = kmeans.fit_predict(X_scaled)</div>
+        </div>
+        <div class="explanation">
+          <strong>Key Insight:</strong> <strong>PCA</strong> and <strong>t-SNE/UMAP</strong> are used both to speed up modeling on high-dimensional data and to visualize it in 2D/3D for exploration.
+        </div>
+      </section>
+
+      <!-- SECTION 13: ENSEMBLE -->
+      <section class="content-section" id="ensemble">
+        <h2><span class="section-num">13</span> Ensemble Methods</h2>
+        <p class="section-subtitle">Combining multiple models for better performance</p>
+        <ul>
+          <li><strong>Bagging:</strong> Train many models on random data subsets in parallel and average results (e.g., Random Forest)</li>
+          <li><strong>Boosting:</strong> Train models sequentially, each correcting the previous one's errors (e.g., XGBoost, LightGBM, CatBoost, AdaBoost)</li>
+          <li><strong>Stacking:</strong> Train a meta-model on the outputs of several base models</li>
+          <li><strong>Voting:</strong> Combine predictions from different model types by majority vote or averaging</li>
+        </ul>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> xgboost <span class="kw">import</span> XGBClassifier
+
+model = XGBClassifier(
+    n_estimators=<span class="num">300</span>, learning_rate=<span class="num">0.05</span>,
+    max_depth=<span class="num">6</span>, subsample=<span class="num">0.8</span>
+)
+model.fit(X_train, y_train)</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Gradient-boosted trees (XGBoost, LightGBM, CatBoost) consistently win on structured/tabular data — reach for them before deep learning in that setting.
+        </div>
+      </section>
+
+      <!-- SECTION 14: METRICS -->
+      <section class="content-section" id="metrics">
+        <h2><span class="section-num">14</span> Model Evaluation Metrics</h2>
+        <p class="section-subtitle">Measuring what actually matters for your problem</p>
+        <h3>Classification Metrics</h3>
+        <table class="data-table">
+          <thead><tr><th>Metric</th><th>Formula / Idea</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Accuracy</strong></td><td>Correct / Total</td><td>Balanced classes</td></tr>
+            <tr><td><strong>Precision</strong></td><td>TP / (TP + FP)</td><td>Cost of false positives is high</td></tr>
+            <tr><td><strong>Recall</strong></td><td>TP / (TP + FN)</td><td>Cost of false negatives is high</td></tr>
+            <tr><td><strong>F1-score</strong></td><td>Harmonic mean of precision/recall</td><td>Imbalanced classes</td></tr>
+            <tr><td><strong>ROC-AUC</strong></td><td>Area under TPR vs FPR curve</td><td>Ranking quality across thresholds</td></tr>
+          </tbody>
+        </table>
+        <h3>Regression Metrics</h3>
+        <table class="data-table">
+          <thead><tr><th>Metric</th><th>Idea</th></tr></thead>
+          <tbody>
+            <tr><td><strong>MAE</strong></td><td>Average absolute error, robust to outliers</td></tr>
+            <tr><td><strong>MSE / RMSE</strong></td><td>Penalizes larger errors more heavily</td></tr>
+            <tr><td><strong>R²</strong></td><td>Proportion of variance explained by the model</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation warning">
+          <strong>Warning:</strong> On imbalanced datasets, accuracy can be misleading — a model predicting "no fraud" 99% of the time can be 99% accurate while being useless. Use precision, recall, F1, or ROC-AUC instead.
+        </div>
+      </section>
+
+      <!-- SECTION 15: REGULARIZATION -->
+      <section class="content-section" id="regularization">
+        <h2><span class="section-num">15</span> Overfitting, Underfitting &amp; Regularization</h2>
+        <p class="section-subtitle">Building models that generalize</p>
+        <table class="data-table">
+          <thead><tr><th>Problem</th><th>Symptom</th><th>Fix</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Underfitting</strong></td><td>Poor performance on both train and test data</td><td>More complex model, more/better features, less regularization</td></tr>
+            <tr><td><strong>Overfitting</strong></td><td>Great on training data, poor on test data</td><td>More data, regularization, simpler model, early stopping</td></tr>
+          </tbody>
+        </table>
+        <h3>Regularization Techniques</h3>
+        <ul>
+          <li><strong>L1 (Lasso):</strong> Pushes some weights to exactly zero — built-in feature selection</li>
+          <li><strong>L2 (Ridge):</strong> Shrinks weights smoothly, discourages large coefficients</li>
+          <li><strong>Dropout:</strong> Randomly disables neurons during training (deep learning)</li>
+          <li><strong>Early stopping:</strong> Stop training once validation loss stops improving</li>
+          <li><strong>Data augmentation:</strong> Artificially expand training data (flips, crops, noise)</li>
+        </ul>
+        <div class="explanation">
+          <strong>Key Insight:</strong> The gap between training and validation performance is your best diagnostic — a large gap means overfitting, and consistently poor performance on both means underfitting.
+        </div>
+      </section>
+
+      <!-- SECTION 16: TUNING -->
+      <section class="content-section" id="tuning">
+        <h2><span class="section-num">16</span> Cross-Validation &amp; Hyperparameter Tuning</h2>
+        <p class="section-subtitle">Getting a reliable estimate of real-world performance</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> cross_val_score, GridSearchCV
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
+
+<span class="cmm"># K-Fold cross-validation</span>
+scores = cross_val_score(RandomForestClassifier(), X, y, cv=<span class="num">5</span>)
+<span class="fn">print</span>(<span class="str">"Mean accuracy:"</span>, scores.mean())
+
+<span class="cmm"># Grid search over hyperparameters</span>
+param_grid = {
+    <span class="str">'n_estimators'</span>: [<span class="num">100</span>, <span class="num">200</span>, <span class="num">300</span>],
+    <span class="str">'max_depth'</span>: [<span class="kw">None</span>, <span class="num">10</span>, <span class="num">20</span>]
+}
+grid = GridSearchCV(RandomForestClassifier(), param_grid, cv=<span class="num">5</span>)
+grid.fit(X_train, y_train)
+<span class="fn">print</span>(grid.best_params_)</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Use <code class="inline">RandomizedSearchCV</code> or Bayesian optimization (Optuna) instead of full grid search when the hyperparameter space is large — it finds near-optimal settings far faster.
+        </div>
+      </section>
+
+      <!-- SECTION 17: NEURAL NETWORKS -->
+      <section class="content-section" id="neural-networks">
+        <h2><span class="section-num">17</span> Neural Network Fundamentals</h2>
+        <p class="section-subtitle">The building blocks of deep learning</p>
+        <p>A neural network is composed of layers of <strong>neurons</strong>, each computing a weighted sum of its inputs followed by a non-linear <strong>activation function</strong>. Stacking layers lets the network approximate arbitrarily complex functions.</p>
+        <h3>Key Components</h3>
+        <table class="data-table">
+          <thead><tr><th>Component</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Weights &amp; Biases</strong></td><td>Learnable parameters adjusted during training</td></tr>
+            <tr><td><strong>Activation Function</strong></td><td>Introduces non-linearity (ReLU, Sigmoid, Tanh, Softmax)</td></tr>
+            <tr><td><strong>Loss Function</strong></td><td>Measures prediction error (Cross-Entropy, MSE)</td></tr>
+            <tr><td><strong>Optimizer</strong></td><td>Updates weights to reduce loss (SGD, Adam, RMSprop)</td></tr>
+            <tr><td><strong>Backpropagation</strong></td><td>Computes gradients of the loss w.r.t. every weight via the chain rule</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation">
+          <strong>Key Insight:</strong> Training is a loop: forward pass (predict) → compute loss → backward pass (gradients) → optimizer step (update weights) — repeated over many epochs until the loss converges.
+        </div>
+      </section>
+
+      <!-- SECTION 18: TENSORFLOW -->
+      <section class="content-section" id="tensorflow">
+        <h2><span class="section-num">18</span> Deep Learning with TensorFlow &amp; Keras</h2>
+        <p class="section-subtitle">Google's production-grade deep learning framework</p>
+        <p><strong>Keras</strong>, now TensorFlow's high-level API, makes building and training neural networks concise and readable while TensorFlow handles graph optimization, GPU/TPU execution, and deployment.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="kw">from</span> tensorflow <span class="kw">import</span> keras
+
+model = keras.Sequential([
+    keras.layers.Dense(<span class="num">64</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">20</span>,)),
+    keras.layers.Dropout(<span class="num">0.3</span>),
+    keras.layers.Dense(<span class="num">32</span>, activation=<span class="str">'relu'</span>),
+    keras.layers.Dense(<span class="num">1</span>, activation=<span class="str">'sigmoid'</span>)
+])
+
+model.<span class="fn">compile</span>(
     optimizer=<span class="str">'adam'</span>,
-    loss=<span class="str">'sparse_categorical_crossentropy'</span>,
+    loss=<span class="str">'binary_crossentropy'</span>,
     metrics=[<span class="str">'accuracy'</span>]
 )
 
-<span class="cmm"># Train the model</span>
-model.fit(X_train, y_train, epochs=<span class="num">10</span>, batch_size=<span class="num">32</span>)
+history = model.fit(
+    X_train, y_train,
+    validation_split=<span class="num">0.2</span>,
+    epochs=<span class="num">20</span>,
+    batch_size=<span class="num">32</span>
+)
 
-<span class="cmm"># Test the model</span>
-test_loss, test_accuracy = model.evaluate(X_test, y_test)
-
-<span class="cmm"># Make predictions</span>
-predictions = model.predict(X_test)
-</div>
+model.evaluate(X_test, y_test)</div>
         </div>
-      </div>
-    </div>
-  </main>
+        <div class="tip-box">
+          <strong>Tip:</strong> Use <code class="inline">keras.callbacks.EarlyStopping</code> and <code class="inline">ModelCheckpoint</code> to automatically stop training and save the best-performing weights once validation loss stops improving.
+        </div>
+      </section>
+
+      <!-- SECTION 19: PYTORCH -->
+      <section class="content-section" id="pytorch">
+        <h2><span class="section-num">19</span> Deep Learning with PyTorch</h2>
+        <p class="section-subtitle">The dominant framework in AI research</p>
+        <p><strong>PyTorch</strong> favors an imperative, "define-by-run" style that feels like regular Python, making it especially popular in research where models change often.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> torch
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
+
+<span class="kw">class</span> <span class="fn">Net</span>(nn.Module):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self):
+        <span class="fn">super</span>().__init__()
+        self.fc1 = nn.Linear(<span class="num">20</span>, <span class="num">64</span>)
+        self.fc2 = nn.Linear(<span class="num">64</span>, <span class="num">1</span>)
+        self.relu = nn.ReLU()
+        self.sigmoid = nn.Sigmoid()
+
+    <span class="kw">def</span> <span class="fn">forward</span>(self, x):
+        x = self.relu(self.fc1(x))
+        <span class="kw">return</span> self.sigmoid(self.fc2(x))
+
+model = Net()
+criterion = nn.BCELoss()
+optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</span>)
+
+<span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>):
+    optimizer.zero_grad()
+    outputs = model(X_train)
+    loss = criterion(outputs, y_train)
+    loss.backward()
+    optimizer.step()</div>
+        </div>
+        <div class="explanation info">
+          <strong>Note:</strong> TensorFlow and PyTorch are functionally comparable today — PyTorch dominates research and LLM development, while TensorFlow (via TF Serving/Lite) remains strong in production and mobile/edge deployment.
+        </div>
+      </section>
+
+      <!-- SECTION 20: CNN -->
+      <section class="content-section" id="cnn">
+        <h2><span class="section-num">20</span> Convolutional Neural Networks (CNNs)</h2>
+        <p class="section-subtitle">The architecture behind modern computer vision</p>
+        <p><strong>Convolutional layers</strong> slide small learnable filters across an image to detect local patterns like edges, textures, and shapes — with far fewer parameters than a fully-connected layer would need.</p>
+        <h3>Core Layers</h3>
+        <table class="data-table">
+          <thead><tr><th>Layer</th><th>Role</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Convolution</strong></td><td>Extracts local spatial features using learnable filters</td></tr>
+            <tr><td><strong>Pooling (Max/Avg)</strong></td><td>Downsamples feature maps, adds translation invariance</td></tr>
+            <tr><td><strong>Flatten</strong></td><td>Converts 2D feature maps into a 1D vector</td></tr>
+            <tr><td><strong>Fully Connected</strong></td><td>Combines features for final classification</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = keras.Sequential([
+    keras.layers.Conv2D(<span class="num">32</span>, (<span class="num">3</span>,<span class="num">3</span>), activation=<span class="str">'relu'</span>, input_shape=(<span class="num">64</span>,<span class="num">64</span>,<span class="num">3</span>)),
+    keras.layers.MaxPooling2D((<span class="num">2</span>,<span class="num">2</span>)),
+    keras.layers.Conv2D(<span class="num">64</span>, (<span class="num">3</span>,<span class="num">3</span>), activation=<span class="str">'relu'</span>),
+    keras.layers.MaxPooling2D((<span class="num">2</span>,<span class="num">2</span>)),
+    keras.layers.Flatten(),
+    keras.layers.Dense(<span class="num">128</span>, activation=<span class="str">'relu'</span>),
+    keras.layers.Dense(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
+])</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Well-known CNN architectures — ResNet, EfficientNet, VGG — are pretrained on ImageNet and can be fine-tuned on your own image data instead of training from scratch.
+        </div>
+      </section>
+
+      <!-- SECTION 21: RNN -->
+      <section class="content-section" id="rnn">
+        <h2><span class="section-num">21</span> Recurrent Networks &amp; Sequence Models</h2>
+        <p class="section-subtitle">Modeling sequences: text, time series, audio</p>
+        <p><strong>RNNs</strong> process sequences step-by-step, carrying a hidden state forward so earlier inputs can influence later predictions. <strong>LSTM</strong> and <strong>GRU</strong> cells add gating mechanisms that solve the vanishing-gradient problem of plain RNNs, letting them retain information over longer sequences.</p>
+        <table class="data-table">
+          <thead><tr><th>Architecture</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Simple RNN</strong></td><td>Short sequences, educational baselines</td></tr>
+            <tr><td><strong>LSTM</strong></td><td>Longer sequences, time series, language modeling</td></tr>
+            <tr><td><strong>GRU</strong></td><td>Similar to LSTM, fewer parameters, faster to train</td></tr>
+            <tr><td><strong>Seq2Seq (Encoder-Decoder)</strong></td><td>Translation, summarization</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = keras.Sequential([
+    keras.layers.Embedding(input_dim=<span class="num">10000</span>, output_dim=<span class="num">64</span>),
+    keras.layers.LSTM(<span class="num">64</span>, return_sequences=<span class="kw">False</span>),
+    keras.layers.Dense(<span class="num">1</span>, activation=<span class="str">'sigmoid'</span>)
+])</div>
+        </div>
+        <div class="explanation info">
+          <strong>Note:</strong> RNNs/LSTMs have largely been superseded by <strong>Transformers</strong> for most NLP tasks, but remain relevant for streaming and resource-constrained time-series applications.
+        </div>
+      </section>
+
+      <!-- SECTION 22: TRANSFORMERS -->
+      <section class="content-section" id="transformers">
+        <h2><span class="section-num">22</span> Transformers &amp; Attention Mechanism</h2>
+        <p class="section-subtitle">The architecture behind modern LLMs</p>
+        <p>Introduced in "Attention Is All You Need" (2017), the <strong>Transformer</strong> processes an entire sequence in parallel using <strong>self-attention</strong>, which lets every token directly weigh how relevant every other token is — removing the sequential bottleneck of RNNs and enabling massive-scale training.</p>
+        <h3>Core Ideas</h3>
+        <ul>
+          <li><strong>Self-Attention:</strong> Computes a weighted representation of each token based on all other tokens</li>
+          <li><strong>Multi-Head Attention:</strong> Runs several attention operations in parallel to capture different relationships</li>
+          <li><strong>Positional Encoding:</strong> Injects word-order information since attention itself is order-agnostic</li>
+          <li><strong>Encoder-Decoder / Decoder-only:</strong> BERT-style encoders for understanding, GPT-style decoders for generation</li>
+        </ul>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer, AutoModel
+
+tokenizer = AutoTokenizer.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+model = AutoModel.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+
+inputs = tokenizer(<span class="str">"Transformers changed AI."</span>, return_tensors=<span class="str">'pt'</span>)
+outputs = model(**inputs)</div>
+        </div>
+        <div class="explanation">
+          <strong>Key Insight:</strong> Every major modern model — BERT, GPT, T5, Vision Transformers, Whisper — is a variant of the same Transformer building block applied to different data types.
+        </div>
+      </section>
+
+      <!-- SECTION 23: NLP -->
+      <section class="content-section" id="nlp">
+        <h2><span class="section-num">23</span> Natural Language Processing</h2>
+        <p class="section-subtitle">Teaching machines to understand and generate text</p>
+        <h3>Text Representation Methods</h3>
+        <table class="data-table">
+          <thead><tr><th>Method</th><th>Idea</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Bag-of-Words / TF-IDF</strong></td><td>Sparse counts of word frequency and importance</td></tr>
+            <tr><td><strong>Word2Vec / GloVe</strong></td><td>Dense vectors where similar words are close together</td></tr>
+            <tr><td><strong>Contextual Embeddings (BERT)</strong></td><td>Word meaning changes based on surrounding context</td></tr>
+          </tbody>
+        </table>
+        <h3>Common NLP Tasks</h3>
+        <ul>
+          <li><strong>Text classification:</strong> Sentiment analysis, spam detection, topic labeling</li>
+          <li><strong>Named Entity Recognition (NER):</strong> Extracting people, places, organizations</li>
+          <li><strong>Machine translation:</strong> Converting text between languages</li>
+          <li><strong>Question answering &amp; summarization:</strong> Extractive or generative</li>
+        </ul>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> pipeline
+
+classifier = pipeline(<span class="str">'sentiment-analysis'</span>)
+result = classifier(<span class="str">"This documentation is really helpful!"</span>)
+<span class="fn">print</span>(result)  <span class="cmm"># [{'label': 'POSITIVE', 'score': 0.99...}]</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 24: COMPUTER VISION -->
+      <section class="content-section" id="computer-vision">
+        <h2><span class="section-num">24</span> Computer Vision</h2>
+        <p class="section-subtitle">Teaching machines to interpret visual data</p>
+        <h3>Common Vision Tasks</h3>
+        <table class="data-table">
+          <thead><tr><th>Task</th><th>Output</th><th>Example Models</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Image Classification</strong></td><td>Single label per image</td><td>ResNet, EfficientNet, ViT</td></tr>
+            <tr><td><strong>Object Detection</strong></td><td>Bounding boxes + labels</td><td>YOLO, Faster R-CNN</td></tr>
+            <tr><td><strong>Semantic Segmentation</strong></td><td>Per-pixel class labels</td><td>U-Net, DeepLab</td></tr>
+            <tr><td><strong>Image Generation</strong></td><td>Synthesized images</td><td>Stable Diffusion, GANs</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> tensorflow.keras.applications <span class="kw">import</span> ResNet50
+<span class="kw">from</span> tensorflow.keras.applications.resnet50 <span class="kw">import</span> preprocess_input, decode_predictions
+
+model = ResNet50(weights=<span class="str">'imagenet'</span>)
+preds = model.predict(preprocess_input(image_batch))
+<span class="fn">print</span>(decode_predictions(preds, top=<span class="num">3</span>)[<span class="num">0</span>])</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> <strong>Data augmentation</strong> — random flips, rotations, crops, and color jitter — is one of the highest-leverage ways to improve vision model generalization, especially with limited data.
+        </div>
+      </section>
+
+      <!-- SECTION 25: GENERATIVE AI -->
+      <section class="content-section" id="generative-ai">
+        <h2><span class="section-num">25</span> Generative AI &amp; Large Language Models</h2>
+        <p class="section-subtitle">Models that create new content rather than just classify it</p>
+        <h3>Major Approaches</h3>
+        <table class="data-table">
+          <thead><tr><th>Family</th><th>Idea</th><th>Examples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>LLMs</strong></td><td>Decoder-only Transformers predicting the next token</td><td>GPT, Claude, Llama, Gemini</td></tr>
+            <tr><td><strong>Diffusion Models</strong></td><td>Learn to reverse a gradual noising process</td><td>Stable Diffusion, DALL·E</td></tr>
+            <tr><td><strong>GANs</strong></td><td>Generator and discriminator compete adversarially</td><td>StyleGAN</td></tr>
+            <tr><td><strong>VAEs</strong></td><td>Learn a compressed latent representation of data</td><td>Image compression, generation</td></tr>
+          </tbody>
+        </table>
+        <h3>Working with LLMs</h3>
+        <ul>
+          <li><strong>Prompt engineering:</strong> Crafting inputs to elicit better model outputs</li>
+          <li><strong>Fine-tuning:</strong> Further training a pretrained model on task-specific data</li>
+          <li><strong>RAG (Retrieval-Augmented Generation):</strong> Grounding responses in retrieved documents to reduce hallucination</li>
+          <li><strong>RLHF:</strong> Aligning model behavior using human feedback as a reward signal</li>
+        </ul>
+        <div class="explanation info">
+          <strong>Note:</strong> Most production LLM applications today are built by calling an existing model's API and combining it with retrieval, tools, and prompt design — rather than training a model from scratch.
+        </div>
+      </section>
+
+      <!-- SECTION 26: TRANSFER LEARNING -->
+      <section class="content-section" id="transfer-learning">
+        <h2><span class="section-num">26</span> Transfer Learning &amp; Pretrained Models</h2>
+        <p class="section-subtitle">Standing on the shoulders of models trained on massive datasets</p>
+        <p><strong>Transfer learning</strong> reuses a model already trained on a large, general dataset and adapts it to a new, often smaller, task-specific dataset — dramatically reducing the data and compute needed.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> tensorflow.keras.applications <span class="kw">import</span> MobileNetV2
+
+base_model = MobileNetV2(weights=<span class="str">'imagenet'</span>, include_top=<span class="kw">False</span>, input_shape=(<span class="num">224</span>,<span class="num">224</span>,<span class="num">3</span>))
+base_model.trainable = <span class="kw">False</span>  <span class="cmm"># freeze pretrained weights</span>
+
+model = keras.Sequential([
+    base_model,
+    keras.layers.GlobalAveragePooling2D(),
+    keras.layers.Dense(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
+])</div>
+        </div>
+        <h3>Two Common Strategies</h3>
+        <ul>
+          <li><strong>Feature extraction:</strong> Freeze the pretrained base, train only new top layers</li>
+          <li><strong>Fine-tuning:</strong> Unfreeze some/all base layers and continue training at a low learning rate</li>
+        </ul>
+      </section>
+
+      <!-- SECTION 27: REINFORCEMENT LEARNING -->
+      <section class="content-section" id="reinforcement-learning">
+        <h2><span class="section-num">27</span> Reinforcement Learning</h2>
+        <p class="section-subtitle">Learning by trial, error, and reward</p>
+        <p>An <strong>agent</strong> interacts with an <strong>environment</strong>, taking <strong>actions</strong> based on observed <strong>states</strong>, and receives <strong>rewards</strong> that guide it toward better behavior over time — without being told the correct action directly.</p>
+        <table class="data-table">
+          <thead><tr><th>Concept</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Policy</strong></td><td>The agent's strategy mapping states to actions</td></tr>
+            <tr><td><strong>Value function</strong></td><td>Expected future reward from a state</td></tr>
+            <tr><td><strong>Q-Learning</strong></td><td>Learns the value of state-action pairs</td></tr>
+            <tr><td><strong>Policy Gradient / PPO</strong></td><td>Directly optimizes the policy using gradient ascent on expected reward</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation">
+          <strong>Key Insight:</strong> RL powers game-playing agents (AlphaGo), robotics control, and is also the technique behind RLHF, which aligns LLM outputs with human preferences.
+        </div>
+      </section>
+
+      <!-- SECTION 28: DEPLOYMENT -->
+      <section class="content-section" id="deployment">
+        <h2><span class="section-num">28</span> Model Deployment &amp; MLOps</h2>
+        <p class="section-subtitle">Getting models from notebooks into production</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Save and load a trained model</span>
+<span class="kw">import</span> joblib
+joblib.dump(model, <span class="str">'model.pkl'</span>)
+loaded = joblib.load(<span class="str">'model.pkl'</span>)
+
+<span class="cmm"># Serving with FastAPI</span>
+<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+app = FastAPI()
+
+<span class="dec">@app.post</span>(<span class="str">"/predict"</span>)
+<span class="kw">def</span> <span class="fn">predict</span>(features: <span class="fn">list</span>):
+    <span class="kw">return</span> {<span class="str">"prediction"</span>: loaded.predict([features]).tolist()}</div>
+        </div>
+        <h3>MLOps Concerns</h3>
+        <ul>
+          <li><strong>Versioning:</strong> Tracking data, code, and model versions together (DVC, MLflow)</li>
+          <li><strong>Monitoring:</strong> Watching for data drift and performance decay in production</li>
+          <li><strong>CI/CD for ML:</strong> Automated retraining and testing pipelines</li>
+          <li><strong>Scalability:</strong> Batching, model quantization, and serving infrastructure (Docker, Kubernetes, TensorFlow Serving, Triton)</li>
+        </ul>
+        <div class="tip-box">
+          <strong>Tip:</strong> A model's accuracy at deployment time is only the starting point — plan for monitoring and periodic retraining, since real-world data distributions shift over time.
+        </div>
+      </section>
+
+      <!-- SECTION 29: ETHICS -->
+      <section class="content-section" id="ethics">
+        <h2><span class="section-num">29</span> Ethics &amp; Responsible AI</h2>
+        <p class="section-subtitle">Building AI systems responsibly</p>
+        <ul>
+          <li><strong>Bias &amp; fairness:</strong> Models can inherit and amplify biases present in training data</li>
+          <li><strong>Explainability:</strong> Tools like SHAP and LIME help interpret why a model made a decision</li>
+          <li><strong>Privacy:</strong> Techniques like differential privacy and federated learning protect sensitive training data</li>
+          <li><strong>Robustness &amp; safety:</strong> Guarding against adversarial inputs and unsafe failure modes</li>
+          <li><strong>Environmental cost:</strong> Large model training consumes significant compute and energy</li>
+        </ul>
+        <div class="explanation warning">
+          <strong>Warning:</strong> A model that performs well on average can still fail badly for specific subgroups — always evaluate performance across relevant slices of your data, not just in aggregate.
+        </div>
+      </section>
+
+      <footer class="footer">
+        <div class="footer-socials">
+          <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
+          </a>
+          <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          </a>
+        </div>
+        <div class="footer-links">
+          <a href="doc.html">Documentation</a>
+          <a href="index.html">Homepage</a>
+          <a href="python.html">Python</a>
+          <a href="linux.html">Linux</a>
+          <a href="ai.html">Artificial Intelligence</a>
+        </div>
+        <p>Created by <strong style="color:var(--text-bright);">Amirali Gholian</strong> — AI &amp; Machine Learning Documentation</p>
+        <p style="margin-top:6px;font-size:.8rem;opacity:.7;">Python Developer | Linux | AI</p>
+      </footer>
+    </main>
+  </div>
 
   <script>
-    // Copy to Clipboard
-    function copyCode(button) {
-      const codeBlock = button.closest('.code-container').querySelector('.code-block');
-      const text = codeBlock.innerText;
+    // ─── Keep sidebar/layout aligned with the real header height ───
+    function syncTopbarHeight() {
+      const topbar = document.querySelector('.topbar');
+      if (!topbar) return;
+      const h = Math.ceil(topbar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--topbar-h', h + 'px');
+    }
+    syncTopbarHeight();
+    window.addEventListener('load', syncTopbarHeight);
+    window.addEventListener('resize', syncTopbarHeight);
+    window.addEventListener('orientationchange', syncTopbarHeight);
+    if (window.ResizeObserver) {
+      new ResizeObserver(syncTopbarHeight).observe(document.querySelector('.topbar'));
+    }
 
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = button.innerText;
+    // ─── Sidebar Toggle ───
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('open');
+      overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+    }
+    function closeSidebar() {
+      if (window.innerWidth <= 1024) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').style.display = 'none';
+      }
+    }
+
+    // ─── Section Toggle ───
+    function toggleSection(header) {
+      const links = header.nextElementSibling;
+      header.classList.toggle('collapsed');
+      links.classList.toggle('collapsed');
+      if (!links.classList.contains('collapsed')) {
+        links.style.maxHeight = links.scrollHeight + 'px';
+      } else {
+        links.style.maxHeight = '0';
+      }
+    }
+
+    // ─── Initialize sections ───
+    document.querySelectorAll('.sidebar-links').forEach(links => {
+      links.style.maxHeight = links.scrollHeight + 'px';
+    });
+
+    // ─── Active Link ───
+    function updateActiveLink() {
+      const sections = document.querySelectorAll('.content-section');
+      const links = document.querySelectorAll('.sidebar-links li a');
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+      links.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+
+      // Progress
+      const totalSections = sections.length;
+      const currentIndex = Array.from(sections).findIndex(s => s.getAttribute('id') === current);
+      const progress = Math.round(((currentIndex + 1) / totalSections) * 100);
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressText').textContent = progress + '%';
+    }
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink();
+
+    // ─── Copy Code ───
+    function copyCode(button) {
+      const code = button.closest('.code-container').querySelector('.code-block').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const original = button.innerText;
         button.innerText = '✓ Copied!';
         button.classList.add('copied');
-
         setTimeout(() => {
-          button.innerText = originalText;
+          button.innerText = original;
           button.classList.remove('copied');
         }, 2000);
       });
     }
+
+    // ─── Search ───
+    const searchIndex = [
+      { title: "Introduction to AI & ML", desc: "What AI and ML are, and how they relate", id: "intro" },
+      { title: "Types of Machine Learning", desc: "Supervised, unsupervised, reinforcement", id: "ml-types" },
+      { title: "Math Foundations", desc: "Linear algebra, calculus, probability", id: "math-foundations" },
+      { title: "Environment Setup", desc: "venv, conda, TensorFlow, PyTorch, Jupyter", id: "setup" },
+      { title: "NumPy Fundamentals", desc: "Arrays, broadcasting, vectorized ops", id: "numpy" },
+      { title: "Pandas for Data Manipulation", desc: "DataFrames, cleaning, grouping, merging", id: "pandas" },
+      { title: "Data Visualization", desc: "Matplotlib, Seaborn, distributions, heatmaps", id: "visualization" },
+      { title: "Data Preprocessing", desc: "Scaling, encoding, feature engineering", id: "preprocessing" },
+      { title: "Scikit-learn Basics", desc: "Pipelines, fit/predict API", id: "sklearn" },
+      { title: "Regression Algorithms", desc: "Linear, Ridge, Lasso, tree-based regressors", id: "regression" },
+      { title: "Classification Algorithms", desc: "Logistic regression, SVM, trees, boosting", id: "classification" },
+      { title: "Clustering & Dim. Reduction", desc: "K-Means, DBSCAN, PCA, t-SNE", id: "clustering" },
+      { title: "Ensemble Methods", desc: "Bagging, boosting, stacking, XGBoost", id: "ensemble" },
+      { title: "Evaluation Metrics", desc: "Accuracy, precision, recall, F1, ROC-AUC", id: "metrics" },
+      { title: "Overfitting & Regularization", desc: "L1/L2, dropout, early stopping", id: "regularization" },
+      { title: "Cross-Validation & Tuning", desc: "K-Fold, GridSearchCV, Optuna", id: "tuning" },
+      { title: "Neural Network Fundamentals", desc: "Neurons, activations, backpropagation", id: "neural-networks" },
+      { title: "TensorFlow & Keras", desc: "Sequential models, compile, fit", id: "tensorflow" },
+      { title: "PyTorch", desc: "nn.Module, autograd, training loops", id: "pytorch" },
+      { title: "Convolutional Networks", desc: "CNNs for computer vision", id: "cnn" },
+      { title: "Recurrent Networks & Sequences", desc: "RNN, LSTM, GRU, Seq2Seq", id: "rnn" },
+      { title: "Transformers & Attention", desc: "Self-attention, BERT, GPT architecture", id: "transformers" },
+      { title: "Natural Language Processing", desc: "Embeddings, NER, sentiment analysis", id: "nlp" },
+      { title: "Computer Vision", desc: "Detection, segmentation, image generation", id: "computer-vision" },
+      { title: "Generative AI & LLMs", desc: "LLMs, diffusion models, RAG, RLHF", id: "generative-ai" },
+      { title: "Transfer Learning", desc: "Pretrained models, fine-tuning", id: "transfer-learning" },
+      { title: "Reinforcement Learning", desc: "Agents, rewards, Q-learning, PPO", id: "reinforcement-learning" },
+      { title: "Model Deployment & MLOps", desc: "Serving, versioning, monitoring", id: "deployment" },
+      { title: "Ethics & Responsible AI", desc: "Bias, fairness, privacy, explainability", id: "ethics" }
+    ];
+
+    function searchDocs() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const resultsDiv = document.getElementById('searchResults');
+      if (!query) {
+        resultsDiv.classList.remove('active');
+        return;
+      }
+      const filtered = searchIndex.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.desc.toLowerCase().includes(query)
+      );
+      if (filtered.length === 0) {
+        resultsDiv.innerHTML = '<div class="search-result-item"><span class="result-title">No result found</span></div>';
+      } else {
+        resultsDiv.innerHTML = filtered.map(item =>
+          `<div class="search-result-item" onclick="navigateTo('${item.id}')">
+            <span class="result-title">${item.title}</span>
+            <span class="result-desc">${item.desc}</span>
+          </div>`
+        ).join('');
+      }
+      resultsDiv.classList.add('active');
+    }
+
+    function showSearchResults() {
+      if (document.getElementById('searchInput').value.trim()) {
+        searchDocs();
+      }
+    }
+
+    function navigateTo(id) {
+      document.getElementById('searchResults').classList.remove('active');
+      document.getElementById('searchInput').value = '';
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Close search on outside click
+    document.addEventListener('click', function(e) {
+      const searchContainer = document.querySelector('.search-container');
+      if (!searchContainer.contains(e.target)) {
+        document.getElementById('searchResults').classList.remove('active');
+      }
+    });
+
+    // ─── Smooth scroll for anchor links ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ─── Scroll to Top ───
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
   </script>
 </body>
 </html>
