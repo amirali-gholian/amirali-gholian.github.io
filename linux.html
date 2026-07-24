@@ -1,633 +1,2280 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
-  <meta charset="UTF-8" />
-  <script type="application/ld+json">
-{
-  "@context":"https://schema.org",
-  "@type":"Person",
-  "name":"Amirali Gholian",
-  "alternateName":"امیرعلی قولیان",
-  "url":"https://amiraligholian.ir/",
-  "image":"https://amiraligholian.ir/logo.webp",
-  "jobTitle":"Python Developer | Linux & AI Enthusiast",
-  "knowsAbout":[
-    "Python",
-    "Linux",
-    "Networking",
-    "Cybersecurity",
-    "Machine Learning",
-    "Artificial Intelligence",
-    "DevOps",
-    "Cloud Computing"
-  ],
-  "sameAs":[
-    "https://t.me/nexth0p"
-  ]
-}
-</script>
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Amirali Gholian - Linux expertise. System administration, shell scripting, and Linux optimization." />
-  <meta name="theme-color" content="#060913" />
-  <title>Linux | Amirali Gholian</title>
-  <link rel="icon" href="./logo.webp?v=2" type="image/png">
-  
-  <!-- PWA & Manifest -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Complete Linux Documentation - Comprehensive Linux Tutorial from Beginner to Advanced">
+  <meta name="theme-color" content="#060913">
+  <title>Linux Documentation | Amirali Gholian</title>
+  <link rel="icon" href="/logo.webp?v=2" type="image/png">
   <link rel="manifest" href="/manifest.json">
   <link rel="apple-touch-icon" href="/logo.webp">
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Amirali Gholian">
-  
-  <!-- Security -->
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
-    :root{
-      --bg0:#050814;
-      --bg1:#070b16;
-      --panel:rgba(15, 23, 42, .72);
-      --panel-2:rgba(17, 24, 39, .86);
-      --line:rgba(148, 163, 184, .16);
-      --text:#e5e7eb;
-      --muted:#94a3b8;
-      --soft:#cbd5e1;
-      --accent:#38bdf8;
-      --accent-2:#22c55e;
-      --accent-3:#a78bfa;
-      --shadow:0 20px 60px rgba(0,0,0,.42);
-      --radius:26px;
-      --radius-sm:18px;
-      --max:1180px;
-      
-      --code-keyword: #ff79c6;
-      --code-string: #f1fa8c;
-      --code-comment: #6272a4;
-      --code-function: #50fa7b;
-      --code-number: #bd93f9;
-      --code-variable: #8be9fd;
+    :root {
+      --bg: #060913; --bg-1: #0b0f1a; --bg-2: #0f1525; --bg-card: rgba(15,21,37,.72);
+      --line: rgba(148,163,184,.14); --text: #e5e7eb; --text-dim: #94a3b8; --text-bright: #f1f5f9;
+      --accent: #38bdf8; --accent-2: #22c55e; --accent-3: #a78bfa;
+      --shadow: 0 20px 60px rgba(0,0,0,.42); --radius: 26px; --radius-sm: 18px;
+      --max: 1320px; --sidebar-width: 300px; --topbar-h: 76px;
+      --code-keyword: #ff79c6; --code-string: #f1fa8c; --code-comment: #6272a4;
+      --code-function: #50fa7b; --code-number: #bd93f9; --code-variable: #8be9fd; --code-operator: #ff79c6;
     }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100vw; }
+    body {
+      margin: 0; max-width: 100vw; overflow-x: hidden;
+      font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+      background: radial-gradient(ellipse 80% 50% at 20% -10%, rgba(56,189,248,.10), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 10%, rgba(167,139,250,.08), transparent),
+        radial-gradient(ellipse 50% 50% at 10% 90%, rgba(34,197,94,.06), transparent),
+        linear-gradient(180deg, var(--bg), var(--bg-1) 40%, #04060b 100%);
+      background-attachment: fixed; color: var(--text); min-height: 100vh;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { width: min(var(--max), calc(100% - 32px)); margin: 0 auto; }
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: rgba(56,189,248,.2); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,.35); }
 
-    *{box-sizing:border-box}
-    html{scroll-behavior:smooth}
-    body{
-      margin:0;
-      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(56,189,248,.14), transparent 28%),
-        radial-gradient(circle at top right, rgba(167,139,250,.12), transparent 24%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 22%),
-        linear-gradient(180deg, var(--bg0), var(--bg1) 55%, #04060b 100%);
-      color:var(--text);
-      overflow-x:hidden;
-    }
+    .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,9,19,.85); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; }
+    .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)); display: grid; place-items: center; border: 1px solid rgba(255,255,255,.15); box-shadow: 0 12px 30px rgba(0,0,0,.35); overflow: hidden; flex: 0 0 auto; cursor: pointer; transition: transform .3s ease; }
+    .avatar:hover { transform: scale(1.1); }
+    .avatar span { font-weight: 800; color: #fff; letter-spacing: .5px; font-size: 1.1rem; }
+    .brand-text h1 { margin: 0; font-size: 1.05rem; line-height: 1.15; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; color: var(--text-bright); }
+    .brand-text small { display: block; margin-top: 3px; color: var(--text-dim); font-size: .82rem; font-weight: 500; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 11px 18px; border-radius: 14px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color: var(--text); font-weight: 600; font-size: .9rem; transition: all .25s cubic-bezier(.4,0,.2,1); cursor: pointer; font-family: inherit; white-space: nowrap; }
+    .btn:hover { transform: translateY(-2px); background: rgba(255,255,255,.08); border-color: rgba(255,255,255,.18); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+    .btn.primary { background: linear-gradient(135deg, var(--accent-2), var(--accent)); color: #07111c; border-color: transparent; box-shadow: 0 14px 30px rgba(34,197,94,.18); }
+    .btn.primary:hover { filter: brightness(1.08); box-shadow: 0 18px 40px rgba(34,197,94,.25); }
+    .btn.back-btn { padding: 10px 16px; font-size: .88rem; background: rgba(56,189,248,.08); border-color: rgba(56,189,248,.2); color: var(--accent); }
+    .btn.back-btn:hover { background: rgba(56,189,248,.15); transform: translateX(4px); border-color: rgba(56,189,248,.35); }
 
-    a{color:inherit;text-decoration:none}
-    .wrap{width:min(var(--max), calc(100% - 32px)); margin:0 auto}
-    .glass{
-      background:linear-gradient(180deg, rgba(15,23,42,.86), rgba(15,23,42,.58));
-      border:1px solid var(--line);
-      box-shadow:var(--shadow);
-      backdrop-filter:blur(16px);
-    }
+    .search-container { position: relative; max-width: 400px; width: 100%; }
+    .search-input { width: 100%; padding: 10px 44px 10px 16px; border-radius: 14px; border: 1px solid rgba(255,255,255,.10); background: rgba(255,255,255,.04); color: var(--text); font-family: inherit; font-size: .9rem; transition: all .25s ease; outline: none; }
+    .search-input:focus { border-color: var(--accent); background: rgba(255,255,255,.06); box-shadow: 0 0 0 3px rgba(56,189,248,.1); }
+    .search-input::placeholder { color: var(--text-dim); }
+    .search-icon { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); color: var(--text-dim); pointer-events: none; }
+    .search-results { position: absolute; top: calc(100% + 8px); left: 0; background: #0f1525; border: 1px solid var(--line); border-radius: 14px; box-shadow: var(--shadow); max-height: 400px; overflow-y: auto; z-index: 200; display: none; }
+    .search-results.active { display: block; }
+    .search-result-item { padding: 12px 16px; cursor: pointer; transition: background .2s ease; border-bottom: 1px solid var(--line); display: flex; flex-direction: column; gap: 4px; }
+    .search-result-item:last-child { border-bottom: none; }
+    .search-result-item:hover { background: rgba(56,189,248,.08); }
+    .search-result-item .result-title { font-weight: 600; color: var(--text-bright); font-size: .9rem; }
+    .search-result-item .result-desc { font-size: .8rem; color: var(--text-dim); }
 
-    .topbar{
-      position:sticky;
-      top:0;
-      z-index:40;
-      background:rgba(4, 8, 15, .62);
-      backdrop-filter:blur(20px);
-      border-bottom:1px solid rgba(255,255,255,.06);
-    }
-    .topbar-inner{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:16px;
-      padding:14px 0;
-    }
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      min-width:0;
-    }
-    .avatar{
-      width:48px;height:48px;border-radius:50%;
-      background:linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3));
-      display:grid;place-items:center;
-      border:1px solid rgba(255,255,255,.15);
-      box-shadow:0 12px 30px rgba(0,0,0,.35);
-      overflow:hidden;
-      flex:0 0 auto;
-      cursor:pointer;
-      transition:.3s ease;
-    }
-    .avatar:hover{
-      transform:scale(1.1);
-    }
-    .avatar span{
-      font-weight:800;
-      color:#fff;
-      letter-spacing:.5px;
-    }
-    .brand h1{
-      margin:0;
-      font-size:1rem;
-      line-height:1.1;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
-    }
-    .brand small{display:block;margin-top:4px;color:var(--muted)}
+    .main-layout { display: flex; min-height: calc(100vh - var(--topbar-h)); margin-top: var(--topbar-h); }
 
-    .page{display:none}
-    .page.active{display:block}
+    .sidebar { width: var(--sidebar-width); position: fixed; left: 0; top: var(--topbar-h); bottom: 0; background: rgba(6,9,19,.92); backdrop-filter: blur(20px); border-right: 1px solid var(--line); overflow-y: auto; z-index: 50; padding: 20px 0; transition: transform .3s ease; }
+    .sidebar-toggle { display: none; position: fixed; bottom: 24px; left: 24px; z-index: 60; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2)); border: none; color: #07111c; font-size: 1.3rem; cursor: pointer; box-shadow: 0 8px 30px rgba(56,189,248,.3); transition: transform .3s ease; align-items: center; justify-content: center; }
+    .sidebar-toggle:hover { transform: scale(1.1); }
+    .scroll-top-btn { position: fixed; bottom: 24px; right: 24px; z-index: 61; width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-3), var(--accent)); border: none; color: #07111c; font-size: 1.2rem; cursor: pointer; box-shadow: 0 8px 30px rgba(167,139,250,.3); transition: all .3s cubic-bezier(.4,0,.2,1); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transform: translateY(20px); }
+    .scroll-top-btn.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+    .scroll-top-btn:hover { transform: scale(1.1) translateY(-2px); box-shadow: 0 12px 40px rgba(167,139,250,.4); }
+    .scroll-top-btn:active { transform: scale(0.95); }
 
-    .hero{
-      padding:54px 0 24px;
-      position:relative;
-    }
-    .hero-grid{
-      display:grid;
-      grid-template-columns:1.15fr .85fr;
-      gap:24px;
-      align-items:stretch;
-    }
-    .hero-card, .side-card{
-      position:relative;
-      border-radius:32px;
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.08);
-      background:
-        radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%),
-        radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%),
-        linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92));
-      box-shadow:var(--shadow);
-    }
-    .hero-card{
-      padding:34px;
-      transform-style:preserve-3d;
-      transition:transform .15s ease;
-    }
-    .hero-card::before,
-    .hero-card::after{
-      content:"";
-      position:absolute;
-      border-radius:999px;
-      pointer-events:none;
-      filter:blur(18px);
-      opacity:.55;
-    }
-    .hero-card::before{
-      width:240px;height:240px;
-      background:rgba(56,189,248,.12);
-      top:-70px; right:-40px;
-      animation: drift 10s ease-in-out infinite;
-    }
-    .hero-card::after{
-      width:180px;height:180px;
-      background:rgba(34,197,94,.10);
-      bottom:-55px; left:-30px;
-      animation: drift 12s ease-in-out infinite reverse;
-    }
-    .eyebrow{
-      display:inline-flex;
-      align-items:center;
-      gap:9px;
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.08);
-      background:rgba(255,255,255,.05);
-      color:#dbe4ef;
-      font-size:.9rem;
-      margin-bottom:18px;
-    }
-    .eyebrow .dot{
-      width:9px;height:9px;border-radius:50%;
-      background:var(--accent-2);
-      box-shadow:0 0 0 6px rgba(34,197,94,.12);
-    }
-    .hero h2{
-      margin:0;
-      font-size:clamp(2.2rem, 4vw, 4.8rem);
-      line-height:1.03;
-      letter-spacing:-.045em;
-    }
-    .grad{
-      background:linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color:transparent;
-    }
-    .type-row{
-      margin-top:12px;
-      font-size:1.16rem;
-      color:#dbe4ef;
-      min-height:1.7em;
-    }
-    .type-text{
-      color:var(--accent);
-      font-weight:700;
-    }
-    .cursor{
-      animation:blink 1s infinite;
-      color:#fff;
-      margin-left:2px;
-    }
-    .hero p{
-      margin:18px 0 0;
-      max-width:66ch;
-      color:#cbd5e1;
-      line-height:1.85;
-      font-size:1.03rem;
-    }
-    .cta-row{
-      display:flex;
-      flex-wrap:wrap;
-      gap:12px;
-      margin-top:28px;
-    }
-    .btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:13px 18px;
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(255,255,255,.04);
-      color:#e5e7eb;
-      font-weight:600;
-      transition:.25s ease;
-      cursor:pointer;
-    }
-    .btn:hover{
-      transform:translateY(-2px);
-      background:rgba(255,255,255,.08);
-    }
-    .btn.primary{
-      background:linear-gradient(135deg, var(--accent-2), var(--accent));
-      color:#07111c;
-      border-color:transparent;
-      box-shadow:0 14px 30px rgba(34,197,94,.18);
-    }
-    .btn.primary:hover{filter:brightness(1.03)}
+    .sidebar-section { margin-bottom: 8px; }
+    .sidebar-header { display: flex; align-items: center; justify-content: space-between; padding: 10px 20px; cursor: pointer; font-weight: 700; color: var(--text-bright); font-size: .92rem; transition: background .2s ease; user-select: none; }
+    .sidebar-header:hover { background: rgba(255,255,255,.03); }
+    .sidebar-header .chevron { transition: transform .3s ease; font-size: .8rem; }
+    .sidebar-header.collapsed .chevron { transform: rotate(-90deg); }
+    .sidebar-links { list-style: none; padding: 0; margin: 0; overflow: hidden; transition: max-height .3s ease; }
+    .sidebar-links.collapsed { max-height: 0 !important; }
+    .sidebar-links li a { display: block; padding: 8px 20px 8px 32px; color: var(--text-dim); font-size: .88rem; transition: all .2s ease; border-left: 2px solid transparent; }
+    .sidebar-links li a:hover { color: var(--accent); background: rgba(56,189,248,.05); border-left-color: var(--accent); padding-left: 36px; }
+    .sidebar-links li a.active { color: var(--accent); background: rgba(56,189,248,.08); border-left-color: var(--accent-2); font-weight: 600; }
+    .sidebar-progress { padding: 16px 20px; border-top: 1px solid var(--line); margin-top: 16px; }
+    .sidebar-progress-label { display: flex; justify-content: space-between; font-size: .82rem; color: var(--text-dim); margin-bottom: 8px; }
+    .sidebar-progress-bar { height: 6px; background: rgba(255,255,255,.06); border-radius: 3px; overflow: hidden; }
+    .sidebar-progress-fill { height: 100%; background: linear-gradient(90deg, var(--accent-2), var(--accent)); border-radius: 3px; transition: width .5s ease; width: 0%; }
 
-    .side-card{
-      padding:24px;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      min-height:100%;
-    }
+    .main-content { margin-left: var(--sidebar-width); flex: 1; min-width: 0; padding: 32px 40px; max-width: calc(100% - var(--sidebar-width)); }
 
-    .skills-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
-      gap:16px;
-      margin-top:20px;
-    }
-    .skill-item{
-      display:flex;
-      align-items:center;
-      gap:8px;
-      padding:12px;
-      border-radius:12px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-    }
-    .skill-item span:first-child{
-      color:var(--accent-2);
-      font-size:1.2rem;
-    }
+    .hero { padding: 40px 0 24px; position: relative; }
+    .hero-card { position: relative; border-radius: 32px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: radial-gradient(circle at top right, rgba(56,189,248,.12), transparent 30%), radial-gradient(circle at bottom left, rgba(34,197,94,.10), transparent 28%), linear-gradient(180deg, rgba(15,23,42,.96), rgba(8,12,20,.92)); box-shadow: var(--shadow); padding: 40px; }
+    .hero-card::before, .hero-card::after { content: ""; position: absolute; border-radius: 999px; pointer-events: none; filter: blur(18px); opacity: .55; }
+    .hero-card::before { width: 240px; height: 240px; background: rgba(56,189,248,.12); top: -70px; right: -40px; animation: drift 10s ease-in-out infinite; }
+    .hero-card::after { width: 180px; height: 180px; background: rgba(34,197,94,.10); bottom: -55px; left: -30px; animation: drift 12s ease-in-out infinite reverse; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.05); color: #dbe4ef; font-size: .88rem; font-weight: 500; margin-bottom: 18px; }
+    .eyebrow .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 0 6px rgba(34,197,94,.12); animation: pulse 2s ease-in-out infinite; }
+    .hero h2 { margin: 0; font-size: clamp(2rem, 3.5vw, 3.5rem); line-height: 1.15; letter-spacing: -.02em; font-weight: 800; }
+    .grad { background: linear-gradient(90deg, #fff, #b9eaff 30%, #7ff2a6 70%, #d1c3ff 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .hero p { margin: 18px 0 0; max-width: 66ch; color: #cbd5e1; line-height: 1.85; font-size: 1.05rem; }
+    .cta-row { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
-    .modules-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(280px, 1fr));
-      gap:24px;
-      margin:40px 0;
-    }
+    .breadcrumb { display: flex; align-items: center; gap: 8px; margin-bottom: 24px; font-size: .88rem; color: var(--text-dim); }
+    .breadcrumb a { color: var(--accent); transition: color .2s ease; }
+    .breadcrumb a:hover { color: var(--text-bright); }
+    .breadcrumb .sep { opacity: .5; }
 
-    .module-card{
-      position:relative;
-      border-radius:20px;
-      padding:30px;
-      background:linear-gradient(135deg, rgba(56,189,248,.1), rgba(34,197,94,.05));
-      border:1px solid rgba(56,189,248,.2);
-      transition:.3s ease;
-      cursor:pointer;
-    }
-    .module-card:hover{
-      border-color:var(--accent);
-      background:linear-gradient(135deg, rgba(56,189,248,.15), rgba(34,197,94,.1));
-      transform:translateY(-8px);
-      box-shadow:0 20px 50px rgba(56,189,248,.15);
-    }
-    .module-icon{
-      font-size:3rem;
-      margin-bottom:16px;
-      display:block;
-    }
-    .module-title{
-      font-size:1.3rem;
-      font-weight:700;
-      margin-bottom:12px;
-      color:var(--accent);
-    }
-    .module-desc{
-      color:var(--muted);
-      font-size:.95rem;
-      line-height:1.6;
-      margin-bottom:16px;
-    }
-    .module-topics{
-      font-size:.85rem;
-      color:var(--soft);
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-    .module-topics span{
-      background:rgba(56,189,248,.2);
-      padding:4px 10px;
-      border-radius:6px;
-    }
+    .content-section { padding: 40px 0; border-bottom: 1px solid var(--line); scroll-margin-top: calc(var(--topbar-h) + 14px); }
+    .content-section:last-child { border-bottom: none; }
+    .content-section h2 { font-size: 2rem; margin-bottom: 8px; color: var(--text-bright); font-weight: 800; letter-spacing: -.02em; display: flex; align-items: center; gap: 12px; }
+    .content-section h2 .section-num { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), var(--accent-3)); color: #07111c; font-size: .9rem; font-weight: 800; flex-shrink: 0; }
+    .content-section .section-subtitle { color: var(--text-dim); font-size: 1rem; margin-bottom: 32px; line-height: 1.6; }
+    .content-section h3 { font-size: 1.35rem; margin: 32px 0 16px; color: var(--accent); font-weight: 700; }
+    .content-section h4 { font-size: 1.1rem; margin: 24px 0 10px; color: var(--text-bright); font-weight: 600; }
+    .content-section p { color: var(--text-dim); line-height: 1.9; margin-bottom: 16px; font-size: .97rem; }
+    .content-section ul, .content-section ol { color: var(--text-dim); line-height: 1.9; margin: 12px 0 16px 20px; font-size: .97rem; padding-left: 20px; }
+    .content-section li { margin-bottom: 8px; }
+    .content-section a { color: var(--accent); border-bottom: 1px solid transparent; transition: border-color .2s ease; }
+    .content-section a:hover { border-bottom-color: var(--accent); }
+    .content-section code.inline { background: rgba(56,189,248,.12); color: var(--accent); padding: 2px 8px; border-radius: 6px; font-family: 'Fira Code', 'Courier New', monospace; font-size: .88em; font-weight: 500; direction: ltr; display: inline-block; }
+    .content-section strong { color: var(--text-bright); }
 
-    /* Learning Content */
-    .content-section{
-      padding:40px 0;
-      border-bottom:1px solid var(--line);
-    }
-    .content-section h2{
-      font-size:2.5rem;
-      margin-bottom:24px;
-      color:var(--accent);
-    }
-    .content-section h3{
-      font-size:1.5rem;
-      margin:32px 0 16px;
-      color:var(--accent);
-    }
-
-    .code-container{
-      position:relative;
-      margin:20px 0;
-      border-radius:12px;
-      overflow:hidden;
-      background:#0a0e1a;
-      border:1px solid rgba(56,189,248,.2);
-    }
-
-    .code-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:12px 16px;
-      background:rgba(56,189,248,.05);
-      border-bottom:1px solid rgba(56,189,248,.1);
-      font-size:.85rem;
-      color:var(--muted);
-    }
-
-    .code-copy{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
-      padding:6px 12px;
-      background:var(--accent);
-      color:#07111c;
-      border:none;
-      border-radius:8px;
-      cursor:pointer;
-      font-weight:600;
-      transition:.2s ease;
-      font-size:.85rem;
-    }
-    .code-copy:hover{
-      filter:brightness(1.1);
-      transform:scale(1.05);
-    }
-    .code-copy.copied{
-      background:var(--accent-2);
-    }
-
-    .code-block{
-      padding:16px;
-      overflow-x:auto;
-      font-family:'Fira Code', 'Courier New', monospace;
-      font-size:.9rem;
-      line-height:1.6;
-      background:#0a0e1a;
-      color:#e5e7eb;
-    }
-
-    .code-block::-webkit-scrollbar{
-      height:6px;
-    }
-    .code-block::-webkit-scrollbar-track{
-      background:transparent;
-    }
-    .code-block::-webkit-scrollbar-thumb{
-      background:rgba(56,189,248,.3);
-      border-radius:3px;
-    }
-
-    .kw { color: var(--code-keyword); font-weight:700; }
+    .code-container { position: relative; margin: 24px 0; border-radius: 16px; overflow: hidden; background: #0a0e1a; border: 1px solid rgba(56,189,248,.18); box-shadow: 0 8px 32px rgba(0,0,0,.3); }
+    .code-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 18px; background: rgba(56,189,248,.06); border-bottom: 1px solid rgba(56,189,248,.1); font-size: .85rem; color: var(--text-dim); font-weight: 500; direction: ltr; }
+    .code-header .lang-label { display: flex; align-items: center; gap: 8px; }
+    .code-header .lang-label::before { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--accent-2); box-shadow: 0 0 8px rgba(34,197,94,.4); }
+    .code-copy { display: inline-flex; align-items: center; gap: 6px; padding: 7px 14px; background: var(--accent); color: #07111c; border: none; border-radius: 10px; cursor: pointer; font-weight: 600; font-family: inherit; transition: all .2s ease; font-size: .82rem; }
+    .code-copy:hover { filter: brightness(1.1); transform: scale(1.05); }
+    .code-copy:active { transform: scale(.95); }
+    .code-copy.copied { background: var(--accent-2); color: #07111c; }
+    .code-block { padding: 18px; overflow-x: auto; font-family: 'Fira Code', 'Courier New', monospace; font-size: .88rem; line-height: 1.8; background: #0a0e1a; color: #e5e7eb; direction: ltr; text-align: left; }
+    .code-block::-webkit-scrollbar { height: 6px; }
+    .code-block::-webkit-scrollbar-track { background: transparent; }
+    .code-block::-webkit-scrollbar-thumb { background: rgba(56,189,248,.3); border-radius: 3px; }
+    .kw { color: var(--code-keyword); font-weight: 700; }
     .str { color: var(--code-string); }
-    .cmm { color: var(--code-comment); font-style:italic; }
-    .fn { color: var(--code-function); font-weight:700; }
+    .cmm { color: var(--code-comment); font-style: italic; }
+    .fn { color: var(--code-function); font-weight: 700; }
     .num { color: var(--code-number); }
     .var { color: var(--code-variable); }
-    .op { color: #ff79c6; }
+    .op { color: var(--code-operator); }
+    .dec { color: #8be9fd; }
 
-    .explanation{
-      background:rgba(34,197,94,.1);
-      border-left:3px solid var(--accent-2);
-      padding:16px;
-      margin:16px 0;
-      border-radius:8px;
-      color:var(--soft);
-      font-size:.95rem;
-      line-height:1.7;
-    }
+    .explanation { background: rgba(34,197,94,.08); border-left: 3px solid var(--accent-2); padding: 18px 20px; margin: 20px 0; border-radius: 12px; color: var(--text-bright); font-size: .95rem; line-height: 1.8; }
+    .explanation strong { color: var(--accent-2); }
+    .explanation.warning { background: rgba(251,191,36,.08); border-left-color: #fbbf24; }
+    .explanation.warning strong { color: #fbbf24; }
+    .explanation.info { background: rgba(56,189,248,.08); border-left-color: var(--accent); }
+    .explanation.info strong { color: var(--accent); }
+    .tip-box { background: rgba(167,139,250,.08); border-right: 3px solid var(--accent-3); padding: 16px 20px; margin: 16px 0; border-radius: 12px; color: var(--text-bright); font-size: .92rem; line-height: 1.7; }
+    .tip-box strong { color: var(--accent-3); }
 
-    .back-btn{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:10px 16px;
-      border-radius:8px;
-      background:rgba(56,189,248,.1);
-      border:1px solid rgba(56,189,248,.2);
-      color:var(--accent);
-      cursor:pointer;
-      margin-bottom:20px;
-      transition:.3s ease;
-    }
-    .back-btn:hover{
-      background:rgba(56,189,248,.2);
-      transform:translateX(-4px);
-    }
+    .data-table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: .9rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); }
+    .data-table th, .data-table td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--line); }
+    .data-table th { background: rgba(56,189,248,.08); color: var(--accent); font-weight: 700; }
+    .data-table tr:hover { background: rgba(255,255,255,.02); }
+    .data-table td code { direction: ltr; }
 
-    @keyframes drift{
-      0%, 100%{transform:translate(0,0)}
-      50%{transform:translate(30px,-30px)}
-    }
-    @keyframes blink{
-      0%, 49%{opacity:1}
-      50%, 100%{opacity:0}
-    }
+    .footer { margin-top: 60px; padding: 40px 0 32px; border-top: 1px solid var(--line); text-align: center; color: var(--text-dim); font-size: .88rem; }
+    .footer a { color: var(--accent); transition: color .2s ease; }
+    .footer a:hover { color: var(--text-bright); }
+    .footer-socials { display: flex; justify-content: center; gap: 16px; margin-bottom: 20px; }
+    .footer-socials a { display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 14px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); transition: all .25s ease; }
+    .footer-socials a:hover { background: rgba(56,189,248,.12); border-color: rgba(56,189,248,.25); transform: translateY(-3px); }
+    .footer-links { display: flex; justify-content: center; gap: 24px; margin-bottom: 16px; flex-wrap: wrap; }
+    .footer-links a { color: var(--text-dim); font-size: .85rem; transition: color .2s ease; }
+    .footer-links a:hover { color: var(--accent); }
 
-    @media(max-width:768px){
-      .hero-grid{grid-template-columns:1fr}
-      .topbar-inner{flex-direction:column}
-      .modules-grid{grid-template-columns:1fr}
+    @keyframes drift { 0%, 100% { transform: translate(0,0); } 50% { transform: translate(30px,-30px); } }
+    @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 6px rgba(34,197,94,.12); } 50% { box-shadow: 0 0 0 10px rgba(34,197,94,.06); } }
+
+    @media (max-width: 1024px) {
+      .sidebar { transform: translateX(-100%); z-index: 110; }
+      .sidebar.open { transform: translateX(0); }
+      .sidebar-toggle { display: flex; bottom: 24px; left: 12px; width: 44px; height: 44px; }
+      .main-content { margin-left: 0; max-width: 100%; min-width: 0; width: 100%; padding: 24px; }
+      .search-container { max-width: 250px; }
+    }
+    @media (max-width: 768px) {
+      .hero-card { padding: 24px; }
+      .content-section h2 { font-size: 1.5rem; }
+      .content-section { padding: 28px 0; }
+      .topbar-inner { flex-wrap: wrap; }
+      .search-container { max-width: 100%; order: 3; margin-top: 8px; }
+      .data-table { font-size: .82rem; }
+      .data-table th, .data-table td { padding: 8px 10px; }
+    }
+    @media (max-width: 480px) {
+      .btn { padding: 10px 14px; font-size: .85rem; }
+      .brand { gap: 8px; }
+      .avatar { width: 40px; height: 40px; }
+      .avatar span { font-size: .95rem; }
+      .hero-card { padding: 20px; }
+      .main-content { padding: 16px; }
     }
   </style>
 </head>
 <body>
+  <div id="sidebar-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:105;display:none;" onclick="toggleSidebar()"></div>
   <div class="topbar">
     <div class="wrap">
       <div class="topbar-inner">
         <div class="brand">
-          <a href="doc.html" class="avatar" style="display:grid;place-items:center;text-decoration:none;"><span style="grid-area:1/1;">AG</span><img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" /></a>
-          <div>
+          <a href="index.html" class="avatar" title="Amirali Gholian">
+            <span>AG</span>
+            <img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" />
+          </a>
+          <div class="brand-text">
             <h1>Amirali Gholian</h1>
-            <small>💻 Python | 🐧 Linux | 🚀 AI</small>
+            <small>Linux Documentation</small>
           </div>
         </div>
+        <div class="search-container">
+          <input type="text" class="search-input" id="searchInput" placeholder="Search documentation..." oninput="searchDocs()" onfocus="showSearchResults()" />
+          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+          <div class="search-results" id="searchResults"></div>
+        </div>
+        <a href="doc.html" class="btn back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Documentation
+        </a>
       </div>
     </div>
   </div>
 
-  <main class="wrap">
-    <div class="page active" id="linux">
-      <a class="back-btn" href="doc.html">← Back to Home</a>
+  <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Sidebar Menu">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+  </button>
+  <button class="scroll-top-btn" id="scrollTopBtn" onclick="scrollToTop()" aria-label="Scroll to top" title="Back to top">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"></polyline></svg>
+  </button>
 
-      <div class="content-section">
-        <h2>🐧 Linux</h2>
-        <p style="color:var(--muted);margin-bottom:32px;">Essential Linux commands and system administration</p>
-
-        <h3>1. File and Directory Commands</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> These commands help you navigate and manage files in Linux. Like using File Explorer, but with text commands.
+  <div class="main-layout">
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Linux Basics</span>
+          <span class="chevron">▼</span>
         </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>file_commands.sh</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># pwd - show current directory</span>
-pwd
-
-<span class="cmm"># ls - list files</span>
-ls                    <span class="cmm"># Simple list</span>
-ls -la                <span class="cmm"># Detailed list with hidden files</span>
-
-<span class="cmm"># cd - change directory</span>
-cd /home              <span class="cmm"># Go to home folder</span>
-cd ..                 <span class="cmm"># Go up one level</span>
-cd ~                  <span class="cmm"># Go to user home</span>
-
-<span class="cmm"># mkdir - create folder</span>
-mkdir my_folder
-
-<span class="cmm"># cp - copy file</span>
-cp file.txt file_copy.txt
-
-<span class="cmm"># mv - move or rename</span>
-mv old_name.txt new_name.txt
-
-<span class="cmm"># rm - delete</span>
-rm file.txt           <span class="cmm"># Delete file</span>
-rm -r folder/         <span class="cmm"># Delete folder</span>
-
-<span class="cmm"># cat - show file content</span>
-cat file.txt
-</div>
+        <ul class="sidebar-links">
+          <li><a href="#intro" onclick="closeSidebar()">Introduction to Linux</a></li>
+          <li><a href="#distributions" onclick="closeSidebar()">Distributions</a></li>
+          <li><a href="#terminal" onclick="closeSidebar()">Terminal Basics</a></li>
+          <li><a href="#filesystem" onclick="closeSidebar()">File System</a></li>
+          <li><a href="#navigation" onclick="closeSidebar()">Navigation Commands</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>File Management</span>
+          <span class="chevron">▼</span>
         </div>
-
-        <h3>2. SSH - Secure Connection</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> SSH lets you connect to remote computers securely. Like having remote access to another computer.
+        <ul class="sidebar-links">
+          <li><a href="#file-ops" onclick="closeSidebar()">File Operations</a></li>
+          <li><a href="#permissions" onclick="closeSidebar()">File Permissions</a></li>
+          <li><a href="#ownership" onclick="closeSidebar()">Ownership &amp; ACL</a></li>
+          <li><a href="#archiving" onclick="closeSidebar()">Archiving &amp; Compression</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Text Processing</span>
+          <span class="chevron">▼</span>
         </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>ssh_guide.sh</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># Connect to remote server</span>
-ssh user@example.com
-
-<span class="cmm"># Connect with specific port</span>
-ssh -p <span class="num">2222</span> user@example.com
-
-<span class="cmm"># Generate SSH key (do this once)</span>
-ssh-keygen -t rsa -b <span class="num">4096</span>
-
-<span class="cmm"># Copy key to server (for password-less login)</span>
-ssh-copy-id -i ~/.ssh/id_rsa.pub user@example.com
-
-<span class="cmm"># Copy file from local to remote</span>
-scp file.txt user@example.com:/home/user/
-
-<span class="cmm"># Copy file from remote to local</span>
-scp user@example.com:/home/user/file.txt .
-</div>
+        <ul class="sidebar-links">
+          <li><a href="#grep" onclick="closeSidebar()">grep &amp; Regular Expressions</a></li>
+          <li><a href="#sed" onclick="closeSidebar()">sed Stream Editor</a></li>
+          <li><a href="#awk" onclick="closeSidebar()">awk Programming</a></li>
+          <li><a href="#pipes" onclick="closeSidebar()">Pipes &amp; Redirection</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>User &amp; Group Management</span>
+          <span class="chevron">▼</span>
         </div>
-
-        <h3>3. Permissions - Control Access</h3>
-        <div class="explanation">
-          <strong>What is it?</strong> Permissions control who can read, write, or run files. Important for security and organization.
+        <ul class="sidebar-links">
+          <li><a href="#users" onclick="closeSidebar()">Users &amp; Groups</a></li>
+          <li><a href="#sudo" onclick="closeSidebar()">sudo &amp; Privileges</a></li>
+          <li><a href="#ssh" onclick="closeSidebar()">SSH &amp; Remote Access</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Process Management</span>
+          <span class="chevron">▼</span>
         </div>
-        <div class="code-container">
-          <div class="code-header">
-            <span>permissions.sh</span>
-            <button class="code-copy" onclick="copyCode(this)">📋 Copy</button>
-          </div>
-          <div class="code-block"><span class="cmm"># chmod - change permissions</span>
-<span class="cmm"># Format: chmod [who][action][permission] file</span>
-
-<span class="cmm"># Numbers: r=4, w=2, x=1</span>
-chmod <span class="num">755</span> file.sh       <span class="cmm"># Owner: read+write+execute</span>
-<span class="cmm"># Group and Others: read+execute</span>
-
-chmod <span class="num">644</span> file.txt       <span class="cmm"># Owner: read+write</span>
-<span class="cmm"># Group and Others: read only</span>
-
-chmod <span class="num">700</span> secret.txt      <span class="cmm"># Only owner can access</span>
-
-<span class="cmm"># Make file executable</span>
-chmod +x script.sh
-
-<span class="cmm"># chown - change owner</span>
-sudo chown user:group file.txt
-</div>
+        <ul class="sidebar-links">
+          <li><a href="#processes" onclick="closeSidebar()">Processes &amp; Jobs</a></li>
+          <li><a href="#signals" onclick="closeSidebar()">Signals &amp; Kill</a></li>
+          <li><a href="#cron" onclick="closeSidebar()">Cron &amp; Scheduling</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Networking</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#net-commands" onclick="closeSidebar()">Network Commands</a></li>
+          <li><a href="#firewall" onclick="closeSidebar()">Firewall &amp; iptables</a></li>
+          <li><a href="#dns" onclick="closeSidebar()">DNS &amp; Hostname</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Package Management</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#apt" onclick="closeSidebar()">APT (Debian/Ubuntu)</a></li>
+          <li><a href="#dnf" onclick="closeSidebar()">DNF/YUM (RHEL/Fedora)</a></li>
+          <li><a href="#pacman" onclick="closeSidebar()">Pacman (Arch)</a></li>
+          <li><a href="#universal" onclick="closeSidebar()">Snap, Flatpak &amp; AppImage</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>System Administration</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#systemd" onclick="closeSidebar()">systemd &amp; Services</a></li>
+          <li><a href="#journalctl" onclick="closeSidebar()">journalctl &amp; Logs</a></li>
+          <li><a href="#kernel" onclick="closeSidebar()">Kernel Modules</a></li>
+          <li><a href="#disk" onclick="closeSidebar()">Disk &amp; Storage</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Shell Scripting</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#bash-basics" onclick="closeSidebar()">Bash Basics</a></li>
+          <li><a href="#variables" onclick="closeSidebar()">Variables &amp; Expansion</a></li>
+          <li><a href="#conditionals" onclick="closeSidebar()">Conditionals &amp; Loops</a></li>
+          <li><a href="#functions" onclick="closeSidebar()">Functions</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Security</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#security-basics" onclick="closeSidebar()">Security Basics</a></li>
+          <li><a href="#selinux" onclick="closeSidebar()">SELinux &amp; AppArmor</a></li>
+          <li><a href="#encryption" onclick="closeSidebar()">Encryption &amp; Keys</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-header" onclick="toggleSection(this)">
+          <span>Advanced Topics</span>
+          <span class="chevron">▼</span>
+        </div>
+        <ul class="sidebar-links">
+          <li><a href="#containers" onclick="closeSidebar()">Containers &amp; Docker</a></li>
+          <li><a href="#virtualization" onclick="closeSidebar()">Virtualization</a></li>
+          <li><a href="#performance" onclick="closeSidebar()">Performance Tuning</a></li>
+        </ul>
+      </div>
+      <div class="sidebar-progress">
+        <div class="sidebar-progress-label">
+          <span>Study Progress</span>
+          <span id="progressText">0%</span>
+        </div>
+        <div class="sidebar-progress-bar">
+          <div class="sidebar-progress-fill" id="progressFill"></div>
         </div>
       </div>
-    </div>
-  </main>
-  
-  <script>
-    // Copy to Clipboard
-    function copyCode(button) {
-      const codeBlock = button.closest('.code-container').querySelector('.code-block');
-      const text = codeBlock.innerText;
+    </aside>
 
-      navigator.clipboard.writeText(text).then(() => {
-        const originalText = button.innerText;
+    <main class="main-content" id="mainContent">
+      <div class="breadcrumb">
+        <a href="doc.html">Documentation</a>
+        <span class="sep">/</span>
+        <span>Linux</span>
+      </div>
+
+      <section class="hero">
+        <div class="hero-card">
+          <div class="eyebrow">
+            <span class="dot"></span>
+            Comprehensive Linux Documentation
+          </div>
+          <h2><span class="grad">Complete Linux Guide</span></h2>
+          <p>
+            From <code class="inline">ls</code> and <code class="inline">cd</code> to kernel modules and container orchestration. This documentation covers everything you need to master Linux — with practical examples, deep explanations, and best practices from official documentation.
+          </p>
+          <div class="cta-row">
+            <a href="#intro" class="btn primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+              Start Learning
+            </a>
+            <a href="doc.html" class="btn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+              Homepage
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 1: INTRO -->
+      <section class="content-section" id="intro">
+        <h2><span class="section-num">1</span> Introduction to Linux</h2>
+        <p class="section-subtitle">What is Linux and why should you learn it?</p>
+        <p>Linux is a <strong>Unix-like</strong>, <strong>open-source</strong> operating system kernel first released by <strong>Linus Torvalds</strong> in 1991. Built on the principles of portability, multi-user support, and security, Linux has grown into the backbone of modern computing infrastructure — powering servers, cloud platforms, supercomputers, embedded systems, and mobile devices (via Android).</p>
+        <h3>Key Features</h3>
+        <ul>
+          <li><strong>Open Source:</strong> Full source code available under the GPL license — free to use, modify, and distribute</li>
+          <li><strong>Multi-user &amp; Multi-tasking:</strong> Multiple users and processes run simultaneously without interference</li>
+          <li><strong>Security:</strong> Robust permission system, SELinux/AppArmor, and regular security patches</li>
+          <li><strong>Stability:</strong> Uptimes measured in years; the kernel rarely crashes</li>
+          <li><strong>Portability:</strong> Runs on x86, ARM, RISC-V, and virtually every hardware architecture</li>
+          <li><strong>Modular Design:</strong> Loadable kernel modules (LKMs) extend functionality without rebooting</li>
+        </ul>
+        <h3>Main Applications</h3>
+        <table class="data-table">
+          <thead><tr><th>Domain</th><th>Key Technologies</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td>Web Servers</td><td><code class="inline">Nginx</code>, <code class="inline">Apache</code>, <code class="inline">Caddy</code></td><td>Google, Facebook, Netflix</td></tr>
+            <tr><td>Cloud &amp; DevOps</td><td><code class="inline">Docker</code>, <code class="inline">Kubernetes</code>, <code class="inline">Ansible</code></td><td>AWS, Azure, GCP infrastructure</td></tr>
+            <tr><td>Supercomputing</td><td><code class="inline">MPI</code>, <code class="inline">OpenMP</code>, <code class="inline">SLURM</code></td><td>Top 500 supercomputers (100% run Linux)</td></tr>
+            <tr><td>Embedded &amp; IoT</td><td><code class="inline">Buildroot</code>, <code class="inline">Yocto</code>, <code class="inline">OpenWrt</code></td><td>Routers, smart TVs, Tesla cars</td></tr>
+            <tr><td>Mobile</td><td><code class="inline">Android</code> (Linux kernel)</td><td>3+ billion active devices</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation info">
+          <strong>Note:</strong> Linux refers specifically to the kernel. What most people call "Linux" is technically <strong>GNU/Linux</strong> — the kernel combined with GNU tools and utilities.
+        </div>
+      </section>
+
+      <!-- SECTION 2: DISTRIBUTIONS -->
+      <section class="content-section" id="distributions">
+        <h2><span class="section-num">2</span> Linux Distributions</h2>
+        <p class="section-subtitle">Choosing the right distro for your needs</p>
+        <p>A <strong>Linux distribution</strong> (distro) is an operating system made from the Linux kernel plus a collection of software packages, package manager, and often a desktop environment. Different distros target different use cases — from servers to desktops to embedded systems.</p>
+        <h3>Major Distribution Families</h3>
+        <table class="data-table">
+          <thead><tr><th>Family</th><th>Package Manager</th><th>Popular Distros</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Debian</strong></td><td><code class="inline">apt</code>, <code class="inline">dpkg</code></td><td>Debian, Ubuntu, Linux Mint, Pop!_OS</td><td>Servers, desktops, beginners</td></tr>
+            <tr><td><strong>Red Hat</strong></td><td><code class="inline">dnf</code>, <code class="inline">rpm</code></td><td>Fedora, RHEL, CentOS Stream, AlmaLinux, Rocky Linux</td><td>Enterprise servers, workstations</td></tr>
+            <tr><td><strong>Arch</strong></td><td><code class="inline">pacman</code></td><td>Arch Linux, Manjaro, EndeavourOS</td><td>Power users, rolling release</td></tr>
+            <tr><td><strong>SUSE</strong></td><td><code class="inline">zypper</code></td><td>openSUSE, SUSE Linux Enterprise</td><td>Enterprise, YaST administration</td></tr>
+            <tr><td><strong>Gentoo</strong></td><td><code class="inline">Portage</code></td><td>Gentoo, ChromeOS</td><td>Source-based, maximum control</td></tr>
+            <tr><td><strong>Alpine</strong></td><td><code class="inline">apk</code></td><td>Alpine Linux</td><td>Containers, minimal footprint</td></tr>
+          </tbody>
+        </table>
+        <h3>Release Models</h3>
+        <ul>
+          <li><strong>Fixed Release:</strong> Major versions released on a schedule (e.g., Ubuntu 24.04 LTS, RHEL 9). Stable and predictable.</li>
+          <li><strong>Rolling Release:</strong> Continuous updates (e.g., Arch, openSUSE Tumbleweed). Always up-to-date but requires more maintenance.</li>
+          <li><strong>Long-Term Support (LTS):</strong> Extended security updates (5+ years). Ideal for production servers.</li>
+        </ul>
+        <div class="tip-box">
+          <strong>Recommendation:</strong> Start with <strong>Ubuntu LTS</strong> or <strong>Linux Mint</strong> for desktops. Use <strong>Debian</strong> or <strong>AlmaLinux/Rocky</strong> for servers. Try <strong>Alpine</strong> for Docker containers.
+        </div>
+      </section>
+
+      <!-- SECTION 3: TERMINAL -->
+      <section class="content-section" id="terminal">
+        <h2><span class="section-num">3</span> Terminal Basics</h2>
+        <p class="section-subtitle">Mastering the command line interface</p>
+        <p>The <strong>terminal</strong> (or shell) is the primary interface for interacting with Linux. Unlike graphical interfaces, the command line offers precision, automation, and remote administration capabilities that are essential for system administration.</p>
+        <h3>Common Shells</h3>
+        <table class="data-table">
+          <thead><tr><th>Shell</th><th>Path</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">bash</code></td><td><code class="inline">/bin/bash</code></td><td>Bourne Again SHell — default on most distros</td></tr>
+            <tr><td><code class="inline">zsh</code></td><td><code class="inline">/bin/zsh</code></td><td>Z Shell — powerful scripting, popular with developers</td></tr>
+            <tr><td><code class="inline">fish</code></td><td><code class="inline">/usr/bin/fish</code></td><td>Friendly Interactive SHell — auto-suggestions, colors</td></tr>
+            <tr><td><code class="inline">sh</code></td><td><code class="inline">/bin/sh</code></td><td>POSIX-compliant shell — portable scripts</td></tr>
+          </tbody>
+        </table>
+        <h3>Basic Terminal Commands</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Clear the screen</span>
+<span class="fn">clear</span>
+
+<span class="cmm"># Command history</span>
+<span class="fn">history</span>              <span class="cmm"># Show command history</span>
+<span class="fn">history</span> | <span class="fn">grep</span> <span class="str">"apt"</span>   <span class="cmm"># Search history</span>
+!<span class="num">42</span>                  <span class="cmm"># Re-run command #42</span>
+
+<span class="cmm"># Tab completion</span>
+<span class="cmm"># Press TAB to auto-complete commands, files, and directories</span>
+<span class="cmm"># Press TAB twice to show all possible completions</span>
+
+<span class="cmm"># Keyboard shortcuts</span>
+<span class="cmm"># Ctrl+C  - Interrupt current process</span>
+<span class="cmm"># Ctrl+D  - Exit shell (EOF)</span>
+<span class="cmm"># Ctrl+L  - Clear screen (same as 'clear')</span>
+<span class="cmm"># Ctrl+A  - Move cursor to beginning of line</span>
+<span class="cmm"># Ctrl+E  - Move cursor to end of line</span>
+<span class="cmm"># Ctrl+U  - Clear from cursor to beginning</span>
+<span class="cmm"># Ctrl+K  - Clear from cursor to end</span>
+<span class="cmm"># Ctrl+R  - Reverse search in history</span>
+<span class="cmm"># Ctrl+Z  - Suspend foreground process</span>
+
+<span class="cmm"># Check your shell</span>
+<span class="fn">echo</span> <span class="var">$SHELL</span>
+<span class="fn">echo</span> <span class="var">$0</span></div>
+        </div>
+        <h3>Getting Help</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Manual pages - the most comprehensive documentation</span>
+<span class="fn">man</span> ls              <span class="cmm"># Manual for 'ls' command</span>
+<span class="fn">man</span> -k <span class="str">"search"</span>   <span class="cmm"># Search man pages by keyword</span>
+<span class="fn">man</span> <span class="num">5</span> passwd      <span class="cmm"># Section 5: file formats</span>
+
+<span class="cmm"># Brief description</span>
+<span class="fn">whatis</span> ls
+<span class="fn">apropos</span> <span class="str">"copy"</span>     <span class="cmm"># Search for commands by description</span>
+
+<span class="cmm"># Built-in help</span>
+<span class="fn">ls</span> --help
+<span class="fn">help</span> <span class="kw">cd</span>           <span class="cmm"># Help for bash built-ins</span>
+
+<span class="cmm"># Info pages (more detailed than man)</span>
+<span class="fn">info</span> coreutils
+<span class="fn">info</span> bash</div>
+        </div>
+      </section>
+
+      <!-- SECTION 4: FILE SYSTEM -->
+      <section class="content-section" id="filesystem">
+        <h2><span class="section-num">4</span> File System Hierarchy</h2>
+        <p class="section-subtitle">Understanding the Linux directory structure</p>
+        <p>Linux follows the <strong>Filesystem Hierarchy Standard (FHS)</strong>, which defines the directory structure and its contents. Understanding this hierarchy is fundamental to navigation and system administration.</p>
+        <table class="data-table">
+          <thead><tr><th>Directory</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">/</code></td><td>Root directory — the top of the filesystem tree</td></tr>
+            <tr><td><code class="inline">/bin</code></td><td>Essential user command binaries (ls, cp, mv)</td></tr>
+            <tr><td><code class="inline">/sbin</code></td><td>System administration binaries (fdisk, mkfs)</td></tr>
+            <tr><td><code class="inline">/etc</code></td><td>System-wide configuration files</td></tr>
+            <tr><td><code class="inline">/home</code></td><td>User home directories</td></tr>
+            <tr><td><code class="inline">/root</code></td><td>Home directory for root user</td></tr>
+            <tr><td><code class="inline">/var</code></td><td>Variable data — logs, caches, spool files</td></tr>
+            <tr><td><code class="inline">/tmp</code></td><td>Temporary files (cleared on reboot)</td></tr>
+            <tr><td><code class="inline">/usr</code></td><td>User programs, libraries, documentation</td></tr>
+            <tr><td><code class="inline">/usr/bin</code></td><td>Non-essential user binaries</td></tr>
+            <tr><td><code class="inline">/usr/local</code></td><td>Locally installed software</td></tr>
+            <tr><td><code class="inline">/opt</code></td><td>Optional application software packages</td></tr>
+            <tr><td><code class="inline">/dev</code></td><td>Device files (disks, terminals, null)</td></tr>
+            <tr><td><code class="inline">/proc</code></td><td>Virtual filesystem for process/kernel info</td></tr>
+            <tr><td><code class="inline">/sys</code></td><td>Virtual filesystem for system/hardware info</td></tr>
+            <tr><td><code class="inline">/mnt</code></td><td>Temporary mount point for filesystems</td></tr>
+            <tr><td><code class="inline">/media</code></td><td>Mount point for removable media (USB, CD)</td></tr>
+            <tr><td><code class="inline">/boot</code></td><td>Boot loader files (kernel, initramfs)</td></tr>
+            <tr><td><code class="inline">/lib</code></td><td>Essential shared libraries</td></tr>
+            <tr><td><code class="inline">/srv</code></td><td>Data for services (web, FTP)</td></tr>
+          </tbody>
+        </table>
+        <div class="explanation">
+          <strong>Key Principle:</strong> Everything in Linux is a file — directories, devices, processes, even network sockets. This unified abstraction is one of Linux's most powerful design decisions.
+        </div>
+      </section>
+
+      <!-- SECTION 5: NAVIGATION -->
+      <section class="content-section" id="navigation">
+        <h2><span class="section-num">5</span> Navigation Commands</h2>
+        <p class="section-subtitle">Moving around the filesystem</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Print Working Directory</span>
+<span class="fn">pwd</span>                  <span class="cmm"># /home/username/projects</span>
+
+<span class="cmm"># Change Directory</span>
+<span class="fn">cd</span> /var/log          <span class="cmm"># Absolute path</span>
+<span class="fn">cd</span> ..                <span class="cmm"># Parent directory</span>
+<span class="fn">cd</span> ~                 <span class="cmm"># Home directory</span>
+<span class="fn">cd</span> -                 <span class="cmm"># Previous directory</span>
+<span class="fn">cd</span> ~/Documents       <span class="cmm"># Relative to home</span>
+
+<span class="cmm"># List Directory Contents</span>
+<span class="fn">ls</span>                   <span class="cmm"># Basic listing</span>
+<span class="fn">ls</span> -l                <span class="cmm"># Long format (permissions, owner, size, date)</span>
+<span class="fn">ls</span> -la               <span class="cmm"># Include hidden files (starting with .)</span>
+<span class="fn">ls</span> -lh               <span class="cmm"># Human-readable sizes (K, M, G)</span>
+<span class="fn">ls</span> -lt               <span class="cmm"># Sort by modification time</span>
+<span class="fn">ls</span> -ltr              <span class="cmm"># Reverse time order (oldest first)</span>
+<span class="fn">ls</span> -R                <span class="cmm"># Recursive listing</span>
+<span class="fn">ls</span> --color=auto      <span class="cmm"># Color-coded output</span>
+
+<span class="cmm"># Tree view (install with: apt install tree)</span>
+<span class="fn">tree</span>                 <span class="cmm"># Directory tree</span>
+<span class="fn">tree</span> -L <span class="num">2</span>          <span class="cmm"># Limit depth to 2 levels</span>
+<span class="fn">tree</span> -d              <span class="cmm"># Directories only</span>
+
+<span class="cmm"># File type identification</span>
+<span class="fn">file</span> /bin/ls         <span class="cmm"># ELF 64-bit LSB executable</span>
+<span class="fn">file</span> /etc/passwd     <span class="cmm"># ASCII text</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 6: FILE OPERATIONS -->
+      <section class="content-section" id="file-ops">
+        <h2><span class="section-num">6</span> File Operations</h2>
+        <p class="section-subtitle">Creating, copying, moving, and deleting files</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Create files</span>
+<span class="fn">touch</span> file.txt       <span class="cmm"># Create empty file or update timestamp</span>
+<span class="fn">touch</span> {a,b,c}.txt   <span class="cmm"># Create multiple files</span>
+<span class="fn">echo</span> <span class="str">"Hello"</span> > file.txt   <span class="cmm"># Create with content (overwrite)</span>
+<span class="fn">echo</span> <span class="str">"World"</span> >> file.txt  <span class="cmm"># Append to file</span>
+
+<span class="cmm"># Copy files and directories</span>
+<span class="fn">cp</span> file.txt backup.txt     <span class="cmm"># Copy file</span>
+<span class="fn">cp</span> -r dir1/ dir2/          <span class="cmm"># Recursive copy (directories)</span>
+<span class="fn">cp</span> -i file.txt dest/       <span class="cmm"># Interactive (prompt before overwrite)</span>
+<span class="fn">cp</span> -v file.txt dest/       <span class="cmm"># Verbose</span>
+<span class="fn">cp</span> -a source/ dest/        <span class="cmm"># Archive mode (preserve permissions, links)</span>
+
+<span class="cmm"># Move and rename</span>
+<span class="fn">mv</span> old.txt new.txt         <span class="cmm"># Rename</span>
+<span class="fn">mv</span> file.txt /tmp/          <span class="cmm"># Move to directory</span>
+<span class="fn">mv</span> -i file.txt dest/       <span class="cmm"># Interactive</span>
+
+<span class="cmm"># Delete files and directories</span>
+<span class="fn">rm</span> file.txt                <span class="cmm"># Remove file</span>
+<span class="fn">rm</span> -i file.txt             <span class="cmm"># Interactive</span>
+<span class="fn">rm</span> -f file.txt             <span class="cmm"># Force (no prompt)</span>
+<span class="fn">rm</span> -r directory/           <span class="cmm"># Remove directory recursively</span>
+<span class="fn">rm</span> -rf directory/          <span class="cmm"># Force recursive (DANGEROUS!)</span>
+
+<span class="cmm"># Create directories</span>
+<span class="fn">mkdir</span> newdir               <span class="cmm"># Create directory</span>
+<span class="fn">mkdir</span> -p path/to/nested    <span class="cmm"># Create nested directories</span>
+
+<span class="cmm"># Remove empty directories</span>
+<span class="fn">rmdir</span> emptydir             <span class="cmm"># Remove empty directory</span>
+<span class="fn">rmdir</span> -p a/b/c             <span class="cmm"># Remove nested empty directories</span>
+
+<span class="cmm"># Create links</span>
+<span class="fn">ln</span> file.txt hardlink       <span class="cmm"># Hard link (same inode)</span>
+<span class="fn">ln</span> -s file.txt symlink     <span class="cmm"># Symbolic link (shortcut)</span>
+<span class="fn">ln</span> -s /var/log/logs logs   <span class="cmm"># Symlink to directory</span></div>
+        </div>
+        <div class="explanation warning">
+          <strong>Warning:</strong> <code class="inline">rm -rf /</code> will recursively delete your entire filesystem. Always double-check your commands, especially when using wildcards with <code class="inline">rm</code>.
+        </div>
+      </section>
+
+      <!-- SECTION 7: PERMISSIONS -->
+      <section class="content-section" id="permissions">
+        <h2><span class="section-num">7</span> File Permissions</h2>
+        <p class="section-subtitle">Understanding and managing access control</p>
+        <p>Linux uses a <strong>permission-based access control</strong> system that determines who can read, write, or execute files and directories. Every file has an owner, a group, and permissions for three categories: owner, group, and others.</p>
+        <h3>Permission Notation</h3>
+        <table class="data-table">
+          <thead><tr><th>Permission</th><th>Numeric</th><th>Symbolic</th><th>Effect on File</th><th>Effect on Directory</th></tr></thead>
+          <tbody>
+            <tr><td>Read</td><td><code class="inline">4</code></td><td><code class="inline">r</code></td><td>View contents</td><td>List files</td></tr>
+            <tr><td>Write</td><td><code class="inline">2</code></td><td><code class="inline">w</code></td><td>Modify contents</td><td>Create/delete files</td></tr>
+            <tr><td>Execute</td><td><code class="inline">1</code></td><td><code class="inline">x</code></td><td>Run as program</td><td>Enter directory</td></tr>
+          </tbody>
+        </table>
+        <h3>chmod - Change Permissions</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Numeric mode (owner, group, others)</span>
+<span class="fn">chmod</span> <span class="num">755</span> script.sh    <span class="cmm"># rwxr-xr-x</span>
+<span class="fn">chmod</span> <span class="num">644</span> file.txt      <span class="cmm"># rw-r--r--</span>
+<span class="fn">chmod</span> <span class="num">700</span> private.key   <span class="cmm"># rwx------ (only owner)</span>
+<span class="fn">chmod</span> <span class="num">777</span> shared/       <span class="cmm"># rwxrwxrwx (everyone)</span>
+
+<span class="cmm"># Symbolic mode</span>
+<span class="fn">chmod</span> u+x script.sh      <span class="cmm"># Add execute for owner</span>
+<span class="fn">chmod</span> go-w file.txt      <span class="cmm"># Remove write for group and others</span>
+<span class="fn">chmod</span> a=r file.txt       <span class="cmm"># Set read-only for all</span>
+<span class="fn">chmod</span> u=rwx,g=rx,o= file  <span class="cmm"># Set specific permissions</span>
+
+<span class="cmm"># Recursive</span>
+<span class="fn">chmod</span> -R <span class="num">755</span> directory/  <span class="cmm"># Apply to all files and subdirectories</span>
+
+<span class="cmm"># Special permissions</span>
+<span class="fn">chmod</span> <span class="num">4755</span> program      <span class="cmm"># SUID - run as file owner</span>
+<span class="fn">chmod</span> <span class="num">2755</span> directory    <span class="cmm"># SGID - new files inherit group</span>
+<span class="fn">chmod</span> <span class="num">1755</span> /tmp         <span class="cmm"># Sticky bit - only owner can delete</span></div>
+        </div>
+        <h3>Default Permissions with umask</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Check current umask</span>
+<span class="fn">umask</span>                  <span class="cmm"># 0022 (typical default)</span>
+
+<span class="cmm"># Calculate default permissions:</span>
+<span class="cmm"># Files:   666 - umask = 644 (rw-r--r--)</span>
+<span class="cmm"># Directories: 777 - umask = 755 (rwxr-xr-x)</span>
+
+<span class="cmm"># Set umask (restrictive)</span>
+<span class="fn">umask</span> <span class="num">027</span>             <span class="cmm"># Files: 640, Directories: 750</span>
+
+<span class="cmm"># Make umask persistent</span>
+<span class="fn">echo</span> <span class="str">"umask 027"</span> >> ~/.bashrc</div>
+        </div>
+      </section>
+
+      <!-- SECTION 8: OWNERSHIP -->
+      <section class="content-section" id="ownership">
+        <h2><span class="section-num">8</span> Ownership &amp; ACL</h2>
+        <p class="section-subtitle">Managing who owns what, beyond basic permissions</p>
+        <p>Every file and directory in Linux belongs to a <strong>user owner</strong> and a <strong>group owner</strong>. Standard permission bits (owner/group/others) are often not granular enough — <strong>Access Control Lists (ACLs)</strong> extend this model to allow permissions for specific additional users or groups.</p>
+        <h3>Changing Ownership</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Change owner</span>
+<span class="fn">chown</span> alice file.txt         <span class="cmm"># Set user owner</span>
+<span class="fn">chown</span> alice:staff file.txt   <span class="cmm"># Set user and group</span>
+<span class="fn">chown</span> :staff file.txt        <span class="cmm"># Set group only</span>
+<span class="fn">chown</span> -R alice:staff dir/    <span class="cmm"># Recursive</span>
+
+<span class="cmm"># Change group only</span>
+<span class="fn">chgrp</span> developers file.txt
+
+<span class="cmm"># Reference another file's ownership</span>
+<span class="fn">chown</span> --reference=ref.txt file.txt</div>
+        </div>
+        <h3>Access Control Lists (ACL)</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># View ACLs</span>
+<span class="fn">getfacl</span> file.txt
+
+<span class="cmm"># Grant a specific user read/write access</span>
+<span class="fn">setfacl</span> -m u:bob:rw file.txt
+
+<span class="cmm"># Grant a group execute access</span>
+<span class="fn">setfacl</span> -m g:interns:rx script.sh
+
+<span class="cmm"># Set default ACL for a directory (inherited by new files)</span>
+<span class="fn">setfacl</span> -d -m u:bob:rwx project/
+
+<span class="cmm"># Remove a specific entry</span>
+<span class="fn">setfacl</span> -x u:bob file.txt
+
+<span class="cmm"># Remove all ACL entries</span>
+<span class="fn">setfacl</span> -b file.txt</div>
+        </div>
+        <div class="explanation info">
+          <strong>Note:</strong> When a file has extra ACL entries, <code class="inline">ls -l</code> shows a <code class="inline">+</code> after the permission string, e.g. <code class="inline">-rw-rw-r--+</code>.
+        </div>
+      </section>
+
+      <!-- SECTION 9: ARCHIVING -->
+      <section class="content-section" id="archiving">
+        <h2><span class="section-num">9</span> Archiving &amp; Compression</h2>
+        <p class="section-subtitle">Bundling and shrinking files for storage or transfer</p>
+        <p>Linux separates <strong>archiving</strong> (combining multiple files into one) from <strong>compression</strong> (reducing size). The <code class="inline">tar</code> utility handles archiving and can pipe through a compressor in the same command.</p>
+        <h3>tar - Tape Archive</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Create archive</span>
+<span class="fn">tar</span> -cvf archive.tar dir/       <span class="cmm"># c=create v=verbose f=file</span>
+<span class="fn">tar</span> -czvf archive.tar.gz dir/    <span class="cmm"># gzip compression</span>
+<span class="fn">tar</span> -cjvf archive.tar.bz2 dir/   <span class="cmm"># bzip2 (better ratio, slower)</span>
+<span class="fn">tar</span> -cJvf archive.tar.xz dir/    <span class="cmm"># xz (best ratio, slowest)</span>
+
+<span class="cmm"># Extract archive</span>
+<span class="fn">tar</span> -xvf archive.tar
+<span class="fn">tar</span> -xzvf archive.tar.gz
+<span class="fn">tar</span> -xvf archive.tar -C /target/dir/   <span class="cmm"># extract to specific dir</span>
+
+<span class="cmm"># List contents without extracting</span>
+<span class="fn">tar</span> -tvf archive.tar
+
+<span class="cmm"># Extract a single file</span>
+<span class="fn">tar</span> -xvf archive.tar path/to/file.txt</div>
+        </div>
+        <h3>Compression Utilities</h3>
+        <table class="data-table">
+          <thead><tr><th>Tool</th><th>Extension</th><th>Command</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr><td>gzip</td><td><code class="inline">.gz</code></td><td><code class="inline">gzip file / gunzip file.gz</code></td><td>Fast, moderate ratio</td></tr>
+            <tr><td>bzip2</td><td><code class="inline">.bz2</code></td><td><code class="inline">bzip2 file / bunzip2 file.bz2</code></td><td>Slower, better ratio</td></tr>
+            <tr><td>xz</td><td><code class="inline">.xz</code></td><td><code class="inline">xz file / unxz file.xz</code></td><td>Best ratio, CPU intensive</td></tr>
+            <tr><td>zip</td><td><code class="inline">.zip</code></td><td><code class="inline">zip -r out.zip dir/ / unzip out.zip</code></td><td>Cross-platform friendly</td></tr>
+        </tbody>
+        </table>
+        <div class="tip-box">
+          <strong>Tip:</strong> Use <code class="inline">tar -czvf backup-$(date +%F).tar.gz /data</code> in a cron job for simple dated backups.
+        </div>
+      </section>
+
+      <!-- SECTION 10: GREP -->
+      <section class="content-section" id="grep">
+        <h2><span class="section-num">10</span> grep &amp; Regular Expressions</h2>
+        <p class="section-subtitle">Searching text with pattern matching</p>
+        <p><code class="inline">grep</code> (Global Regular Expression Print) searches text for lines matching a pattern. Combined with regular expressions, it becomes one of the most powerful tools in the Linux toolbox.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Basic search</span>
+<span class="fn">grep</span> <span class="str">"error"</span> logfile.txt
+
+<span class="cmm"># Case-insensitive</span>
+<span class="fn">grep</span> -i <span class="str">"error"</span> logfile.txt
+
+<span class="cmm"># Recursive search in directory</span>
+<span class="fn">grep</span> -r <span class="str">"TODO"</span> ./src
+
+<span class="cmm"># Show line numbers</span>
+<span class="fn">grep</span> -n <span class="str">"error"</span> logfile.txt
+
+<span class="cmm"># Invert match (lines NOT containing pattern)</span>
+<span class="fn">grep</span> -v <span class="str">"debug"</span> logfile.txt
+
+<span class="cmm"># Count matches</span>
+<span class="fn">grep</span> -c <span class="str">"error"</span> logfile.txt
+
+<span class="cmm"># Show only the matched text</span>
+<span class="fn">grep</span> -o <span class="str">"[0-9]\+"</span> file.txt
+
+<span class="cmm"># Whole word match</span>
+<span class="fn">grep</span> -w <span class="str">"cat"</span> file.txt
+
+<span class="cmm"># Extended regex (ERE) - avoids escaping +, ?, |, ()</span>
+<span class="fn">grep</span> -E <span class="str">"error|warning|fatal"</span> logfile.txt
+
+<span class="cmm"># Context lines</span>
+<span class="fn">grep</span> -A <span class="num">3</span> <span class="str">"Exception"</span> log.txt   <span class="cmm"># 3 lines After</span>
+<span class="fn">grep</span> -B <span class="num">3</span> <span class="str">"Exception"</span> log.txt   <span class="cmm"># 3 lines Before</span>
+<span class="fn">grep</span> -C <span class="num">3</span> <span class="str">"Exception"</span> log.txt   <span class="cmm"># 3 lines Context (both)</span></div>
+        </div>
+        <h3>Regular Expression Basics</h3>
+        <table class="data-table">
+          <thead><tr><th>Pattern</th><th>Meaning</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">.</code></td><td>Any single character</td><td><code class="inline">c.t</code> → cat, cut, c9t</td></tr>
+            <tr><td><code class="inline">*</code></td><td>Zero or more of previous</td><td><code class="inline">ab*c</code> → ac, abc, abbc</td></tr>
+            <tr><td><code class="inline">^</code></td><td>Start of line</td><td><code class="inline">^Error</code></td></tr>
+            <tr><td><code class="inline">$</code></td><td>End of line</td><td><code class="inline">done$</code></td></tr>
+            <tr><td><code class="inline">[abc]</code></td><td>Character class</td><td><code class="inline">[aeiou]</code></td></tr>
+            <tr><td><code class="inline">[^abc]</code></td><td>Negated class</td><td><code class="inline">[^0-9]</code></td></tr>
+            <tr><td><code class="inline">\d</code> / <code class="inline">[0-9]</code></td><td>Digit</td><td><code class="inline">[0-9]\+</code></td></tr>
+            <tr><td><code class="inline">+</code> (ERE)</td><td>One or more</td><td><code class="inline">a+</code></td></tr>
+            <tr><td><code class="inline">?</code> (ERE)</td><td>Zero or one</td><td><code class="inline">colou?r</code></td></tr>
+            <tr><td><code class="inline">|</code> (ERE)</td><td>Alternation (OR)</td><td><code class="inline">cat|dog</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 11: SED -->
+      <section class="content-section" id="sed">
+        <h2><span class="section-num">11</span> sed Stream Editor</h2>
+        <p class="section-subtitle">Non-interactive text transformation</p>
+        <p><code class="inline">sed</code> (Stream EDitor) processes text line by line, applying commands like substitution, deletion, or insertion — ideal for scripted, repeatable edits across files.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Substitute first match per line</span>
+<span class="fn">sed</span> <span class="str">'s/foo/bar/'</span> file.txt
+
+<span class="cmm"># Substitute ALL matches per line (global)</span>
+<span class="fn">sed</span> <span class="str">'s/foo/bar/g'</span> file.txt
+
+<span class="cmm"># Case-insensitive substitution</span>
+<span class="fn">sed</span> <span class="str">'s/foo/bar/gi'</span> file.txt
+
+<span class="cmm"># Edit file in place (with backup)</span>
+<span class="fn">sed</span> -i.bak <span class="str">'s/foo/bar/g'</span> file.txt
+
+<span class="cmm"># Edit in place (no backup)</span>
+<span class="fn">sed</span> -i <span class="str">'s/foo/bar/g'</span> file.txt
+
+<span class="cmm"># Delete lines matching a pattern</span>
+<span class="fn">sed</span> <span class="str">'/^#/d'</span> config.txt      <span class="cmm"># Delete comment lines</span>
+
+<span class="cmm"># Print specific line range</span>
+<span class="fn">sed</span> -n <span class="str">'5,10p'</span> file.txt
+
+<span class="cmm"># Delete a specific line number</span>
+<span class="fn">sed</span> <span class="str">'3d'</span> file.txt
+
+<span class="cmm"># Insert a line before/after a match</span>
+<span class="fn">sed</span> <span class="str">'/pattern/i\</span>New line before<span class="str">'</span> file.txt
+<span class="fn">sed</span> <span class="str">'/pattern/a\</span>New line after<span class="str">'</span> file.txt
+
+<span class="cmm"># Multiple commands</span>
+<span class="fn">sed</span> -e <span class="str">'s/foo/bar/'</span> -e <span class="str">'s/baz/qux/'</span> file.txt</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Use a different delimiter when your pattern contains slashes: <code class="inline">sed 's#/usr/local#/opt#g'</code>.
+        </div>
+      </section>
+
+      <!-- SECTION 12: AWK -->
+      <section class="content-section" id="awk">
+        <h2><span class="section-num">12</span> awk Programming</h2>
+        <p class="section-subtitle">Pattern scanning and column-based text processing</p>
+        <p><code class="inline">awk</code> is a full text-processing language built around the idea of splitting each input line into fields. It excels at reports, column extraction, and quick data summaries.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Print specific columns ($1 = first field, $NF = last field)</span>
+<span class="fn">awk</span> <span class="str">'{print $1, $3}'</span> data.txt
+
+<span class="cmm"># Custom field separator (e.g. CSV)</span>
+<span class="fn">awk</span> -F<span class="str">','</span> <span class="str">'{print $2}'</span> data.csv
+
+<span class="cmm"># Filter rows matching a condition</span>
+<span class="fn">awk</span> <span class="str">'$3 > 100 {print $1}'</span> data.txt
+
+<span class="cmm"># Sum a column</span>
+<span class="fn">awk</span> <span class="str">'{sum += $2} END {print sum}'</span> data.txt
+
+<span class="cmm"># Print line count (like wc -l)</span>
+<span class="fn">awk</span> <span class="str">'END {print NR}'</span> file.txt
+
+<span class="cmm"># Combine pattern + action</span>
+<span class="fn">awk</span> <span class="str">'/error/ {count++} END {print count " errors"}'</span> log.txt
+
+<span class="cmm"># Print disk usage per user process (ps + awk)</span>
+<span class="fn">ps</span> aux | <span class="fn">awk</span> <span class="str">'{print $1, $4}'</span> | <span class="fn">sort</span> -k2 -nr | <span class="fn">head</span></div>
+        </div>
+        <div class="explanation">
+          <strong>Built-in variables:</strong> <code class="inline">NR</code> (current record/line number), <code class="inline">NF</code> (number of fields on current line), <code class="inline">FS</code> (field separator), <code class="inline">OFS</code> (output field separator).
+        </div>
+      </section>
+
+      <!-- SECTION 13: PIPES -->
+      <section class="content-section" id="pipes">
+        <h2><span class="section-num">13</span> Pipes &amp; Redirection</h2>
+        <p class="section-subtitle">Chaining commands and controlling input/output streams</p>
+        <p>Linux gives every process three standard streams: <strong>stdin</strong> (0), <strong>stdout</strong> (1), and <strong>stderr</strong> (2). Redirection and pipes let you rewire these streams to build powerful command chains.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Pipe: send stdout of one command to stdin of next</span>
+<span class="fn">ls</span> -l | <span class="fn">grep</span> <span class="str">".txt"</span> | <span class="fn">wc</span> -l
+
+<span class="cmm"># Redirect stdout to a file (overwrite)</span>
+<span class="fn">echo</span> <span class="str">"hello"</span> > out.txt
+
+<span class="cmm"># Redirect stdout to a file (append)</span>
+<span class="fn">echo</span> <span class="str">"world"</span> >> out.txt
+
+<span class="cmm"># Redirect stderr only</span>
+<span class="fn">command</span> 2> errors.log
+
+<span class="cmm"># Redirect both stdout and stderr</span>
+<span class="fn">command</span> > all.log 2>&1
+<span class="fn">command</span> &> all.log         <span class="cmm"># shorthand</span>
+
+<span class="cmm"># Discard output</span>
+<span class="fn">command</span> > /dev/null 2>&1
+
+<span class="cmm"># Redirect stdin from a file</span>
+<span class="fn">wc</span> -l < file.txt
+
+<span class="cmm"># Here-document (multi-line stdin)</span>
+<span class="fn">cat</span> << EOF > file.txt
+line one
+line two
+EOF
+
+<span class="cmm"># tee: write to file AND stdout simultaneously</span>
+<span class="fn">ls</span> -l | <span class="fn">tee</span> listing.txt
+
+<span class="cmm"># Command substitution</span>
+files=<span class="var">$(</span><span class="fn">ls</span> *.txt<span class="var">)</span>
+echo <span class="str">"Found: $files"</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 14: USERS -->
+      <section class="content-section" id="users">
+        <h2><span class="section-num">14</span> Users &amp; Groups</h2>
+        <p class="section-subtitle">Multi-user account management</p>
+        <p>Linux is a multi-user system by design. Every process runs as a specific user, and access to files is governed by that user's identity and group memberships, stored in <code class="inline">/etc/passwd</code>, <code class="inline">/etc/shadow</code>, and <code class="inline">/etc/group</code>.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Create a user</span>
+<span class="fn">useradd</span> -m -s /bin/bash alice   <span class="cmm"># -m creates home dir, -s sets shell</span>
+<span class="fn">adduser</span> alice                  <span class="cmm"># Interactive, friendlier (Debian/Ubuntu)</span>
+
+<span class="cmm"># Set / change password</span>
+<span class="fn">passwd</span> alice
+
+<span class="cmm"># Modify a user</span>
+<span class="fn">usermod</span> -aG sudo alice        <span class="cmm"># Add to sudo group (-a = append, don't overwrite)</span>
+<span class="fn">usermod</span> -s /bin/zsh alice     <span class="cmm"># Change shell</span>
+<span class="fn">usermod</span> -L alice              <span class="cmm"># Lock account</span>
+
+<span class="cmm"># Delete a user</span>
+<span class="fn">userdel</span> alice                 <span class="cmm"># Keep home directory</span>
+<span class="fn">userdel</span> -r alice              <span class="cmm"># Remove home directory too</span>
+
+<span class="cmm"># Group management</span>
+<span class="fn">groupadd</span> developers
+<span class="fn">groupdel</span> developers
+<span class="fn">gpasswd</span> -a alice developers   <span class="cmm"># Add user to group</span>
+<span class="fn">gpasswd</span> -d alice developers   <span class="cmm"># Remove user from group</span>
+
+<span class="cmm"># View identity and group info</span>
+<span class="fn">id</span> alice
+<span class="fn">groups</span> alice
+<span class="fn">whoami</span>
+<span class="fn">who</span>                           <span class="cmm"># Who is logged in</span>
+<span class="fn">w</span>                            <span class="cmm"># Who + what they're doing</span></div>
+        </div>
+        <h3>Key Files</h3>
+        <table class="data-table">
+          <thead><tr><th>File</th><th>Contents</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">/etc/passwd</code></td><td>Username, UID, GID, home dir, shell (no passwords)</td></tr>
+            <tr><td><code class="inline">/etc/shadow</code></td><td>Encrypted passwords, expiration policy (root-only readable)</td></tr>
+            <tr><td><code class="inline">/etc/group</code></td><td>Group names, GIDs, and member lists</td></tr>
+            <tr><td><code class="inline">/etc/sudoers</code></td><td>Rules for who can use <code class="inline">sudo</code> and how</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 15: SUDO -->
+      <section class="content-section" id="sudo">
+        <h2><span class="section-num">15</span> sudo &amp; Privileges</h2>
+        <p class="section-subtitle">Controlled privilege escalation</p>
+        <p><code class="inline">sudo</code> ("superuser do") lets authorized users run commands as another user — typically root — without sharing the root password, while logging every invocation for accountability.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Run a single command as root</span>
+<span class="fn">sudo</span> apt update
+
+<span class="cmm"># Run as a specific user</span>
+<span class="fn">sudo</span> -u www-data whoami
+
+<span class="cmm"># Open a root shell</span>
+<span class="fn">sudo</span> -i
+<span class="fn">sudo</span> -s
+
+<span class="cmm"># Edit sudoers safely (validates syntax before saving)</span>
+<span class="fn">visudo</span>
+
+<span class="cmm"># Check what you're allowed to run</span>
+<span class="fn">sudo</span> -l
+
+<span class="cmm"># Re-run the previous command with sudo</span>
+<span class="fn">sudo</span> !!</div>
+        </div>
+        <h3>sudoers Syntax</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># /etc/sudoers - format: user  host=(runas) commands</span>
+alice   ALL=(ALL:ALL) ALL             <span class="cmm"># Full sudo access</span>
+bob     ALL=(ALL) NOPASSWD: ALL       <span class="cmm"># No password prompt</span>
+%developers ALL=(ALL) /usr/bin/systemctl restart nginx   <span class="cmm"># Group, one command only</span></div>
+        </div>
+        <div class="explanation warning">
+          <strong>Warning:</strong> Always edit <code class="inline">/etc/sudoers</code> with <code class="inline">visudo</code>, never directly — a syntax error can lock you out of privilege escalation entirely.
+        </div>
+      </section>
+
+      <!-- SECTION 16: SSH -->
+      <section class="content-section" id="ssh">
+        <h2><span class="section-num">16</span> SSH &amp; Remote Access</h2>
+        <p class="section-subtitle">Secure remote administration</p>
+        <p><strong>SSH (Secure Shell)</strong> provides encrypted remote login and file transfer, replacing insecure protocols like telnet and rsh. It underpins virtually all remote Linux server administration.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Connect to a remote host</span>
+<span class="fn">ssh</span> user@192.168.1.10
+<span class="fn">ssh</span> -p 2222 user@host        <span class="cmm"># Custom port</span>
+<span class="fn">ssh</span> -i ~/.ssh/id_ed25519 user@host   <span class="cmm"># Specific key</span>
+
+<span class="cmm"># Generate a key pair</span>
+<span class="fn">ssh-keygen</span> -t ed25519 -C <span class="str">"me@example.com"</span>
+
+<span class="cmm"># Copy public key to server for passwordless login</span>
+<span class="fn">ssh-copy-id</span> user@host
+
+<span class="cmm"># Copy files over SSH</span>
+<span class="fn">scp</span> file.txt user@host:/remote/path/
+<span class="fn">scp</span> -r localdir/ user@host:/remote/path/
+<span class="fn">rsync</span> -avz localdir/ user@host:/remote/path/   <span class="cmm"># Faster, incremental</span>
+
+<span class="cmm"># Run a remote command without an interactive shell</span>
+<span class="fn">ssh</span> user@host <span class="str">"df -h"</span>
+
+<span class="cmm"># Port forwarding (tunnel local port to remote service)</span>
+<span class="fn">ssh</span> -L 8080:localhost:80 user@host</div>
+        </div>
+        <h3>SSH Config File</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># ~/.ssh/config</span>
+Host myserver
+    HostName 192.168.1.10
+    User alice
+    Port 2222
+    IdentityFile ~/.ssh/id_ed25519
+
+<span class="cmm"># Now simply run:</span>
+<span class="fn">ssh</span> myserver</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Disable password authentication in <code class="inline">/etc/ssh/sshd_config</code> (<code class="inline">PasswordAuthentication no</code>) once key-based login works, to shut down brute-force attempts entirely.
+        </div>
+      </section>
+
+      <!-- SECTION 17: PROCESSES -->
+      <section class="content-section" id="processes">
+        <h2><span class="section-num">17</span> Processes &amp; Jobs</h2>
+        <p class="section-subtitle">Monitoring and controlling running programs</p>
+        <p>Every running program is a <strong>process</strong> with a unique Process ID (PID). Linux provides rich tooling to inspect, prioritize, and manage processes, plus job control for foreground/background execution within a shell session.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># View running processes</span>
+<span class="fn">ps</span> aux                  <span class="cmm"># All processes, all users</span>
+<span class="fn">ps</span> -ef                  <span class="cmm"># Full-format listing</span>
+<span class="fn">ps</span> aux | <span class="fn">grep</span> nginx    <span class="cmm"># Find a specific process</span>
+
+<span class="cmm"># Interactive real-time monitor</span>
+<span class="fn">top</span>
+<span class="fn">htop</span>                   <span class="cmm"># Nicer UI (install separately)</span>
+
+<span class="cmm"># Process tree</span>
+<span class="fn">pstree</span>
+
+<span class="cmm"># Job control</span>
+<span class="fn">command</span> &               <span class="cmm"># Run in background</span>
+<span class="fn">jobs</span>                   <span class="cmm"># List background jobs</span>
+<span class="fn">fg</span> %1                  <span class="cmm"># Bring job 1 to foreground</span>
+<span class="fn">bg</span> %1                  <span class="cmm"># Resume job 1 in background</span>
+Ctrl+Z                     <span class="cmm"># Suspend current foreground job</span>
+
+<span class="cmm"># Keep a process running after logout</span>
+<span class="fn">nohup</span> long-task.sh &
+<span class="fn">disown</span>
+
+<span class="cmm"># Change process priority (nice value: -20 highest, 19 lowest)</span>
+<span class="fn">nice</span> -n 10 long-task.sh
+<span class="fn">renice</span> 5 -p 1234</div>
+        </div>
+      </section>
+
+      <!-- SECTION 18: SIGNALS -->
+      <section class="content-section" id="signals">
+        <h2><span class="section-num">18</span> Signals &amp; Kill</h2>
+        <p class="section-subtitle">Communicating with and terminating processes</p>
+        <p><strong>Signals</strong> are the kernel's way of notifying a process of an event — from a graceful termination request to an immediate, unstoppable kill.</p>
+        <table class="data-table">
+          <thead><tr><th>Signal</th><th>Number</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><code class="inline">SIGHUP</code></td><td>1</td><td>Hangup — often used to reload config</td></tr>
+            <tr><td><code class="inline">SIGINT</code></td><td>2</td><td>Interrupt (Ctrl+C)</td></tr>
+            <tr><td><code class="inline">SIGKILL</code></td><td>9</td><td>Force kill — cannot be caught or ignored</td></tr>
+            <tr><td><code class="inline">SIGTERM</code></td><td>15</td><td>Graceful termination request (default)</td></tr>
+            <tr><td><code class="inline">SIGSTOP</code></td><td>19</td><td>Pause process — cannot be caught</td></tr>
+            <tr><td><code class="inline">SIGCONT</code></td><td>18</td><td>Resume a stopped process</td></tr>
+          </tbody>
+        </table>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Send SIGTERM (graceful) by PID</span>
+<span class="fn">kill</span> 1234
+
+<span class="cmm"># Force kill</span>
+<span class="fn">kill</span> -9 1234
+<span class="fn">kill</span> -SIGKILL 1234
+
+<span class="cmm"># Kill by process name</span>
+<span class="fn">pkill</span> firefox
+<span class="fn">killall</span> nginx
+
+<span class="cmm"># Send signal to all jobs in current shell</span>
+<span class="fn">kill</span> 0
+
+<span class="cmm"># List available signals</span>
+<span class="fn">kill</span> -l</div>
+        </div>
+        <div class="explanation warning">
+          <strong>Warning:</strong> Prefer <code class="inline">SIGTERM</code> (default) over <code class="inline">SIGKILL</code> whenever possible — it gives the process a chance to close files and clean up. Reserve <code class="inline">-9</code> for unresponsive processes.
+        </div>
+      </section>
+
+      <!-- SECTION 19: CRON -->
+      <section class="content-section" id="cron">
+        <h2><span class="section-num">19</span> Cron &amp; Scheduling</h2>
+        <p class="section-subtitle">Automating recurring tasks</p>
+        <p><code class="inline">cron</code> is a time-based job scheduler that runs commands automatically at specified intervals, defined per-user in a <strong>crontab</strong> file.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Edit your crontab</span>
+<span class="fn">crontab</span> -e
+
+<span class="cmm"># List your crontab</span>
+<span class="fn">crontab</span> -l
+
+<span class="cmm"># Remove your crontab</span>
+<span class="fn">crontab</span> -r
+
+<span class="cmm"># Format: minute hour day month weekday command</span>
+<span class="num">0</span> <span class="num">3</span> * * *  /usr/local/bin/backup.sh        <span class="cmm"># Daily at 3:00 AM</span>
+*/<span class="num">15</span> * * * * /usr/local/bin/healthcheck.sh <span class="cmm"># Every 15 minutes</span>
+<span class="num">0</span> <span class="num">0</span> * * <span class="num">0</span>  /usr/local/bin/weekly.sh         <span class="cmm"># Every Sunday at midnight</span>
+<span class="num">30</span> <span class="num">9</span> <span class="num">1</span> * *  /usr/local/bin/report.sh         <span class="cmm"># 1st of every month, 9:30 AM</span></div>
+        </div>
+        <h3>systemd Timers (Modern Alternative)</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># /etc/systemd/system/backup.timer</span>
+[Unit]
+Description=Run backup daily
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target
+
+<span class="cmm"># Enable it</span>
+<span class="fn">systemctl</span> enable --now backup.timer
+<span class="fn">systemctl</span> list-timers</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> systemd timers log to <code class="inline">journalctl</code> automatically and support dependency ordering — worth adopting for anything beyond simple schedules.
+        </div>
+      </section>
+
+      <!-- SECTION 20: NETWORK COMMANDS -->
+      <section class="content-section" id="net-commands">
+        <h2><span class="section-num">20</span> Network Commands</h2>
+        <p class="section-subtitle">Diagnosing and configuring connectivity</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Interface configuration (modern)</span>
+<span class="fn">ip</span> a                    <span class="cmm"># Show all addresses</span>
+<span class="fn">ip</span> link show            <span class="cmm"># Show interfaces</span>
+<span class="fn">ip</span> route                <span class="cmm"># Show routing table</span>
+<span class="fn">ip</span> addr add 192.168.1.5/24 dev eth0
+
+<span class="cmm"># Connectivity testing</span>
+<span class="fn">ping</span> -c 4 google.com     <span class="cmm"># 4 packets</span>
+<span class="fn">traceroute</span> google.com   <span class="cmm"># Path to destination</span>
+<span class="fn">mtr</span> google.com           <span class="cmm"># Continuous traceroute + ping</span>
+
+<span class="cmm"># Open connections and listening ports</span>
+<span class="fn">ss</span> -tulpn                <span class="cmm"># Modern replacement for netstat</span>
+<span class="fn">netstat</span> -tulpn
+
+<span class="cmm"># Download files</span>
+<span class="fn">curl</span> -O https://example.com/file.tar.gz
+<span class="fn">wget</span> https://example.com/file.tar.gz
+
+<span class="cmm"># Test an HTTP endpoint</span>
+<span class="fn">curl</span> -I https://example.com     <span class="cmm"># Headers only</span>
+<span class="fn">curl</span> -v https://example.com     <span class="cmm"># Verbose (show handshake)</span>
+
+<span class="cmm"># Show/renew DHCP lease</span>
+<span class="fn">dhclient</span> -r eth0
+<span class="fn">dhclient</span> eth0</div>
+        </div>
+      </section>
+
+      <!-- SECTION 21: FIREWALL -->
+      <section class="content-section" id="firewall">
+        <h2><span class="section-num">21</span> Firewall &amp; iptables</h2>
+        <p class="section-subtitle">Filtering network traffic</p>
+        <p>Linux firewalling is built on the kernel's <strong>netfilter</strong> framework. <code class="inline">iptables</code> is the classic low-level tool; <code class="inline">ufw</code> and <code class="inline">firewalld</code> are friendlier front-ends built on top of it (or nftables).</p>
+        <h3>ufw (Uncomplicated Firewall — Debian/Ubuntu)</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="fn">ufw</span> enable
+<span class="fn">ufw</span> status verbose
+<span class="fn">ufw</span> allow 22/tcp           <span class="cmm"># Allow SSH</span>
+<span class="fn">ufw</span> allow from 192.168.1.0/24
+<span class="fn">ufw</span> deny 23
+<span class="fn">ufw</span> delete allow 22/tcp</div>
+        </div>
+        <h3>firewalld (RHEL/Fedora)</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="fn">firewall-cmd</span> --state
+<span class="fn">firewall-cmd</span> --zone=public --add-service=http --permanent
+<span class="fn">firewall-cmd</span> --zone=public --add-port=8080/tcp --permanent
+<span class="fn">firewall-cmd</span> --reload
+<span class="fn">firewall-cmd</span> --list-all</div>
+        </div>
+        <h3>iptables (Low-Level)</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># List current rules</span>
+<span class="fn">iptables</span> -L -n -v
+
+<span class="cmm"># Allow incoming SSH</span>
+<span class="fn">iptables</span> -A INPUT -p tcp --dport 22 -j ACCEPT
+
+<span class="cmm"># Drop all other incoming traffic</span>
+<span class="fn">iptables</span> -A INPUT -j DROP
+
+<span class="cmm"># Save rules (Debian/Ubuntu, via iptables-persistent)</span>
+<span class="fn">iptables-save</span> > /etc/iptables/rules.v4</div>
+        </div>
+        <div class="explanation warning">
+          <strong>Warning:</strong> Always allow SSH before enabling a deny-all policy on a remote server — locking yourself out often requires physical/console access to fix.
+        </div>
+      </section>
+
+      <!-- SECTION 22: DNS -->
+      <section class="content-section" id="dns">
+        <h2><span class="section-num">22</span> DNS &amp; Hostname</h2>
+        <p class="section-subtitle">Name resolution and host identity</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Query DNS records</span>
+<span class="fn">dig</span> example.com
+<span class="fn">dig</span> example.com MX          <span class="cmm"># Mail records</span>
+<span class="fn">dig</span> +short example.com      <span class="cmm"># Just the IP</span>
+<span class="fn">nslookup</span> example.com
+
+<span class="cmm"># Reverse lookup</span>
+<span class="fn">dig</span> -x 8.8.8.8
+
+<span class="cmm"># Hostname management</span>
+<span class="fn">hostname</span>                   <span class="cmm"># Show current hostname</span>
+<span class="fn">hostnamectl</span> set-hostname web01
+<span class="fn">hostnamectl</span> status
+
+<span class="cmm"># Local name resolution (checked before DNS)</span>
+<span class="fn">cat</span> /etc/hosts
+<span class="cmm"># 127.0.0.1   localhost</span>
+<span class="cmm"># 192.168.1.5 web01.local web01</span>
+
+<span class="cmm"># DNS resolver configuration</span>
+<span class="fn">cat</span> /etc/resolv.conf</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Resolution order is controlled by <code class="inline">/etc/nsswitch.conf</code> — the <code class="inline">hosts:</code> line typically reads <code class="inline">files dns</code>, meaning <code class="inline">/etc/hosts</code> is checked first.
+        </div>
+      </section>
+
+      <!-- SECTION 23: APT -->
+      <section class="content-section" id="apt">
+        <h2><span class="section-num">23</span> APT (Debian/Ubuntu)</h2>
+        <p class="section-subtitle">Package management on Debian-based distributions</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Update package index</span>
+<span class="fn">apt</span> update
+
+<span class="cmm"># Upgrade installed packages</span>
+<span class="fn">apt</span> upgrade
+<span class="fn">apt</span> full-upgrade         <span class="cmm"># Also handles dependency changes/removals</span>
+
+<span class="cmm"># Install / remove packages</span>
+<span class="fn">apt</span> install nginx
+<span class="fn">apt</span> remove nginx          <span class="cmm"># Keep config files</span>
+<span class="fn">apt</span> purge nginx           <span class="cmm"># Remove config files too</span>
+<span class="fn">apt</span> autoremove            <span class="cmm"># Remove unused dependencies</span>
+
+<span class="cmm"># Search and info</span>
+<span class="fn">apt</span> search nginx
+<span class="fn">apt</span> show nginx
+<span class="fn">dpkg</span> -l | <span class="fn">grep</span> nginx      <span class="cmm"># List installed packages</span>
+<span class="fn">dpkg</span> -L nginx              <span class="cmm"># List files owned by package</span>
+
+<span class="cmm"># Install a local .deb file</span>
+<span class="fn">dpkg</span> -i package.deb
+<span class="fn">apt</span> install -f            <span class="cmm"># Fix missing dependencies afterward</span>
+
+<span class="cmm"># Hold a package at its current version</span>
+<span class="fn">apt-mark</span> hold nginx</div>
+        </div>
+      </section>
+
+      <!-- SECTION 24: DNF -->
+      <section class="content-section" id="dnf">
+        <h2><span class="section-num">24</span> DNF/YUM (RHEL/Fedora)</h2>
+        <p class="section-subtitle">Package management on Red Hat-based distributions</p>
+        <p><code class="inline">dnf</code> is the modern successor to <code class="inline">yum</code>, used on Fedora, RHEL 8+, CentOS Stream, AlmaLinux, and Rocky Linux.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Update package index and packages</span>
+<span class="fn">dnf</span> check-update
+<span class="fn">dnf</span> upgrade
+
+<span class="cmm"># Install / remove</span>
+<span class="fn">dnf</span> install httpd
+<span class="fn">dnf</span> remove httpd
+<span class="fn">dnf</span> autoremove
+
+<span class="cmm"># Search and info</span>
+<span class="fn">dnf</span> search httpd
+<span class="fn">dnf</span> info httpd
+<span class="fn">rpm</span> -qa | <span class="fn">grep</span> httpd       <span class="cmm"># List installed packages</span>
+<span class="fn">rpm</span> -ql httpd              <span class="cmm"># List files owned by package</span>
+
+<span class="cmm"># Install a local .rpm file</span>
+<span class="fn">dnf</span> install ./package.rpm
+
+<span class="cmm"># Manage repositories</span>
+<span class="fn">dnf</span> repolist
+<span class="fn">dnf</span> config-manager --add-repo https://example.com/repo
+
+<span class="cmm"># Groups of related packages</span>
+<span class="fn">dnf</span> group list
+<span class="fn">dnf</span> group install <span class="str">"Development Tools"</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 25: PACMAN -->
+      <section class="content-section" id="pacman">
+        <h2><span class="section-num">25</span> Pacman (Arch)</h2>
+        <p class="section-subtitle">Package management on Arch Linux and derivatives</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Sync repo index and upgrade whole system (do together, always)</span>
+<span class="fn">pacman</span> -Syu
+
+<span class="cmm"># Install a package</span>
+<span class="fn">pacman</span> -S neovim
+
+<span class="cmm"># Remove a package</span>
+<span class="fn">pacman</span> -R neovim           <span class="cmm"># Keep dependencies</span>
+<span class="fn">pacman</span> -Rs neovim          <span class="cmm"># Remove unused dependencies too</span>
+
+<span class="cmm"># Search</span>
+<span class="fn">pacman</span> -Ss neovim
+
+<span class="cmm"># Info</span>
+<span class="fn">pacman</span> -Si neovim          <span class="cmm"># Remote package info</span>
+<span class="fn">pacman</span> -Qi neovim          <span class="cmm"># Installed package info</span>
+
+<span class="cmm"># List installed packages</span>
+<span class="fn">pacman</span> -Q
+<span class="fn">pacman</span> -Qe                 <span class="cmm"># Explicitly installed (not deps)</span>
+
+<span class="cmm"># Clean package cache</span>
+<span class="fn">pacman</span> -Sc
+
+<span class="cmm"># AUR helper (not part of pacman itself)</span>
+<span class="fn">yay</span> -S google-chrome</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Never run <code class="inline">pacman -Sy</code> (sync only) without <code class="inline">-u</code> right after — a partial upgrade can break dependency resolution on a rolling-release system.
+        </div>
+      </section>
+
+      <!-- SECTION 26: UNIVERSAL PACKAGES -->
+      <section class="content-section" id="universal">
+        <h2><span class="section-num">26</span> Snap, Flatpak &amp; AppImage</h2>
+        <p class="section-subtitle">Distribution-agnostic packaging formats</p>
+        <p>These formats bundle an application with its dependencies so it runs consistently across distributions, at the cost of larger download sizes and slightly slower startup.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Snap (Canonical)</span>
+<span class="fn">snap</span> install code --classic
+<span class="fn">snap</span> list
+<span class="fn">snap</span> remove code
+<span class="fn">snap</span> refresh
+
+<span class="cmm"># Flatpak (community/Red Hat backed)</span>
+<span class="fn">flatpak</span> install flathub org.gimp.GIMP
+<span class="fn">flatpak</span> list
+<span class="fn">flatpak</span> run org.gimp.GIMP
+<span class="fn">flatpak</span> uninstall org.gimp.GIMP
+<span class="fn">flatpak</span> update
+
+<span class="cmm"># AppImage - single portable executable, no install needed</span>
+<span class="fn">chmod</span> +x App.AppImage
+./App.AppImage</div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Format</th><th>Sandboxing</th><th>Backed By</th><th>Typical Use</th></tr></thead>
+          <tbody>
+            <tr><td>Snap</td><td>Yes (strict confinement)</td><td>Canonical</td><td>Ubuntu desktop &amp; server apps</td></tr>
+            <tr><td>Flatpak</td><td>Yes (portals)</td><td>Community, GNOME/KDE</td><td>Desktop GUI apps</td></tr>
+            <tr><td>AppImage</td><td>No</td><td>Community</td><td>Portable, no-install apps</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 27: SYSTEMD -->
+      <section class="content-section" id="systemd">
+        <h2><span class="section-num">27</span> systemd &amp; Services</h2>
+        <p class="section-subtitle">The modern init system and service manager</p>
+        <p><strong>systemd</strong> is PID 1 on nearly all modern distributions — it boots the system, manages services (units), handles logging, and coordinates dependencies between them.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Service control</span>
+<span class="fn">systemctl</span> start nginx
+<span class="fn">systemctl</span> stop nginx
+<span class="fn">systemctl</span> restart nginx
+<span class="fn">systemctl</span> reload nginx        <span class="cmm"># Reload config without downtime</span>
+<span class="fn">systemctl</span> status nginx
+
+<span class="cmm"># Enable/disable at boot</span>
+<span class="fn">systemctl</span> enable nginx
+<span class="fn">systemctl</span> disable nginx
+<span class="fn">systemctl</span> enable --now nginx  <span class="cmm"># Enable and start immediately</span>
+
+<span class="cmm"># List units</span>
+<span class="fn">systemctl</span> list-units --type=service
+<span class="fn">systemctl</span> list-unit-files --state=enabled
+
+<span class="cmm"># Check if active/enabled</span>
+<span class="fn">systemctl</span> is-active nginx
+<span class="fn">systemctl</span> is-enabled nginx</div>
+        </div>
+        <h3>Writing a Custom Unit File</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># /etc/systemd/system/myapp.service</span>
+[Unit]
+Description=My Application
+After=network.target
+
+[Service]
+Type=simple
+User=appuser
+WorkingDirectory=/opt/myapp
+ExecStart=/usr/bin/python3 /opt/myapp/main.py
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
+
+<span class="cmm"># After creating/editing a unit file:</span>
+<span class="fn">systemctl</span> daemon-reload
+<span class="fn">systemctl</span> enable --now myapp</div>
+        </div>
+      </section>
+
+      <!-- SECTION 28: JOURNALCTL -->
+      <section class="content-section" id="journalctl">
+        <h2><span class="section-num">28</span> journalctl &amp; Logs</h2>
+        <p class="section-subtitle">Reading the systemd journal</p>
+        <p><code class="inline">journalctl</code> queries the binary, structured logs collected by <strong>journald</strong> — covering the kernel, services, and boot process in one unified place.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># View all logs (oldest first)</span>
+<span class="fn">journalctl</span>
+
+<span class="cmm"># Follow logs live (like tail -f)</span>
+<span class="fn">journalctl</span> -f
+
+<span class="cmm"># Logs for a specific service</span>
+<span class="fn">journalctl</span> -u nginx.service
+
+<span class="cmm"># Logs since a given time</span>
+<span class="fn">journalctl</span> --since <span class="str">"1 hour ago"</span>
+<span class="fn">journalctl</span> --since <span class="str">"2026-07-20"</span> --until <span class="str">"2026-07-21"</span>
+
+<span class="cmm"># Logs from the current boot only</span>
+<span class="fn">journalctl</span> -b
+
+<span class="cmm"># Filter by priority (0=emerg ... 7=debug)</span>
+<span class="fn">journalctl</span> -p err
+
+<span class="cmm"># Kernel messages only</span>
+<span class="fn">journalctl</span> -k
+
+<span class="cmm"># Limit disk usage of the journal</span>
+<span class="fn">journalctl</span> --vacuum-size=200M
+<span class="fn">journalctl</span> --vacuum-time=2weeks</div>
+        </div>
+        <div class="explanation">
+          <strong>Traditional logs:</strong> Text-based logs still live in <code class="inline">/var/log</code> (e.g. <code class="inline">/var/log/syslog</code>, <code class="inline">/var/log/auth.log</code>), readable directly with <code class="inline">tail</code>, <code class="inline">less</code>, or <code class="inline">grep</code>.
+        </div>
+      </section>
+
+      <!-- SECTION 29: KERNEL -->
+      <section class="content-section" id="kernel">
+        <h2><span class="section-num">29</span> Kernel Modules</h2>
+        <p class="section-subtitle">Extending kernel functionality at runtime</p>
+        <p><strong>Loadable Kernel Modules (LKMs)</strong> add drivers and functionality to a running kernel without a reboot — most hardware drivers and filesystems are implemented this way.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># List loaded modules</span>
+<span class="fn">lsmod</span>
+
+<span class="cmm"># Show details about a module</span>
+<span class="fn">modinfo</span> nvidia
+
+<span class="cmm"># Load / unload a module</span>
+<span class="fn">modprobe</span> nvidia
+<span class="fn">modprobe</span> -r nvidia         <span class="cmm"># Remove (and unused dependencies)</span>
+<span class="fn">insmod</span> ./mymodule.ko      <span class="cmm"># Load directly from file (no dependency resolution)</span>
+<span class="fn">rmmod</span> mymodule
+
+<span class="cmm"># Persist a module across reboots</span>
+<span class="fn">echo</span> <span class="str">"nvidia"</span> >> /etc/modules-load.d/nvidia.conf
+
+<span class="cmm"># Blacklist a module (prevent auto-load)</span>
+<span class="fn">echo</span> <span class="str">"blacklist nouveau"</span> >> /etc/modprobe.d/blacklist.conf
+
+<span class="cmm"># Kernel version and info</span>
+<span class="fn">uname</span> -r
+<span class="fn">uname</span> -a
+<span class="fn">dmesg</span> | <span class="fn">tail</span>              <span class="cmm"># Recent kernel ring buffer messages</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 30: DISK & STORAGE -->
+      <section class="content-section" id="disk">
+        <h2><span class="section-num">30</span> Disk &amp; Storage</h2>
+        <p class="section-subtitle">Partitioning, filesystems, and monitoring space</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Disk usage overview</span>
+<span class="fn">df</span> -h                    <span class="cmm"># Free/used space per mounted filesystem</span>
+
+<span class="cmm"># Directory size breakdown</span>
+<span class="fn">du</span> -sh /var/log           <span class="cmm"># Total size of a directory</span>
+<span class="fn">du</span> -h --max-depth=1 /home <span class="cmm"># Per-subdirectory sizes</span>
+
+<span class="cmm"># List block devices and partitions</span>
+<span class="fn">lsblk</span>
+<span class="fn">fdisk</span> -l
+
+<span class="cmm"># Partition a disk (interactive)</span>
+<span class="fn">fdisk</span> /dev/sdb
+<span class="fn">parted</span> /dev/sdb
+
+<span class="cmm"># Create a filesystem</span>
+<span class="fn">mkfs.ext4</span> /dev/sdb1
+<span class="fn">mkfs.xfs</span> /dev/sdb1
+
+<span class="cmm"># Mount / unmount</span>
+<span class="fn">mount</span> /dev/sdb1 /mnt/data
+<span class="fn">umount</span> /mnt/data
+
+<span class="cmm"># Persistent mounts (edit carefully!)</span>
+<span class="fn">cat</span> /etc/fstab
+<span class="cmm"># UUID=xxxx  /mnt/data  ext4  defaults  0  2</span>
+
+<span class="cmm"># Check and repair a filesystem (must be unmounted)</span>
+<span class="fn">fsck</span> /dev/sdb1
+
+<span class="cmm"># Logical Volume Manager (LVM) basics</span>
+<span class="fn">pvcreate</span> /dev/sdb1
+<span class="fn">vgcreate</span> vg_data /dev/sdb1
+<span class="fn">lvcreate</span> -L 50G -n lv_data vg_data</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Always find the UUID with <code class="inline">blkid</code> and use it in <code class="inline">/etc/fstab</code> instead of a device name like <code class="inline">/dev/sdb1</code>, since device names can shift between boots.
+        </div>
+      </section>
+
+      <!-- SECTION 31: BASH BASICS -->
+      <section class="content-section" id="bash-basics">
+        <h2><span class="section-num">31</span> Bash Basics</h2>
+        <p class="section-subtitle">Writing your first shell scripts</p>
+        <p>A shell script is a text file of commands executed in sequence by an interpreter, declared via a <strong>shebang</strong> line. Scripts automate repetitive administration tasks.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm">#!/bin/bash</span>
+<span class="cmm"># deploy.sh - simple deployment script</span>
+
+<span class="fn">echo</span> <span class="str">"Starting deployment..."</span>
+
+<span class="cmm"># Run commands</span>
+<span class="fn">cd</span> /var/www/app
+<span class="fn">git</span> pull origin main
+<span class="fn">npm</span> install
+<span class="fn">systemctl</span> restart myapp
+
+<span class="fn">echo</span> <span class="str">"Deployment complete!"</span></div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Make it executable and run it</span>
+<span class="fn">chmod</span> +x deploy.sh
+./deploy.sh
+
+<span class="cmm"># Or run without executable bit</span>
+<span class="fn">bash</span> deploy.sh
+
+<span class="cmm"># Strict mode - fail fast on errors (recommended at top of scripts)</span>
+<span class="kw">set</span> -euo pipefail
+<span class="cmm"># -e: exit on any error   -u: error on unset variables   -o pipefail: catch errors in pipes</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 32: VARIABLES (BASH) -->
+      <section class="content-section" id="variables">
+        <h2><span class="section-num">32</span> Variables &amp; Expansion</h2>
+        <p class="section-subtitle">Storing and manipulating data in shell scripts</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Declare and use variables (no spaces around =)</span>
+name=<span class="str">"Alice"</span>
+<span class="fn">echo</span> <span class="str">"Hello, $name"</span>
+<span class="fn">echo</span> <span class="str">"Hello, ${name}!"</span>       <span class="cmm"># Braces avoid ambiguity</span>
+
+<span class="cmm"># Command output into a variable</span>
+count=<span class="var">$(</span><span class="fn">ls</span> | <span class="fn">wc</span> -l<span class="var">)</span>
+
+<span class="cmm"># Arithmetic</span>
+result=<span class="var">$((</span> 5 + 3 <span class="var">))</span>
+<span class="fn">echo</span> <span class="var">$((</span> count * 2 <span class="var">))</span>
+
+<span class="cmm"># Arrays</span>
+fruits=(<span class="str">"apple"</span> <span class="str">"banana"</span> <span class="str">"cherry"</span>)
+<span class="fn">echo</span> <span class="var">${fruits[0]}</span>
+<span class="fn">echo</span> <span class="var">${fruits[@]}</span>          <span class="cmm"># All elements</span>
+<span class="fn">echo</span> <span class="var">${#fruits[@]}</span>         <span class="cmm"># Array length</span>
+
+<span class="cmm"># Default values / parameter expansion</span>
+<span class="fn">echo</span> <span class="var">${name:-"Unknown"}</span>    <span class="cmm"># Use default if unset</span>
+<span class="fn">echo</span> <span class="var">${#name}</span>              <span class="cmm"># String length</span>
+<span class="fn">echo</span> <span class="var">${name/Alice/Bob}</span>    <span class="cmm"># Substitution</span>
+
+<span class="cmm"># Special variables</span>
+<span class="fn">echo</span> <span class="var">$0</span>   <span class="cmm"># Script name</span>
+<span class="fn">echo</span> <span class="var">$1</span> <span class="var">$2</span>   <span class="cmm"># First and second arguments</span>
+<span class="fn">echo</span> <span class="var">$#</span>   <span class="cmm"># Number of arguments</span>
+<span class="fn">echo</span> <span class="var">$@</span>   <span class="cmm"># All arguments</span>
+<span class="fn">echo</span> <span class="var">$?</span>   <span class="cmm"># Exit code of last command</span>
+<span class="fn">echo</span> <span class="var">$$</span>   <span class="cmm"># PID of current script</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 33: CONDITIONALS & LOOPS (BASH) -->
+      <section class="content-section" id="conditionals">
+        <h2><span class="section-num">33</span> Conditionals &amp; Loops</h2>
+        <p class="section-subtitle">Control flow in shell scripts</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># if / elif / else</span>
+<span class="kw">if</span> [ <span class="var">$count</span> -gt 10 ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="str">"Large"</span>
+<span class="kw">elif</span> [ <span class="var">$count</span> -gt 0 ]; <span class="kw">then</span>
+    <span class="fn">echo</span> <span class="str">"Small"</span>
+<span class="kw">else</span>
+    <span class="fn">echo</span> <span class="str">"Empty"</span>
+<span class="kw">fi</span>
+
+<span class="cmm"># String comparison</span>
+<span class="kw">if</span> [ <span class="str">"$name"</span> == <span class="str">"Alice"</span> ]; <span class="kw">then</span> <span class="fn">echo</span> <span class="str">"Hi Alice"</span>; <span class="kw">fi</span>
+
+<span class="cmm"># File tests</span>
+<span class="kw">if</span> [ -f /etc/passwd ]; <span class="kw">then</span> <span class="fn">echo</span> <span class="str">"exists"</span>; <span class="kw">fi</span>
+<span class="kw">if</span> [ -d /var/log ]; <span class="kw">then</span> <span class="fn">echo</span> <span class="str">"is a directory"</span>; <span class="kw">fi</span>
+
+<span class="cmm"># for loop</span>
+<span class="kw">for</span> i <span class="kw">in</span> 1 2 3 4 5; <span class="kw">do</span>
+    <span class="fn">echo</span> <span class="str">"Number: $i"</span>
+<span class="kw">done</span>
+
+<span class="kw">for</span> file <span class="kw">in</span> *.txt; <span class="kw">do</span>
+    <span class="fn">echo</span> <span class="str">"Processing: $file"</span>
+<span class="kw">done</span>
+
+<span class="cmm"># C-style for loop</span>
+<span class="kw">for</span> ((i=0; i<10; i++)); <span class="kw">do</span>
+    <span class="fn">echo</span> <span class="var">$i</span>
+<span class="kw">done</span>
+
+<span class="cmm"># while loop</span>
+count=0
+<span class="kw">while</span> [ <span class="var">$count</span> -lt 5 ]; <span class="kw">do</span>
+    <span class="fn">echo</span> <span class="str">"Count: $count"</span>
+    count=<span class="var">$((</span>count + 1<span class="var">))</span>
+<span class="kw">done</span>
+
+<span class="cmm"># case statement</span>
+<span class="kw">case</span> <span class="var">$1</span> <span class="kw">in</span>
+    start) <span class="fn">echo</span> <span class="str">"Starting..."</span> ;;
+    stop)  <span class="fn">echo</span> <span class="str">"Stopping..."</span> ;;
+    *)     <span class="fn">echo</span> <span class="str">"Usage: $0 {start|stop}"</span> ;;
+<span class="kw">esac</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 34: FUNCTIONS (BASH) -->
+      <section class="content-section" id="functions">
+        <h2><span class="section-num">34</span> Functions</h2>
+        <p class="section-subtitle">Reusable blocks of shell logic</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Define a function</span>
+greet() {
+    <span class="fn">local</span> name=<span class="var">$1</span>          <span class="cmm"># 'local' scopes the variable to this function</span>
+    <span class="fn">echo</span> <span class="str">"Hello, $name!"</span>
+}
+
+<span class="cmm"># Call it</span>
+greet <span class="str">"Alice"</span>
+
+<span class="cmm"># Return a value (via exit code, 0-255 only)</span>
+is_even() {
+    <span class="kw">if</span> [ <span class="var">$(( $1 % 2 ))</span> -eq 0 ]; <span class="kw">then</span>
+        <span class="kw">return</span> 0     <span class="cmm"># success / true</span>
+    <span class="kw">else</span>
+        <span class="kw">return</span> 1     <span class="cmm"># failure / false</span>
+    <span class="kw">fi</span>
+}
+<span class="kw">if</span> is_even 4; <span class="kw">then</span> <span class="fn">echo</span> <span class="str">"even"</span>; <span class="kw">fi</span>
+
+<span class="cmm"># Return a value via stdout (common pattern)</span>
+get_sum() {
+    <span class="fn">echo</span> <span class="var">$(( $1 + $2 ))</span>
+}
+total=<span class="var">$(</span>get_sum 3 4<span class="var">)</span>
+
+<span class="cmm"># Functions with default arguments</span>
+backup() {
+    <span class="fn">local</span> dir=<span class="var">${1:-/home}</span>
+    <span class="fn">tar</span> -czf backup.tar.gz <span class="var">"$dir"</span>
+}</div>
+        </div>
+      </section>
+
+      <!-- SECTION 35: SECURITY BASICS -->
+      <section class="content-section" id="security-basics">
+        <h2><span class="section-num">35</span> Security Basics</h2>
+        <p class="section-subtitle">Hardening a Linux system</p>
+        <p>Linux security is layered: user privilege separation, filesystem permissions, network filtering, and mandatory access control all work together. A few practices cover most of the risk for a typical server.</p>
+        <ul>
+          <li><strong>Keep the system updated:</strong> <code class="inline">apt upgrade</code> / <code class="inline">dnf upgrade</code> regularly, or enable unattended security updates.</li>
+          <li><strong>Disable root SSH login:</strong> set <code class="inline">PermitRootLogin no</code> in <code class="inline">/etc/ssh/sshd_config</code>.</li>
+          <li><strong>Use key-based SSH auth</strong> and disable password authentication once configured.</li>
+          <li><strong>Principle of least privilege:</strong> grant only the permissions and sudo rights a user or service actually needs.</li>
+          <li><strong>Enable a firewall</strong> and only open the ports you actually use.</li>
+          <li><strong>Use fail2ban</strong> to auto-ban IPs after repeated failed login attempts.</li>
+        </ul>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Install and enable fail2ban</span>
+<span class="fn">apt</span> install fail2ban
+<span class="fn">systemctl</span> enable --now fail2ban
+<span class="fn">fail2ban-client</span> status sshd
+
+<span class="cmm"># Audit listening ports (attack surface)</span>
+<span class="fn">ss</span> -tulpn
+
+<span class="cmm"># Check for failed login attempts</span>
+<span class="fn">journalctl</span> -u ssh | <span class="fn">grep</span> <span class="str">"Failed password"</span>
+<span class="fn">lastb</span>                  <span class="cmm"># Failed login history</span>
+
+<span class="cmm"># Check for world-writable files (common misconfiguration)</span>
+<span class="fn">find</span> / -xdev -type f -perm -0002 2>/dev/null</div>
+        </div>
+      </section>
+
+      <!-- SECTION 36: SELINUX -->
+      <section class="content-section" id="selinux">
+        <h2><span class="section-num">36</span> SELinux &amp; AppArmor</h2>
+        <p class="section-subtitle">Mandatory Access Control (MAC) systems</p>
+        <p>Standard permissions are <strong>discretionary</strong> — the owner decides access. <strong>SELinux</strong> (Red Hat family) and <strong>AppArmor</strong> (Debian/Ubuntu/SUSE family) add <strong>mandatory</strong> access control: even root can be confined by policy.</p>
+        <h3>SELinux</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Check current mode</span>
+<span class="fn">getenforce</span>              <span class="cmm"># Enforcing / Permissive / Disabled</span>
+
+<span class="cmm"># Temporarily change mode (until reboot)</span>
+<span class="fn">setenforce</span> 0            <span class="cmm"># Permissive (log only, don't block)</span>
+<span class="fn">setenforce</span> 1            <span class="cmm"># Enforcing</span>
+
+<span class="cmm"># View file/process context labels</span>
+<span class="fn">ls</span> -Z /var/www/html
+<span class="fn">ps</span> -eZ
+
+<span class="cmm"># Restore default context after moving a file</span>
+<span class="fn">restorecon</span> -Rv /var/www/html
+
+<span class="cmm"># View recent denials</span>
+<span class="fn">ausearch</span> -m avc -ts recent
+<span class="fn">sealert</span> -a /var/log/audit/audit.log</div>
+        </div>
+        <h3>AppArmor</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Status of all profiles</span>
+<span class="fn">aa-status</span>
+
+<span class="cmm"># Put a profile into complain (log-only) or enforce mode</span>
+<span class="fn">aa-complain</span> /etc/apparmor.d/usr.sbin.nginx
+<span class="fn">aa-enforce</span> /etc/apparmor.d/usr.sbin.nginx</div>
+        </div>
+        <div class="explanation info">
+          <strong>Note:</strong> Never disable SELinux/AppArmor outright to "fix" a permission problem — switch to permissive/complain mode temporarily, read the denial logs, and adjust the policy instead.
+        </div>
+      </section>
+
+      <!-- SECTION 37: ENCRYPTION -->
+      <section class="content-section" id="encryption">
+        <h2><span class="section-num">37</span> Encryption &amp; Keys</h2>
+        <p class="section-subtitle">Protecting data at rest and in transit</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Full-disk / partition encryption with LUKS</span>
+<span class="fn">cryptsetup</span> luksFormat /dev/sdb1
+<span class="fn">cryptsetup</span> open /dev/sdb1 secure_data
+<span class="fn">mkfs.ext4</span> /dev/mapper/secure_data
+<span class="fn">cryptsetup</span> close secure_data
+
+<span class="cmm"># File/text encryption with GPG</span>
+<span class="fn">gpg</span> --gen-key
+<span class="fn">gpg</span> -c secret.txt         <span class="cmm"># Symmetric (password-based)</span>
+<span class="fn">gpg</span> secret.txt.gpg        <span class="cmm"># Decrypt</span>
+<span class="fn">gpg</span> --encrypt --recipient bob@example.com file.txt
+<span class="fn">gpg</span> --decrypt file.txt.gpg > file.txt
+
+<span class="cmm"># Generate a checksum to verify integrity</span>
+<span class="fn">sha256sum</span> file.iso
+<span class="fn">sha256sum</span> -c checksums.txt
+
+<span class="cmm"># TLS certificates (Let's Encrypt via certbot)</span>
+<span class="fn">certbot</span> --nginx -d example.com
+<span class="fn">certbot</span> renew --dry-run</div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> Always back up a LUKS header (<code class="inline">cryptsetup luksHeaderBackup</code>) — losing it makes the encrypted data unrecoverable even with the correct passphrase.
+        </div>
+      </section>
+
+      <!-- SECTION 38: CONTAINERS -->
+      <section class="content-section" id="containers">
+        <h2><span class="section-num">38</span> Containers &amp; Docker</h2>
+        <p class="section-subtitle">Lightweight, isolated application environments</p>
+        <p>Containers package an application with its dependencies using kernel features like <strong>namespaces</strong> (isolation) and <strong>cgroups</strong> (resource limits) — no separate guest kernel required, unlike a VM.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Run a container</span>
+<span class="fn">docker</span> run -d -p 8080:80 --name web nginx
+
+<span class="cmm"># List running / all containers</span>
+<span class="fn">docker</span> ps
+<span class="fn">docker</span> ps -a
+
+<span class="cmm"># Stop, start, remove</span>
+<span class="fn">docker</span> stop web
+<span class="fn">docker</span> start web
+<span class="fn">docker</span> rm web
+
+<span class="cmm"># Logs and shell access</span>
+<span class="fn">docker</span> logs -f web
+<span class="fn">docker</span> exec -it web bash
+
+<span class="cmm"># Images</span>
+<span class="fn">docker</span> images
+<span class="fn">docker</span> build -t myapp:latest .
+<span class="fn">docker</span> pull ubuntu:24.04
+<span class="fn">docker</span> rmi myapp:latest
+
+<span class="cmm"># Clean up unused resources</span>
+<span class="fn">docker</span> system prune -a</div>
+        </div>
+        <h3>Dockerfile Basics</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">dockerfile</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">FROM</span> python:3.12-slim
+<span class="kw">WORKDIR</span> /app
+<span class="kw">COPY</span> requirements.txt .
+<span class="kw">RUN</span> pip install -r requirements.txt
+<span class="kw">COPY</span> . .
+<span class="kw">EXPOSE</span> 8000
+<span class="kw">CMD</span> [<span class="str">"python"</span>, <span class="str">"app.py"</span>]</div>
+        </div>
+        <h3>Docker Compose</h3>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">yaml</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">services:
+  web:
+    build: .
+    ports:
+      - <span class="str">"8000:8000"</span>
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_PASSWORD: secret
+
+<span class="cmm"># Run: docker compose up -d</span></div>
+        </div>
+      </section>
+
+      <!-- SECTION 39: VIRTUALIZATION -->
+      <section class="content-section" id="virtualization">
+        <h2><span class="section-num">39</span> Virtualization</h2>
+        <p class="section-subtitle">Running full virtual machines on Linux</p>
+        <p>Unlike containers, virtual machines run their own complete kernel via a <strong>hypervisor</strong>. Linux's built-in hypervisor is <strong>KVM (Kernel-based Virtual Machine)</strong>, usually driven through <strong>QEMU</strong> and managed with <strong>libvirt</strong>.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># Check for hardware virtualization support</span>
+<span class="fn">egrep</span> -c <span class="str">'(vmx|svm)'</span> /proc/cpuinfo
+
+<span class="cmm"># Install KVM/QEMU + libvirt tooling (Debian/Ubuntu)</span>
+<span class="fn">apt</span> install qemu-kvm libvirt-daemon-system virtinst virt-manager
+
+<span class="cmm"># Manage VMs with virsh</span>
+<span class="fn">virsh</span> list --all
+<span class="fn">virsh</span> start myvm
+<span class="fn">virsh</span> shutdown myvm
+<span class="fn">virsh</span> destroy myvm       <span class="cmm"># Force power off</span>
+
+<span class="cmm"># Create a VM from the command line</span>
+<span class="fn">virt-install</span> --name myvm --memory 2048 --vcpus 2 \
+  --disk size=20 --cdrom /path/to/os.iso --os-variant ubuntu24.04</div>
+        </div>
+        <table class="data-table">
+          <thead><tr><th>Aspect</th><th>Containers</th><th>Virtual Machines</th></tr></thead>
+          <tbody>
+            <tr><td>Kernel</td><td>Shared with host</td><td>Own dedicated kernel</td></tr>
+            <tr><td>Startup time</td><td>Milliseconds to seconds</td><td>Seconds to minutes</td></tr>
+            <tr><td>Isolation strength</td><td>Process-level</td><td>Hardware-level</td></tr>
+            <tr><td>Overhead</td><td>Low</td><td>Higher (full OS per VM)</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- SECTION 40: PERFORMANCE -->
+      <section class="content-section" id="performance">
+        <h2><span class="section-num">40</span> Performance Tuning</h2>
+        <p class="section-subtitle">Diagnosing and improving system performance</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="cmm"># CPU load and averages</span>
+<span class="fn">uptime</span>                 <span class="cmm"># Load averages: 1, 5, 15 min</span>
+<span class="fn">vmstat</span> 1               <span class="cmm"># Live CPU/memory/IO stats</span>
+<span class="fn">mpstat</span> -P ALL 1         <span class="cmm"># Per-core CPU usage</span>
+
+<span class="cmm"># Memory usage</span>
+<span class="fn">free</span> -h
+
+<span class="cmm"># Disk I/O</span>
+<span class="fn">iostat</span> -x 1
+<span class="fn">iotop</span>                   <span class="cmm"># Per-process disk I/O (like top)</span>
+
+<span class="cmm"># Find what's consuming the most CPU/memory</span>
+<span class="fn">ps</span> aux --sort=-%cpu | <span class="fn">head</span>
+<span class="fn">ps</span> aux --sort=-%mem | <span class="fn">head</span>
+
+<span class="cmm"># Trace open files and syscalls of a process</span>
+<span class="fn">lsof</span> -p 1234
+<span class="fn">strace</span> -p 1234
+
+<span class="cmm"># Network throughput</span>
+<span class="fn">iftop</span>
+<span class="fn">nload</span></div>
+        </div>
+        <div class="tip-box">
+          <strong>Tip:</strong> A load average above your core count sustained over time usually means CPU is the bottleneck; high <code class="inline">iowait</code> in <code class="inline">vmstat</code> points to disk I/O instead — diagnose before you tune.
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer class="footer">
+        <div class="footer-socials">
+          <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+          </a>
+          <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
+          </a>
+          <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+          </a>
+        </div>
+        <div class="footer-links">
+          <a href="doc.html">Documentation</a>
+          <a href="index.html">Homepage</a>
+          <a href="python.html">Python</a>
+          <a href="linux.html">Linux</a>
+          <a href="ai.html">Artificial Intelligence</a>
+        </div>
+        <p>Created by <strong style="color:var(--text-bright);">Amirali Gholian</strong> — Linux Documentation</p>
+        <p style="margin-top:6px;font-size:.8rem;opacity:.7;">Python Developer | Linux | AI</p>
+      </footer>
+    </main>
+  </div>
+
+  <script>
+    // ─── Keep sidebar/layout aligned with the real header height ───
+    // (fixes the empty gap that appeared when the header wraps to two lines
+    // on narrow screens, since the sidebar/menu position used to assume a fixed 76px header)
+    function syncTopbarHeight() {
+      const topbar = document.querySelector('.topbar');
+      if (!topbar) return;
+      const h = Math.ceil(topbar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--topbar-h', h + 'px');
+    }
+    syncTopbarHeight();
+    window.addEventListener('load', syncTopbarHeight);
+    window.addEventListener('resize', syncTopbarHeight);
+    window.addEventListener('orientationchange', syncTopbarHeight);
+    if (window.ResizeObserver) {
+      new ResizeObserver(syncTopbarHeight).observe(document.querySelector('.topbar'));
+    }
+
+    // ─── Sidebar Toggle ───
+    function toggleSidebar() {
+      const sidebar = document.getElementById('sidebar');
+      const overlay = document.getElementById('sidebar-overlay');
+      sidebar.classList.toggle('open');
+      overlay.style.display = sidebar.classList.contains('open') ? 'block' : 'none';
+    }
+    function closeSidebar() {
+      if (window.innerWidth <= 1024) {
+        document.getElementById('sidebar').classList.remove('open');
+        document.getElementById('sidebar-overlay').style.display = 'none';
+      }
+    }
+
+    // ─── Section Toggle ───
+    function toggleSection(header) {
+      const links = header.nextElementSibling;
+      header.classList.toggle('collapsed');
+      links.classList.toggle('collapsed');
+      if (!links.classList.contains('collapsed')) {
+        links.style.maxHeight = links.scrollHeight + 'px';
+      } else {
+        links.style.maxHeight = '0';
+      }
+    }
+
+    // ─── Initialize sections ───
+    document.querySelectorAll('.sidebar-links').forEach(links => {
+      links.style.maxHeight = links.scrollHeight + 'px';
+    });
+
+    // ─── Active Link ───
+    function updateActiveLink() {
+      const sections = document.querySelectorAll('.content-section');
+      const links = document.querySelectorAll('.sidebar-links li a');
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        if (window.scrollY >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+      links.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + current) {
+          link.classList.add('active');
+        }
+      });
+
+      // Progress
+      const totalSections = sections.length;
+      const currentIndex = Array.from(sections).findIndex(s => s.getAttribute('id') === current);
+      const progress = Math.round(((currentIndex + 1) / totalSections) * 100);
+      document.getElementById('progressFill').style.width = progress + '%';
+      document.getElementById('progressText').textContent = progress + '%';
+    }
+    window.addEventListener('scroll', updateActiveLink);
+    updateActiveLink();
+
+    // ─── Copy Code ───
+    function copyCode(button) {
+      const code = button.closest('.code-container').querySelector('.code-block').textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        const original = button.innerText;
         button.innerText = '✓ Copied!';
         button.classList.add('copied');
-
         setTimeout(() => {
-          button.innerText = originalText;
+          button.innerText = original;
           button.classList.remove('copied');
         }, 2000);
       });
     }
+
+    // ─── Search ───
+    const searchIndex = [
+      { title: "Introduction to Linux", desc: "What Linux is and why it matters", id: "intro" },
+      { title: "Linux Distributions", desc: "Debian, Red Hat, Arch, SUSE and more", id: "distributions" },
+      { title: "Terminal Basics", desc: "Shells, history, keyboard shortcuts", id: "terminal" },
+      { title: "File System Hierarchy", desc: "The FHS directory structure", id: "filesystem" },
+      { title: "Navigation Commands", desc: "pwd, cd, ls, tree, file", id: "navigation" },
+      { title: "File Operations", desc: "touch, cp, mv, rm, mkdir, ln", id: "file-ops" },
+      { title: "File Permissions", desc: "chmod, umask, rwx notation", id: "permissions" },
+      { title: "Ownership & ACL", desc: "chown, chgrp, setfacl, getfacl", id: "ownership" },
+      { title: "Archiving & Compression", desc: "tar, gzip, bzip2, xz, zip", id: "archiving" },
+      { title: "grep & Regular Expressions", desc: "Pattern matching in text", id: "grep" },
+      { title: "sed Stream Editor", desc: "Non-interactive text substitution", id: "sed" },
+      { title: "awk Programming", desc: "Column-based text processing", id: "awk" },
+      { title: "Pipes & Redirection", desc: "stdin, stdout, stderr, tee", id: "pipes" },
+      { title: "Users & Groups", desc: "useradd, usermod, groups", id: "users" },
+      { title: "sudo & Privileges", desc: "Privilege escalation, sudoers", id: "sudo" },
+      { title: "SSH & Remote Access", desc: "Secure shell, scp, rsync, keys", id: "ssh" },
+      { title: "Processes & Jobs", desc: "ps, top, htop, job control", id: "processes" },
+      { title: "Signals & Kill", desc: "SIGTERM, SIGKILL, kill, pkill", id: "signals" },
+      { title: "Cron & Scheduling", desc: "crontab and systemd timers", id: "cron" },
+      { title: "Network Commands", desc: "ip, ping, curl, wget, ss", id: "net-commands" },
+      { title: "Firewall & iptables", desc: "ufw, firewalld, netfilter rules", id: "firewall" },
+      { title: "DNS & Hostname", desc: "dig, nslookup, /etc/hosts", id: "dns" },
+      { title: "APT (Debian/Ubuntu)", desc: "apt, dpkg package management", id: "apt" },
+      { title: "DNF/YUM (RHEL/Fedora)", desc: "dnf, rpm package management", id: "dnf" },
+      { title: "Pacman (Arch)", desc: "Arch Linux package management", id: "pacman" },
+      { title: "Snap, Flatpak & AppImage", desc: "Distro-agnostic packaging", id: "universal" },
+      { title: "systemd & Services", desc: "systemctl, unit files", id: "systemd" },
+      { title: "journalctl & Logs", desc: "Reading the systemd journal", id: "journalctl" },
+      { title: "Kernel Modules", desc: "lsmod, modprobe, insmod", id: "kernel" },
+      { title: "Disk & Storage", desc: "df, du, lsblk, mount, LVM", id: "disk" },
+      { title: "Bash Basics", desc: "Writing your first shell scripts", id: "bash-basics" },
+      { title: "Variables & Expansion", desc: "Shell variables, arrays, arithmetic", id: "variables" },
+      { title: "Conditionals & Loops", desc: "if, for, while, case", id: "conditionals" },
+      { title: "Functions", desc: "Reusable bash functions", id: "functions" },
+      { title: "Security Basics", desc: "Hardening a Linux system", id: "security-basics" },
+      { title: "SELinux & AppArmor", desc: "Mandatory access control", id: "selinux" },
+      { title: "Encryption & Keys", desc: "LUKS, GPG, checksums, TLS", id: "encryption" },
+      { title: "Containers & Docker", desc: "Docker, Dockerfile, Compose", id: "containers" },
+      { title: "Virtualization", desc: "KVM, QEMU, libvirt", id: "virtualization" },
+      { title: "Performance Tuning", desc: "vmstat, iostat, strace, lsof", id: "performance" }
+    ];
+
+    function searchDocs() {
+      const query = document.getElementById('searchInput').value.toLowerCase().trim();
+      const resultsDiv = document.getElementById('searchResults');
+      if (!query) {
+        resultsDiv.classList.remove('active');
+        return;
+      }
+      const filtered = searchIndex.filter(item =>
+        item.title.toLowerCase().includes(query) ||
+        item.desc.toLowerCase().includes(query)
+      );
+      if (filtered.length === 0) {
+        resultsDiv.innerHTML = '<div class="search-result-item"><span class="result-title">No result found</span></div>';
+      } else {
+        resultsDiv.innerHTML = filtered.map(item =>
+          `<div class="search-result-item" onclick="navigateTo('${item.id}')">
+            <span class="result-title">${item.title}</span>
+            <span class="result-desc">${item.desc}</span>
+          </div>`
+        ).join('');
+      }
+      resultsDiv.classList.add('active');
+    }
+
+    function showSearchResults() {
+      if (document.getElementById('searchInput').value.trim()) {
+        searchDocs();
+      }
+    }
+
+    function navigateTo(id) {
+      document.getElementById('searchResults').classList.remove('active');
+      document.getElementById('searchInput').value = '';
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // Close search on outside click
+    document.addEventListener('click', function(e) {
+      const searchContainer = document.querySelector('.search-container');
+      if (!searchContainer.contains(e.target)) {
+        document.getElementById('searchResults').classList.remove('active');
+      }
+    });
+
+    // ─── Smooth scroll for anchor links ───
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
+
+    // ─── Scroll to Top ───
+    function scrollToTop() {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 400) {
+        scrollTopBtn.classList.add('visible');
+      } else {
+        scrollTopBtn.classList.remove('visible');
+      }
+    });
   </script>
 </body>
 </html>
