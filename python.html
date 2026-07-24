@@ -32,6 +32,7 @@
       --radius-sm: 18px;
       --max: 1320px;
       --sidebar-width: 300px;
+      --topbar-h: 76px;
       --code-keyword: #ff79c6;
       --code-string: #f1fa8c;
       --code-comment: #6272a4;
@@ -41,9 +42,11 @@
       --code-operator: #ff79c6;
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; overflow-x: hidden; max-width: 100vw; }
     body {
       margin: 0;
+      max-width: 100vw;
+      overflow-x: hidden;
       font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
       background:
         radial-gradient(ellipse 80% 50% at 20% -10%, rgba(56,189,248,.10), transparent),
@@ -65,8 +68,10 @@
 
     /* TOPBAR */
     .topbar {
-      position: sticky;
+      position: fixed;
       top: 0;
+      left: 0;
+      right: 0;
       z-index: 100;
       background: rgba(6, 9, 19, .85);
       backdrop-filter: blur(24px) saturate(1.4);
@@ -236,14 +241,14 @@
     }
 
     /* LAYOUT */
-    .main-layout { display: flex; min-height: calc(100vh - 76px); }
+    .main-layout { display: flex; min-height: calc(100vh - var(--topbar-h)); margin-top: var(--topbar-h); }
 
     /* SIDEBAR */
     .sidebar {
       width: var(--sidebar-width);
       position: fixed;
       left: 0;
-      top: 76px;
+      top: var(--topbar-h);
       bottom: 0;
       background: rgba(6, 9, 19, .92);
       backdrop-filter: blur(20px);
@@ -276,8 +281,8 @@
     /* ─── Scroll to Top Button ─── */
     .scroll-top-btn {
       position: fixed;
-      bottom: 24px;
-      right: 24px;
+      bottom: max(24px, calc(24px + env(safe-area-inset-bottom)));
+      right: max(24px, calc(24px + env(safe-area-inset-right)));
       z-index: 61;
       width: 48px;
       height: 48px;
@@ -430,6 +435,7 @@
     .main-content {
       margin-left: var(--sidebar-width);
       flex: 1;
+      min-width: 0;
       padding: 32px 40px;
       max-width: calc(100% - var(--sidebar-width));
     }
@@ -532,7 +538,7 @@
     .content-section {
       padding: 40px 0;
       border-bottom: 1px solid var(--line);
-      scroll-margin-top: 90px;
+      scroll-margin-top: calc(var(--topbar-h) + 14px);
     }
     .content-section:last-child { border-bottom: none; }
     .content-section h2 {
@@ -803,7 +809,7 @@
         width: 44px;
         height: 44px;
       }
-      .main-content { margin-left: 0; max-width: 100%; padding: 24px; }
+      .main-content { margin-left: 0; max-width: 100%; min-width: 0; width: 100%; padding: 24px; }
       .search-container { max-width: 250px; }
     }
     @media (max-width: 768px) {
@@ -4712,6 +4718,23 @@ tracemalloc.stop()</div>
   </div>
 
   <script>
+    // ─── Keep sidebar/layout aligned with the real header height ───
+    // (fixes the gap/overflow issue that showed up when the header's actual
+    // height differed from the old fixed 76px assumption)
+    function syncTopbarHeight() {
+      const topbar = document.querySelector('.topbar');
+      if (!topbar) return;
+      const h = Math.ceil(topbar.getBoundingClientRect().height);
+      document.documentElement.style.setProperty('--topbar-h', h + 'px');
+    }
+    syncTopbarHeight();
+    window.addEventListener('load', syncTopbarHeight);
+    window.addEventListener('resize', syncTopbarHeight);
+    window.addEventListener('orientationchange', syncTopbarHeight);
+    if (window.ResizeObserver) {
+      new ResizeObserver(syncTopbarHeight).observe(document.querySelector('.topbar'));
+    }
+
     // ─── Sidebar Toggle ───
     function toggleSidebar() {
       const sidebar = document.getElementById('sidebar');
