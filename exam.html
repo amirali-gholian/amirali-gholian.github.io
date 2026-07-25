@@ -51,6 +51,93 @@
       padding: 20px;
     }
 
+    /* ===== TOP BAR / NAVBAR ===== */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 12px 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, .3);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .brand-icon:hover {
+      transform: scale(1.08) rotate(-5deg);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, .45);
+    }
+
+    .brand-text h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .brand-text span {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85rem;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, .25);
+    }
+
     /* Header */
     .exam-header {
       display: flex;
@@ -493,6 +580,11 @@
       #resultContent {
         padding: 24px;
       }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
 
     /* IDE Styles */
@@ -668,13 +760,32 @@
 </head>
 <body>
   <div id="examContainer">
+    <!-- ===== TOP BAR WITH LOGO & LANGUAGE SWITCHER ===== -->
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-icon">🐍</div>
+        <div class="brand-text">
+          <h2 data-i18n="brand_title">Python</h2>
+          <span data-i18n="brand_subtitle">آزمون</span>
+        </div>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">
+          <span>🇮🇷</span> FA
+        </button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">
+          <span>🇺🇸</span> EN
+        </button>
+      </div>
+    </div>
+
     <!-- Header -->
     <div class="exam-header">
       <div class="header-left">
-        <button class="back-button" onclick="examSystem.goBack()">← بازگشت</button>
+        <button class="back-button" onclick="examSystem.goBack()" data-i18n="back">← بازگشت</button>
         <div class="header-info">
           <span class="course-level">Python</span>
-          <span id="questionNumber">سوال ۱ از ۱۰</span>
+          <span id="questionNumber" data-i18n="question_number">سوال ۱ از ۱۰</span>
         </div>
       </div>
       <div id="timer">15:00</div>
@@ -704,196 +815,505 @@
       'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK'
     );
 
-    // ============ سوالات Python ============
+    // ============ BILINGUAL SYSTEM ============
+    const i18n = {
+      fa: {
+        brand_title: "Python",
+        brand_subtitle: "آزمون",
+        back: "← بازگشت",
+        question_of: (n, total) => `سوال ${n} از ${total}`,
+        level_beginner: "🌱 مقدماتی",
+        level_intermediate: "🎯 متوسط",
+        level_advanced: "🚀 پیشرفته",
+        question_label: "سوال",
+        ide_title: "💻 تست کد",
+        your_code: "📝 کد شما",
+        code_placeholder: "کد Python خود را اینجا بنویسید...",
+        output: "📤 خروجی",
+        waiting_run: "منتظر اجرا...",
+        run: "اجرا",
+        clear: "پاک‌کردن",
+        prev: "← قبلی",
+        next: "بعدی →",
+        answered_of: (a, t) => `${a}/${t} سوال پاسخ داده شد`,
+        finish_exam: "پایان آزمون ✓",
+        please_write_code: "⚠️ لطفاً کدی بنویسید",
+        preparing: "⏳ در حال آماده‌سازی...",
+        pyodide_not_ready: "❌ Pyodide آماده نشد. صفحه را دوباره بارگذاری کنید",
+        running: "⏳ در حال اجرا...",
+        run_success: "✅ کد با موفقیت اجرا شد",
+        run_error: "❌ خطا:",
+        confirm_leave: "آیا مطمئن هستید؟ داده‌های شما ذخیره نخواهد شد",
+        error_loading_page: "خطا در بارگیری صفحه",
+        error_saving_result: "خطا در ذخیره نتیجه",
+        result_excellent: "🎉 عالی! نتیجه فوق‌العاده‌ای گرفتید!",
+        result_good: "✅ خوب! نتیجه خوبی گرفتید",
+        result_average: "📚 نتیجه متوسطی دریافت کردید",
+        result_weak: "💪 چند روز دیگر دوباره تلاش کنید",
+        out_of_100: "از 100",
+        correct_answers: "پاسخ صحیح",
+        wrong_answers: "پاسخ غلط",
+        time_label: "زمان",
+        back_action: "بازگشت",
+        retake: "دوباره"
+      },
+      en: {
+        brand_title: "Python",
+        brand_subtitle: "Exam",
+        back: "← Back",
+        question_of: (n, total) => `Question ${n} of ${total}`,
+        level_beginner: "🌱 Beginner",
+        level_intermediate: "🎯 Intermediate",
+        level_advanced: "🚀 Advanced",
+        question_label: "Question",
+        ide_title: "💻 Test Code",
+        your_code: "📝 Your Code",
+        code_placeholder: "Write your Python code here...",
+        output: "📤 Output",
+        waiting_run: "Waiting to run...",
+        run: "Run",
+        clear: "Clear",
+        prev: "← Previous",
+        next: "Next →",
+        answered_of: (a, t) => `${a}/${t} questions answered`,
+        finish_exam: "Finish Exam ✓",
+        please_write_code: "⚠️ Please write some code",
+        preparing: "⏳ Preparing...",
+        pyodide_not_ready: "❌ Pyodide did not load. Please reload the page",
+        running: "⏳ Running...",
+        run_success: "✅ Code ran successfully",
+        run_error: "❌ Error:",
+        confirm_leave: "Are you sure? Your data will not be saved",
+        error_loading_page: "Error loading page",
+        error_saving_result: "Error saving result",
+        result_excellent: "🎉 Excellent! Amazing result!",
+        result_good: "✅ Good! You got a nice score",
+        result_average: "📚 You got an average score",
+        result_weak: "💪 Try again in a few days",
+        out_of_100: "out of 100",
+        correct_answers: "Correct Answers",
+        wrong_answers: "Wrong Answers",
+        time_label: "Time",
+        back_action: "Back",
+        retake: "Retake"
+      }
+    };
+
+    let currentLang = 'fa';
+
+    const LEVEL_NAME_KEYS = {
+      beginner: 'level_beginner',
+      intermediate: 'level_intermediate',
+      advanced: 'level_advanced'
+    };
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+      // Update buttons
+      document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+      // Update all [data-i18n] elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) {
+          el.textContent = i18n[lang][key];
+        }
+      });
+
+      // Save preference
+      localStorage.setItem('lpic_lang', lang);
+
+      // Rebuild exam questions in the new language (keeping the same shuffled order/answers)
+      if (window.examSystem && examSystem.exam.questionOrder) {
+        examSystem.exam.questions = examSystem.exam.questionOrder.map(
+          i => PYTHON_QUESTIONS[currentLang][examSystem.exam.level][i]
+        );
+        examSystem.render();
+      }
+    }
+
+    // ============ سوالات Python (دوزبانه) ============
     const PYTHON_QUESTIONS = {
-      beginner: [
-        {
-          id: 1,
-          text: 'خروجی دستور زیر چیست؟\n\nprint(2 + 3 * 2)',
-          options: ['10', '8', '6', '7'],
-          correct: 1
-        },
-        {
-          id: 2,
-          text: 'کدام یک از موارد زیر یک متغیر معتبر در Python است؟',
-          options: ['2var', '_var', 'class', 'def'],
-          correct: 1
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\nname = "Python"\nprint(len(name))',
-          options: ['5', '6', '7', 'خطا'],
-          correct: 1
-        },
-        {
-          id: 4,
-          text: 'لیست در Python چیست؟',
-          options: ['مجموعه نامرتب', 'دنباله مرتب', 'مجموعه بدون تکرار', 'فرهنگ'],
-          correct: 1
-        },
-        {
-          id: 5,
-          text: 'خروجی کد زیر چیست؟\n\nx = [1, 2, 3]\nx.append(4)\nprint(x)',
-          options: ['[1, 2, 3, 4]', '[1, 2, 3]', '4', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'مقدار i در انتهای حلقه چیست؟\n\nfor i in range(5):\n    pass',
-          options: ['4', '5', '0', '6'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'خروجی کد زیر چیست؟\n\nif 5 > 3:\n    print("بله")\nelse:\n    print("خیر")',
-          options: ['خیر', 'بله', 'خطا', 'هیچکدام'],
-          correct: 1
-        },
-        {
-          id: 8,
-          text: 'کدام تابع برای دریافت طول یک رشته استفاده می‌شود؟',
-          options: ['length()', 'size()', 'len()', 'count()'],
-          correct: 2
-        },
-        {
-          id: 9,
-          text: 'نوع داده متغیر x چیست؟\n\nx = 3.14',
-          options: ['int', 'str', 'float', 'bool'],
-          correct: 2
-        },
-        {
-          id: 10,
-          text: 'خروجی کد زیر چیست؟\n\nprint("Hello" + " " + "World")',
-          options: ['Hello World', 'Hello + + World', '"Hello World"', 'خطا'],
-          correct: 0
-        }
-      ],
-
-      intermediate: [
-        {
-          id: 1,
-          text: 'خروجی کد زیر چیست؟\n\ndef add(a, b):\n    return a + b\nprint(add(2, 3))',
-          options: ['5', 'add(2, 3)', 'None', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 2,
-          text: 'lambda در Python برای چه استفاده می‌شود؟',
-          options: ['تابع ناشناس', 'حلقه', 'شرط', 'مودول'],
-          correct: 0
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\nmy_dict = {"name": "Ali", "age": 25}\nprint(my_dict["name"])',
-          options: ['Ali', 'name', 'خطا', 'None'],
-          correct: 0
-        },
-        {
-          id: 4,
-          text: 'خروجی list comprehension زیر چیست؟\n\n[x*2 for x in range(3)]',
-          options: ['[0, 2, 4]', '[1, 2, 3]', '[2, 4, 6]', '[0, 1, 2]'],
-          correct: 0
-        },
-        {
-          id: 5,
-          text: 'تفاوت بین extend() و append() چیست؟',
-          options: ['append عنصر، extend لیست اضافه می‌کند', 'extend عنصر، append لیست', 'بدون تفاوت', 'extend فقط برای لیست'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'خروجی کد زیر چیست؟\n\nmy_set = {1, 2, 2, 3}\nprint(len(my_set))',
-          options: ['3', '4', '2', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'خروجی کد زیر چیست؟\n\ntry:\n    print(1/0)\nexcept:\n    print("خطا")',
-          options: ['خطا', '1', 'Exception', 'None'],
-          correct: 0
-        },
-        {
-          id: 8,
-          text: 'کدام تابع فاصله‌های خالی را حذف می‌کند؟',
-          options: ['clean()', 'strip()', 'remove()', 'trim()'],
-          correct: 1
-        },
-        {
-          id: 9,
-          text: 'خروجی کد زیر چیست؟\n\na = [1, 2, 3]\nprint(a[-1])',
-          options: ['3', '-1', '1', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 10,
-          text: 'import math برای چه استفاده می‌شود؟',
-          options: ['ماژول ریاضی', 'متغیر ریاضی', 'اصلاح خطا', 'تایید اعداد'],
-          correct: 0
-        }
-      ],
-
-      advanced: [
-        {
-          id: 1,
-          text: 'خروجی کد زیر چیست؟\n\nclass Animal:\n    def sound(self):\n        return "صدا"\nclass Dog(Animal):\n    def sound(self):\n        return "واو"\nprint(Dog().sound())',
-          options: ['واو', 'صدا', 'خطا', 'None'],
-          correct: 0
-        },
-        {
-          id: 2,
-          text: 'Decorator برای چه استفاده می‌شود؟',
-          options: ['تغییر رفتار تابع', 'تابع جدید', 'ذخیره داده', 'بهتری performance'],
-          correct: 0
-        },
-        {
-          id: 3,
-          text: 'خروجی کد زیر چیست؟\n\ndef outer():\n    x = 10\n    def inner():\n        return x\n    return inner()\nprint(outer())',
-          options: ['10', 'خطا', 'None', 'inner'],
-          correct: 0
-        },
-        {
-          id: 4,
-          text: 'خروجی کد زیر چیست؟\n\nfrom functools import reduce\nfrom operator import add\nresult = reduce(add, [1, 2, 3, 4])\nprint(result)',
-          options: ['10', '[1, 2, 3, 4]', '4', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 5,
-          text: '*args برای چه استفاده می‌شود؟',
-          options: ['آرگومان نامشخص', 'یک آرگومان', 'لیست', 'دیکشنری'],
-          correct: 0
-        },
-        {
-          id: 6,
-          text: 'خروجی کد زیر چیست؟\n\nimport json\ndata = {"name": "Ali"}\njson_str = json.dumps(data)\nprint(type(json_str))',
-          options: ["&lt;class 'str'&gt;", "&lt;class 'dict'&gt;", "&lt;class 'list'&gt;", 'خطا'],
-          correct: 0
-        },
-        {
-          id: 7,
-          text: 'Generator چیست؟',
-          options: ['تابع yield', 'تابع یکبار', 'بدون return', 'خصوصی'],
-          correct: 0
-        },
-        {
-          id: 8,
-          text: 'خروجی کد زیر چیست؟\n\ndef multi(a, b=2):\n    return a ** b\nprint(multi(3))',
-          options: ['9', '6', '3', 'خطا'],
-          correct: 0
-        },
-        {
-          id: 9,
-          text: 'Context manager (with) برای چه استفاده می‌شود؟',
-          options: ['مدیریت منابع', 'متغیر', 'حلقه', 'کلاس'],
-          correct: 0
-        },
-        {
-          id: 10,
-          text: 'خروجی کد زیر چیست؟\n\nfrom collections import defaultdict\ndd = defaultdict(list)\ndd["key"].append(1)\nprint(dd["key"])',
-          options: ['[1]', 'خطا', '[]', '1'],
-          correct: 0
-        }
-      ]
+      fa: {
+        beginner: [
+          {
+            id: 1,
+            text: 'خروجی دستور زیر چیست؟\n\nprint(2 + 3 * 2)',
+            options: ['10', '8', '6', '7'],
+            correct: 1
+          },
+          {
+            id: 2,
+            text: 'کدام یک از موارد زیر یک متغیر معتبر در Python است؟',
+            options: ['2var', '_var', 'class', 'def'],
+            correct: 1
+          },
+          {
+            id: 3,
+            text: 'خروجی کد زیر چیست؟\n\nname = "Python"\nprint(len(name))',
+            options: ['5', '6', '7', 'خطا'],
+            correct: 1
+          },
+          {
+            id: 4,
+            text: 'لیست در Python چیست؟',
+            options: ['مجموعه نامرتب', 'دنباله مرتب', 'مجموعه بدون تکرار', 'فرهنگ'],
+            correct: 1
+          },
+          {
+            id: 5,
+            text: 'خروجی کد زیر چیست؟\n\nx = [1, 2, 3]\nx.append(4)\nprint(x)',
+            options: ['[1, 2, 3, 4]', '[1, 2, 3]', '4', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'مقدار i در انتهای حلقه چیست؟\n\nfor i in range(5):\n    pass',
+            options: ['4', '5', '0', '6'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'خروجی کد زیر چیست؟\n\nif 5 > 3:\n    print("بله")\nelse:\n    print("خیر")',
+            options: ['خیر', 'بله', 'خطا', 'هیچکدام'],
+            correct: 1
+          },
+          {
+            id: 8,
+            text: 'کدام تابع برای دریافت طول یک رشته استفاده می‌شود؟',
+            options: ['length()', 'size()', 'len()', 'count()'],
+            correct: 2
+          },
+          {
+            id: 9,
+            text: 'نوع داده متغیر x چیست؟\n\nx = 3.14',
+            options: ['int', 'str', 'float', 'bool'],
+            correct: 2
+          },
+          {
+            id: 10,
+            text: 'خروجی کد زیر چیست؟\n\nprint("Hello" + " " + "World")',
+            options: ['Hello World', 'Hello + + World', '"Hello World"', 'خطا'],
+            correct: 0
+          }
+        ],
+        intermediate: [
+          {
+            id: 1,
+            text: 'خروجی کد زیر چیست؟\n\ndef add(a, b):\n    return a + b\nprint(add(2, 3))',
+            options: ['5', 'add(2, 3)', 'None', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 2,
+            text: 'lambda در Python برای چه استفاده می‌شود؟',
+            options: ['تابع ناشناس', 'حلقه', 'شرط', 'مودول'],
+            correct: 0
+          },
+          {
+            id: 3,
+            text: 'خروجی کد زیر چیست؟\n\nmy_dict = {"name": "Ali", "age": 25}\nprint(my_dict["name"])',
+            options: ['Ali', 'name', 'خطا', 'None'],
+            correct: 0
+          },
+          {
+            id: 4,
+            text: 'خروجی list comprehension زیر چیست؟\n\n[x*2 for x in range(3)]',
+            options: ['[0, 2, 4]', '[1, 2, 3]', '[2, 4, 6]', '[0, 1, 2]'],
+            correct: 0
+          },
+          {
+            id: 5,
+            text: 'تفاوت بین extend() و append() چیست؟',
+            options: ['append عنصر، extend لیست اضافه می‌کند', 'extend عنصر، append لیست', 'بدون تفاوت', 'extend فقط برای لیست'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'خروجی کد زیر چیست؟\n\nmy_set = {1, 2, 2, 3}\nprint(len(my_set))',
+            options: ['3', '4', '2', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'خروجی کد زیر چیست؟\n\ntry:\n    print(1/0)\nexcept:\n    print("خطا")',
+            options: ['خطا', '1', 'Exception', 'None'],
+            correct: 0
+          },
+          {
+            id: 8,
+            text: 'کدام تابع فاصله‌های خالی را حذف می‌کند؟',
+            options: ['clean()', 'strip()', 'remove()', 'trim()'],
+            correct: 1
+          },
+          {
+            id: 9,
+            text: 'خروجی کد زیر چیست؟\n\na = [1, 2, 3]\nprint(a[-1])',
+            options: ['3', '-1', '1', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 10,
+            text: 'import math برای چه استفاده می‌شود؟',
+            options: ['ماژول ریاضی', 'متغیر ریاضی', 'اصلاح خطا', 'تایید اعداد'],
+            correct: 0
+          }
+        ],
+        advanced: [
+          {
+            id: 1,
+            text: 'خروجی کد زیر چیست؟\n\nclass Animal:\n    def sound(self):\n        return "صدا"\nclass Dog(Animal):\n    def sound(self):\n        return "واو"\nprint(Dog().sound())',
+            options: ['واو', 'صدا', 'خطا', 'None'],
+            correct: 0
+          },
+          {
+            id: 2,
+            text: 'Decorator برای چه استفاده می‌شود؟',
+            options: ['تغییر رفتار تابع', 'تابع جدید', 'ذخیره داده', 'بهتری performance'],
+            correct: 0
+          },
+          {
+            id: 3,
+            text: 'خروجی کد زیر چیست؟\n\ndef outer():\n    x = 10\n    def inner():\n        return x\n    return inner()\nprint(outer())',
+            options: ['10', 'خطا', 'None', 'inner'],
+            correct: 0
+          },
+          {
+            id: 4,
+            text: 'خروجی کد زیر چیست؟\n\nfrom functools import reduce\nfrom operator import add\nresult = reduce(add, [1, 2, 3, 4])\nprint(result)',
+            options: ['10', '[1, 2, 3, 4]', '4', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 5,
+            text: '*args برای چه استفاده می‌شود؟',
+            options: ['آرگومان نامشخص', 'یک آرگومان', 'لیست', 'دیکشنری'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'خروجی کد زیر چیست؟\n\nimport json\ndata = {"name": "Ali"}\njson_str = json.dumps(data)\nprint(type(json_str))',
+            options: ["&lt;class 'str'&gt;", "&lt;class 'dict'&gt;", "&lt;class 'list'&gt;", 'خطا'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'Generator چیست؟',
+            options: ['تابع yield', 'تابع یکبار', 'بدون return', 'خصوصی'],
+            correct: 0
+          },
+          {
+            id: 8,
+            text: 'خروجی کد زیر چیست؟\n\ndef multi(a, b=2):\n    return a ** b\nprint(multi(3))',
+            options: ['9', '6', '3', 'خطا'],
+            correct: 0
+          },
+          {
+            id: 9,
+            text: 'Context manager (with) برای چه استفاده می‌شود؟',
+            options: ['مدیریت منابع', 'متغیر', 'حلقه', 'کلاس'],
+            correct: 0
+          },
+          {
+            id: 10,
+            text: 'خروجی کد زیر چیست؟\n\nfrom collections import defaultdict\ndd = defaultdict(list)\ndd["key"].append(1)\nprint(dd["key"])',
+            options: ['[1]', 'خطا', '[]', '1'],
+            correct: 0
+          }
+        ]
+      },
+      en: {
+        beginner: [
+          {
+            id: 1,
+            text: 'What is the output of the following statement?\n\nprint(2 + 3 * 2)',
+            options: ['10', '8', '6', '7'],
+            correct: 1
+          },
+          {
+            id: 2,
+            text: 'Which of the following is a valid variable name in Python?',
+            options: ['2var', '_var', 'class', 'def'],
+            correct: 1
+          },
+          {
+            id: 3,
+            text: 'What is the output of the following code?\n\nname = "Python"\nprint(len(name))',
+            options: ['5', '6', '7', 'Error'],
+            correct: 1
+          },
+          {
+            id: 4,
+            text: 'What is a list in Python?',
+            options: ['An unordered collection', 'An ordered sequence', 'A collection without duplicates', 'A dictionary'],
+            correct: 1
+          },
+          {
+            id: 5,
+            text: 'What is the output of the following code?\n\nx = [1, 2, 3]\nx.append(4)\nprint(x)',
+            options: ['[1, 2, 3, 4]', '[1, 2, 3]', '4', 'Error'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'What is the value of i at the end of the loop?\n\nfor i in range(5):\n    pass',
+            options: ['4', '5', '0', '6'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'What is the output of the following code?\n\nif 5 > 3:\n    print("Yes")\nelse:\n    print("No")',
+            options: ['No', 'Yes', 'Error', 'None of these'],
+            correct: 1
+          },
+          {
+            id: 8,
+            text: 'Which function is used to get the length of a string?',
+            options: ['length()', 'size()', 'len()', 'count()'],
+            correct: 2
+          },
+          {
+            id: 9,
+            text: 'What is the data type of variable x?\n\nx = 3.14',
+            options: ['int', 'str', 'float', 'bool'],
+            correct: 2
+          },
+          {
+            id: 10,
+            text: 'What is the output of the following code?\n\nprint("Hello" + " " + "World")',
+            options: ['Hello World', 'Hello + + World', '"Hello World"', 'Error'],
+            correct: 0
+          }
+        ],
+        intermediate: [
+          {
+            id: 1,
+            text: 'What is the output of the following code?\n\ndef add(a, b):\n    return a + b\nprint(add(2, 3))',
+            options: ['5', 'add(2, 3)', 'None', 'Error'],
+            correct: 0
+          },
+          {
+            id: 2,
+            text: 'What is lambda used for in Python?',
+            options: ['Anonymous function', 'Loop', 'Condition', 'Module'],
+            correct: 0
+          },
+          {
+            id: 3,
+            text: 'What is the output of the following code?\n\nmy_dict = {"name": "Ali", "age": 25}\nprint(my_dict["name"])',
+            options: ['Ali', 'name', 'Error', 'None'],
+            correct: 0
+          },
+          {
+            id: 4,
+            text: 'What is the output of the following list comprehension?\n\n[x*2 for x in range(3)]',
+            options: ['[0, 2, 4]', '[1, 2, 3]', '[2, 4, 6]', '[0, 1, 2]'],
+            correct: 0
+          },
+          {
+            id: 5,
+            text: 'What is the difference between extend() and append()?',
+            options: ['append adds an element, extend adds a list', 'extend adds an element, append adds a list', 'No difference', 'extend only works for lists'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'What is the output of the following code?\n\nmy_set = {1, 2, 2, 3}\nprint(len(my_set))',
+            options: ['3', '4', '2', 'Error'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'What is the output of the following code?\n\ntry:\n    print(1/0)\nexcept:\n    print("Error")',
+            options: ['Error', '1', 'Exception', 'None'],
+            correct: 0
+          },
+          {
+            id: 8,
+            text: 'Which function removes whitespace from a string?',
+            options: ['clean()', 'strip()', 'remove()', 'trim()'],
+            correct: 1
+          },
+          {
+            id: 9,
+            text: 'What is the output of the following code?\n\na = [1, 2, 3]\nprint(a[-1])',
+            options: ['3', '-1', '1', 'Error'],
+            correct: 0
+          },
+          {
+            id: 10,
+            text: 'What is import math used for?',
+            options: ['Math module', 'Math variable', 'Fix errors', 'Validate numbers'],
+            correct: 0
+          }
+        ],
+        advanced: [
+          {
+            id: 1,
+            text: 'What is the output of the following code?\n\nclass Animal:\n    def sound(self):\n        return "Sound"\nclass Dog(Animal):\n    def sound(self):\n        return "Woof"\nprint(Dog().sound())',
+            options: ['Woof', 'Sound', 'Error', 'None'],
+            correct: 0
+          },
+          {
+            id: 2,
+            text: 'What is a decorator used for?',
+            options: ['Modifying function behavior', 'New function', 'Storing data', 'Better performance'],
+            correct: 0
+          },
+          {
+            id: 3,
+            text: 'What is the output of the following code?\n\ndef outer():\n    x = 10\n    def inner():\n        return x\n    return inner()\nprint(outer())',
+            options: ['10', 'Error', 'None', 'inner'],
+            correct: 0
+          },
+          {
+            id: 4,
+            text: 'What is the output of the following code?\n\nfrom functools import reduce\nfrom operator import add\nresult = reduce(add, [1, 2, 3, 4])\nprint(result)',
+            options: ['10', '[1, 2, 3, 4]', '4', 'Error'],
+            correct: 0
+          },
+          {
+            id: 5,
+            text: 'What is *args used for?',
+            options: ['Unspecified number of arguments', 'One argument', 'A list', 'A dictionary'],
+            correct: 0
+          },
+          {
+            id: 6,
+            text: 'What is the output of the following code?\n\nimport json\ndata = {"name": "Ali"}\njson_str = json.dumps(data)\nprint(type(json_str))',
+            options: ["&lt;class 'str'&gt;", "&lt;class 'dict'&gt;", "&lt;class 'list'&gt;", 'Error'],
+            correct: 0
+          },
+          {
+            id: 7,
+            text: 'What is a generator?',
+            options: ['yield function', 'One-time function', 'No return', 'Private'],
+            correct: 0
+          },
+          {
+            id: 8,
+            text: 'What is the output of the following code?\n\ndef multi(a, b=2):\n    return a ** b\nprint(multi(3))',
+            options: ['9', '6', '3', 'Error'],
+            correct: 0
+          },
+          {
+            id: 9,
+            text: 'What is a context manager (with) used for?',
+            options: ['Resource management', 'Variable', 'Loop', 'Class'],
+            correct: 0
+          },
+          {
+            id: 10,
+            text: 'What is the output of the following code?\n\nfrom collections import defaultdict\ndd = defaultdict(list)\ndd["key"].append(1)\nprint(dd["key"])',
+            options: ['[1]', 'Error', '[]', '1'],
+            correct: 0
+          }
+        ]
+      }
     };
 
     // ============ سیستم امتحان ============
@@ -927,7 +1347,7 @@
             return;
           }
           
-          console.log('🔄 Pyodide load شروع...');
+          console.log('🔄 Loading Pyodide...');
           
           // صبر کنیم تا loadPyodide موجود شود
           let attempts = 0;
@@ -945,9 +1365,9 @@
           });
           
           this.pyodideReady = true;
-          console.log('✅ Pyodide آماده است');
+          console.log('✅ Pyodide ready');
         } catch (err) {
-          console.error('❌ Pyodide خطا:', err);
+          console.error('❌ Pyodide error:', err);
           this.pyodideReady = false;
         }
       }
@@ -995,15 +1415,17 @@
           });
         } catch (err) {
           console.error('خطا:', err);
-          alert('خطا در بارگیری صفحه');
+          alert(i18n[currentLang].error_loading_page);
           this.goHome();
         }
       }
 
       loadQuestions() {
-        const questions = PYTHON_QUESTIONS[this.exam.level] || [];
-        const shuffled = [...questions].sort(() => Math.random() - 0.5);
-        this.exam.questions = shuffled.slice(0, 10);
+        const total = (PYTHON_QUESTIONS.fa[this.exam.level] || []).length;
+        const order = Array.from({ length: total }, (_, i) => i);
+        order.sort(() => Math.random() - 0.5);
+        this.exam.questionOrder = order;
+        this.exam.questions = order.map(i => PYTHON_QUESTIONS[currentLang][this.exam.level][i]);
       }
 
       render() {
@@ -1013,17 +1435,12 @@
       }
 
       renderHeader() {
-        const levelNames = {
-          beginner: '🌱 مقدماتی',
-          intermediate: '🎯 متوسط',
-          advanced: '🚀 پیشرفته'
-        };
-
         const answered = Object.keys(this.exam.answers).length;
         const total = this.exam.questions.length;
-        
-        document.querySelector('.course-level').textContent = `${this.exam.course} - ${levelNames[this.exam.level]}`;
-        document.getElementById('questionNumber').textContent = `سوال ${answered} از ${total}`;
+        const levelName = i18n[currentLang][LEVEL_NAME_KEYS[this.exam.level]];
+
+        document.querySelector('.course-level').textContent = `${this.exam.course} - ${levelName}`;
+        document.getElementById('questionNumber').textContent = i18n[currentLang].question_of(answered, total);
       }
 
       formatQuestionText(text) {
@@ -1041,34 +1458,35 @@
       }
 
       renderQuestions() {
+        const t = i18n[currentLang];
         const html = this.exam.questions.map((q, idx) => `
           <div class="question-item ${this.exam.answers[idx] !== undefined ? 'answered' : ''}">
             <div class="question-header">
-              <h3>سوال ${idx + 1}</h3>
+              <h3>${t.question_label} ${idx + 1}</h3>
               <span class="question-status">${this.exam.answers[idx] !== undefined ? '✓' : '○'}</span>
             </div>
             <p class="question-text">${this.formatQuestionText(q.text)}</p>
             
             <!-- IDE Section -->
             <div class="question-ide">
-              <div class="ide-label">💻 تست کد</div>
+              <div class="ide-label">${t.ide_title}</div>
               <div class="ide-grid">
                 <div class="code-input">
-                  <div class="input-label">📝 کد شما</div>
-                  <textarea class="code-textarea" id="code-${idx}" dir="ltr" placeholder="کد Python خود را اینجا بنویسید..."></textarea>
+                  <div class="input-label">${t.your_code}</div>
+                  <textarea class="code-textarea" id="code-${idx}" dir="ltr" placeholder="${t.code_placeholder}"></textarea>
                 </div>
                 <div class="output-box">
-                  <div class="input-label">📤 خروجی</div>
-                  <div class="console empty" id="output-${idx}" dir="ltr">منتظر اجرا...</div>
+                  <div class="input-label">${t.output}</div>
+                  <div class="console empty" id="output-${idx}" dir="ltr">${t.waiting_run}</div>
                 </div>
               </div>
               <div class="ide-buttons">
                 <button class="run-btn" onclick="examSystem.runCode(${idx})">
                   <span>▶</span>
-                  <span>اجرا</span>
+                  <span>${t.run}</span>
                   <span class="spinner" id="loader-${idx}" style="display:none;"></span>
                 </button>
-                <button class="clear-btn" onclick="examSystem.clearCode(${idx})">🗑️ پاک‌کردن</button>
+                <button class="clear-btn" onclick="examSystem.clearCode(${idx})">🗑️ ${t.clear}</button>
               </div>
             </div>
             
@@ -1089,22 +1507,24 @@
       }
 
       renderFooter() {
+        const t = i18n[currentLang];
         const answered = Object.keys(this.exam.answers).length;
         const total = this.exam.questions.length;
         
         const html = `
           <div class="exam-nav">
-            <button class="nav-btn" onclick="examSystem.previousQuestion()">← قبلی</button>
-            <span class="exam-info">${answered}/${total} سوال پاسخ داده شد</span>
-            <button class="nav-btn" onclick="examSystem.nextQuestion()">بعدی →</button>
+            <button class="nav-btn" onclick="examSystem.previousQuestion()">${t.prev}</button>
+            <span class="exam-info">${t.answered_of(answered, total)}</span>
+            <button class="nav-btn" onclick="examSystem.nextQuestion()">${t.next}</button>
           </div>
-          <button class="submit-btn" onclick="examSystem.submitExam()">پایان آزمون ✓</button>
+          <button class="submit-btn" onclick="examSystem.submitExam()">${t.finish_exam}</button>
         `;
 
         document.getElementById('examFooter').innerHTML = html;
       }
 
       async runCode(idx) {
+        const t = i18n[currentLang];
         const codeEl = document.getElementById(`code-${idx}`);
         const outputEl = document.getElementById(`output-${idx}`);
         const loaderEl = document.getElementById(`loader-${idx}`);
@@ -1112,14 +1532,14 @@
 
         const code = codeEl.value.trim();
         if (!code) {
-          outputEl.textContent = '⚠️ لطفاً کدی بنویسید';
+          outputEl.textContent = t.please_write_code;
           outputEl.className = 'console empty';
           return;
         }
 
         btnEl.disabled = true;
         loaderEl.style.display = 'inline-block';
-        outputEl.textContent = '⏳ در حال آماده‌سازی...';
+        outputEl.textContent = t.preparing;
         outputEl.className = 'console';
 
         // صبر کنیم تا Pyodide آماده شود
@@ -1130,7 +1550,7 @@
         }
 
         if (!this.pyodideReady) {
-          outputEl.textContent = '❌ Pyodide آماده نشد. صفحه را دوباره بارگذاری کنید';
+          outputEl.textContent = t.pyodide_not_ready;
           outputEl.className = 'console error';
           btnEl.disabled = false;
           loaderEl.style.display = 'none';
@@ -1138,7 +1558,7 @@
         }
 
         try {
-          outputEl.textContent = '⏳ در حال اجرا...';
+          outputEl.textContent = t.running;
           
           const lines = [];
           
@@ -1162,11 +1582,11 @@
             outputEl.textContent = String(result);
             outputEl.className = 'console success';
           } else {
-            outputEl.textContent = '✅ کد با موفقیت اجرا شد';
+            outputEl.textContent = t.run_success;
             outputEl.className = 'console success';
           }
         } catch (err) {
-          outputEl.textContent = `❌ خطا:\n${err.message}`;
+          outputEl.textContent = `${t.run_error}\n${err.message}`;
           outputEl.className = 'console error';
         } finally {
           btnEl.disabled = false;
@@ -1177,7 +1597,7 @@
       clearCode(idx) {
         document.getElementById(`code-${idx}`).value = '';
         const outputEl = document.getElementById(`output-${idx}`);
-        outputEl.textContent = 'منتظر اجرا...';
+        outputEl.textContent = i18n[currentLang].waiting_run;
         outputEl.className = 'console empty';
       }
 
@@ -1285,56 +1705,57 @@
           });
 
           if (error) {
-            console.error('خطا Supabase:', error);
-            alert('خطا در ذخیره نتیجه');
+            console.error('Supabase error:', error);
+            alert(i18n[currentLang].error_saving_result);
             return;
           }
 
-          console.log('✓ نتیجه ذخیره شد');
+          console.log('✓ Result saved');
         } catch (err) {
           console.error('خطا:', err);
         }
       }
 
       showResult(score, correctCount, timeSpent) {
+        const t = i18n[currentLang];
         const minutes = Math.floor(timeSpent / 60);
         const seconds = timeSpent % 60;
 
         let message = '';
-        if (score >= 90) message = '🎉 عالی! نتیجه فوق‌العاده‌ای گرفتید!';
-        else if (score >= 75) message = '✅ خوب! نتیجه خوبی گرفتید';
-        else if (score >= 50) message = '📚 نتیجه متوسطی دریافت کردید';
-        else message = '💪 چند روز دیگر دوباره تلاش کنید';
+        if (score >= 90) message = t.result_excellent;
+        else if (score >= 75) message = t.result_good;
+        else if (score >= 50) message = t.result_average;
+        else message = t.result_weak;
 
         const resultHTML = `
           <div class="result-content">
             <div class="result-message">${message}</div>
             <div class="big-score">${score}</div>
-            <div class="result-label">از 100</div>
+            <div class="result-label">${t.out_of_100}</div>
 
             <div class="result-details">
               <div class="detail-item">
                 <span class="detail-icon">✓</span>
-                <div class="detail-label">پاسخ صحیح</div>
+                <div class="detail-label">${t.correct_answers}</div>
                 <div class="detail-value">${correctCount}</div>
               </div>
 
               <div class="detail-item">
                 <span class="detail-icon">✗</span>
-                <div class="detail-label">پاسخ غلط</div>
+                <div class="detail-label">${t.wrong_answers}</div>
                 <div class="detail-value">${this.exam.questions.length - correctCount}</div>
               </div>
 
               <div class="detail-item">
                 <span class="detail-icon">⏱</span>
-                <div class="detail-label">زمان</div>
+                <div class="detail-label">${t.time_label}</div>
                 <div class="detail-value">${minutes}:${String(seconds).padStart(2, '0')}</div>
               </div>
             </div>
 
             <div class="result-actions">
-              <button class="action-btn primary" onclick="examSystem.goHome()">بازگشت</button>
-              <button class="action-btn secondary" onclick="examSystem.retakeExam()">دوباره</button>
+              <button class="action-btn primary" onclick="examSystem.goHome()">${t.back_action}</button>
+              <button class="action-btn secondary" onclick="examSystem.retakeExam()">${t.retake}</button>
             </div>
           </div>
         `;
@@ -1345,7 +1766,7 @@
 
       goBack() {
         if (Object.keys(this.exam.answers).length > 0) {
-          if (!confirm('آیا مطمئن هستید؟ داده‌های شما ذخیره نخواهد شد')) {
+          if (!confirm(i18n[currentLang].confirm_leave)) {
             return;
           }
         }
@@ -1357,7 +1778,7 @@
       }
 
       retakeExam() {
-        window.location.href = `./exam.html`;
+        window.location.href = `./exam.html?level=${this.exam.level}&course=${this.exam.course}`;
       }
 
       saveToStorage() {
