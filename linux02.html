@@ -887,12 +887,6 @@
       updateChartStats(currentChartLevel);
     }
 
-    // Load saved language preference
-    const savedLang = localStorage.getItem('lpic_lang');
-    if (savedLang && savedLang !== 'fa') {
-      setLang(savedLang);
-    }
-
     // ============ تنظیمات Supabase ============
     const SUPABASE = window.supabase.createClient(
       'https://cwwqmushilpxzpcpjute.supabase.co',
@@ -1252,6 +1246,12 @@
     // Go back
     function goBack() {
       window.location.href = './profile.html';
+    }
+
+    // Load saved language preference
+    const savedLang = localStorage.getItem('lpic_lang');
+    if (savedLang && savedLang !== 'fa') {
+      setLang(savedLang);
     }
 
     // Initialize
