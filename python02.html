@@ -42,6 +42,93 @@
       margin: 0 auto;
     }
 
+    /* ===== TOP BAR / NAVBAR ===== */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, .3);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .brand-icon:hover {
+      transform: scale(1.08) rotate(-5deg);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, .45);
+    }
+
+    .brand-text h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .brand-text span {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85rem;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, .25);
+    }
+
     /* Header */
     .header {
       display: flex;
@@ -402,17 +489,44 @@
       .level-card {
         padding: 24px;
       }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- ===== TOP BAR WITH LOGO & LANGUAGE SWITCHER ===== -->
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-icon">🐍</div>
+        <div class="brand-text">
+          <h2 data-i18n="brand_title">Python</h2>
+          <span data-i18n="brand_subtitle">آمادگی آزمون</span>
+        </div>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">
+          <span>🇮🇷</span> FA
+        </button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">
+          <span>🇺🇸</span> EN
+        </button>
+      </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
-      <button class="back-btn" onclick="goBack()">← بازگشت</button>
+      <button class="back-btn" onclick="goBack()">
+        <span data-i18n="back">← بازگشت</span>
+      </button>
       <div>
         <h1 class="course-title">🐍 Python</h1>
-        <p class="course-subtitle">برنامه‌نویسی برای شروع‌کننده‌ها</p>
+        <p class="course-subtitle" data-i18n="subtitle">برنامه‌نویسی برای شروع‌کننده‌ها</p>
       </div>
     </div>
 
@@ -423,27 +537,27 @@
         <div class="level-header">
           <span class="level-icon">🌱</span>
           <div class="level-info">
-            <h3>مقدماتی</h3>
-            <p>آغاز یادگیری</p>
+            <h3 data-i18n="beginner_title">مقدماتی</h3>
+            <p data-i18n="beginner_desc">آغاز یادگیری</p>
           </div>
         </div>
         <div class="level-stats">
           <div class="stat">
             <span class="stat-value">10</span>
-            <span class="stat-label">سوال</span>
+            <span class="stat-label" data-i18n="questions">سوال</span>
           </div>
           <div class="stat">
             <span class="stat-value">15</span>
-            <span class="stat-label">دقیقه</span>
+            <span class="stat-label" data-i18n="minutes">دقیقه</span>
           </div>
           <div class="stat">
             <span class="stat-value" id="beginner-score">—</span>
-            <span class="stat-label">نمره</span>
+            <span class="stat-label" data-i18n="score">نمره</span>
           </div>
         </div>
         <div class="level-actions">
-          <button class="start-btn" onclick="startExam('beginner')">شروع آزمون</button>
-          <button class="history-btn" onclick="viewLevelHistory('beginner')">تاریخچه</button>
+          <button class="start-btn" onclick="startExam('beginner')" data-i18n="start_exam">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('beginner')" data-i18n="history">تاریخچه</button>
         </div>
       </div>
 
@@ -452,27 +566,27 @@
         <div class="level-header">
           <span class="level-icon">🎯</span>
           <div class="level-info">
-            <h3>متوسط</h3>
-            <p>تقویت مهارت‌ها</p>
+            <h3 data-i18n="intermediate_title">متوسط</h3>
+            <p data-i18n="intermediate_desc">تقویت مهارت‌ها</p>
           </div>
         </div>
         <div class="level-stats">
           <div class="stat">
             <span class="stat-value">10</span>
-            <span class="stat-label">سوال</span>
+            <span class="stat-label" data-i18n="questions">سوال</span>
           </div>
           <div class="stat">
             <span class="stat-value">20</span>
-            <span class="stat-label">دقیقه</span>
+            <span class="stat-label" data-i18n="minutes">دقیقه</span>
           </div>
           <div class="stat">
             <span class="stat-value" id="intermediate-score">—</span>
-            <span class="stat-label">نمره</span>
+            <span class="stat-label" data-i18n="score">نمره</span>
           </div>
         </div>
         <div class="level-actions">
-          <button class="start-btn" onclick="startExam('intermediate')">شروع آزمون</button>
-          <button class="history-btn" onclick="viewLevelHistory('intermediate')">تاریخچه</button>
+          <button class="start-btn" onclick="startExam('intermediate')" data-i18n="start_exam">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('intermediate')" data-i18n="history">تاریخچه</button>
         </div>
       </div>
 
@@ -481,27 +595,27 @@
         <div class="level-header">
           <span class="level-icon">🚀</span>
           <div class="level-info">
-            <h3>پیشرفته</h3>
-            <p>تسلط کامل</p>
+            <h3 data-i18n="advanced_title">پیشرفته</h3>
+            <p data-i18n="advanced_desc">تسلط کامل</p>
           </div>
         </div>
         <div class="level-stats">
           <div class="stat">
             <span class="stat-value">10</span>
-            <span class="stat-label">سوال</span>
+            <span class="stat-label" data-i18n="questions">سوال</span>
           </div>
           <div class="stat">
             <span class="stat-value">25</span>
-            <span class="stat-label">دقیقه</span>
+            <span class="stat-label" data-i18n="minutes">دقیقه</span>
           </div>
           <div class="stat">
             <span class="stat-value" id="advanced-score">—</span>
-            <span class="stat-label">نمره</span>
+            <span class="stat-label" data-i18n="score">نمره</span>
           </div>
         </div>
         <div class="level-actions">
-          <button class="start-btn" onclick="startExam('advanced')">شروع آزمون</button>
-          <button class="history-btn" onclick="viewLevelHistory('advanced')">تاریخچه</button>
+          <button class="start-btn" onclick="startExam('advanced')" data-i18n="start_exam">شروع آزمون</button>
+          <button class="history-btn" onclick="viewLevelHistory('advanced')" data-i18n="history">تاریخچه</button>
         </div>
       </div>
     </div>
@@ -510,14 +624,14 @@
     <div class="chart-section">
       <div class="chart-header">
         <div>
-          <h2 class="section-title">📈 روند پیشرفت</h2>
-          <p class="chart-subtitle">نمره‌های شما در طول زمان — به صورت کلی یا برای هر سطح جداگانه</p>
+          <h2 class="section-title" data-i18n="progress_title">📈 روند پیشرفت</h2>
+          <p class="chart-subtitle" data-i18n="progress_subtitle">نمره‌های شما در طول زمان — به صورت کلی یا برای هر سطح جداگانه</p>
         </div>
         <div class="chart-tabs" id="chartTabs">
-          <button class="chart-tab active" data-level="all">همه سطوح</button>
-          <button class="chart-tab" data-level="beginner">🌱 مقدماتی</button>
-          <button class="chart-tab" data-level="intermediate">🎯 متوسط</button>
-          <button class="chart-tab" data-level="advanced">🚀 پیشرفته</button>
+          <button class="chart-tab active" data-level="all" data-i18n="chart_all">همه سطوح</button>
+          <button class="chart-tab" data-level="beginner">🌱 <span data-i18n="beginner_title">مقدماتی</span></button>
+          <button class="chart-tab" data-level="intermediate">🎯 <span data-i18n="intermediate_title">متوسط</span></button>
+          <button class="chart-tab" data-level="advanced">🚀 <span data-i18n="advanced_title">پیشرفته</span></button>
         </div>
       </div>
 
@@ -530,20 +644,20 @@
       <div class="chart-empty" id="chartEmpty">
         <div class="empty-state">
           <div class="empty-state-icon">📈</div>
-          <h3>هنوز داده‌ای برای نمودار وجود ندارد</h3>
-          <p>پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود</p>
+          <h3 data-i18n="chart_empty_title">هنوز داده‌ای برای نمودار وجود ندارد</h3>
+          <p data-i18n="chart_empty_desc">پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود</p>
         </div>
       </div>
     </div>
 
     <!-- History Section -->
     <div class="history-section">
-      <h2 class="section-title" id="historyTitle">📊 تاریخچه آزمون‌ها</h2>
+      <h2 class="section-title" id="historyTitle" data-i18n="history_title">📊 تاریخچه آزمون‌ها</h2>
       <div id="historyContainer">
         <div class="empty-state">
           <div class="empty-state-icon">📭</div>
-          <h3>هنوز امتحانی انجام نشده است</h3>
-          <p>یکی از آزمون‌های بالا را انجام دهید</p>
+          <h3 data-i18n="history_empty_title">هنوز امتحانی انجام نشده است</h3>
+          <p data-i18n="history_empty_desc">یکی از آزمون‌های بالا را انجام دهید</p>
         </div>
       </div>
     </div>
@@ -553,6 +667,100 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script>
+    // ============ BILINGUAL SYSTEM ============
+    const i18n = {
+      fa: {
+        brand_title: "Python",
+        brand_subtitle: "آمادگی آزمون",
+        back: "← بازگشت",
+        subtitle: "برنامه‌نویسی برای شروع‌کننده‌ها",
+        beginner_title: "مقدماتی",
+        beginner_desc: "آغاز یادگیری",
+        intermediate_title: "متوسط",
+        intermediate_desc: "تقویت مهارت‌ها",
+        advanced_title: "پیشرفته",
+        advanced_desc: "تسلط کامل",
+        questions: "سوال",
+        minutes: "دقیقه",
+        score: "نمره",
+        start_exam: "شروع آزمون",
+        history: "تاریخچه",
+        progress_title: "📈 روند پیشرفت",
+        progress_subtitle: "نمره‌های شما در طول زمان — به صورت کلی یا برای هر سطح جداگانه",
+        chart_all: "همه سطوح",
+        chart_empty_title: "هنوز داده‌ای برای نمودار وجود ندارد",
+        chart_empty_desc: "پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود",
+        history_title: "📊 تاریخچه آزمون‌ها",
+        history_empty_title: "هنوز امتحانی انجام نشده است",
+        history_empty_desc: "یکی از آزمون‌های بالا را انجام دهید",
+        stat_count: "تعداد آزمون",
+        stat_best: "بهترین نمره",
+        stat_avg: "میانگین نمره",
+        stat_trend: "تغییر نسبت به اولین آزمون",
+        level_history_empty: "هنوز آزمونی برای این سطح انجام نشده",
+        show_all: "نمایش همه",
+        correct: "صحیح"
+      },
+      en: {
+        brand_title: "Python",
+        brand_subtitle: "Exam Preparation",
+        back: "← Back",
+        subtitle: "Programming for Beginners",
+        beginner_title: "Beginner",
+        beginner_desc: "Start learning",
+        intermediate_title: "Intermediate",
+        intermediate_desc: "Strengthen your skills",
+        advanced_title: "Advanced",
+        advanced_desc: "Full mastery",
+        questions: "Questions",
+        minutes: "Minutes",
+        score: "Score",
+        start_exam: "Start Exam",
+        history: "History",
+        progress_title: "📈 Progress Chart",
+        progress_subtitle: "Your scores over time — overall or per level",
+        chart_all: "All Levels",
+        chart_empty_title: "No chart data yet",
+        chart_empty_desc: "Your progress will appear here after your first exam",
+        history_title: "📊 Exam History",
+        history_empty_title: "No exams taken yet",
+        history_empty_desc: "Take one of the exams above to get started",
+        stat_count: "Exams Taken",
+        stat_best: "Best Score",
+        stat_avg: "Average Score",
+        stat_trend: "Change from First Exam",
+        level_history_empty: "No exams taken for this level yet",
+        show_all: "Show All",
+        correct: "correct"
+      }
+    };
+
+    let currentLang = 'fa';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+      // Update buttons
+      document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+      // Update all [data-i18n] elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) {
+          el.textContent = i18n[lang][key];
+        }
+      });
+
+      // Save preference
+      localStorage.setItem('lpic_lang', lang);
+
+      // Re-render chart stats with new language
+      updateChartStats(currentChartLevel);
+    }
+
     // ============ تنظیمات Supabase ============
     const SUPABASE = window.supabase.createClient(
       'https://cwwqmushilpxzpcpjute.supabase.co',
@@ -564,10 +772,22 @@
     let progressChart = null;
     let currentChartLevel = 'all';
 
+    const LEVEL_NAMES = {
+      beginner: '🌱 مقدماتی',
+      intermediate: '🎯 متوسط',
+      advanced: '🚀 پیشرفته'
+    };
+
+    const LEVEL_NAMES_EN = {
+      beginner: '🌱 Beginner',
+      intermediate: '🎯 Intermediate',
+      advanced: '🚀 Advanced'
+    };
+
     const LEVEL_CONFIG = {
-      beginner: { name: 'مقدماتی', emoji: '🌱', color: '#38bdf8' },
-      intermediate: { name: 'متوسط', emoji: '🎯', color: '#a78bfa' },
-      advanced: { name: 'پیشرفته', emoji: '🚀', color: '#22c55e' }
+      beginner: { name: 'مقدماتی', name_en: 'Beginner', emoji: '🌱', color: '#38bdf8' },
+      intermediate: { name: 'متوسط', name_en: 'Intermediate', emoji: '🎯', color: '#a78bfa' },
+      advanced: { name: 'پیشرفته', name_en: 'Advanced', emoji: '🚀', color: '#22c55e' }
     };
 
     // Check Authentication
@@ -633,7 +853,7 @@
       const sorted = data.slice(0, 10); // Show last 10
       const html = sorted.map(exam => {
         const date = new Date(exam.created_at);
-        const dateStr = date.toLocaleDateString('fa-IR', {
+        const dateStr = date.toLocaleDateString(currentLang === 'fa' ? 'fa-IR' : 'en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
@@ -641,22 +861,15 @@
           minute: '2-digit'
         });
 
-        const levelEmoji = {
-          beginner: '🌱',
-          intermediate: '🎯',
-          advanced: '🚀'
-        }[exam.level] || '';
-
-        const levelName = {
-          beginner: 'مقدماتی',
-          intermediate: 'متوسط',
-          advanced: 'پیشرفته'
-        }[exam.level] || '';
+        const levelName = currentLang === 'fa'
+          ? (LEVEL_NAMES[exam.level] || exam.level)
+          : (LEVEL_NAMES_EN[exam.level] || exam.level);
+        const correctLabel = i18n[currentLang].correct;
 
         return `
           <div class="history-item">
             <div class="history-info">
-              <h4>${levelEmoji} ${levelName} - ${exam.correct_answers}/10 ✓</h4>
+              <h4>${levelName} - ${exam.correct_answers}/10 ${correctLabel}</h4>
               <p>${dateStr}</p>
             </div>
             <div class="history-score">${exam.score}</div>
@@ -699,7 +912,7 @@
           const points = buildLevelPoints(lvl);
           if (points.length > 0) {
             datasets.push({
-              label: `${LEVEL_CONFIG[lvl].emoji} ${LEVEL_CONFIG[lvl].name}`,
+              label: `${LEVEL_CONFIG[lvl].emoji} ${currentLang === 'fa' ? LEVEL_CONFIG[lvl].name : LEVEL_CONFIG[lvl].name_en}`,
               data: points,
               borderColor: LEVEL_CONFIG[lvl].color,
               backgroundColor: LEVEL_CONFIG[lvl].color + '26',
@@ -719,7 +932,7 @@
         const points = buildLevelPoints(levelFilter);
         const cfg = LEVEL_CONFIG[levelFilter];
         datasets.push({
-          label: `${cfg.emoji} ${cfg.name}`,
+          label: `${cfg.emoji} ${currentLang === 'fa' ? cfg.name : cfg.name_en}`,
           data: points,
           borderColor: cfg.color,
           backgroundColor: cfg.color + '33',
@@ -746,6 +959,9 @@
 
       const ctx = document.getElementById('progressChart').getContext('2d');
       if (progressChart) progressChart.destroy();
+
+      const scoreLabel = currentLang === 'fa' ? 'نمره' : 'Score';
+      const correctLabel = i18n[currentLang].correct;
 
       progressChart = new Chart(ctx, {
         type: 'line',
@@ -787,7 +1003,7 @@
               callbacks: {
                 label: (item) => {
                   const p = item.raw;
-                  return `نمره: ${p.y}  (${p.correct}/10 صحیح)`;
+                  return `${scoreLabel}: ${p.y}  (${p.correct}/10 ${correctLabel})`;
                 }
               }
             }
@@ -823,13 +1039,13 @@
       else { trendText = '0'; }
 
       const cards = [
-        { value: count, label: 'تعداد آزمون' },
-        { value: best, label: 'بهترین نمره' },
-        { value: avg, label: 'میانگین نمره' }
+        { value: count, label: i18n[currentLang].stat_count },
+        { value: best, label: i18n[currentLang].stat_best },
+        { value: avg, label: i18n[currentLang].stat_avg }
       ];
 
       if (count > 1) {
-        cards.push({ value: `${trendIcon} ${trendText}`, label: 'تغییر نسبت به اولین آزمون', cls: trendClass });
+        cards.push({ value: `${trendIcon} ${trendText}`, label: i18n[currentLang].stat_trend, cls: trendClass });
       }
 
       statsEl.innerHTML = cards.map(c => `
@@ -856,24 +1072,23 @@
 
     // View level history
     function viewLevelHistory(level) {
-      const levelNames = {
-        beginner: '🌱 مقدماتی',
-        intermediate: '🎯 متوسط',
-        advanced: '🚀 پیشرفته'
-      };
-
       const filtered = allExamResults.filter(e => e.level === level);
 
+      const showAllText = i18n[currentLang].show_all;
+      const levelName = currentLang === 'fa'
+        ? (LEVEL_NAMES[level] || level)
+        : (LEVEL_NAMES_EN[level] || level);
+
       document.getElementById('historyTitle').innerHTML = `
-        📊 تاریخچه سطح ${levelNames[level] || level}
-        <button onclick="showAllHistory()" style="margin-right:12px; padding:6px 14px; border-radius:8px; border:1px solid rgba(56,189,248,.3); background:rgba(56,189,248,.1); color:var(--accent); font-family:inherit; font-size:.85rem; cursor:pointer;">نمایش همه</button>
+        📊 ${currentLang === 'fa' ? 'تاریخچه' : 'History'} ${levelName}
+        <button onclick="showAllHistory()" style="margin-right:12px; padding:6px 14px; border-radius:8px; border:1px solid rgba(56,189,248,.3); background:rgba(56,189,248,.1); color:var(--accent); font-family:inherit; font-size:.85rem; cursor:pointer;">${showAllText}</button>
       `;
 
       if (filtered.length === 0) {
         document.getElementById('historyContainer').innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>هنوز آزمونی برای این سطح انجام نشده</h3>
+            <h3>${i18n[currentLang].level_history_empty}</h3>
           </div>
         `;
       } else {
@@ -885,7 +1100,7 @@
 
     // Show all history again
     function showAllHistory() {
-      document.getElementById('historyTitle').textContent = '📊 تاریخچه آزمون‌ها';
+      document.getElementById('historyTitle').textContent = i18n[currentLang].history_title;
       if (allExamResults.length > 0) {
         displayHistory(allExamResults);
       }
@@ -912,6 +1127,12 @@
         loadScores();
       }
     });
+
+    // Load saved language preference
+    const savedLang = localStorage.getItem('lpic_lang');
+    if (savedLang && savedLang !== 'fa') {
+      setLang(savedLang);
+    }
 
     // Initialize on first load
     checkAuth();
