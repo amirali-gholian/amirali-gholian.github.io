@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>دوره Linux (LPIC) | Amirali Gholian (امیرعلی قولیان)</title>
+  <title>Linux (LPIC) | Amirali Gholian</title>
   <link rel="icon" href="./logo.webp" type="image/png">
 
   <style>
@@ -40,6 +40,93 @@
     .container {
       max-width: var(--max);
       margin: 0 auto;
+    }
+
+    /* ===== TOP BAR / NAVBAR ===== */
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 24px;
+      padding: 12px 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, .3);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .brand-icon:hover {
+      transform: scale(1.08) rotate(-5deg);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, .45);
+    }
+
+    .brand-text h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .brand-text span {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
+    }
+
+    .lang-btn {
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .85rem;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .lang-btn:hover {
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
+    }
+
+    .lang-btn.active {
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, .25);
     }
 
     /* Header */
@@ -466,17 +553,44 @@
       .section-tabs {
         flex-direction: column;
       }
+
+      .top-bar {
+        flex-direction: column;
+        gap: 12px;
+      }
     }
   </style>
 </head>
 <body>
   <div class="container">
+
+    <!-- ===== TOP BAR WITH LOGO & LANGUAGE SWITCHER ===== -->
+    <div class="top-bar">
+      <div class="brand">
+        <div class="brand-icon">🐧</div>
+        <div class="brand-text">
+          <h2 data-i18n="brand_title">Linux LPIC</h2>
+          <span data-i18n="brand_subtitle">Exam Preparation</span>
+        </div>
+      </div>
+      <div class="lang-switcher">
+        <button class="lang-btn active" id="btn-fa" onclick="setLang('fa')">
+          <span>🇮🇷</span> FA
+        </button>
+        <button class="lang-btn" id="btn-en" onclick="setLang('en')">
+          <span>🇺🇸</span> EN
+        </button>
+      </div>
+    </div>
+
     <!-- Header -->
     <div class="header">
-      <button class="back-btn" onclick="goBack()">← بازگشت</button>
+      <button class="back-btn" onclick="goBack()">
+        <span data-i18n="back">← بازگشت</span>
+      </button>
       <div>
         <h1 class="course-title">🐧 Linux (LPIC)</h1>
-        <p class="course-subtitle">آمادگی برای آزمون‌های LPIC-1 و LPIC-2</p>
+        <p class="course-subtitle" data-i18n="subtitle">آمادگی برای آزمون‌های LPIC-1 و LPIC-2</p>
       </div>
     </div>
 
@@ -485,15 +599,15 @@
       <button class="section-tab active" id="tab-lpic1" onclick="switchSection('lpic1')">
         <span class="section-tab-icon">🥇</span>
         <div class="section-tab-text">
-          <h3>الپیک یک (LPIC-1)</h3>
-          <p>آزمون‌های 101 و 102</p>
+          <h3 data-i18n="lpic1_title">الپیک یک (LPIC-1)</h3>
+          <p data-i18n="lpic1_desc">آزمون‌های 101 و 102</p>
         </div>
       </button>
       <button class="section-tab" id="tab-lpic2" onclick="switchSection('lpic2')">
         <span class="section-tab-icon">🥈</span>
         <div class="section-tab-text">
-          <h3>الپیک دو (LPIC-2)</h3>
-          <p>آزمون‌های 201 و 202</p>
+          <h3 data-i18n="lpic2_title">الپیک دو (LPIC-2)</h3>
+          <p data-i18n="lpic2_desc">آزمون‌های 201 و 202</p>
         </div>
       </button>
     </div>
@@ -505,27 +619,27 @@
           <div class="level-header">
             <span class="level-icon">1️⃣</span>
             <div class="level-info">
-              <h3>آزمون 101</h3>
-              <p>معماری سیستم، نصب و مدیریت بسته، دستورات GNU/Unix، دستگاه‌ها و فایل‌سیستم</p>
+              <h3 data-i18n="exam101_title">آزمون 101</h3>
+              <p data-i18n="exam101_desc">معماری سیستم، نصب و مدیریت بسته، دستورات GNU/Unix، دستگاه‌ها و فایل‌سیستم</p>
             </div>
           </div>
           <div class="level-stats">
             <div class="stat">
               <span class="stat-value">60</span>
-              <span class="stat-label">سوال</span>
+              <span class="stat-label" data-i18n="questions">سوال</span>
             </div>
             <div class="stat">
               <span class="stat-value">90</span>
-              <span class="stat-label">دقیقه</span>
+              <span class="stat-label" data-i18n="minutes">دقیقه</span>
             </div>
             <div class="stat">
               <span class="stat-value" id="101-score">—</span>
-              <span class="stat-label">نمره</span>
+              <span class="stat-label" data-i18n="score">نمره</span>
             </div>
           </div>
           <div class="level-actions">
-            <button class="start-btn" onclick="startExam('101')">شروع آزمون</button>
-            <button class="history-btn" onclick="viewLevelHistory('101')">تاریخچه</button>
+            <button class="start-btn" onclick="startExam('101')" data-i18n="start_exam">شروع آزمون</button>
+            <button class="history-btn" onclick="viewLevelHistory('101')" data-i18n="history">تاریخچه</button>
           </div>
         </div>
 
@@ -533,27 +647,27 @@
           <div class="level-header">
             <span class="level-icon">2️⃣</span>
             <div class="level-info">
-              <h3>آزمون 102</h3>
-              <p>شل و اسکریپت‌نویسی، مدیریت کاربران، سرویس‌های سیستمی، شبکه و امنیت پایه</p>
+              <h3 data-i18n="exam102_title">آزمون 102</h3>
+              <p data-i18n="exam102_desc">شل و اسکریپت‌نویسی، مدیریت کاربران، سرویس‌های سیستمی، شبکه و امنیت پایه</p>
             </div>
           </div>
           <div class="level-stats">
             <div class="stat">
               <span class="stat-value">60</span>
-              <span class="stat-label">سوال</span>
+              <span class="stat-label" data-i18n="questions">سوال</span>
             </div>
             <div class="stat">
               <span class="stat-value">90</span>
-              <span class="stat-label">دقیقه</span>
+              <span class="stat-label" data-i18n="minutes">دقیقه</span>
             </div>
             <div class="stat">
               <span class="stat-value" id="102-score">—</span>
-              <span class="stat-label">نمره</span>
+              <span class="stat-label" data-i18n="score">نمره</span>
             </div>
           </div>
           <div class="level-actions">
-            <button class="start-btn" onclick="startExam('102')">شروع آزمون</button>
-            <button class="history-btn" onclick="viewLevelHistory('102')">تاریخچه</button>
+            <button class="start-btn" onclick="startExam('102')" data-i18n="start_exam">شروع آزمون</button>
+            <button class="history-btn" onclick="viewLevelHistory('102')" data-i18n="history">تاریخچه</button>
           </div>
         </div>
       </div>
@@ -566,27 +680,27 @@
           <div class="level-header">
             <span class="level-icon">1️⃣</span>
             <div class="level-info">
-              <h3>آزمون 201</h3>
-              <p>کرنل، راه‌اندازی سیستم، فایل‌سیستم و ذخیره‌سازی پیشرفته، شبکه و نگهداری سیستم</p>
+              <h3 data-i18n="exam201_title">آزمون 201</h3>
+              <p data-i18n="exam201_desc">کرنل، راه‌اندازی سیستم، فایل‌سیستم و ذخیره‌سازی پیشرفته، شبکه و نگهداری سیستم</p>
             </div>
           </div>
           <div class="level-stats">
             <div class="stat">
               <span class="stat-value">60</span>
-              <span class="stat-label">سوال</span>
+              <span class="stat-label" data-i18n="questions">سوال</span>
             </div>
             <div class="stat">
               <span class="stat-value">90</span>
-              <span class="stat-label">دقیقه</span>
+              <span class="stat-label" data-i18n="minutes">دقیقه</span>
             </div>
             <div class="stat">
               <span class="stat-value" id="201-score">—</span>
-              <span class="stat-label">نمره</span>
+              <span class="stat-label" data-i18n="score">نمره</span>
             </div>
           </div>
           <div class="level-actions">
-            <button class="start-btn" onclick="startExam('201')">شروع آزمون</button>
-            <button class="history-btn" onclick="viewLevelHistory('201')">تاریخچه</button>
+            <button class="start-btn" onclick="startExam('201')" data-i18n="start_exam">شروع آزمون</button>
+            <button class="history-btn" onclick="viewLevelHistory('201')" data-i18n="history">تاریخچه</button>
           </div>
         </div>
 
@@ -594,27 +708,27 @@
           <div class="level-header">
             <span class="level-icon">2️⃣</span>
             <div class="level-info">
-              <h3>آزمون 202</h3>
-              <p>DNS، وب‌سرور، اشتراک فایل، مدیریت کلاینت شبکه، ایمیل و امنیت سیستم</p>
+              <h3 data-i18n="exam202_title">آزمون 202</h3>
+              <p data-i18n="exam202_desc">DNS، وب‌سرور، اشتراک فایل، مدیریت کلاینت شبکه، ایمیل و امنیت سیستم</p>
             </div>
           </div>
           <div class="level-stats">
             <div class="stat">
               <span class="stat-value">60</span>
-              <span class="stat-label">سوال</span>
+              <span class="stat-label" data-i18n="questions">سوال</span>
             </div>
             <div class="stat">
               <span class="stat-value">90</span>
-              <span class="stat-label">دقیقه</span>
+              <span class="stat-label" data-i18n="minutes">دقیقه</span>
             </div>
             <div class="stat">
               <span class="stat-value" id="202-score">—</span>
-              <span class="stat-label">نمره</span>
+              <span class="stat-label" data-i18n="score">نمره</span>
             </div>
           </div>
           <div class="level-actions">
-            <button class="start-btn" onclick="startExam('202')">شروع آزمون</button>
-            <button class="history-btn" onclick="viewLevelHistory('202')">تاریخچه</button>
+            <button class="start-btn" onclick="startExam('202')" data-i18n="start_exam">شروع آزمون</button>
+            <button class="history-btn" onclick="viewLevelHistory('202')" data-i18n="history">تاریخچه</button>
           </div>
         </div>
       </div>
@@ -624,11 +738,11 @@
     <div class="chart-section">
       <div class="chart-header">
         <div>
-          <h2 class="section-title">📈 روند پیشرفت</h2>
-          <p class="chart-subtitle">نمره‌های شما در طول زمان — به صورت کلی یا برای هر آزمون جداگانه</p>
+          <h2 class="section-title" data-i18n="progress_title">📈 روند پیشرفت</h2>
+          <p class="chart-subtitle" data-i18n="progress_subtitle">نمره‌های شما در طول زمان — به صورت کلی یا برای هر آزمون جداگانه</p>
         </div>
         <div class="chart-tabs" id="chartTabs">
-          <button class="chart-tab active" data-level="all">همه آزمون‌ها</button>
+          <button class="chart-tab active" data-level="all" data-i18n="chart_all">همه آزمون‌ها</button>
           <button class="chart-tab" data-level="101">🥇 101</button>
           <button class="chart-tab" data-level="102">🥇 102</button>
           <button class="chart-tab" data-level="201">🥈 201</button>
@@ -645,20 +759,20 @@
       <div class="chart-empty" id="chartEmpty">
         <div class="empty-state">
           <div class="empty-state-icon">📈</div>
-          <h3>هنوز داده‌ای برای نمودار وجود ندارد</h3>
-          <p>پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود</p>
+          <h3 data-i18n="chart_empty_title">هنوز داده‌ای برای نمودار وجود ندارد</h3>
+          <p data-i18n="chart_empty_desc">پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود</p>
         </div>
       </div>
     </div>
 
     <!-- History Section -->
     <div class="history-section">
-      <h2 class="section-title" id="historyTitle">📊 تاریخچه آزمون‌ها</h2>
+      <h2 class="section-title" id="historyTitle" data-i18n="history_title">📊 تاریخچه آزمون‌ها</h2>
       <div id="historyContainer">
         <div class="empty-state">
           <div class="empty-state-icon">📭</div>
-          <h3>هنوز امتحانی انجام نشده است</h3>
-          <p>یکی از آزمون‌های بالا را انجام دهید</p>
+          <h3 data-i18n="history_empty_title">هنوز امتحانی انجام نشده است</h3>
+          <p data-i18n="history_empty_desc">یکی از آزمون‌های بالا را انجام دهید</p>
         </div>
       </div>
     </div>
@@ -669,6 +783,116 @@
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
   <script src="./linux-questions.js"></script>
   <script>
+    // ============ BILINGUAL SYSTEM ============
+    const i18n = {
+      fa: {
+        brand_title: "Linux LPIC",
+        brand_subtitle: "آمادگی آزمون",
+        back: "← بازگشت",
+        subtitle: "آمادگی برای آزمون‌های LPIC-1 و LPIC-2",
+        lpic1_title: "الپیک یک (LPIC-1)",
+        lpic1_desc: "آزمون‌های 101 و 102",
+        lpic2_title: "الپیک دو (LPIC-2)",
+        lpic2_desc: "آزمون‌های 201 و 202",
+        exam101_title: "آزمون 101",
+        exam101_desc: "معماری سیستم، نصب و مدیریت بسته، دستورات GNU/Unix، دستگاه‌ها و فایل‌سیستم",
+        exam102_title: "آزمون 102",
+        exam102_desc: "شل و اسکریپت‌نویسی، مدیریت کاربران، سرویس‌های سیستمی، شبکه و امنیت پایه",
+        exam201_title: "آزمون 201",
+        exam201_desc: "کرنل، راه‌اندازی سیستم، فایل‌سیستم و ذخیره‌سازی پیشرفته، شبکه و نگهداری سیستم",
+        exam202_title: "آزمون 202",
+        exam202_desc: "DNS، وب‌سرور، اشتراک فایل، مدیریت کلاینت شبکه، ایمیل و امنیت سیستم",
+        questions: "سوال",
+        minutes: "دقیقه",
+        score: "نمره",
+        start_exam: "شروع آزمون",
+        history: "تاریخچه",
+        progress_title: "📈 روند پیشرفت",
+        progress_subtitle: "نمره‌های شما در طول زمان — به صورت کلی یا برای هر آزمون جداگانه",
+        chart_all: "همه آزمون‌ها",
+        chart_empty_title: "هنوز داده‌ای برای نمودار وجود ندارد",
+        chart_empty_desc: "پس از انجام اولین آزمون، روند پیشرفت شما اینجا نمایش داده می‌شود",
+        history_title: "📊 تاریخچه آزمون‌ها",
+        history_empty_title: "هنوز امتحانی انجام نشده است",
+        history_empty_desc: "یکی از آزمون‌های بالا را انجام دهید",
+        stat_count: "تعداد آزمون",
+        stat_best: "بهترین نمره",
+        stat_avg: "میانگین نمره",
+        stat_trend: "تغییر نسبت به اولین آزمون",
+        level_history_empty: "هنوز آزمونی برای این سطح انجام نشده",
+        show_all: "نمایش همه"
+      },
+      en: {
+        brand_title: "Linux LPIC",
+        brand_subtitle: "Exam Preparation",
+        back: "← Back",
+        subtitle: "Preparation for LPIC-1 and LPIC-2 Exams",
+        lpic1_title: "LPIC-1",
+        lpic1_desc: "Exams 101 & 102",
+        lpic2_title: "LPIC-2",
+        lpic2_desc: "Exams 201 & 202",
+        exam101_title: "Exam 101",
+        exam101_desc: "System Architecture, Installation & Package Management, GNU/Unix Commands, Devices & Filesystems",
+        exam102_title: "Exam 102",
+        exam102_desc: "Shells & Scripting, User Management, System Services, Networking & Basic Security",
+        exam201_title: "Exam 201",
+        exam201_desc: "Kernel, System Startup, Advanced Filesystems & Storage, Networking & System Maintenance",
+        exam202_title: "Exam 202",
+        exam202_desc: "DNS, Web Server, File Sharing, Network Client Management, Mail & System Security",
+        questions: "Questions",
+        minutes: "Minutes",
+        score: "Score",
+        start_exam: "Start Exam",
+        history: "History",
+        progress_title: "📈 Progress Chart",
+        progress_subtitle: "Your scores over time — overall or per exam",
+        chart_all: "All Exams",
+        chart_empty_title: "No chart data yet",
+        chart_empty_desc: "Your progress will appear here after your first exam",
+        history_title: "📊 Exam History",
+        history_empty_title: "No exams taken yet",
+        history_empty_desc: "Take one of the exams above to get started",
+        stat_count: "Exams Taken",
+        stat_best: "Best Score",
+        stat_avg: "Average Score",
+        stat_trend: "Change from First Exam",
+        level_history_empty: "No exams taken for this level yet",
+        show_all: "Show All"
+      }
+    };
+
+    let currentLang = 'fa';
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.documentElement.lang = lang;
+      document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
+
+      // Update buttons
+      document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+      document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+      // Update all [data-i18n] elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (i18n[lang][key]) {
+          el.textContent = i18n[lang][key];
+        }
+      });
+
+      // Save preference
+      localStorage.setItem('lpic_lang', lang);
+
+      // Re-render chart stats with new language
+      updateChartStats(currentChartLevel);
+    }
+
+    // Load saved language preference
+    const savedLang = localStorage.getItem('lpic_lang');
+    if (savedLang && savedLang !== 'fa') {
+      setLang(savedLang);
+    }
+
     // ============ تنظیمات Supabase ============
     const SUPABASE = window.supabase.createClient(
       'https://cwwqmushilpxzpcpjute.supabase.co',
@@ -687,11 +911,18 @@
       '202': '2️⃣ آزمون 202'
     };
 
+    const LEVEL_NAMES_EN = {
+      '101': '1️⃣ Exam 101',
+      '102': '2️⃣ Exam 102',
+      '201': '1️⃣ Exam 201',
+      '202': '2️⃣ Exam 202'
+    };
+
     const LEVEL_CONFIG = {
-      '101': { name: 'آزمون 101', emoji: '🥇', color: '#38bdf8' },
-      '102': { name: 'آزمون 102', emoji: '🥇', color: '#a78bfa' },
-      '201': { name: 'آزمون 201', emoji: '🥈', color: '#22c55e' },
-      '202': { name: 'آزمون 202', emoji: '🥈', color: '#f59e0b' }
+      '101': { name: 'آزمون 101', name_en: 'Exam 101', emoji: '🥇', color: '#38bdf8' },
+      '102': { name: 'آزمون 102', name_en: 'Exam 102', emoji: '🥇', color: '#a78bfa' },
+      '201': { name: 'آزمون 201', name_en: 'Exam 201', emoji: '🥈', color: '#22c55e' },
+      '202': { name: 'آزمون 202', name_en: 'Exam 202', emoji: '🥈', color: '#f59e0b' }
     };
 
     // Section switching (LPIC-1 / LPIC-2)
@@ -761,7 +992,7 @@
       const sorted = data.slice(0, 10); // Show last 10
       const html = sorted.map(exam => {
         const date = new Date(exam.created_at);
-        const dateStr = date.toLocaleDateString('fa-IR', {
+        const dateStr = date.toLocaleDateString(currentLang === 'fa' ? 'fa-IR' : 'en-US', {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
@@ -769,13 +1000,16 @@
           minute: '2-digit'
         });
 
-        const levelName = LEVEL_NAMES[exam.level] || exam.level;
+        const levelName = currentLang === 'fa'
+          ? (LEVEL_NAMES[exam.level] || exam.level)
+          : (LEVEL_NAMES_EN[exam.level] || exam.level);
         const totalQ = (exam.level === '101' || exam.level === '102' || exam.level === '201' || exam.level === '202') ? 60 : 10;
+        const correctLabel = currentLang === 'fa' ? 'صحیح' : 'correct';
 
         return `
           <div class="history-item">
             <div class="history-info">
-              <h4>${levelName} - ${exam.correct_answers}/${totalQ} ✓</h4>
+              <h4>${levelName} - ${exam.correct_answers}/${totalQ} ${correctLabel}</h4>
               <p>${dateStr}</p>
             </div>
             <div class="history-score">${exam.score}</div>
@@ -821,7 +1055,7 @@
           const points = buildLevelPoints(lvl);
           if (points.length > 0) {
             datasets.push({
-              label: `${LEVEL_CONFIG[lvl].emoji} ${LEVEL_CONFIG[lvl].name}`,
+              label: `${LEVEL_CONFIG[lvl].emoji} ${currentLang === 'fa' ? LEVEL_CONFIG[lvl].name : LEVEL_CONFIG[lvl].name_en}`,
               data: points,
               borderColor: LEVEL_CONFIG[lvl].color,
               backgroundColor: LEVEL_CONFIG[lvl].color + '26',
@@ -841,7 +1075,7 @@
         const points = buildLevelPoints(levelFilter);
         const cfg = LEVEL_CONFIG[levelFilter];
         datasets.push({
-          label: `${cfg.emoji} ${cfg.name}`,
+          label: `${cfg.emoji} ${currentLang === 'fa' ? cfg.name : cfg.name_en}`,
           data: points,
           borderColor: cfg.color,
           backgroundColor: cfg.color + '33',
@@ -868,6 +1102,9 @@
 
       const ctx = document.getElementById('progressChart').getContext('2d');
       if (progressChart) progressChart.destroy();
+
+      const scoreLabel = currentLang === 'fa' ? 'نمره' : 'Score';
+      const correctLabel = currentLang === 'fa' ? 'صحیح' : 'correct';
 
       progressChart = new Chart(ctx, {
         type: 'line',
@@ -909,7 +1146,7 @@
               callbacks: {
                 label: (item) => {
                   const p = item.raw;
-                  return `نمره: ${p.y}  (${p.correct}/${p.total} صحیح)`;
+                  return `${scoreLabel}: ${p.y}  (${p.correct}/${p.total} ${correctLabel})`;
                 }
               }
             }
@@ -945,13 +1182,13 @@
       else { trendText = '0'; }
 
       const cards = [
-        { value: count, label: 'تعداد آزمون' },
-        { value: best, label: 'بهترین نمره' },
-        { value: avg, label: 'میانگین نمره' }
+        { value: count, label: i18n[currentLang].stat_count },
+        { value: best, label: i18n[currentLang].stat_best },
+        { value: avg, label: i18n[currentLang].stat_avg }
       ];
 
       if (count > 1) {
-        cards.push({ value: `${trendIcon} ${trendText}`, label: 'تغییر نسبت به اولین آزمون', cls: trendClass });
+        cards.push({ value: `${trendIcon} ${trendText}`, label: i18n[currentLang].stat_trend, cls: trendClass });
       }
 
       statsEl.innerHTML = cards.map(c => `
@@ -980,16 +1217,21 @@
     function viewLevelHistory(level) {
       const filtered = allExamResults.filter(e => e.level === level);
 
+      const showAllText = i18n[currentLang].show_all;
+      const levelName = currentLang === 'fa'
+        ? (LEVEL_NAMES[level] || level)
+        : (LEVEL_NAMES_EN[level] || level);
+
       document.getElementById('historyTitle').innerHTML = `
-        📊 تاریخچه ${LEVEL_NAMES[level] || level}
-        <button onclick="showAllHistory()" style="margin-right:12px; padding:6px 14px; border-radius:8px; border:1px solid rgba(56,189,248,.3); background:rgba(56,189,248,.1); color:var(--accent); font-family:inherit; font-size:.85rem; cursor:pointer;">نمایش همه</button>
+        📊 ${currentLang === 'fa' ? 'تاریخچه' : 'History'} ${levelName}
+        <button onclick="showAllHistory()" style="margin-right:12px; padding:6px 14px; border-radius:8px; border:1px solid rgba(56,189,248,.3); background:rgba(56,189,248,.1); color:var(--accent); font-family:inherit; font-size:.85rem; cursor:pointer;">${showAllText}</button>
       `;
 
       if (filtered.length === 0) {
         document.getElementById('historyContainer').innerHTML = `
           <div class="empty-state">
             <div class="empty-state-icon">📭</div>
-            <h3>هنوز آزمونی برای این سطح انجام نشده</h3>
+            <h3>${i18n[currentLang].level_history_empty}</h3>
           </div>
         `;
       } else {
@@ -1001,7 +1243,7 @@
 
     // Show all history again
     function showAllHistory() {
-      document.getElementById('historyTitle').textContent = '📊 تاریخچه آزمون‌ها';
+      document.getElementById('historyTitle').textContent = i18n[currentLang].history_title;
       if (allExamResults.length > 0) {
         displayHistory(allExamResults);
       }
