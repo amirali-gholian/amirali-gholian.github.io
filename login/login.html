@@ -416,6 +416,9 @@
     // Check if already logged in
     async function checkSession() {
       try {
+        // اگر برگشت از گوگل در حال پردازش است، اجازه بده checkGoogleCallback
+        // اول ایمیل را بفرستد و خودش ریدایرکت کند
+        if (sessionStorage.getItem('oauthLoginPending')) return;
         const { data: { session } } = await SUPABASE.auth.getSession();
         if (session) {
           // Already logged in, redirect to profile (absolute path)
@@ -507,7 +510,7 @@
         try {
           const { error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
-            options: { redirectTo: window.location.origin + '/profile.html' } // مهم: به پروفایل ریدایرکت می‌شود
+            options: { redirectTo: window.location.origin + '/login/login.html' } // مهم: اول به همین صفحه برمی‌گردد تا ایمیل ارسال شود، بعد خودش به پروفایل هدایت می‌کند
           });
           if (error) {
             sessionStorage.removeItem('oauthLoginPending');
