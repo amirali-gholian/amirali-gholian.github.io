@@ -43,50 +43,93 @@
       flex-direction: column;
     }
 
-    /* Topbar */
-    .topbar {
-      position: sticky;
-      top: 0;
-      z-index: 40;
-      background: rgba(4, 8, 15, .62);
-      backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(255, 255, 255, .08);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, .2);
-      padding: 12px 20px;
-    }
-
-    .topbar-inner {
+    /* ===== TOP BAR / NAVBAR ===== */
+    .top-bar {
       display: flex;
       justify-content: space-between;
       align-items: center;
       max-width: var(--max);
-      margin: 0 auto;
       width: 100%;
+      margin: 0 auto 20px;
+      padding: 12px 20px;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon {
+      width: 44px;
+      height: 44px;
+      background: linear-gradient(135deg, var(--accent), var(--accent-3));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      box-shadow: 0 4px 16px rgba(56, 189, 248, .3);
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .brand-icon:hover {
+      transform: scale(1.08) rotate(-5deg);
+      box-shadow: 0 6px 24px rgba(56, 189, 248, .45);
+    }
+
+    .brand-text h2 {
+      margin: 0;
+      font-size: 1.1rem;
+      color: #fff;
+      font-weight: 700;
+      letter-spacing: .3px;
+    }
+
+    .brand-text span {
+      font-size: .75rem;
+      color: var(--muted);
+    }
+
+    /* Language Switcher */
+    .lang-switcher {
+      display: flex;
+      gap: 6px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 4px;
     }
 
     .lang-btn {
-      padding: 8px 12px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .15);
-      background: rgba(56, 189, 248, .1);
-      color: var(--accent);
+      padding: 6px 14px;
+      border-radius: 8px;
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 500;
       cursor: pointer;
-      transition: all .25s ease;
-      font-size: .85rem;
       font-family: inherit;
-      font-weight: 600;
-      letter-spacing: 0.5px;
+      font-size: .85rem;
+      transition: all .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
 
     .lang-btn:hover {
-      background: rgba(56, 189, 248, .2);
-      border-color: var(--accent);
+      color: var(--text);
+      background: rgba(255, 255, 255, .05);
     }
 
     .lang-btn.active {
-      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .3));
-      border-color: var(--accent);
+      background: linear-gradient(135deg, var(--accent), rgba(56, 189, 248, .8));
       color: #fff;
+      box-shadow: 0 4px 14px rgba(56, 189, 248, .25);
     }
 
     #examContainer {
@@ -512,13 +555,22 @@
   </style>
 </head>
 <body>
-  <!-- Topbar -->
-  <div class="topbar">
-    <div class="topbar-inner">
-      <div>
-        <button class="lang-btn active" onclick="examSystem?.switchLanguage('fa')">فارسی</button>
-        <button class="lang-btn" onclick="examSystem?.switchLanguage('en')">English</button>
+  <!-- Top Bar -->
+  <div class="top-bar">
+    <div class="brand">
+      <div class="brand-icon">🐧</div>
+      <div class="brand-text">
+        <h2 id="brandTitle">Linux LPIC</h2>
+        <span id="brandSubtitle">آماده‌سازی آزمون</span>
       </div>
+    </div>
+    <div class="lang-switcher">
+      <button class="lang-btn active" id="btn-fa" onclick="examSystem?.switchLanguage('fa')">
+        <span>🇮🇷</span> FA
+      </button>
+      <button class="lang-btn" id="btn-en" onclick="examSystem?.switchLanguage('en')">
+        <span>🇺🇸</span> EN
+      </button>
     </div>
   </div>
 
@@ -529,7 +581,7 @@
       <div class="header-left">
         <button class="back-button" id="backBtn" onclick="examSystem?.goBack()"><span id="backBtnText">← بازگشت</span></button>
         <div class="header-info">
-          <span class="course-level" id="courseLevel">Linux (LPIC)</span>
+          <span class="course-level" id="courseLevel">🔔 Linux (LPIC)</span>
           <span id="questionNumber">سوال 1 از 60</span>
         </div>
       </div>
@@ -584,6 +636,8 @@
 
         this.text = {
           fa: {
+            brandTitle: 'Linux LPIC',
+            brandSubtitle: 'آماده‌سازی آزمون',
             question: 'سوال',
             of: 'از',
             back: '← بازگشت',
@@ -604,6 +658,8 @@
             confirmBack: 'آیا مطمئن هستید؟ پاسخ‌های شما ذخیره نخواهند شد.'
           },
           en: {
+            brandTitle: 'Linux LPIC',
+            brandSubtitle: 'Exam Preparation',
             question: 'Question',
             of: 'of',
             back: '← Back',
@@ -661,11 +717,13 @@
 
       switchLanguage(lang) {
         this.currentLang = lang;
+        const t = this.text[lang];
         document.documentElement.lang = lang;
         document.documentElement.dir = lang === 'fa' ? 'rtl' : 'ltr';
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-          btn.classList.toggle('active', btn.textContent.trim() === (lang === 'fa' ? 'فارسی' : 'English'));
-        });
+        document.getElementById('btn-fa').classList.toggle('active', lang === 'fa');
+        document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+        document.getElementById('brandTitle').textContent = t.brandTitle;
+        document.getElementById('brandSubtitle').textContent = t.brandSubtitle;
         this.render();
       }
 
