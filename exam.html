@@ -757,7 +757,6 @@
       to { transform: rotate(360deg); }
     }
   </style>
-<base target="_blank">
 </head>
 <body>
   <div id="examContainer">
@@ -1441,6 +1440,22 @@
     // Initialize
     let examSystem;
     document.addEventListener('DOMContentLoaded', () => {
+      // Restore previously selected language (if any) before building the exam
+      const savedLang = localStorage.getItem('lpic_lang');
+      if (savedLang && i18n[savedLang]) {
+        currentLang = savedLang;
+        document.documentElement.lang = currentLang;
+        document.documentElement.dir = currentLang === 'fa' ? 'rtl' : 'ltr';
+        document.getElementById('btn-fa').classList.toggle('active', currentLang === 'fa');
+        document.getElementById('btn-en').classList.toggle('active', currentLang === 'en');
+        document.querySelectorAll('[data-i18n]').forEach(el => {
+          const key = el.getAttribute('data-i18n');
+          if (i18n[currentLang][key]) {
+            el.textContent = i18n[currentLang][key];
+          }
+        });
+      }
+
       examSystem = new ExamSystem();
       examSystem.init();
     });
