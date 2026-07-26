@@ -379,6 +379,7 @@ window.PYTHON_QUESTIONS = {
         ]
       }
     };
+
 // Function to get random questions for a level and language
 function getRandomQuestions(level, lang, count) {
   count = count || 10;
