@@ -286,6 +286,7 @@
       .back-btn{padding:8px 12px;font-size:.85rem;}
     }
   </style>
+<base target="_blank">
 </head>
 <body>
   <div class="bg-particles">
@@ -462,8 +463,7 @@
         if (res.error) throw res.error;
 
         if (!isSignup) {
-          // Send welcome email — Edge Function builds the full email itself,
-          // client only sends the minimal data it needs
+          // Send welcome email
           try {
             await fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
               method: 'POST',
@@ -473,8 +473,9 @@
                 'Authorization': `Bearer ${res.data.session?.access_token}`
               },
               body: JSON.stringify({
-                email: e,
-                loginTime: new Date().toISOString()
+                to: e,
+                subject: 'Welcome to Amirali Gholian Portfolio',
+                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
               })
             });
           } catch (err) {
@@ -530,8 +531,7 @@
         if (session && session.user.email && oauthPending) {
           sessionStorage.removeItem('oauthLoginPending');
 
-          // Send welcome email — Edge Function builds the full email itself,
-          // client only sends the minimal data it needs
+          // Send welcome email
           try {
             fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
               method: 'POST',
@@ -541,8 +541,9 @@
                 'Authorization': `Bearer ${session.access_token}`
               },
               body: JSON.stringify({
-                email: session.user.email,
-                loginTime: new Date().toISOString()
+                to: session.user.email,
+                subject: 'Welcome to Amirali Gholian Portfolio',
+                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
               })
             }).catch(() => {});
           } catch (err) {}
