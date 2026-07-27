@@ -11,9 +11,6 @@
 
   <!-- Security Headers -->
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
-  <meta http-equiv="X-Frame-Options" content="DENY">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://amiraligholian.ir/login/login.html">
@@ -43,7 +40,6 @@
       padding:20px;
     }
 
-    /* Animated background particles */
     .bg-particles{
       position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden;
     }
@@ -66,7 +62,6 @@
       position:relative;z-index:1;width:100%;max-width:420px;
     }
 
-    /* Back button */
     .back-btn{
       display:inline-flex;align-items:center;gap:8px;
       padding:10px 16px;border-radius:12px;
@@ -80,7 +75,6 @@
     }
     .back-btn svg{width:18px;height:18px;}
 
-    /* Login card */
     .login-card{
       background:linear-gradient(180deg,rgba(15,23,42,.96),rgba(12,17,30,.92));
       border:1px solid rgba(255,255,255,.08);
@@ -95,7 +89,6 @@
       pointer-events:none;
     }
 
-    /* Logo area */
     .login-header{
       text-align:center;margin-bottom:32px;position:relative;z-index:1;
     }
@@ -120,7 +113,6 @@
     }
     .login-header p{color:var(--muted);font-size:.95rem;line-height:1.6;}
 
-    /* Form */
     .login-form{
       display:flex;flex-direction:column;gap:16px;
       position:relative;z-index:1;
@@ -146,7 +138,6 @@
       border-color:rgba(255,255,255,.18);
     }
 
-    /* Remember & forgot */
     .form-options{
       display:flex;justify-content:space-between;align-items:center;
       font-size:.85rem;padding:4px 0;
@@ -161,7 +152,6 @@
     .forgot-link{color:var(--accent);text-decoration:none;font-size:.85rem;transition:.2s;}
     .forgot-link:hover{text-decoration:underline;}
 
-    /* Submit button */
     .submit-btn{
       padding:14px 20px;border-radius:14px;border:none;
       background:linear-gradient(135deg,var(--accent-2),var(--accent));
@@ -188,7 +178,6 @@
     .submit-btn.loading .btn-text{display:none;}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* Divider */
     .divider{
       position:relative;text-align:center;color:var(--muted);
       font-size:.85rem;margin:8px 0;
@@ -202,7 +191,6 @@
       padding:0 16px;position:relative;z-index:1;
     }
 
-    /* Google button */
     .google-btn{
       display:flex;align-items:center;justify-content:center;gap:10px;
       padding:13px 20px;background:rgba(255,255,255,.04);
@@ -217,7 +205,6 @@
     }
     .google-btn svg{flex-shrink:0;}
 
-    /* Toggle mode */
     .auth-toggle{
       text-align:center;color:var(--muted);font-size:.9rem;
       margin-top:8px;
@@ -228,7 +215,6 @@
     }
     .auth-toggle a:hover{text-decoration:underline;}
 
-    /* Success state */
     .success-state{
       display:none;text-align:center;padding:20px 0;
       position:relative;z-index:1;
@@ -253,7 +239,6 @@
       color:var(--accent-2);font-size:.9rem;
     }
 
-    /* Toast */
     .toast-container{
       position:fixed;top:20px;right:20px;z-index:2000;
       display:flex;flex-direction:column;gap:10px;pointer-events:none;
@@ -270,7 +255,6 @@
     .toast.error{border-color:rgba(239,68,68,.3);background:rgba(239,68,68,.1);}
     .toast.success{border-color:rgba(34,197,94,.3);background:rgba(34,197,94,.1);}
 
-    /* Footer */
     .login-footer{
       text-align:center;margin-top:24px;
       color:var(--muted);font-size:.85rem;
@@ -278,7 +262,6 @@
     .login-footer a{color:var(--accent);text-decoration:none;}
     .login-footer a:hover{text-decoration:underline;}
 
-    /* Responsive */
     @media (max-width:480px){
       body{padding:16px;}
       .login-card{padding:28px 22px;border-radius:24px;}
@@ -379,7 +362,6 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
-    // Toast notification system
     const Toast = {
       container: document.getElementById('toastContainer'),
       show(message, type = 'info', duration = 4000) {
@@ -396,7 +378,6 @@
       }
     };
 
-    // Supabase configuration
     const SUPABASE_URL = 'https://cwwqmushilpxzpcpjute.supabase.co';
     const SUPABASE_KEY = 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK';
     const SUPABASE = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -412,7 +393,6 @@
     const successEmail = document.getElementById('successEmail');
     let isSignup = false;
 
-    // Check if already logged in
     async function checkSession() {
       try {
         const { data: { session } } = await SUPABASE.auth.getSession();
@@ -420,12 +400,10 @@
           window.location.href = '/profile.html';
         }
       } catch (err) {
-        // Silently handle
       }
     }
     checkSession();
 
-    // Toggle signup/signin
     toggleMode.addEventListener('click', (e) => {
       e.preventDefault();
       isSignup = !isSignup;
@@ -438,46 +416,20 @@
       toggleMode.previousSibling.textContent = isSignup ? 'Already have an account? ' : "Don't have an account? ";
     });
 
-    // Auth handler for Email/Password
     authBtn.addEventListener('click', async () => {
       const e = email.value.trim();
       const p = password.value;
       if (!e || !p) { Toast.show('Please fill all fields', 'error'); return; }
-
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(e)) { Toast.show('Please enter a valid email address', 'error'); return; }
       if (p.length < 6) { Toast.show('Password must be at least 6 characters', 'error'); return; }
-
       authBtn.disabled = true;
       authBtn.classList.add('loading');
-
       try {
         const res = isSignup 
           ? await SUPABASE.auth.signUp({ email: e, password: p })
           : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
         if (res.error) throw res.error;
-
-        if (!isSignup) {
-          // Send welcome email
-          try {
-            await fetch('https://cwwqmushilpxzpcpjute.supabase.co/functions/v1/login-email', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${res.data.session?.access_token}`
-              },
-              body: JSON.stringify({
-                to: e,
-                subject: 'Welcome to Amirali Gholian Portfolio',
-                html: `<div style="font-family:Inter,Arial,sans-serif;max-width:600px;margin:auto;padding:20px;border:1px solid #e5e7eb;border-radius:12px;background:#f9fafb;"><div style="text-align:center;margin-bottom:24px;"><img src="https://amiraligholian.ir/logo_1.png" alt="Amirali Gholian" style="width:120px;height:auto;border-radius:12px;"></div><h1 style="margin:0 0 20px 0;text-align:center;color:#1f2937;">Welcome to Amirali Gholian</h1><p style="font-size:16px;color:#374151;">Hello,</p><p style="font-size:16px;line-height:1.8;color:#374151;">Your login to <strong>Amirali Gholian's Portfolio</strong> was successful.</p><p style="font-size:16px;line-height:1.8;color:#374151;">We're glad to have you. Your account is active and you can now access all features.</p><div style="margin:24px 0;padding:12px;background:#f3f4f6;border-radius:8px;border-left:4px solid #0ea5e9;"><strong style="color:#0ea5e9;">Login Time:</strong> <span style="color:#374151;">${new Date().toLocaleString('en-US')}</span></div><div style="text-align:center;margin:30px 0;"><a href="https://amiraligholian.ir" style="background:#0ea5e9;color:white;padding:12px 24px;border-radius:8px;text-decoration:none;display:inline-block;font-weight:bold;">Visit Dashboard</a></div><p style="font-size:14px;color:#666;">If you didn't perform this login, please change your password immediately.</p><hr style="margin:24px 0;border:none;border-top:1px solid #e5e7eb;"><div style="text-align:center;margin:20px 0;"><a href="https://t.me/nexth0p" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" style="width:32px;height:32px;"></a><a href="https://www.instagram.com/amirali.gh0lian" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111463.png" alt="Instagram" style="width:32px;height:32px;"></a><a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" style="display:inline-block;margin:0 8px;text-decoration:none;"><img src="https://cdn-icons-png.flaticon.com/512/145/145807.png" alt="LinkedIn" style="width:32px;height:32px;"></a></div><p style="font-size:14px;color:#666;text-align:center;">Amirali Gholian<br>https://amiraligholian.ir</p></div>`
-              })
-            });
-          } catch (err) {
-            // Silently handle email send failure
-          }
-        }
-
         showSuccess(e);
       } catch (err) {
         Toast.show('Error: ' + err.message, 'error');
@@ -496,7 +448,6 @@
       }, 2000);
     }
 
-    // Google Sign In
     const googleSignInBtn = document.getElementById('googleSignInBtn');
     if (googleSignInBtn) {
       googleSignInBtn.addEventListener('click', async (e) => {
@@ -504,7 +455,6 @@
         try {
           const { error } = await SUPABASE.auth.signInWithOAuth({
             provider: 'google',
-            
             options: { redirectTo: window.location.origin + '/profile.html' }
           });
           if (error) {
@@ -516,7 +466,6 @@
       });
     }
 
-    // Enter key support
     password.addEventListener('keypress', (e) => {
       if (e.key === 'Enter') authBtn.click();
     });
