@@ -29,7 +29,7 @@
   <meta name="twitter:description" content="Complete Network Security Documentation - From Fundamentals to Advanced">
   <meta name="twitter:image" content="https://amiraligholian.ir/logo.webp">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
 
   <meta name="theme-color" content="#060913">
   <title>Network Security | Amirali Gholian (امیرعلی قولیان)</title>
@@ -2221,7 +2221,7 @@ document.onkeypress = <span class="kw">function</span>(e) {
         <div class="code-container">
           <div class="code-header"><span class="lang-label">nginx</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="cmm"># Essential security headers in Nginx</span>
-<span class="kw">add_header</span> <span class="var">Content-Security-Policy</span> <span class="str">"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"</span> <span class="kw">always</span>;
+<span class="kw">add_header</span> <span class="var">Content-Security-Policy</span> <span class="str">"default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data:; font-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self';"</span> <span class="kw">always</span>;
 <span class="kw">add_header</span> <span class="var">X-Frame-Options</span> <span class="str">"DENY"</span> <span class="kw">always</span>;
 <span class="kw">add_header</span> <span class="var">X-Content-Type-Options</span> <span class="str">"nosniff"</span> <span class="kw">always</span>;
 <span class="kw">add_header</span> <span class="var">X-XSS-Protection</span> <span class="str">"1; mode=block"</span> <span class="kw">always</span>;
@@ -2523,7 +2523,6 @@ EOF
     </main>
   </div>
 
-  <script src="netsec-data.js" defer></script>
-  <script src="docs-common.js" defer></script>
+  <script src="main.js" defer></script>
 </body>
 </html>
