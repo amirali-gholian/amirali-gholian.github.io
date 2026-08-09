@@ -3,7 +3,7 @@
 // Version 1.0.0
 // ===============================
 
-const VERSION = "1.0.5";
+const VERSION = "1.0.6";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -155,11 +155,25 @@ self.addEventListener("fetch", event => {
     const accept = request.headers.get("accept") || "";
 
     // صفحه‌های حساس (لاگین/پروفایل/امتحان) - فقط از شبکه، بدون کش
+    // ولی اگه آفلاین بودیم و خود صفحه HTML بود، offline.html نشون بده
+    // (این fallback فقط می‌خونه، هیچ‌وقت خود صفحه رو کش نمی‌کنه)
     if (isNoCachePath(request.url)) {
 
         event.respondWith(
 
             fetch(request, { cache: "no-store" })
+
+                .catch(() => {
+
+                    if (accept.includes("text/html")) {
+
+                        return caches.match(OFFLINE_PAGE);
+
+                    }
+
+                    return Promise.reject("offline and no fallback for this resource type");
+
+                })
 
         );
 
