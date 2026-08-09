@@ -3,7 +3,7 @@
 // Version 1.0.0
 // ===============================
 
-const VERSION = "1.0.2";
+const VERSION = "1.0.3";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -59,7 +59,24 @@ self.addEventListener("install", event => {
 
         caches.open(STATIC_CACHE)
 
-            .then(cache => cache.addAll(STATIC_FILES))
+            .then(cache => {
+
+                // اگه یکی از فایل‌ها 404 بده یا خطا بده، کل نصب فیل نشه
+                return Promise.all(
+
+                    STATIC_FILES.map(url =>
+
+                        cache.add(url).catch(err => {
+
+                            console.warn("Service worker: cache failed for", url, err);
+
+                        })
+
+                    )
+
+                );
+
+            })
 
     );
 
