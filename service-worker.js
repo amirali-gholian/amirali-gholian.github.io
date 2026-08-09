@@ -3,7 +3,7 @@
 // Version 1.0.0
 // ===============================
 
-const VERSION = "1.0.4";
+const VERSION = "1.0.5";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -146,6 +146,9 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
 
     if (event.request.method !== "GET") return;
+
+    // فقط درخواست‌های http/https رو مدیریت کن (نه chrome-extension و مشابه)
+    if (!event.request.url.startsWith("http")) return;
 
     const request = event.request;
 
