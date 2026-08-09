@@ -3,7 +3,7 @@
 // Version 1.0.0
 // ===============================
 
-const VERSION = "1.0.3";
+const VERSION = "1.0.4";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -44,6 +44,23 @@ function isNoCachePath(url) {
     const path = new URL(url).pathname;
 
     return NO_CACHE_PATHS.some(p => path === p || path.endsWith(p));
+
+}
+
+// درخواست‌های API به Supabase (دیتای داینامیک: امتحان، پروفایل، فایل کاربر و ...)
+// این‌ها هیچ‌وقت نباید کش بشن، چون هر بار باید تازه از سرور بیان
+const API_NO_CACHE_PATTERNS = [
+    "/rest/v1/",
+    "/auth/v1/",
+    "/storage/v1/object/sign",  // لینک‌های امضاشده موقت
+    "/functions/v1/"
+];
+
+function isApiPath(url) {
+
+    const path = new URL(url).pathname;
+
+    return API_NO_CACHE_PATTERNS.some(p => path.includes(p));
 
 }
 
@@ -136,6 +153,19 @@ self.addEventListener("fetch", event => {
 
     // صفحه‌های حساس (لاگین/پروفایل/امتحان) - فقط از شبکه، بدون کش
     if (isNoCachePath(request.url)) {
+
+        event.respondWith(
+
+            fetch(request, { cache: "no-store" })
+
+        );
+
+        return;
+
+    }
+
+    // درخواست‌های API (Supabase و مشابه) - فقط از شبکه، بدون کش
+    if (isApiPath(request.url)) {
 
         event.respondWith(
 
