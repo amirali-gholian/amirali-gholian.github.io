@@ -28,7 +28,7 @@
 
   <!-- Security Headers (meta equivalents - also configure on server) -->
   <!-- فقط تگ CSP حفظ شده است. سایر تگ ها به دلیل تزریق از طریق Cloudflare حذف شدند -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
 
   <!-- PWA & Manifest -->
   <link rel="manifest" href="/manifest.json">
