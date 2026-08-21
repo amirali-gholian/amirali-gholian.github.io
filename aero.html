@@ -782,6 +782,442 @@
   @media(max-width:980px){.export-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
   @media(max-width:520px){.export-grid{grid-template-columns:1fr}.export-head{align-items:flex-start;flex-direction:column}}
 
+
+/* =========================
+   MOBILE / TOUCH OPTIMIZATION
+   ========================= */
+@media (max-width: 700px){
+  :root{
+    --fs-base:14px;
+    --fs-sm:12px;
+    --fs-lg:17px;
+    --fs-xl:18px;
+  }
+
+  html{
+    -webkit-text-size-adjust:100%;
+    text-size-adjust:100%;
+    overflow-x:hidden;
+  }
+
+  body{
+    min-width:0;
+    overflow-x:hidden;
+    background-attachment:scroll;
+  }
+
+  .container{
+    width:100%;
+    max-width:none;
+    padding:10px 9px 30px;
+  }
+
+  .header{
+    padding:15px 13px;
+    border-radius:14px;
+    gap:12px;
+    margin-bottom:10px;
+  }
+
+  .brand{
+    width:100%;
+    gap:10px;
+  }
+
+  .brand-icon{
+    width:44px;
+    height:44px;
+    min-width:44px;
+    border-radius:11px;
+    font-size:1.25rem;
+  }
+
+  .brand h1{
+    font-size:18px;
+    line-height:1.45;
+  }
+
+  .brand .sub{
+    font-size:10px;
+    line-height:1.7;
+  }
+
+  .header-stats{
+    width:100%;
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:6px;
+  }
+
+  .stat-chip{
+    min-width:0;
+    padding:7px 3px;
+    border-radius:9px;
+  }
+
+  .stat-chip .num{
+    font-size:15px;
+  }
+
+  .stat-chip .label{
+    font-size:9px;
+    white-space:nowrap;
+  }
+
+  .tabs{
+    margin-bottom:9px;
+    padding:4px;
+    border-radius:11px;
+    gap:4px;
+  }
+
+  .tab{
+    min-height:42px;
+    padding:8px 7px;
+    font-size:12px;
+    gap:5px;
+  }
+
+  .tab .badge{
+    padding:2px 6px;
+    font-size:9px;
+  }
+
+  .toolbar{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    padding:9px;
+    border-radius:11px;
+    margin-bottom:9px;
+  }
+
+  .search-wrap{
+    grid-column:1 / -1;
+    min-width:0;
+  }
+
+  .search-wrap input{
+    min-height:42px;
+    font-size:14px;
+    padding-right:38px;
+  }
+
+  .select{
+    width:100%;
+    min-width:0;
+    min-height:42px;
+    font-size:12px;
+    padding:8px 9px;
+  }
+
+  .toolbar .btn{
+    width:100%;
+    min-height:42px;
+  }
+
+  .layout{
+    display:flex;
+    flex-direction:column;
+    gap:9px;
+  }
+
+  .sidebar{
+    order:1;
+    position:static;
+    max-height:none;
+    padding:10px;
+    border-radius:12px;
+  }
+
+  .sidebar-head{
+    margin-bottom:8px;
+    padding-bottom:8px;
+  }
+
+  .course-head{
+    min-height:48px;
+    padding:10px;
+  }
+
+  .course-title{
+    font-size:13px;
+  }
+
+  .course-meta{
+    font-size:9px;
+  }
+
+  .section-row{
+    align-items:center;
+    padding:9px 7px;
+  }
+
+  .section-info{
+    min-width:0;
+  }
+
+  .section-info .tname{
+    overflow-wrap:anywhere;
+  }
+
+  .add-btn{
+    min-height:36px;
+    padding:7px 10px;
+  }
+
+  .layout > div:last-child{
+    order:2;
+    min-width:0;
+  }
+
+  .panel,
+  .board{
+    padding:11px;
+    border-radius:12px;
+  }
+
+  .passed-panel{
+    margin-bottom:9px;
+  }
+
+  .passed-term-head{
+    min-height:45px;
+    padding:8px 10px;
+  }
+
+  .passed-term-head .title{
+    font-size:13px;
+  }
+
+  .passed-term-head .meta{
+    font-size:9px;
+  }
+
+  .passed-item{
+    min-height:42px;
+    padding:8px;
+  }
+
+  .passed-item .checkbox{
+    width:20px;
+    height:20px;
+  }
+
+  .board-head{
+    align-items:flex-start;
+    gap:8px;
+    flex-direction:column;
+  }
+
+  .legend{
+    width:100%;
+    gap:8px;
+    flex-wrap:wrap;
+    font-size:9px;
+  }
+
+  .grid-scroll{
+    width:100%;
+    -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain;
+  }
+
+  .grid{
+    grid-template-columns:52px repeat(6,130px);
+    min-width:832px;
+  }
+
+  .grid-head,
+  .time-col-head{
+    padding:10px 3px;
+    font-size:11px;
+  }
+
+  .hour-label{
+    right:4px;
+    font-size:9px;
+  }
+
+  .event{
+    padding:5px 6px;
+    border-radius:7px;
+    font-size:10px;
+  }
+
+  .ev-title{
+    font-size:10px;
+  }
+
+  .ev-sub{
+    font-size:9px;
+  }
+
+  .ev-exam{
+    font-size:8px;
+  }
+
+  .ev-remove{
+    opacity:1;
+    width:20px;
+    height:20px;
+    line-height:20px;
+    font-size:11px;
+    top:2px;
+    left:2px;
+  }
+
+  .panel-row{
+    grid-template-columns:1fr;
+    gap:9px;
+    margin-top:9px;
+  }
+
+  .exam-item{
+    align-items:flex-start;
+    flex-wrap:wrap;
+    padding:9px;
+  }
+
+  .exam-item .cname{
+    min-width:0;
+    overflow-wrap:anywhere;
+  }
+
+  .export-panel{
+    margin-top:9px;
+  }
+
+  .export-head{
+    margin-bottom:9px;
+  }
+
+  .export-grid{
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+  }
+
+  .export-btn{
+    min-height:44px;
+    padding:8px 6px;
+    font-size:11px;
+  }
+
+  .export-note{
+    line-height:1.7;
+  }
+
+  .site-footer{
+    margin-top:12px;
+    padding:17px 10px 6px;
+    font-size:11px;
+  }
+
+  .site-footer span{
+    font-size:9px;
+  }
+
+  .modal-bg{
+    padding:9px;
+  }
+
+  .modal{
+    max-height:90vh;
+    padding:15px;
+    border-radius:13px;
+  }
+
+  .modal h2{
+    font-size:16px;
+  }
+
+  .modal .info-row{
+    align-items:flex-start;
+    font-size:12px;
+  }
+
+  .modal .info-row .v{
+    max-width:65%;
+    overflow-wrap:anywhere;
+  }
+
+  .modal .actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .modal .actions .btn{
+    min-height:42px;
+  }
+
+  .toast{
+    width:calc(100% - 24px);
+    max-width:420px;
+    bottom:12px;
+    justify-content:center;
+    text-align:center;
+  }
+}
+
+@media (max-width: 380px){
+  .container{
+    padding-left:6px;
+    padding-right:6px;
+  }
+
+  .header{
+    padding:12px 10px;
+  }
+
+  .brand h1{
+    font-size:16px;
+  }
+
+  .brand .sub{
+    font-size:9px;
+  }
+
+  .header-stats{
+    gap:4px;
+  }
+
+  .stat-chip .num{
+    font-size:14px;
+  }
+
+  .stat-chip .label{
+    font-size:8px;
+  }
+
+  .tab{
+    font-size:11px;
+  }
+
+  .export-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+/* Improve touch interaction on phones/tablets */
+button,
+select,
+input,
+.course-head,
+.passed-term-head,
+.passed-item,
+.event{
+  touch-action:manipulation;
+}
+
+@media (hover:none){
+  .btn:hover,
+  .event:hover,
+  .course-head:hover,
+  .passed-item:hover{
+    transform:none;
+  }
+}
+
 </style>
 </head>
 <body>
