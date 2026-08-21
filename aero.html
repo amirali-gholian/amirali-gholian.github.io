@@ -770,6 +770,18 @@
   .site-footer a{color:var(--accent);text-decoration:none;font-weight:700;transition:color .2s,opacity .2s}
   .site-footer a:hover{color:#fff;opacity:.95}
   .site-footer span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2px}
+
+  .export-panel{margin-top:14px}
+  .export-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .export-head h3{margin:0 0 4px}
+  .export-head p{margin:0;color:var(--text-mute);font-size:11px}
+  .export-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+  .export-btn{min-height:42px;padding:9px 10px;font-size:12px}
+  .export-note{margin-top:10px;padding:9px 11px;border:1px solid var(--border);border-radius:9px;background:rgba(94,167,255,.05);color:var(--text-mute);font-size:11px}
+  .export-note b{color:var(--text-dim)}
+  @media(max-width:980px){.export-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media(max-width:520px){.export-grid{grid-template-columns:1fr}.export-head{align-items:flex-start;flex-direction:column}}
+
 </style>
 </head>
 <body>
@@ -880,6 +892,26 @@
         </div>
       </div>
 
+
+      <!-- EXPORT / SAVE -->
+      <div class="panel export-panel">
+        <div class="export-head">
+          <div>
+            <h3>💾 ذخیره و خروجی برنامه</h3>
+            <p>برنامه انتخابی خود را در قالب دلخواه ذخیره کنید.</p>
+          </div>
+          <span class="badge">چند فرمت</span>
+        </div>
+        <div class="export-grid">
+          <button class="btn export-btn" data-export="json">📦 JSON</button>
+          <button class="btn export-btn" data-export="csv">📊 CSV / Excel</button>
+          <button class="btn export-btn" data-export="html">🌐 HTML</button>
+          <button class="btn export-btn" data-export="ics">📅 تقویم (ICS)</button>
+          <button class="btn ghost export-btn" data-export="print">🖨️ چاپ / PDF</button>
+        </div>
+        <div class="export-note">💡 برای PDF، گزینه «چاپ / PDF» را بزنید و در پنجره چاپ، <b>Save as PDF</b> را انتخاب کنید.</div>
+      </div>
+
       <!-- PANELS ROW -->
       <div class="panel-row">
         <div class="panel">
@@ -915,6 +947,78 @@
 <div class="toast" id="toast"></div>
 
 <script>
+
+/* ============ EXPORT / SAVE ============ */
+function downloadBlob(content, filename, type){
+  const blob = new Blob([content], {type});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function getSelectedRows(){
+  return selected.map(s=>{
+    const c=findCourse(s.courseId);
+    const sec=(c && s.sectionIdx!==null && c.sections[s.sectionIdx]) ? c.sections[s.sectionIdx] : null;
+    return {
+      course:c?.name || 'نامشخص', code:c?.code || '', units:c?.units || 0,
+      type:c?.courseType || '', day:sec?.day || 'بدون زمان',
+      start:sec?.start || '', end:sec?.end || '', teacher:sec?.teacher || '',
+      location:sec?.location || '', exam:sec?.exam || ''
+    };
+  });
+}
+
+function exportSchedule(format){
+  const rows=getSelectedRows();
+  if(!rows.length){ showToast('⚠️ ابتدا حداقل یک درس به برنامه اضافه کنید','error'); return; }
+  const stamp=new Date().toISOString().slice(0,10);
+
+  if(format==='json'){
+    downloadBlob(JSON.stringify({app:'سامانه انتخاب واحد هوافضا',createdAt:new Date().toISOString(),courses:rows},null,2),`aero-schedule-${stamp}.json`,'application/json;charset=utf-8');
+    showToast('✅ فایل JSON ذخیره شد','success'); return;
+  }
+
+  if(format==='csv'){
+    const headers=['درس','کد درس','واحد','نوع درس','روز','شروع','پایان','استاد','محل','امتحان'];
+    const esc=v=>`"${String(v??'').replace(/"/g,'""')}"`;
+    const csv='\uFEFF'+[headers,...rows.map(r=>[r.course,r.code,r.units,r.type,r.day,r.start,r.end,r.teacher,r.location,r.exam])].map(row=>row.map(esc).join(',')).join('\r\n');
+    downloadBlob(csv,`aero-schedule-${stamp}.csv`,'text/csv;charset=utf-8');
+    showToast('✅ فایل CSV ذخیره شد','success'); return;
+  }
+
+  if(format==='html'){
+    const body=rows.map(r=>`<tr><td>${r.course}</td><td>${r.code}</td><td>${r.units}</td><td>${r.day}</td><td>${r.start} - ${r.end}</td><td>${r.teacher}</td><td>${r.location}</td><td>${r.exam}</td></tr>`).join('');
+    const doc=`<!doctype html><html lang="fa" dir="rtl"><meta charset="utf-8"><title>برنامه هفتگی هوافضا</title><style>body{font-family:Arial,sans-serif;padding:30px;color:#111}h1{text-align:center}table{width:100%;border-collapse:collapse}th,td{border:1px solid #bbb;padding:9px;text-align:center}th{background:#eee}</style><h1>برنامه هفتگی مهندسی هوافضا</h1><table><thead><tr><th>درس</th><th>کد</th><th>واحد</th><th>روز</th><th>ساعت</th><th>استاد</th><th>محل</th><th>امتحان</th></tr></thead><tbody>${body}</tbody></table><p style="text-align:center;margin-top:25px">Amirali Gholian</p></html>`;
+    downloadBlob(doc,`aero-schedule-${stamp}.html`,'text/html;charset=utf-8');
+    showToast('✅ فایل HTML ذخیره شد','success'); return;
+  }
+
+  if(format==='ics'){
+    const dayMap={'شنبه':6,'یکشنبه':0,'دوشنبه':1,'سه‌شنبه':2,'سه شنبه':2,'چهارشنبه':3,'پنجشنبه':4};
+    const now=new Date();
+    const nextDay=(target)=>{let d=new Date(now); let diff=(target-d.getDay()+7)%7; if(diff===0) diff=7; d.setDate(d.getDate()+diff); return d;};
+    const fmt=(d,t)=>{const [h,m]=t.split(':').map(Number); d.setHours(h,m,0,0); return d.toISOString().replace(/[-:]/g,'').replace(/\.\d{3}Z$/,'Z');};
+    const events=rows.filter(r=>r.start&&r.end&&dayMap[r.day]!==undefined).map((r,i)=>{
+      const d=nextDay(dayMap[r.day]);
+      return `BEGIN:VEVENT\r\nUID:aero-${Date.now()}-${i}@amiraligholian.ir\r\nDTSTAMP:${fmt(new Date(),'00:00')}\r\nDTSTART:${fmt(new Date(d),r.start)}\r\nDTEND:${fmt(new Date(d),r.end)}\r\nSUMMARY:${r.course}\r\nDESCRIPTION:${r.teacher}${r.location?' | '+r.location:''}\r\nEND:VEVENT`;
+    });
+    downloadBlob('BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Amirali Gholian//Aero Schedule//FA\r\n'+events.join('\r\n')+'\r\nEND:VCALENDAR\r\n',`aero-schedule-${stamp}.ics`,'text/calendar;charset=utf-8');
+    showToast('✅ فایل تقویم ذخیره شد','success'); return;
+  }
+
+  if(format==='print'){
+    window.print();
+    return;
+  }
+}
+
+document.querySelectorAll('[data-export]').forEach(btn=>{
+  btn.addEventListener('click',()=>exportSchedule(btn.dataset.export));
+});
+
 /* ============ HELPERS ============ */
 function toFa(s){
   const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
