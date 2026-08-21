@@ -1,0 +1,1957 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="./logo.webp?v=3" type="image/webp">
+<title>سامانه انتخاب واحد · مهندسی هوافضا</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0a1429;
+    --bg-1:#0f1d3d;
+    --bg-2:#16274d;
+    --bg-3:#1e3464;
+    --surface:rgba(255,255,255,0.04);
+    --surface-hi:rgba(255,255,255,0.08);
+    --border:rgba(120,170,255,0.18);
+    --border-hi:rgba(120,170,255,0.32);
+    --text:#e8efff;
+    --text-dim:#b8c8e8;
+    --text-mute:#7a8fbc;
+    --accent:#5ea7ff;
+    --accent-2:#7c5cff;
+    --accent-3:#00d4c8;
+    --warn:#ffb84d;
+    --danger:#ff5d6c;
+    --success:#22c98a;
+    --shadow-lg:0 24px 60px -12px rgba(0,0,0,.6);
+    --fs-base:15px;
+    --fs-sm:13px;
+    --fs-lg:17px;
+    --fs-xl:20px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(94,167,255,.15), transparent 60%),
+      radial-gradient(ellipse 60% 40% at 100% 100%, rgba(124,92,255,.10), transparent 60%),
+      linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 100%);
+    background-attachment: fixed;
+    color:var(--text);
+    font-family:'Vazirmatn', system-ui, sans-serif;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    font-size:var(--fs-base);
+  }
+  body::before{
+    content:'';
+    position:fixed; inset:0;
+    background-image:
+      radial-gradient(1px 1px at 20% 30%, rgba(255,255,255,.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 60%, rgba(255,255,255,.3) 0%, transparent 100%),
+      radial-gradient(1px 1px at 40% 80%, rgba(255,255,255,.4) 0%, transparent 100%);
+    background-size: 600px 600px, 800px 800px, 700px 700px;
+    pointer-events:none;
+    opacity:.4;
+    z-index:0;
+  }
+  .container{ max-width:1500px; margin:0 auto; padding:24px 20px 60px; position:relative; z-index:1; }
+
+  /* HEADER */
+  .header{
+    display:flex; justify-content:space-between; align-items:center;
+    gap:20px;
+    padding:22px 26px;
+    background:linear-gradient(135deg, rgba(94,167,255,.08), rgba(124,92,255,.05));
+    border:1px solid var(--border);
+    border-radius:18px;
+    backdrop-filter:blur(20px);
+    margin-bottom:18px;
+    box-shadow: var(--shadow-lg), inset 0 1px 0 rgba(255,255,255,.05);
+    position:relative;
+    overflow:hidden;
+  }
+  .brand{ display:flex; align-items:center; gap:14px; position:relative; }
+  .brand-icon{
+    width:54px; height:54px;
+    display:grid; place-items:center;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    border-radius:13px;
+    font-size:1.5rem;
+  }
+  .brand h1{
+    margin:0;
+    font-size:var(--fs-xl);
+    font-weight:800;
+    background:linear-gradient(135deg, #fff, #b3d4ff);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+  }
+  .brand .sub{
+    margin-top:3px;
+    font-size:var(--fs-sm);
+    color:var(--text-dim);
+  }
+  .brand .sub b{ color:var(--accent); }
+  .header-stats{ display:flex; gap:10px; }
+  .stat-chip{
+    padding:9px 14px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:11px;
+    text-align:center;
+    min-width:80px;
+  }
+  .stat-chip .num{
+    font-family:'JetBrains Mono', monospace;
+    font-size:var(--fs-lg);
+    font-weight:700;
+    color:var(--accent);
+    display:block;
+    line-height:1.2;
+  }
+  .stat-chip .label{
+    font-size:11px;
+    color:var(--text-mute);
+    margin-top:2px;
+  }
+
+  /* TABS */
+  .tabs{
+    display:flex;
+    gap:6px;
+    padding:6px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    backdrop-filter:blur(12px);
+  }
+  .tab{
+    flex:1;
+    padding:11px 16px;
+    background:transparent;
+    border:none;
+    border-radius:10px;
+    color:var(--text-dim);
+    font-family:inherit;
+    font-size:var(--fs-base);
+    font-weight:600;
+    cursor:pointer;
+    transition:all .2s;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+  }
+  .tab:hover{ color:var(--text); background:var(--surface-hi); }
+  .tab.active{
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#fff;
+    box-shadow:0 4px 12px -2px rgba(94,167,255,.4);
+  }
+  .tab .badge{
+    background:rgba(0,0,0,.25);
+    padding:2px 8px;
+    border-radius:8px;
+    font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .tab.active .badge{ background:rgba(255,255,255,.2); }
+
+  /* TOOLBAR */
+  .toolbar{
+    display:flex; gap:10px; align-items:center;
+    padding:12px 16px;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:13px;
+    margin-bottom:14px;
+    backdrop-filter:blur(12px);
+    flex-wrap:wrap;
+  }
+  .search-wrap{ flex:1; min-width:240px; position:relative; }
+  .search-wrap svg{
+    position:absolute; right:13px; top:50%; transform:translateY(-50%);
+    color:var(--text-mute);
+  }
+  .search-wrap input{
+    width:100%;
+    font-family:inherit;
+    font-size:var(--fs-base);
+    padding:10px 40px 10px 14px;
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    color:var(--text);
+    outline:none;
+  }
+  .search-wrap input:focus{ border-color:var(--accent); box-shadow:0 0 0 3px rgba(94,167,255,.15); }
+  .search-wrap input::placeholder{ color:var(--text-mute); }
+
+  .select{
+    padding:10px 13px;
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    color:var(--text);
+    font-family:inherit; font-size:var(--fs-sm);
+    cursor:pointer;
+    outline:none;
+    min-width:120px;
+  }
+  .select:focus{ border-color:var(--accent); }
+  .select option{ background:var(--bg-2); color:var(--text); }
+
+  .btn{
+    padding:10px 16px;
+    background:linear-gradient(135deg, var(--accent), var(--accent-2));
+    color:#fff;
+    border:none;
+    border-radius:9px;
+    font-family:inherit;
+    font-size:var(--fs-sm);
+    font-weight:600;
+    cursor:pointer;
+    transition:all .15s;
+  }
+  .btn:hover{ transform:translateY(-1px); }
+  .btn.ghost{ background:transparent; border:1px solid var(--border-hi); color:var(--text-dim); }
+  .btn.ghost:hover{ background:var(--surface-hi); color:var(--text); }
+  .btn.danger{ background:linear-gradient(135deg, #ff5d6c, #ff3a4a); }
+
+  /* LAYOUT */
+  .layout{ display:grid; grid-template-columns: 400px 1fr; gap:14px; }
+
+  /* SIDEBAR */
+  .sidebar{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:16px;
+    backdrop-filter:blur(12px);
+    max-height:calc(100vh - 220px);
+    overflow-y:auto;
+    position:sticky;
+    top:14px;
+  }
+  .sidebar::-webkit-scrollbar{ width:7px; }
+  .sidebar::-webkit-scrollbar-thumb{ background:var(--border-hi); border-radius:4px; }
+
+  .sidebar-head{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:12px;
+    padding-bottom:10px;
+    border-bottom:1px solid var(--border);
+  }
+  .sidebar-head h2{ margin:0; font-size:var(--fs-base); font-weight:700; }
+  .sidebar-head .count{
+    font-family:'JetBrains Mono', monospace;
+    font-size:12px;
+    color:var(--text-mute);
+    background:var(--surface-hi);
+    padding:3px 9px;
+    border-radius:8px;
+  }
+
+  .course-card{
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:11px;
+    margin-bottom:9px;
+    overflow:hidden;
+    transition:all .15s;
+  }
+  .course-card:hover{ border-color:var(--border-hi); }
+  .course-card.has-prereq-warn{ border-color:rgba(255,180,77,.4); }
+  .course-head{
+    display:flex; align-items:center; gap:10px;
+    padding:11px 13px;
+    cursor:pointer;
+    user-select:none;
+  }
+  .course-head:hover{ background:var(--surface-hi); }
+  .swatch{
+    width:11px; height:11px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+  .course-title{ flex:1; font-weight:600; font-size:var(--fs-base); line-height:1.4; }
+  .course-meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-mute);
+  }
+  .course-tags{
+    display:flex; gap:4px;
+    margin-top:4px;
+    flex-wrap:wrap;
+  }
+  .tag{
+    font-size:10px;
+    padding:2px 7px;
+    border-radius:8px;
+    background:var(--surface-hi);
+    color:var(--text-dim);
+    font-family:'JetBrains Mono', monospace;
+    border:1px solid var(--border);
+  }
+  .tag.term{ background:rgba(94,167,255,.1); color:var(--accent); border-color:rgba(94,167,255,.3); }
+  .tag.warn{ background:rgba(255,180,77,.15); color:var(--warn); border-color:rgba(255,180,77,.3); }
+  .chev{ font-size:.7rem; color:var(--text-mute); transition:transform .2s; }
+  .course-card.open .chev{ transform:rotate(-180deg); }
+
+  .sections{
+    display:none;
+    padding:0 11px 11px;
+    border-top:1px solid var(--border);
+    background:rgba(0,0,0,.18);
+  }
+  .course-card.open .sections{ display:block; }
+
+  .section-row{
+    display:flex; align-items:center; justify-content:space-between; gap:8px;
+    padding:10px 9px;
+    margin-top:8px;
+    background:rgba(255,255,255,.02);
+    border:1px solid rgba(120,170,255,.1);
+    border-radius:8px;
+    font-size:var(--fs-sm);
+  }
+  .section-row.added{ border-color:var(--success); background:rgba(34,201,138,.06); }
+  .section-info b{
+    font-family:'JetBrains Mono', monospace;
+    font-weight:500;
+    color:var(--accent);
+    font-size:12px;
+  }
+  .section-info .tname{ color:var(--text-dim); margin-top:2px; display:block; }
+  .section-info .exam{
+    color:var(--warn);
+    margin-top:3px;
+    display:block;
+    font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .add-btn{
+    font-family:inherit;
+    font-weight:600;
+    font-size:11px;
+    border-radius:6px;
+    padding:5px 11px;
+    background:var(--surface-hi);
+    color:var(--text);
+    cursor:pointer;
+    border:1px solid var(--border-hi);
+    flex-shrink:0;
+  }
+  .add-btn:hover{ background:var(--accent); border-color:var(--accent); }
+  .add-btn.added{ background:rgba(34,201,138,.15); color:var(--success); border-color:var(--success); cursor:default; }
+  .add-btn.added:hover{ background:rgba(34,201,138,.15); }
+
+  /* BOARD */
+  .board{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:16px;
+    backdrop-filter:blur(12px);
+    min-width:0;
+  }
+  .board-head{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:12px;
+  }
+  .board-head h3{ margin:0; font-size:var(--fs-base); font-weight:700; }
+  .legend{ display:flex; gap:10px; font-size:11px; color:var(--text-mute); font-family:'JetBrains Mono', monospace; }
+  .legend span{ display:flex; align-items:center; gap:5px; }
+  .legend i{ width:9px; height:9px; border-radius:2px; display:inline-block; }
+
+  .grid-scroll{ overflow-x:auto; border-radius:11px; border:1px solid var(--border); }
+  .grid-scroll::-webkit-scrollbar{ height:8px; }
+  .grid-scroll::-webkit-scrollbar-thumb{ background:var(--border-hi); border-radius:4px; }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 62px repeat(6, minmax(150px, 1fr));
+    min-width:900px;
+    background:rgba(0,0,0,.2);
+  }
+  .grid-head, .time-col-head{
+    font-weight:700;
+    font-size:var(--fs-base);
+    text-align:center;
+    padding:12px 4px;
+    background:linear-gradient(180deg, var(--bg-3), var(--bg-2));
+    border-left:1px solid var(--border);
+  }
+  .grid-head:last-child{ border-left:none; }
+  .time-col-head{ font-family:'JetBrains Mono', monospace; font-size:11px; color:var(--text-mute); background:var(--bg-2); }
+
+  .time-col{ position:relative; border-left:1px solid var(--border); background:rgba(0,0,0,.15); }
+  .day-col{ position:relative; border-left:1px solid var(--border); }
+  .day-col:last-child{ border-left:none; }
+  .day-col:hover{ background:rgba(94,167,255,.03); }
+  .hour-line{ position:absolute; left:0; right:0; border-top:1px dashed rgba(120,170,255,.12); }
+  .hour-label{
+    position:absolute; right:6px;
+    transform:translateY(-50%);
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-mute);
+  }
+
+  .event{
+    position:absolute;
+    border-radius:8px;
+    padding:6px 8px;
+    font-size:var(--fs-sm);
+    line-height:1.45;
+    overflow:hidden;
+    cursor:pointer;
+    background:linear-gradient(135deg, rgba(94,167,255,.25), rgba(94,167,255,.15));
+    border:1px solid rgba(94,167,255,.4);
+    backdrop-filter:blur(8px);
+    box-shadow:0 4px 12px -2px rgba(0,0,0,.5);
+    transition:transform .12s;
+  }
+  .event:hover{ transform:translateY(-1px); z-index:10; }
+  .ev-title{ font-weight:700; display:block; margin-bottom:2px; font-size:var(--fs-sm); }
+  .ev-sub{ display:block; opacity:.85; font-family:'JetBrains Mono', monospace; font-size:11px; }
+  .ev-exam{
+    display:block;
+    color:var(--warn);
+    font-family:'JetBrains Mono', monospace;
+    font-size:10px;
+    margin-top:3px;
+  }
+  .ev-remove{
+    position:absolute; top:3px; left:3px;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:rgba(0,0,0,.4);
+    color:#fff;
+    border:none;
+    font-size:10px;
+    line-height:16px;
+    text-align:center;
+    cursor:pointer;
+    opacity:0;
+  }
+  .event:hover .ev-remove{ opacity:1; }
+  .ev-remove:hover{ background:var(--danger); }
+
+  /* PANELS */
+  .panel-row{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:14px;
+    margin-top:14px;
+  }
+  .panel{
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:15px;
+    padding:16px;
+    backdrop-filter:blur(12px);
+  }
+  .panel h3{
+    margin:0 0 12px;
+    font-size:var(--fs-base);
+    font-weight:700;
+    display:flex; align-items:center; gap:8px;
+  }
+  .panel h3 .badge{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    background:var(--surface-hi);
+    color:var(--text-dim);
+    padding:2px 8px;
+    border-radius:8px;
+  }
+  .exam-list{ display:flex; flex-direction:column; gap:7px; max-height:280px; overflow-y:auto; }
+  .exam-item{
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 12px;
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    font-size:var(--fs-sm);
+  }
+  .exam-item.conflict{
+    border-color:var(--danger);
+    background:rgba(255,93,108,.08);
+  }
+  .exam-item .date{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--warn);
+    font-weight:600;
+    font-size:12px;
+  }
+  .exam-item .cname{ flex:1; }
+  .exam-item .ctime{
+    font-family:'JetBrains Mono', monospace;
+    color:var(--text-mute);
+    font-size:11px;
+  }
+  .exam-item .conflict-mark{ color:var(--danger); font-weight:700; font-size:11px; }
+
+  .alert{
+    display:flex; gap:10px; align-items:flex-start;
+    padding:11px 13px;
+    background:rgba(255,93,108,.1);
+    border:1px solid rgba(255,93,108,.4);
+    border-radius:9px;
+    font-size:var(--fs-sm);
+    margin-bottom:10px;
+  }
+  .alert svg{ flex-shrink:0; color:var(--danger); margin-top:2px; }
+  .alert b{ color:var(--danger); }
+
+  .alert-warn{
+    background:rgba(255,180,77,.1);
+    border-color:rgba(255,180,77,.4);
+  }
+  .alert-warn svg{ color:var(--warn); }
+  .alert-warn b{ color:var(--warn); }
+
+  .chips{ display:flex; flex-wrap:wrap; gap:6px; }
+  .chip{
+    font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+    padding:5px 10px;
+    background:rgba(94,167,255,.1);
+    border:1px solid var(--border);
+    border-radius:12px;
+    color:var(--text-dim);
+  }
+  .chip.passed{ background:rgba(34,201,138,.1); border-color:rgba(34,201,138,.3); color:var(--success); }
+  .chip.unpassed{ background:rgba(255,180,77,.1); border-color:rgba(255,180,77,.3); color:var(--warn); }
+  .empty-text{ color:var(--text-mute); font-size:var(--fs-sm); text-align:center; padding:14px; }
+
+  /* PASSED COURSES */
+  .passed-panel{ margin-bottom:14px; }
+  .passed-term{
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:11px;
+    margin-bottom:8px;
+    overflow:hidden;
+  }
+  .passed-term-head{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:9px 13px;
+    cursor:pointer;
+    user-select:none;
+    background:rgba(0,0,0,.15);
+    transition:background .15s;
+  }
+  .passed-term-head:hover{ background:rgba(94,167,255,.08); }
+  .passed-term-head .title{
+    font-weight:600;
+    font-size:var(--fs-base);
+    display:flex; align-items:center; gap:8px;
+  }
+  .passed-term-head .meta{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-mute);
+    display:flex; align-items:center; gap:8px;
+  }
+  .passed-term-head .meta .count{
+    background:var(--surface-hi);
+    padding:2px 8px;
+    border-radius:7px;
+  }
+  .passed-term-head .meta .count.full{ background:rgba(34,201,138,.15); color:var(--success); }
+  .passed-term-head .meta .count.empty{ background:rgba(255,180,77,.15); color:var(--warn); }
+  .passed-term-head .chev{ transition:transform .2s; }
+  .passed-term.open .passed-term-head .chev{ transform:rotate(-180deg); }
+  .passed-term-body{
+    display:none;
+    padding:6px;
+  }
+  .passed-term.open .passed-term-body{ display:block; }
+  .passed-item{
+    display:flex; align-items:center; gap:9px;
+    padding:7px 10px;
+    border-radius:7px;
+    cursor:pointer;
+    transition:background .12s;
+    font-size:var(--fs-sm);
+  }
+  .passed-item:hover{ background:var(--surface-hi); }
+  .passed-item.is-checked{ background:rgba(34,201,138,.08); }
+  .passed-item .checkbox{
+    width:18px; height:18px;
+    border:2px solid var(--border-hi);
+    border-radius:5px;
+    display:grid;
+    place-items:center;
+    flex-shrink:0;
+    transition:all .15s;
+    background:rgba(0,0,0,.25);
+  }
+  .passed-item.is-checked .checkbox{
+    background:var(--success);
+    border-color:var(--success);
+  }
+  .passed-item .checkbox svg{
+    width:11px; height:11px;
+    color:#fff;
+    opacity:0;
+    transform:scale(.5);
+    transition:all .15s;
+  }
+  .passed-item.is-checked .checkbox svg{ opacity:1; transform:scale(1); }
+  .passed-item .name{
+    flex:1;
+    min-width:0;
+  }
+  .passed-item .name b{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-mute);
+    margin-right:6px;
+  }
+  .passed-item.is-checked .name{ color:var(--success); font-weight:600; }
+  .passed-item .units{
+    font-family:'JetBrains Mono', monospace;
+    font-size:11px;
+    color:var(--text-mute);
+    background:var(--surface-hi);
+    padding:2px 7px;
+    border-radius:6px;
+    flex-shrink:0;
+  }
+  .passed-search-wrap{
+    margin-bottom:10px;
+    position:relative;
+  }
+  .passed-search-wrap input{
+    width:100%;
+    padding:9px 13px;
+    background:rgba(0,0,0,.25);
+    border:1px solid var(--border);
+    border-radius:9px;
+    color:var(--text);
+    font-family:inherit;
+    font-size:var(--fs-sm);
+    outline:none;
+  }
+  .passed-search-wrap input:focus{ border-color:var(--success); }
+  .passed-search-wrap input::placeholder{ color:var(--text-mute); }
+  .passed-counter{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    background:rgba(34,201,138,.08);
+    border:1px solid rgba(34,201,138,.2);
+    border-radius:9px;
+    font-size:var(--fs-sm);
+    color:var(--success);
+    margin-top:8px;
+    font-weight:600;
+  }
+  .passed-counter.zero{
+    background:rgba(255,180,77,.08);
+    border-color:rgba(255,180,77,.2);
+    color:var(--warn);
+  }
+
+  /* Modal */
+  .modal-bg{
+    position:fixed; inset:0;
+    background:rgba(0,0,0,.6);
+    backdrop-filter:blur(8px);
+    display:none;
+    align-items:center; justify-content:center;
+    z-index:100;
+    padding:20px;
+  }
+  .modal-bg.show{ display:flex; animation: fadeIn .2s; }
+  @keyframes fadeIn{ from{opacity:0;} to{opacity:1;} }
+  .modal{
+    background:linear-gradient(180deg, var(--bg-2), var(--bg-1));
+    border:1px solid var(--border-hi);
+    border-radius:16px;
+    padding:22px;
+    max-width:540px;
+    width:100%;
+    box-shadow:var(--shadow-lg);
+    animation: scaleIn .25s cubic-bezier(.34,1.56,.64,1);
+    max-height:85vh;
+    overflow-y:auto;
+  }
+  @keyframes scaleIn{ from{transform:scale(.9);opacity:0;} to{transform:scale(1);opacity:1;} }
+  .modal h2{ margin:0 0 14px; font-size:var(--fs-lg); display:flex; align-items:center; gap:8px; }
+  .modal .close{
+    background:var(--surface-hi);
+    border:none;
+    color:var(--text);
+    width:30px; height:30px;
+    border-radius:7px;
+    cursor:pointer;
+    font-size:1rem;
+  }
+  .modal .info-row{
+    display:flex; justify-content:space-between; gap:12px;
+    padding:9px 0;
+    border-bottom:1px solid var(--border);
+    font-size:var(--fs-sm);
+  }
+  .modal .info-row:last-of-type{ border-bottom:none; }
+  .modal .info-row .k{ color:var(--text-mute); flex-shrink:0; }
+  .modal .info-row .v{ color:var(--text); font-weight:600; text-align:left; }
+  .modal .info-row .v.mono{ font-family:'JetBrains Mono', monospace; font-size:13px; }
+  .modal .actions{ display:flex; gap:8px; margin-top:14px; justify-content:flex-end; flex-wrap:wrap; }
+
+  .prereq-box{
+    padding:10px 12px;
+    background:rgba(0,0,0,.2);
+    border:1px solid var(--border);
+    border-radius:9px;
+    margin-top:10px;
+    font-size:var(--fs-sm);
+  }
+  .prereq-box h4{ margin:0 0 6px; font-size:13px; color:var(--text-dim); }
+  .prereq-item{
+    display:inline-block;
+    margin:3px;
+    padding:4px 9px;
+    background:var(--surface-hi);
+    border:1px solid var(--border);
+    border-radius:7px;
+    font-size:12px;
+    font-family:'JetBrains Mono', monospace;
+  }
+  .prereq-item.met{ background:rgba(34,201,138,.15); border-color:rgba(34,201,138,.3); color:var(--success); }
+  .prereq-item.unmet{ background:rgba(255,93,108,.15); border-color:rgba(255,93,108,.3); color:var(--danger); }
+
+  /* Toast */
+  .toast{
+    position:fixed;
+    bottom:20px; left:50%;
+    transform:translateX(-50%) translateY(120%);
+    background:var(--bg-3);
+    border:1px solid var(--border-hi);
+    border-radius:11px;
+    padding:11px 17px;
+    box-shadow:var(--shadow-lg);
+    z-index:200;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1);
+    display:flex; align-items:center; gap:9px;
+    font-size:var(--fs-sm);
+  }
+  .toast.show{ transform:translateX(-50%) translateY(0); }
+  .toast.success{ border-color:var(--success); }
+  .toast.error{ border-color:var(--danger); }
+
+  footer{
+    margin-top:18px;
+    text-align:center;
+    color:var(--text-mute);
+    font-size:11px;
+    font-family:'JetBrains Mono', monospace;
+  }
+
+  @media (max-width: 980px){
+    .layout{ grid-template-columns: 1fr; }
+    .sidebar{ position:static; max-height:480px; }
+    .panel-row{ grid-template-columns:1fr; }
+    .header{ flex-direction:column; align-items:flex-start; }
+    .tabs{ flex-wrap:wrap; }
+  }
+
+  .site-footer{margin-top:24px;padding:22px 16px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;text-align:center;color:var(--text-mute);font-size:12px;border-top:1px solid var(--border)}
+  .site-footer a{color:var(--accent);text-decoration:none;font-weight:700;transition:color .2s,opacity .2s}
+  .site-footer a:hover{color:#fff;opacity:.95}
+  .site-footer span{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.2px}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <div class="brand">
+      <div class="brand-icon">🚀</div>
+      <div>
+        <h1>سامانه انتخاب واحد هوافضا</h1>
+        <div class="sub"><b>برنامه ترمی مطابق چارت رسمی ورودی‌های ۱۴۰۳ به بعد</b></div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat-chip">
+        <span class="num" id="statCourses">۰</span>
+        <span class="label">درس انتخابی</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="statUnits">۰</span>
+        <span class="label">واحد</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="statHours">۰</span>
+        <span class="label">ساعت</span>
+      </div>
+      <div class="stat-chip">
+        <span class="num" id="statPassed">۰</span>
+        <span class="label">پاس شده</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab active" data-tab="specialty">📘 دروس تخصصی <span class="badge" id="cntSpecialty">۰</span></button>
+    <button class="tab" data-tab="schedule">📅 تابلوی هفته</button>
+  </div>
+
+  <!-- TOOLBAR -->
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="searchInput" type="text" placeholder="جستجوی درس، استاد یا کد…">
+    </div>
+    <select id="filterTerm" class="select">
+      <option value="">همه ترم‌ها</option>
+      <option value="1">ترم ۱</option>
+      <option value="2">ترم ۲</option>
+      <option value="3">ترم ۳</option>
+      <option value="4">ترم ۴</option>
+      <option value="5">ترم ۵</option>
+      <option value="6">ترم ۶</option>
+      <option value="7">ترم ۷</option>
+      <option value="8">ترم ۸</option>
+    </select>
+    <select id="filterDay" class="select">
+      <option value="">همه روزها</option>
+      <option>شنبه</option>
+      <option>یکشنبه</option>
+      <option>دوشنبه</option>
+      <option>سه‌شنبه</option>
+      <option>چهارشنبه</option>
+      <option>پنجشنبه</option>
+    </select>
+    <button class="btn ghost" id="clearBtn">پاک‌کردن</button>
+  </div>
+
+  <!-- LAYOUT -->
+  <div class="layout">
+    <div class="sidebar">
+      <div class="sidebar-head">
+        <h2>📚 لیست دروس</h2>
+        <span class="count" id="courseCount">۰ مورد</span>
+      </div>
+      <div id="courseList"></div>
+    </div>
+
+    <div>
+      <!-- PASSED COURSES PANEL -->
+      <div class="panel passed-panel">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; gap:8px; flex-wrap:wrap;">
+          <h3 style="margin:0;">✅ دروس پاس شده <span class="badge" id="passedBadge">۰ درس</span></h3>
+          <div style="display:flex; gap:6px;">
+            <button class="btn ghost" id="clearPassedBtn" style="padding:6px 11px; font-size:11px;">🗑 پاک‌کردن همه</button>
+            <button class="btn ghost" id="toggleAllPassed" style="padding:6px 11px; font-size:11px;">باز/بستن همه</button>
+          </div>
+        </div>
+        <div style="font-size:var(--fs-sm); color:var(--text-dim); margin-bottom:10px;">
+          دروسی که پاس کردید رو تیک بزنید تا سیستم پیش‌نیازها رو چک کنه. دروس رشته به تفکیک ترم نمایش داده می‌شوند.
+        </div>
+        <div id="passedTerms"></div>
+      </div>
+
+      <!-- BOARD -->
+      <div class="board">
+        <div class="board-head">
+          <h3>📅 تابلوی هفته</h3>
+          <div class="legend">
+            <span><i style="background:rgba(94,167,255,.4)"></i>کلاس</span>
+            <span><i style="background:rgba(255,180,77,.4)"></i>امتحان</span>
+            <span><i style="background:rgba(255,93,108,.4)"></i>پیش‌نیاز ناقص</span>
+          </div>
+        </div>
+        <div class="grid-scroll">
+          <div class="grid" id="grid"></div>
+        </div>
+      </div>
+
+      <!-- PANELS ROW -->
+      <div class="panel-row">
+        <div class="panel">
+          <h3>⚠️ بررسی تداخل امتحان‌ها <span class="badge" id="examBadge">۰ امتحان</span></h3>
+          <div id="conflictAlert"></div>
+          <div class="exam-list" id="examList"></div>
+        </div>
+        <div class="panel">
+          <h3>🛠️ دروس بدون زمان ثابت <span class="badge">کارآموزی/پروژه</span></h3>
+          <div class="chips" id="notimeChips"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+  <a href="https://amiraligholian.ir/" target="_blank" rel="noopener noreferrer">Amirali Gholian</a>
+  <span>All rights reserved by Amirali Gholian</span>
+</footer>
+</div>
+
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h2 id="modalTitle">📖 جزئیات درس</h2>
+      <button class="close" onclick="closeModal()">✕</button>
+    </div>
+    <div id="modalBody"></div>
+    <div class="actions" id="modalActions"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ HELPERS ============ */
+function toFa(s){
+  const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
+  return String(s).split("").map(ch=>map[ch]!==undefined?map[ch]:ch).join("");
+}
+function toEnDigits(s){
+  const map = {'�':'0','۱':'1','۲':'2','۳':'3','۴':'4','۵':'5','۶':'6','۷':'7','۸':'8','۹':'9'};
+  return String(s).split("").map(ch=>map[ch]!==undefined?map[ch]:ch).join("");
+}
+
+/* ============ DATA ============ */
+const DAYS = ["شنبه","یکشنبه","دوشنبه","سه‌شنبه","چهارشنبه","پنجشنبه"];
+
+// SPECIALTY COURSES (ترم‌های ۱-۸ مهندسی هوافضا)
+// prereq: آرایه‌ای از نام دروس پیش‌نیاز
+const SPECIALTY = [
+  // ترم 1
+  {name:"ریاضی عمومی ۱", code:"4618167387", units:3, term:1, prereq:[], curriculumCode:1, courseType:"پایه", sections:[
+    {day:"شنبه", start:"13:30", end:"16:00", teacher:"محمدرضا یاسری", exam:"1405/10/12 (08:20-10:00)"},
+  ]},
+  {name:"فیزیک ۱", code:"1401141460", units:3, term:1, prereq:["ریاضی عمومی ۱"], curriculumCode:2, courseType:"پایه", sections:[
+    {day:"دوشنبه", start:"16:00", end:"18:30", teacher:"مهدی استرکی", exam:"1405/10/15 (08:20-10:00)"},
+  ]},
+  {name:"الگوریتم و برنامه‌سازی کامپیوتر", code:"1401141456", units:3, term:1, prereq:[], curriculumCode:4, courseType:"پایه", sections:[
+  ]},
+  {name:"نقشه‌کشی صنعتی ۱", code:"1401154830", units:2, term:1, prereq:[], curriculumCode:5, courseType:"اصلی", sections:[
+    {day:"شنبه", start:"10:30", end:"12:10", teacher:"رسول کنشوری", location:"فنی و مهندسی-103", exam:"1405/10/23 (10:20-12:00)"},
+  ]},
+  // ترم 2
+  {name:"ریاضی عمومی ۲", code:"4618167393", units:3, term:2, prereq:["ریاضی عمومی ۱"], curriculumCode:10, courseType:"پایه", sections:[
+    {day:"سه‌شنبه", start:"10:30", end:"13:30", teacher:"محمدرضا یاسری", exam:"1405/10/20 (08:20-10:00)"},
+  ]},
+  {name:"فیزیک ۲", code:"1401141492", units:3, term:2, prereq:["فیزیک ۱"], curriculumCode:11, courseType:"پایه", sections:[
+    {day:"دوشنبه", start:"16:00", end:"18:30", teacher:"سلیمان مجیدی", exam:"1405/10/13 (08:20-10:00)"},
+    {day:"یکشنبه", start:"15:10", end:"17:40", teacher:"سلیمان مجیدی", exam:"1405/10/13 (08:20-10:00)"},
+    {day:"شنبه", start:"15:10", end:"17:40", teacher:"سلیمان مجیدی", exam:"1405/10/13 (08:20-10:00)"},
+  ]},
+  {name:"استاتیک", code:"6071103341", units:3, term:2, prereq:["فیزیک ۱", "ریاضی عمومی ۱"], curriculumCode:12, courseType:"اصلی", sections:[
+    {day:"سه‌شنبه", start:"10:30", end:"13:30", teacher:"محسن حسین‌پور", location:"شهید فخری‌زاده (علوم پایه سابق)-60", exam:"1405/10/21 (10:20-12:00)"},
+    {day:"چهارشنبه", start:"08:00", end:"10:30", teacher:"آرش گلزاری‌افخم", location:"فنی و مهندسی-103", exam:"1405/10/21 (10:20-12:00)"},
+  ]},
+  {name:"نقشه‌کشی صنعتی ۲", code:"1401165278", units:2, term:2, prereq:["نقشه‌کشی صنعتی ۱"], coreq:["ریاضی عمومی ۲"], curriculumCode:13, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"08:00", end:"13:30", teacher:"رسول کنشوری", location:"فنی و مهندسی-104", exam:"1405/10/12 (14:20-16:00)"},
+  ]},
+  {name:"معادلات دیفرانسیل", code:"1401150350", units:3, term:2, prereq:["ریاضی عمومی ۲"], curriculumCode:14, courseType:"پایه", sections:[
+    {day:"سه‌شنبه", start:"08:00", end:"10:30", teacher:"محمدرضا یاسری", location:"فنی و مهندسی-106", exam:"1405/10/21 (08:20-10:00)"},
+    {day:"سه‌شنبه", start:"10:30", end:"13:30", teacher:"محمدرضا یاسری", location:"فنی و مهندسی-204", exam:"1405/10/21 (08:20-10:00)"},
+    {day:"سه‌شنبه", start:"08:00", end:"10:30", teacher:"محسن حسین‌پور", location:"بلوک 1 آموزشی-302", exam:"1405/10/21 (08:20-10:00)"},
+  ]},
+  // ترم 3
+  {name:"مکانیک سیالات", code:"6071178268", units:3, term:3, prereq:["معادلات دیفرانسیل"], coreq:["دینامیک"], curriculumCode:19, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"فریدون ثابت قدم", exam:"1405/10/21 (10:20-12:00)"},
+    {day:"شنبه", start:"08:00", end:"10:30", teacher:"سعید کاظمی", exam:"1405/10/13 (12:20-14:00)"},
+    {day:"یکشنبه", start:"10:30", end:"12:10", teacher:"ارشیا تبریزیان", exam:"1405/10/13 (12:20-14:00)"},
+    {day:"یکشنبه", start:"13:30", end:"16:00", teacher:"ارشیا تبریزیان", exam:"1405/10/13 (12:20-14:00)"},
+  ]},
+  {name:"دینامیک", code:"1401125773", units:4, term:3, prereq:["استاتیک"], curriculumCode:20, courseType:"اصلی", sections:[
+    {day:"چهارشنبه", start:"13:30", end:"16:50", teacher:"امیرمحمد امیری", location:"فنی و مهندسی-102", exam:"1405/10/14 (10:20-12:00)"},
+    {day:"چهارشنبه", start:"09:40", end:"12:10", teacher:"امیرمحمد امیری", location:"فنی و مهندسی-102", exam:"1405/10/14 (10:20-12:00)"},
+    {day:"سه‌شنبه", start:"09:10", end:"12:30", teacher:"احمد مامندی", location:"شهید فخری‌زاده (علوم پایه سابق)-61", exam:"1405/10/14 (10:20-12:00)"},
+    {day:"یکشنبه", start:"08:00", end:"11:20", teacher:"احمد مامندی", location:"فنی و مهندسی-103", exam:"1405/10/14 (10:20-12:00)"},
+  ]},
+  {name:"مقاومت مصالح", code:"1401178270", units:3, term:3, prereq:["استاتیک"], curriculumCode:21, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"10:30", end:"13:30", teacher:"علی مهندسیان", exam:"1405/10/23 (13:00-14:40)"},
+    {day:"چهارشنبه", start:"13:30", end:"16:00", teacher:"امیررضا خوشدونی‌فراهانی", exam:"1405/10/23 (13:00-14:40)"},
+    {day:"چهارشنبه", start:"10:30", end:"13:30", teacher:"آرش گلزاری‌افخم", exam:"1405/10/23 (13:00-14:40)"},
+    {day:"سه‌شنبه", start:"10:30", end:"13:30", teacher:"احمد مامندی", location:"شهید فخری‌زاده (علوم پایه سابق)-62", exam:"1405/10/23 (13:00-14:40)"},
+  ]},
+  {name:"مبانی مهندسی برق و الکترونیک", code:"1401145592", units:3, term:3, prereq:["فیزیک ۲"], curriculumCode:22, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"مهدیه رحمانی", location:"فنی و مهندسی-106", exam:"1405/10/12 (10:20-12:00)"},
+    {day:"دوشنبه", start:"08:00", end:"10:30", teacher:"مهدیه رحمانی", location:"فنی و مهندسی-103", exam:"1405/10/12 (10:20-12:00)"},
+  ]},
+  {name:"آزمایشگاه فیزیک ۱", code:"1401102502", units:1, term:3, prereq:["فیزیک ۲"], curriculumCode:23, courseType:"پایه", sections:[
+    {day:"", start:"", end:"", teacher:"لیلا فکری اول", exam:""},
+    {day:"یکشنبه", start:"08:00", end:"09:40", teacher:"سید مهدی مرعشی", exam:""},
+    {day:"یکشنبه", start:"12:40", end:"14:20", teacher:"الهام دارابی", exam:""},
+    {day:"یکشنبه", start:"09:40", end:"11:20", teacher:"الهام دارابی", exam:""},
+    {day:"یکشنبه", start:"08:00", end:"09:40", teacher:"الهام دارابی", exam:""},
+  ]},
+  {name:"آزمایشگاه فیزیک ۲", code:"1401102882", units:1, term:3, prereq:["فیزیک ۲"], curriculumCode:24, courseType:"پایه", sections:[]},
+  // ترم 4
+  {name:"محاسبات عددی", code:"1401147380", units:2, term:4, prereq:["الگوریتم و برنامه‌سازی کامپیوتر", "معادلات دیفرانسیل"], curriculumCode:29, courseType:"پایه", sections:[
+    {day:"دوشنبه", start:"09:40", end:"11:20", teacher:"محدثه دیرباز", location:"بلوک C ابن‌سینا-20", exam:"1405/10/19 (08:20-10:00)"},
+  ]},
+  {name:"ریاضیات مهندسی", code:"6071129896", units:3, term:4, prereq:["معادلات دیفرانسیل"], curriculumCode:30, courseType:"اصلی", sections:[
+    {day:"چهارشنبه", start:"08:00", end:"10:30", teacher:"احمد مامندی", exam:"1405/10/14 (08:20-10:00)"},
+    {day:"یکشنبه", start:"13:30", end:"16:00", teacher:"احمد مامندی", exam:"1405/10/14 (09:20-10:00)"},
+  ]},
+  {name:"ترمودینامیک ۱", code:"6071118745", units:3, term:4, prereq:["معادلات دیفرانسیل"], curriculumCode:31, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"محمد امیان", location:"فنی و مهندسی-104", exam:"1405/10/15 (10:20-12:00)"},
+    {day:"سه‌شنبه", start:"10:30", end:"13:30", teacher:"فهیمه نجفی", location:"فنی و مهندسی-102", exam:"1405/10/15 (10:20-12:00)"},
+  ]},
+  {name:"مقدمه‌ای بر مهندسی هوافضا", code:"1401151129", units:2, term:4, prereq:["مکانیک سیالات"], curriculumCode:32, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"13:30", end:"15:10", teacher:"مصطفی رحمتی‌لیش", exam:"1405/10/20 (14:20-16:00)"},
+    {day:"دوشنبه", start:"11:20", end:"13:30", teacher:"مصطفی رحمتی‌لیش", exam:"1405/10/20 (14:20-16:00)"},
+    {day:"دوشنبه", start:"10:30", end:"13:30", teacher:"مصطفی رحمتی‌لیش", exam:"1405/10/20 (14:20-16:00)"},
+    {day:"پنجشنبه", start:"08:00", end:"09:50", teacher:"ارشیا تبریزیان", location:"بلوک آموزشی-34", exam:"1405/10/20 (14:20-16:00)"},
+  ]},
+  {name:"علم مواد", code:"1401138852", units:3, term:4, prereq:["مقاومت مصالح"], curriculumCode:33, courseType:"اصلی", sections:[
+    {day:"سه‌شنبه", start:"08:00", end:"10:30", teacher:"احمد مامندی", exam:"1405/10/13 (10:30-12:10)"},
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"آرمین اسمعیل‌زاغی", exam:"1405/10/13 (10:30-12:10)"},
+  ]},
+  {name:"مکانیک مدارهای فضایی", code:"1401152576", units:2, term:4, prereq:["دینامیک"], curriculumCode:34, courseType:"تخصصی", sections:[
+    {day:"یکشنبه", start:"08:00", end:"10:30", teacher:"علی محمودی", exam:"1405/10/14 (08:20-10:00)"},
+    {day:"شنبه", start:"13:30", end:"16:00", teacher:"علی محمودی", exam:"1405/10/14 (12:20-14:00)"},
+  ]},
+  {name:"آزمایشگاه مقاومت مصالح", code:"1401102889", units:1, term:4, prereq:["مقاومت مصالح"], curriculumCode:38, courseType:"آزمایشگاهی", sections:[
+    {day:"", start:"", end:"", teacher:"احمد مامندی"},
+    {day:"", start:"", end:"", teacher:"احمد مامندی", note:"بین ترمی"},
+    {day:"شنبه", start:"10:30", end:"12:10", teacher:"احمد مامندی"},
+  ]},
+  // ترم 5
+  {name:"آیرودینامیک ۱", code:"6071109891", units:3, term:5, prereq:["مکانیک سیالات"], curriculumCode:39, courseType:"تخصصی", sections:[
+    {day:"یکشنبه", start:"08:00", end:"10:30", teacher:"ارشیا تبریزیان", location:"فنی و مهندسی-102", exam:"1405/10/21 (14:20-16:00)"},
+    {day:"شنبه", start:"13:30", end:"16:00", teacher:"ارشیا تبریزیان", location:"فنی و مهندسی-102", exam:"1405/10/21 (14:20-16:00)"},
+  ]},
+  {name:"ارتعاشات مکانیکی", code:"6071101192", units:3, term:5, prereq:["دینامیک"], curriculumCode:40, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"10:30", end:"13:30", teacher:"امیرحسین هاشمیان", exam:"1405/10/23 (14:20-16:00)"},
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"امیرحسین هاشمیان", exam:"1405/10/23 (14:20-16:00)"},
+    {day:"یکشنبه", start:"13:30", end:"16:00", teacher:"امیرحسین هاشمیان", exam:"1405/10/23 (14:20-16:00)"},
+  ]},
+  {name:"ترمودینامیک ۲", code:"6071118749", units:2, term:5, prereq:["ترمودینامیک ۱"], curriculumCode:41, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"16:00", end:"17:40", teacher:"محمد امیان", location:"فنی و مهندسی-107", exam:"1405/10/19 (12:20-14:00)"},
+    {day:"شنبه", start:"16:00", end:"17:40", teacher:"رضا آقائی طوق", location:"بلوک C ابن سینا-26", exam:"1405/10/19 (12:20-14:00)"},
+    {day:"شنبه", start:"08:50", end:"10:30", teacher:"فهیمه نجفی", location:"فنی و مهندسی-109", exam:"1405/10/19 (12:20-14:00)"},
+  ]},
+  {name:"تحلیل سازه‌های هوایی", code:"1401117752", units:3, term:5, prereq:["الگوریتم و برنامه‌سازی کامپیوتر", "مقاومت مصالح"], curriculumCode:42, courseType:"اصلی", sections:[
+    {day:"شنبه", start:"16:00", end:"18:30", teacher:"مهدی مندعلی", exam:"1405/10/20 (10:30-12:10)"},
+    {day:"شنبه", start:"08:00", end:"10:30", teacher:"احمد مامندی", exam:"1405/10/20 (10:30-12:10)"},
+  ]},
+  {name:"انتقال حرارت", code:"1401108787", units:3, term:5, prereq:["ترمودینامیک ۱"], curriculumCode:43, courseType:"اصلی", sections:[
+    {day:"سه‌شنبه", start:"13:30", end:"16:00", teacher:"موسی زکی", exam:"1405/10/13 (14:20-16:00)"},
+    {day:"یکشنبه", start:"08:00", end:"10:30", teacher:"موسی زکی", exam:"1405/10/13 (14:20-16:00)"},
+  ]},
+  {name:"آیین نگارش و گزارش‌نویسی فنی", code:"4617110311", units:2, term:5, prereq:[], curriculumCode:44, courseType:"اصلی", sections:[
+    {day:"یکشنبه", start:"11:20", end:"12:10", teacher:"احمد مامندی", exam:"1405/10/12 (12:20-14:00)"},
+  ]},
+  {name:"آزمایشگاه مکانیک سیالات", code:"1401103082", units:1, term:5, prereq:["مکانیک سیالات"], curriculumCode:45, courseType:"اصلی", sections:[
+    {day:"چهارشنبه", start:"13:30", end:"15:10", teacher:"نادر دیزجی", exam:""},
+    {day:"چهارشنبه", start:"11:20", end:"12:10", teacher:"نادر دیزجی", exam:""},
+    {day:"چهارشنبه", start:"09:40", end:"11:20", teacher:"نادر دیزجی", exam:""},
+    {day:"چهارشنبه", start:"08:00", end:"09:40", teacher:"نادر دیزجی", exam:""},
+  ]},
+  {name:"آزمایشگاه ترمودینامیک و انتقال حرارت", code:"1401101911", units:1, term:5, prereq:[], curriculumCode:46, courseType:"آزمایشگاهی", sections:[
+    {day:"سه‌شنبه", start:"", end:"", teacher:"سید مهدی مرعشی", note:"سه‌شنبه ارائه می‌شود"},
+    {day:"سه‌شنبه", start:"", end:"", teacher:"سید مهدی مرعشی", note:"سه‌شنبه ارائه می‌شود"},
+    {day:"سه‌شنبه", start:"", end:"", teacher:"سید مهدی مرعشی", note:"سه‌شنبه ارائه می‌شود"},
+  ]},
+  // ترم 6
+  {name:"آیرودینامیک ۲", code:"1401109892", units:3, term:6, prereq:["آیرودینامیک ۱"], curriculumCode:49, courseType:"تخصصی", sections:[
+    {day:"شنبه", start:"08:00", end:"11:20", teacher:"علیرضا داوری", location:"1402 و مافیل", exam:"1405/10/19 (10:20-12:00)"},
+    {day:"دوشنبه", start:"16:00", end:"19:20", teacher:"مصطفی هادی دولابی", location:"مخصوص 402 و مافیل", exam:"1405/10/19 (10:20-12:00)"},
+  ]},
+  {name:"طراحی سازه‌های صنایع هوایی", code:"6071137422", units:3, term:6, prereq:["تحلیل سازه‌های هوایی"], curriculumCode:50, courseType:"تخصصی", sections:[
+    {day:"یکشنبه", start:"16:00", end:"18:30", teacher:"مهدی مندعلی", location:"شهید فخری‌زاده (علوم پایه سابق)-60", exam:"1405/10/21 (12:20-14:00)"},
+    {day:"پنجشنبه", start:"10:30", end:"13:30", teacher:"مهدی مندعلی", location:"بلوک 2 آموزشی-424", exam:"1405/10/21 (12:20-14:00)"},
+  ]},
+  {name:"کنترل اتوماتیک", code:"6071161603", units:3, term:6, prereq:["ارتعاشات مکانیکی"], curriculumCode:51, courseType:"اصلی", sections:[
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"الیاس مهاجری", location:"فنی و مهندسی-107", exam:"1405/10/12 (14:20-16:00)"},
+    {day:"سه‌شنبه", start:"08:00", end:"10:30", teacher:"علی محمودی", location:"شهید فخری‌زاده (علوم پایه سابق)-60", exam:"1405/10/12 (14:20-16:00)"},
+  ]},
+  {name:"مکانیک پرواز ۲", code:"7000036404", units:3, term:7, prereq:[], curriculumCode:60, courseType:"تخصصی", sections:[
+    {day:"", start:"", end:"", teacher:"مصطفی رحمتی‌لیش", exam:"1405/10/22 (10:20-12:00)"},
+    {day:"", start:"", end:"", teacher:"الیاس مهاجری", exam:"1405/10/22 (10:20-12:00)"},
+  ]},
+  {name:"مکانیک پرواز ۱", code:"1401152377", units:3, term:6, prereq:["آیرودینامیک ۱"], coreq:["آیرودینامیک ۲"], curriculumCode:52, courseType:"تخصصی", sections:[
+    {day:"دوشنبه", start:"10:30", end:"13:30", teacher:"الیاس مهاجری", location:"فنی و مهندسی-103", exam:"1405/10/15 (14:20-16:00)"},
+    {day:"یکشنبه", start:"10:30", end:"13:30", teacher:"علی خورشیدی‌بنام", location:"فنی و مهندسی-102", exam:"1405/10/15 (14:20-16:00)"},
+  ]},
+  {name:"آزمایشگاه مبانی مهندسی برق و الکترونیک", code:"4618101502", units:1, term:6, prereq:["مبانی مهندسی برق و الکترونیک"], curriculumCode:53, courseType:"آزمایشگاهی", sections:[
+    {day:"شنبه", start:"09:40", end:"11:20", teacher:"مهرنوش وطنی"},
+    {day:"شنبه", start:"08:00", end:"09:40", teacher:"مهرنوش وطنی"},
+  ]},
+  {name:"زبان تخصصی مهندسی هوافضا", code:"1401130949", units:2, term:6, prereq:[], minUnits:70, curriculumCode:54, courseType:"تخصصی", sections:[
+    {day:"پنجشنبه", start:"11:20", end:"13:20", teacher:"احمد مامندی", location:"بلوک C ابن سینا-26", exam:"1405/10/12 (08:20-10:00)"},
+    {day:"چهارشنبه", start:"08:00", end:"09:40", teacher:"مهدی جهانگیری", location:"فنی و مهندسی-102", exam:"1405/10/14 (14:20-16:00)"},
+  ]},
+  {name:"کارآموزی", code:"1401180001", units:2, term:6, prereq:[], minUnits:80, curriculumCode:56, courseType:"کارآموزی", sections:[]},
+  // ترم 7
+  {name:"اصول جلوبرنده‌ها", code:"6071105130", units:3, term:7, prereq:["ترمودینامیک ۲", "آیرودینامیک ۲"], curriculumCode:59, courseType:"تخصصی", sections:[
+    {day:"دوشنبه", start:"16:00", end:"18:30", teacher:"رضا آقائی‌طوق", location:"بلوک 1 آموزشی-708", exam:"1405/10/23 (10:20-12:00)"},
+    {day:"دوشنبه", start:"13:30", end:"16:00", teacher:"رضا آقائی‌طوق", location:"فنی و مهندسی-105", exam:"1405/10/23 (10:20-12:00)"},
+  ]},
+  {name:"مکانیک پرواز ۲", code:"1401152378", units:4, term:7, prereq:["مکانیک پرواز ۱", "کنترل اتوماتیک"], curriculumCode:60, courseType:"تخصصی", sections:[
+    {day:"یکشنبه", start:"08:00", end:"11:20", teacher:"الیاس مهاجری", location:"مخصوص 402 و مافیل", exam:"1405/10/22 (10:20-12:00)"},
+    {day:"دوشنبه", start:"08:00", end:"11:20", teacher:"مصطفی رحمتی‌لیش", location:"مخصوص 402 و مافیل", exam:"1405/10/22 (10:20-12:00)"},
+  ]},
+  {name:"طراحی هواپیما ۱", code:"6071137974", units:3, term:7, prereq:["مکانیک پرواز ۲"], curriculumCode:61, courseType:"تخصصی", sections:[
+    {day:"دوشنبه", start:"08:00", end:"10:30", teacher:"فرشاد پازوکی", location:"فنی و مهندسی-102", exam:"1405/10/12 (12:20-16:00)"},
+    {day:"یکشنبه", start:"13:30", end:"16:00", teacher:"فرشاد پازوکی", location:"فنی و مهندسی-103", exam:"1405/10/12 (12:20-16:00)"},
+  ]},
+  {name:"کارگاه موتور-بدنه و سیستم‌های هواپیما", code:"1401160291", units:1, term:7, prereq:[], minUnits:100, curriculumCode:62, courseType:"کارگاه", sections:[
+    {day:"دوشنبه", start:"16:00", end:"18:30", teacher:"موسی زکی"},
+    {day:"سه‌شنبه", start:"16:00", end:"18:30", teacher:"موسی زکی"},
+  ]},
+  {name:"کارگاه ورقکاری و جوشکاری در صنایع هوایی", code:"1401176817", units:1, term:7, prereq:["نقشه‌کشی صنعتی ۲"], curriculumCode:64, courseType:"کارگاه", sections:[
+    {day:"شنبه", start:"13:30", end:"15:10", teacher:"محمد اردستانی"},
+    {day:"شنبه", start:"11:20", end:"13:30", teacher:"محمد اردستانی"},
+  ]},
+  {name:"آزمایشگاه آیرودینامیک ۲", code:"1401101732", units:1, term:7, prereq:["آیرودینامیک ۲"], curriculumCode:64, courseType:"تخصصی", sections:[
+    {day:"چهارشنبه", start:"10:30", end:"12:10", teacher:"علیرضا داوری"},
+    {day:"چهارشنبه", start:"08:50", end:"10:30", teacher:"علیرضا داوری"},
+    {day:"زمان‌بندی ثبت نشده", start:"", end:"", teacher:"علیرضا داوری"},
+  ]},
+  {name:"آزمایشگاه آیرودینامیک ۱", code:"1401101731", units:1, term:7, prereq:["آیرودینامیک ۱"], curriculumCode:65, courseType:"تخصصی", sections:[
+    {day:"دوشنبه", start:"08:50", end:"10:30", teacher:"علیرضا داوری"},
+    {day:"دوشنبه", start:"10:30", end:"12:10", teacher:"علیرضا داوری"},
+  ]},
+  {name:"پروژه تخصصی", code:"1401180002", units:3, term:7, prereq:[], minUnits:100, curriculumCode:66, courseType:"پروژه", sections:[]},
+  // ترم 8
+  {name:"طراحی هواپیما ۲", code:"6071137975", units:3, term:8, prereq:["طراحی هواپیما ۱"], curriculumCode:69, courseType:"تخصصی", sections:[
+    {day:"دوشنبه", start:"10:30", end:"13:30", teacher:"فرشاد پازوکی", location:"فنی و مهندسی-102", exam:"1405/10/20 (10:20-12:00)"},
+    {day:"یکشنبه", start:"10:30", end:"13:30", teacher:"فرشاد پازوکی", location:"فنی و مهندسی-110", exam:"1405/10/20 (10:20-12:00)"},
+  ]},
+  {name:"درس تخصصی اختیاری ۱", code:"70", units:3, term:8, prereq:[], curriculumCode:70, courseType:"تخصصی اختیاری", sections:[]},
+  {name:"درس تخصصی اختیاری ۲", code:"71", units:3, term:8, prereq:[], curriculumCode:71, courseType:"تخصصی اختیاری", sections:[]},
+  {name:"درس تخصصی اختیاری ۳", code:"72", units:3, term:8, prereq:[], curriculumCode:72, courseType:"تخصصی اختیاری", sections:[]},
+  {name:"کارگاه ابزاردقیق و اندازه‌گیری در هواپیما", code:"1401159069", units:1, term:8, prereq:[], minUnits:100, curriculumCode:73, courseType:"کارگاه", sections:[
+    {day:"چهارشنبه", start:"10:30", end:"13:30", teacher:"مهدی جهانگیری"},
+    {day:"چهارشنبه", start:"13:30", end:"16:00", teacher:"مهدی جهانگیری"},
+  ]},
+];
+
+
+
+const NOTIME = [
+  {name:"کارآموزی", teachers:["رضا آقائی‌طوق","علیرضا داوری","ارشیا تبریزیان","فریدون ثابت‌قدم","محمد آقائی‌متعلقی","امیرحسین هاشمیان","مهدی مندعلی","فرشاد پازوکی","احمد مامندی","علی محمودی"]},
+  {name:"پروژه", teachers:["فریدون ثابت‌قدم","محمد آقائی‌متعلقی","فرشاد پازوکی","مهدی مندعلی","احمد مامندی","علیرضا داوری","امیرحسین هاشمیان","رضا آقائی‌طوق","ارشیا تبریزیان","علی محمودی"]},
+];
+
+const PALETTE = ["#5ea7ff","#7c5cff","#00d4c8","#ffb84d","#ff5d6c","#22c98a","#a78bfa","#06b6d4","#f472b6","#fb923c","#34d399","#fbbf24","#fb7185","#818cf8","#facc15","#4ade80","#38bdf8","#c084fc"];
+SPECIALTY.forEach((c,i)=>{ c.color = PALETTE[i % PALETTE.length]; c.id = "s"+i; c.category="specialty"; });
+
+function toMin(t){ const [h,m]=t.split(":").map(Number); return h*60+m; }
+const GRID_START = toMin("08:00");
+const GRID_END   = toMin("19:40");
+const PX_PER_MIN = 1.15;
+const GRID_HEIGHT = (GRID_END-GRID_START)*PX_PER_MIN;
+
+/* ============ STATE ============ */
+let selected = []; // [{uid, courseId, sectionIdx}]
+let passed = new Set(); // set of course names
+let activeTab = "specialty";
+let uidCounter = 0;
+const STORAGE_KEY = "aero-schedule-v3-chart-1403";
+
+try{
+  const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}");
+  if(saved.selected) selected = saved.selected;
+  if(saved.passed) passed = new Set(saved.passed);
+  if(saved.selected && saved.selected.length){
+    uidCounter = Math.max(...saved.selected.map(s=>parseInt(String(s.uid).replace("e",""))||0), 0) + 1;
+  }
+}catch(e){}
+
+function findCourse(id){
+  return SPECIALTY.find(c=>c.id===id);
+}
+
+function saveState(){
+  localStorage.setItem(STORAGE_KEY, JSON.stringify({
+    selected, passed: [...passed]
+  }));
+}
+
+function getPassedUnits(){
+  return [...passed].reduce((sum, name)=>{
+    const c = findCourseByName(name);
+    return sum + (c ? c.units : 0);
+  }, 0);
+}
+
+function isPrereqMet(course){
+  const namedOk = !course.prereq || course.prereq.length === 0 || course.prereq.every(p=>passed.has(p));
+  const unitsOk = !course.minUnits || getPassedUnits() >= course.minUnits;
+  return namedOk && unitsOk;
+}
+
+function isCourseSelected(id, sectionIdx){
+  if(sectionIdx === undefined || sectionIdx === null){
+    return selected.some(s=>s.courseId===id);
+  }
+  return selected.some(s=>s.courseId===id && s.sectionIdx===sectionIdx);
+}
+
+/* ============ TABS ============ */
+document.querySelectorAll(".tab").forEach(t=>{
+  t.addEventListener("click", ()=>{
+    document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    activeTab = t.dataset.tab;
+    renderSidebar();
+  });
+});
+
+/* ============ SIDEBAR ============ */
+function renderSidebar(){
+  const filter = document.getElementById("searchInput").value.trim().toLowerCase();
+  const fTerm = document.getElementById("filterTerm").value;
+  const fDay = document.getElementById("filterDay").value;
+
+  const courses = SPECIALTY;
+  const list = document.getElementById("courseList");
+  list.innerHTML = "";
+  let count = 0;
+
+  courses.forEach((course)=>{
+    if(fTerm && String(course.term) !== fTerm) return;
+    if(fDay && !course.sections.some(s=>s.day===fDay)) return;
+    if(filter){
+      const hay = (course.name + " " + course.code + " " + course.sections.map(s=>s.teacher).join(" ")).toLowerCase();
+      if(!hay.includes(filter)) return;
+    }
+    count++;
+    // بررسی اینکه آیا حداقل یکی از کلاس‌های این درس انتخاب شده
+    const anyAdded = isCourseSelected(course.id);
+    const prereqOk = isPrereqMet(course);
+
+    const card = document.createElement("div");
+    card.className = "course-card";
+    if(!prereqOk && !passed.has(course.name)) card.classList.add("has-prereq-warn");
+    if(anyAdded) card.classList.add("open");
+
+    const head = document.createElement("div");
+    head.className = "course-head";
+    head.innerHTML = `
+      <span class="swatch" style="background:${course.color}"></span>
+      <div style="flex:1; min-width:0;">
+        <div class="course-title">${course.name}</div>
+        <div class="course-tags">
+          <span class="tag term">ترم ${toFa(course.term)}</span>
+          <span class="tag">${toFa(course.units)} واحد</span>
+          <span class="tag">${toFa(course.sections.length)} کلاس</span>
+          ${course.courseType ? `<span class="tag">${course.courseType}</span>` : ""}
+          ${!prereqOk && !passed.has(course.name) ? `<span class="tag warn">⚠ پیش‌نیاز ناقص</span>` : ""}
+          ${passed.has(course.name) ? `<span class="tag" style="background:rgba(34,201,138,.15); color:var(--success); border-color:rgba(34,201,138,.3);">✓ پاس شده</span>` : ""}
+        </div>
+      </div>
+      <span class="chev">▾</span>
+    `;
+    head.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      card.classList.toggle("open");
+    });
+    card.appendChild(head);
+
+    const secWrap = document.createElement("div");
+    secWrap.className = "sections";
+
+    // prereq / coreq section
+    if((course.prereq && course.prereq.length) || course.coreq || course.minUnits){
+      const prereqDiv = document.createElement("div");
+      prereqDiv.className = "prereq-box";
+      let html = "";
+      if(course.prereq && course.prereq.length){
+        html += `<h4>پیش‌نیاز:</h4>` +
+          course.prereq.map(p=>{
+            const met = passed.has(p);
+            return `<span class="prereq-item ${met?'met':'unmet'}">${met?'✓ ':'⚠ '}${p}</span>`;
+          }).join("");
+      }
+      if(course.coreq && course.coreq.length){
+        html += `<h4 style="margin-top:8px;">همنیاز:</h4>` +
+          course.coreq.map(p=>`<span class="prereq-item">${p}</span>`).join("");
+      }
+      if(course.minUnits){
+        const met = getPassedUnits() >= course.minUnits;
+        html += `<h4 style="margin-top:8px;">شرط واحد:</h4><span class="prereq-item ${met?'met':'unmet'}">${met?'✓ ':'⚠ '}گذراندن حداقل ${toFa(course.minUnits)} واحد</span>`;
+      }
+      prereqDiv.innerHTML = html;
+      secWrap.appendChild(prereqDiv);
+    }
+
+    if(course.sections.length){
+      course.sections.forEach((s, si)=>{
+        const secAdded = isCourseSelected(course.id, si);
+        const row = document.createElement("div");
+        row.className = "section-row" + (secAdded?" added":"");
+        const examDisp = s.exam ? toFa(s.exam.replace(/-/g,"–")) : "";
+        row.innerHTML = `
+          <div class="section-info">
+            <b>${s.day && s.start && s.end ? `${s.day} · ${toFa(s.start)}–${toFa(s.end)}` : `زمان‌بندی ثبت نشده`}</b>
+            <span class="tname">${s.teacher}</span>
+            ${s.location?`<span class="exam">📍 ${s.location}</span>`:""}
+            ${s.note?`<span class="exam">ℹ️ ${s.note}</span>`:""}
+            ${s.exam?`<span class="exam">📝 ${examDisp}</span>`:""}
+          </div>
+          <button class="add-btn ${secAdded?'added':''}" ${secAdded?'disabled':''}>${secAdded?'✓ انتخاب شد':'افزودن'}</button>
+        `;
+        row.querySelector(".add-btn").addEventListener("click", (e)=>{
+          e.stopPropagation();
+          if(!secAdded) addCourse(course.id, si);
+        });
+        secWrap.appendChild(row);
+      });
+    } else {
+      const note = document.createElement("div");
+      note.style.cssText = "padding:8px; font-size:12px; color:var(--text-mute); text-align:center;";
+      note.textContent = passed.has(course.name) ? "این درس پاس شده" : "زمان کلاس این ترم ثبت نشده";
+      secWrap.appendChild(note);
+    }
+
+    card.appendChild(secWrap);
+    list.appendChild(card);
+  });
+
+  document.getElementById("courseCount").textContent = `${toFa(count)} مورد`;
+  document.getElementById("cntSpecialty").textContent = toFa(SPECIALTY.length);
+
+  if(count === 0){
+    list.innerHTML = `<div class="empty-note">موردی با این فیلتر پیدا نشد.</div>`;
+  }
+}
+
+/* ============ ACTIONS ============ */
+function addCourse(id, sectionIdx){
+  const course = findCourse(id);
+  if(!course) return;
+  // check prereq
+  if(!isPrereqMet(course)){
+    showToast(`⚠ پیش‌نیازهای ${course.name} رو پاس نکردید!`,"error");
+    return;
+  }
+  // بررسی تکراری: اگر sectionIdx داده شده، فقط آن کلاس را چک کن؛ در غیر اینصورت کل درس
+  if(isCourseSelected(id, sectionIdx)){
+    showToast("این کلاس قبلاً اضافه شده","error");
+    return;
+  }
+  selected.push({uid:"e"+(uidCounter++), courseId:id, sectionIdx: sectionIdx !== undefined ? sectionIdx : null});
+  saveState();
+  renderAll();
+  const secLabel = sectionIdx !== undefined && course.sections[sectionIdx]
+    ? ` (${course.sections[sectionIdx].day} ${course.sections[sectionIdx].start})`
+    : "";
+  showToast(`✅ ${course.name}${secLabel} به برنامه اضافه شد`,"success");
+}
+function removeCourse(uid){
+  selected = selected.filter(s=>s.uid!==uid);
+  saveState();
+  renderAll();
+}
+function clearAll(){
+  if(!selected.length) return;
+  if(!confirm("همه دروس انتخابی پاک شوند؟")) return;
+  selected = [];
+  saveState();
+  renderAll();
+  showToast("🗑️ برنامه پاک شد","success");
+}
+
+/* ============ GRID ============ */
+const gridEl = document.getElementById("grid");
+
+function buildGridSkeleton(){
+  gridEl.innerHTML = "";
+  gridEl.style.gridTemplateRows = `48px ${GRID_HEIGHT}px`;
+
+  const corner = document.createElement("div");
+  corner.className = "time-col-head";
+  corner.textContent = "ساعت";
+  gridEl.appendChild(corner);
+
+  DAYS.forEach(d=>{
+    const h = document.createElement("div");
+    h.className = "grid-head";
+    h.textContent = d;
+    gridEl.appendChild(h);
+  });
+
+  const timeCol = document.createElement("div");
+  timeCol.className = "time-col";
+  timeCol.style.height = GRID_HEIGHT+"px";
+  for(let m=GRID_START; m<=GRID_END; m+=60){
+    const y=(m-GRID_START)*PX_PER_MIN;
+    const line=document.createElement("div");
+    line.className="hour-line";
+    line.style.top=y+"px";
+    timeCol.appendChild(line);
+    const label=document.createElement("div");
+    label.className="hour-label";
+    label.style.top=y+"px";
+    label.textContent=toFa(String(Math.floor(m/60)).padStart(2,"0"))+":۰۰";
+    timeCol.appendChild(label);
+  }
+  gridEl.appendChild(timeCol);
+
+  DAYS.forEach(d=>{
+    const col=document.createElement("div");
+    col.className="day-col";
+    col.dataset.day=d;
+    col.style.height=GRID_HEIGHT+"px";
+    for(let m=GRID_START; m<=GRID_END; m+=60){
+      const y=(m-GRID_START)*PX_PER_MIN;
+      const line=document.createElement("div");
+      line.className="hour-line";
+      line.style.top=y+"px";
+      col.appendChild(line);
+    }
+    gridEl.appendChild(col);
+  });
+}
+
+function layoutEventsForDay(events){
+  const sorted = events.slice().sort((a,b)=>a.start-b.start);
+  const clusters = [];
+  sorted.forEach(ev=>{
+    let placed=false;
+    for(const cl of clusters){
+      if(ev.start < cl.end){ cl.items.push(ev); cl.end=Math.max(cl.end, ev.end); placed=true; break; }
+    }
+    if(!placed) clusters.push({end:ev.end, items:[ev]});
+  });
+  const results = [];
+  clusters.forEach(cl=>{
+    const n = cl.items.length;
+    cl.items.forEach((ev, idx)=>{
+      results.push({...ev, lane:idx, laneCount:n});
+    });
+  });
+  return results;
+}
+
+function renderGridEvents(){
+  gridEl.querySelectorAll(".event").forEach(e=>e.remove());
+  DAYS.forEach(day=>{
+    const col = gridEl.querySelector(`.day-col[data-day="${day}"]`);
+    const dayEvents = [];
+
+    selected.forEach(s=>{
+      const course = findCourse(s.courseId);
+      if(!course) return;
+      const sectionsToRender = (s.sectionIdx !== null && s.sectionIdx !== undefined)
+        ? course.sections.map((sec, si)=>({sec, si})).filter(x=>x.si === s.sectionIdx)
+        : course.sections.map((sec, si)=>({sec, si}));
+      sectionsToRender.forEach(({sec, si})=>{
+        if(sec.day !== day) return;
+        dayEvents.push({uid:s.uid, course, sec, si, start:toMin(sec.start), end:toMin(sec.end), prereqOk: isPrereqMet(course)});
+      });
+    });
+
+    const laidOut = layoutEventsForDay(dayEvents);
+    laidOut.forEach(ev=>{
+      const top = (ev.start-GRID_START)*PX_PER_MIN;
+      const height = Math.max((ev.end-ev.start)*PX_PER_MIN, 32);
+      const widthPct = 100/ev.laneCount;
+      const leftPct = widthPct*ev.lane;
+      const box = document.createElement("div");
+      box.className = "event";
+      box.style.top = top+"px";
+      box.style.height = height+"px";
+      box.style.left = `calc(${leftPct}% + 2px)`;
+      box.style.width = `calc(${widthPct}% - 4px)`;
+      let bgColor = ev.course.color + "40";
+      let borderColor = ev.course.color + "70";
+      if(!ev.prereqOk){
+        bgColor = "rgba(255,93,108,.25)";
+        borderColor = "rgba(255,93,108,.6)";
+      }
+      box.style.background = `linear-gradient(135deg, ${bgColor}, ${ev.course.color}20)`;
+      box.style.borderColor = borderColor;
+      box.style.color = "#fff";
+
+      const examDisp = ev.sec.exam ? toFa(ev.sec.exam.replace(/-/g,"–")) : "";
+      box.innerHTML = `
+        <button class="ev-remove" title="حذف">✕</button>
+        <span class="ev-title" style="color:${ev.prereqOk ? ev.course.color : 'var(--danger)'}">${ev.course.name}</span>
+        <span class="ev-sub">${toFa(ev.sec.start)}–${toFa(ev.sec.end)}</span>
+        <span class="ev-sub">${ev.sec.teacher}</span>
+        ${ev.sec.exam?`<span class="ev-exam">📝 ${examDisp}</span>`:""}
+        ${!ev.prereqOk?`<span class="ev-exam" style="color:var(--danger);">⚠ پیش‌نیاز ناقص</span>`:""}
+      `;
+      box.querySelector(".ev-remove").addEventListener("click", e=>{
+        e.stopPropagation();
+        removeCourse(ev.uid);
+      });
+      box.addEventListener("click", ()=>{
+        showCourseModal(ev.course);
+      });
+      col.appendChild(box);
+    });
+  });
+}
+
+/* ============ EXAM CONFLICT ============ */
+function parseExam(s){
+  if(!s) return null;
+  const m = s.match(/(\d{4})\/(\d{2})\/(\d{2})\s*\((\d{1,2}):(\d{2})[–\-](\d{1,2}):(\d{2})\)/);
+  if(!m) return null;
+  return {
+    date:`${m[1]}/${m[2]}/${m[3]}`,
+    start:`${m[4].padStart(2,"0")}:${m[5]}`,
+    end:`${m[6].padStart(2,"0")}:${m[7]}`,
+    raw:s
+  };
+}
+
+function getSelectedExams(){
+  const list = [];
+  const seen = new Set();
+
+  selected.forEach(s=>{
+    const c = findCourse(s.courseId);
+    if(!c) return;
+
+    // فقط امتحانِ کلاس/سکشن انتخاب‌شده بررسی شود؛
+    // قبلاً همه‌ی سکشن‌های درس بررسی می‌شدند و همین باعث تداخل‌های کاذب می‌شد.
+    const sections = (s.sectionIdx !== null && s.sectionIdx !== undefined)
+      ? [c.sections[s.sectionIdx]].filter(Boolean)
+      : c.sections;
+
+    sections.forEach(sec=>{
+      const e = parseExam(sec.exam);
+      if(!e) return;
+
+      // اگر چند کلاس از یک درس امتحان یکسان داشته باشند، فقط یک امتحان حساب شود.
+      const key = `${c.id}|${e.date}|${e.start}|${e.end}`;
+      if(seen.has(key)) return;
+      seen.add(key);
+      list.push({...e, course:c, sec, uid:s.uid});
+    });
+  });
+  return list;
+}
+
+function findConflicts(exams){
+  const conflicts = new Set();
+  for(let i=0;i<exams.length;i++){
+    for(let j=i+1;j<exams.length;j++){
+      const a = exams[i], b = exams[j];
+      if(a.date === b.date){
+        const aS = toMin(a.start), aE = toMin(a.end);
+        const bS = toMin(b.start), bE = toMin(b.end);
+        if(aS < bE && bS < aE){
+          conflicts.add(`${a.uid}-${a.sec.day}-${a.start}`);
+          conflicts.add(`${b.uid}-${b.sec.day}-${b.start}`);
+        }
+      }
+    }
+  }
+  return conflicts;
+}
+
+function renderExams(){
+  const exams = getSelectedExams();
+  const conflicts = findConflicts(exams);
+  const list = document.getElementById("examList");
+  document.getElementById("examBadge").textContent = `${toFa(exams.length)} امتحان`;
+
+  const alertEl = document.getElementById("conflictAlert");
+  if(conflicts.size >= 2){
+    const cExams = exams.filter(e=>conflicts.has(`${e.uid}-${e.sec.day}-${e.start}`));
+    const grouped = {};
+    cExams.forEach(e=>{
+      const key = e.date + " " + e.start + "–" + e.end;
+      if(!grouped[key]) grouped[key] = [];
+      grouped[key].push(e);
+    });
+    let alertHtml = `<div class="alert"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg><div><b>تداخل امتحان وجود دارد!</b><br>`;
+    Object.entries(grouped).forEach(([k, items])=>{
+      alertHtml += `<div style="margin-top:8px; padding:8px; background:rgba(0,0,0,.2); border-radius:6px;">📅 <b>${toFa(items[0].date)}</b> ساعت <b>${toFa(items[0].start)}–${toFa(items[0].end)}</b>:<br>${items.map(i=>"&nbsp;&nbsp;• "+i.course.name).join("<br>")}</div>`;
+    });
+    alertHtml += `</div></div>`;
+    alertEl.innerHTML = alertHtml;
+  } else {
+    alertEl.innerHTML = "";
+  }
+
+  if(!exams.length){
+    list.innerHTML = `<div class="empty-text">درسی انتخاب کنید تا امتحان‌ها نمایش داده شوند.</div>`;
+    return;
+  }
+  exams.sort((a,b)=> (a.date+a.start).localeCompare(b.date+b.start));
+  list.innerHTML = exams.map(e=>{
+    const conflict = conflicts.has(`${e.uid}-${e.sec.day}-${e.start}`);
+    return `
+      <div class="exam-item ${conflict?'conflict':''}">
+        <span class="date">${toFa(e.date)}</span>
+        <span class="cname">${e.course.name}</span>
+        <span class="ctime">${toFa(e.start)}–${toFa(e.end)}</span>
+        ${conflict?`<span class="conflict-mark">⚠ تداخل</span>`:""}
+      </div>
+    `;
+  }).join("");
+}
+
+/* ============ NO TIME ============ */
+function renderNoTime(){
+  const wrap = document.getElementById("notimeChips");
+  wrap.innerHTML = "";
+  NOTIME.forEach(item=>{
+    const chip = document.createElement("div");
+    chip.className = "chip";
+    chip.textContent = `${item.name} — اساتید: ${item.teachers.slice(0,3).join("، ")}${item.teachers.length>3?" و ...":""}`;
+    chip.title = item.teachers.join("، ");
+    wrap.appendChild(chip);
+  });
+}
+
+/* ============ STATS ============ */
+function renderStats(){
+  const courseSet = new Set(selected.map(s=>s.courseId));
+  const units = [...courseSet].reduce((a,id)=>{
+    const c = findCourse(id);
+    return a + (c ? c.units : 0);
+  }, 0);
+  let hours = 0;
+  selected.forEach(s=>{
+    const c = findCourse(s.courseId);
+    if(c) c.sections.forEach(sec=>{
+      hours += (toMin(sec.end) - toMin(sec.start))/60;
+    });
+  });
+  document.getElementById("statCourses").textContent = toFa(courseSet.size);
+  document.getElementById("statUnits").textContent = toFa(units);
+  document.getElementById("statHours").textContent = toFa(Math.round(hours));
+  document.getElementById("statPassed").textContent = toFa(passed.size);
+}
+
+/* ============ PASSED COURSES ============ */
+// سیستم پاس‌شده به صورت تیک‌زدنی - فقط دروس رشته
+function passedByTerm(){
+  // specialty: 1..8
+  const result = {specialty:{}};
+  for(let t=1; t<=8; t++){
+    result.specialty[t] = SPECIALTY.filter(c=>c.term === t);
+  }
+  return result;
+}
+
+let openedPassedTerms = new Set();
+
+function buildPassedPanel(){
+  const wrap = document.getElementById("passedTerms");
+  if(!wrap) return;
+  wrap.innerHTML = "";
+  const data = passedByTerm();
+  const search = document.createElement("div");
+  search.className = "passed-search-wrap";
+  search.innerHTML = `<input id="passedSearch" type="text" placeholder="🔍 جستجوی درس در لیست…">`;
+  wrap.appendChild(search);
+  const searchInput = search.querySelector("input");
+
+  // specialty terms
+  for(let t=1; t<=8; t++){
+    const termCourses = data.specialty[t];
+    if(!termCourses.length) continue;
+    const termEl = createTermBlock(`ترم ${toFa(t)}`, "🎯", termCourses);
+    wrap.appendChild(termEl);
+  }
+  // counter
+  const counter = document.createElement("div");
+  counter.id = "passedCounter";
+  counter.className = "passed-counter";
+  wrap.appendChild(counter);
+
+  // search filter
+  searchInput.addEventListener("input", ()=>{
+    const q = toEnDigits(searchInput.value).trim().toLowerCase();
+    wrap.querySelectorAll(".passed-item").forEach(it=>{
+      const name = (it.dataset.name || "").toLowerCase();
+      it.style.display = !q || name.includes(q) ? "" : "none";
+    });
+  });
+
+  // restore open state
+  document.querySelectorAll(".passed-term").forEach(t=>{
+    const key = t.dataset.key;
+    if(openedPassedTerms.has(key)) t.classList.add("open");
+  });
+}
+
+function createTermBlock(title, icon, courses){
+  const block = document.createElement("div");
+  block.className = "passed-term open";
+  block.dataset.key = title;
+  const passedCount = courses.filter(c=>passed.has(c.name)).length;
+
+  const head = document.createElement("div");
+  head.className = "passed-term-head";
+  head.innerHTML = `
+    <div class="title">${icon} ${title}</div>
+    <div class="meta">
+      <span class="count ${passedCount===courses.length ? 'full' : (passedCount===0 ? 'empty' : '')}">${toFa(passedCount)}/${toFa(courses.length)}</span>
+      <span class="chev">▾</span>
+    </div>
+  `;
+  head.addEventListener("click", ()=>{
+    block.classList.toggle("open");
+    if(block.classList.contains("open")) openedPassedTerms.add(title);
+    else openedPassedTerms.delete(title);
+  });
+  block.appendChild(head);
+
+  const body = document.createElement("div");
+  body.className = "passed-term-body";
+  // sort: passed at top
+  const sorted = courses.slice().sort((a,b)=>{
+    const pa = passed.has(a.name) ? 1 : 0;
+    const pb = passed.has(b.name) ? 1 : 0;
+    if(pa !== pb) return pb - pa;
+    return a.name.localeCompare(b.name);
+  });
+  sorted.forEach(c=>{
+    const item = document.createElement("div");
+    item.className = "passed-item" + (passed.has(c.name) ? " is-checked" : "");
+    item.dataset.name = c.name;
+    item.dataset.id = c.id;
+    item.innerHTML = `
+      <div class="checkbox"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
+      <div class="name">${c.name} <b>${toFa(c.code)}</b></div>
+      <div class="units">${toFa(c.units)} و</div>
+    `;
+    item.addEventListener("click", (e)=>{
+      e.stopPropagation();
+      if(passed.has(c.name)){
+        passed.delete(c.name);
+      } else {
+        passed.add(c.name);
+        showToast(`✓ ${c.name} به پاس‌شده‌ها اضافه شد`,"success");
+      }
+      saveState();
+      // به‌روزرسانی فقط آیتم و شمارنده‌ها (بدون بازسازی کل پنل برای حفظ فوکوس)
+      item.classList.toggle("is-checked", passed.has(c.name));
+      // update term count
+      const cnt = block.querySelector(".meta .count");
+      const newCount = courses.filter(co=>passed.has(co.name)).length;
+      cnt.textContent = `${toFa(newCount)}/${toFa(courses.length)}`;
+      cnt.className = "count " + (newCount===courses.length ? "full" : (newCount===0 ? "empty" : ""));
+      // update overall badge
+      document.getElementById("passedBadge").textContent = `${toFa(passed.size)} درس`;
+      // update sidebar prereq warnings
+      renderSidebar();
+      // update grid events
+      renderGridEvents();
+      renderStats();
+      updatePassedCounter();
+    });
+    body.appendChild(item);
+  });
+  block.appendChild(body);
+  return block;
+}
+
+function updatePassedCounter(){
+  const totalCourses = SPECIALTY.length;
+  const counter = document.getElementById("passedCounter");
+  if(!counter) return;
+  const passedUnits = [...passed].reduce((a, name)=>{
+    const c = findCourseByName(name);
+    return a + (c ? c.units : 0);
+  }, 0);
+  if(passed.size === 0){
+    counter.className = "passed-counter zero";
+    counter.innerHTML = `📌 هنوز هیچ درسی به عنوان پاس‌شده انتخاب نشده.`;
+  } else {
+    counter.className = "passed-counter";
+    counter.innerHTML = `✅ <b>${toFa(passed.size)}</b> درس (${toFa(passedUnits)} واحد) پاس شده — ${toFa(totalCourses - passed.size)} درس باقی مانده`;
+  }
+}
+
+function findCourseByName(name){
+  return SPECIALTY.find(c=>c.name === name);
+}
+
+function renderPassed(){
+  // سازگاری با سیستم قدیم - فقط badge و counter
+  document.getElementById("passedBadge").textContent = `${toFa(passed.size)} درس`;
+  updatePassedCounter();
+  // به‌روزرسانی تعداد هر ترم
+  document.querySelectorAll(".passed-term").forEach(block=>{
+    const title = block.dataset.key;
+    let courses;
+    if(title.startsWith("ترم")){
+      const t = parseInt(toEnDigits(title.replace("ترم","")));
+      courses = SPECIALTY.filter(c=>c.term === t);
+    }
+    if(courses){
+      const cnt = block.querySelector(".meta .count");
+      const newCount = courses.filter(co=>passed.has(co.name)).length;
+      cnt.textContent = `${toFa(newCount)}/${toFa(courses.length)}`;
+      cnt.className = "count " + (newCount===courses.length ? "full" : (newCount===0 ? "empty" : ""));
+      // همچنین تیک‌های آیتم‌ها
+      block.querySelectorAll(".passed-item").forEach(it=>{
+        const nm = it.dataset.name;
+        it.classList.toggle("is-checked", passed.has(nm));
+      });
+    }
+  });
+}
+
+// clear passed button
+document.getElementById("clearPassedBtn").addEventListener("click", ()=>{
+  if(passed.size === 0) return;
+  if(!confirm("همه دروس پاس‌شده پاک شوند؟")) return;
+  passed.clear();
+  saveState();
+  renderAll();
+  showToast("🗑️ لیست پاس‌شده‌ها پاک شد","success");
+});
+
+// toggle all passed terms
+document.getElementById("toggleAllPassed").addEventListener("click", ()=>{
+  const terms = document.querySelectorAll(".passed-term");
+  const anyOpen = [...terms].some(t=>t.classList.contains("open"));
+  terms.forEach(t=>{
+    if(anyOpen) t.classList.remove("open");
+    else t.classList.add("open");
+  });
+  if(anyOpen) openedPassedTerms.clear();
+  else terms.forEach(t=>openedPassedTerms.add(t.dataset.key));
+});
+
+/* ============ MODAL ============ */
+function showCourseModal(course){
+  document.getElementById("modalTitle").innerHTML = `<span style="display:inline-block;width:14px;height:14px;border-radius:50%;background:${course.color};"></span> ${course.name}`;
+  let prereqHtml = "";
+  if((course.prereq && course.prereq.length) || course.coreq || course.minUnits){
+    let html = "";
+    if(course.prereq && course.prereq.length){
+      html += `<h4>پیش‌نیازها:</h4>` +
+        course.prereq.map(p=>{
+          const met = passed.has(p);
+          return `<span class="prereq-item ${met?'met':'unmet'}">${met?'✓ ':'⚠ '}${p}</span>`;
+        }).join("");
+    }
+    if(course.coreq && course.coreq.length){
+      html += `<h4 style="margin-top:8px;">همنیاز:</h4>` +
+        course.coreq.map(p=>`<span class="prereq-item">${p}</span>`).join("");
+    }
+    if(course.minUnits){
+      const met = getPassedUnits() >= course.minUnits;
+      html += `<h4 style="margin-top:8px;">شرط واحد:</h4><span class="prereq-item ${met?'met':'unmet'}">${met?'✓ ':'⚠ '}گذراندن حداقل ${toFa(course.minUnits)} واحد</span>`;
+    }
+    prereqHtml = `<div class="prereq-box">${html}</div>`;
+  }
+
+  document.getElementById("modalBody").innerHTML = `
+    <div class="info-row"><span class="k">کد درس</span><span class="v mono">${toFa(course.code)}</span></div>
+    ${course.curriculumCode ? `<div class="info-row"><span class="k">کد چارت</span><span class="v mono">${toFa(course.curriculumCode)}</span></div>` : ""}
+    <div class="info-row"><span class="k">واحد</span><span class="v">${toFa(course.units)}</span></div>
+    <div class="info-row"><span class="k">نوع درس</span><span class="v">${course.courseType || (course.category==="specialty" ? "رشته" : "عمومی")}</span></div>
+    ${course.term ? `<div class="info-row"><span class="k">ترم ارائه</span><span class="v">${toFa(course.term)}</span></div>` : ""}
+    <div class="info-row"><span class="k">تعداد کلاس‌ها</span><span class="v">${toFa(course.sections.length)}</span></div>
+    ${prereqHtml}
+    ${course.sections.length ? `
+      <h4 style="margin-top:14px; margin-bottom:8px; color:var(--text-dim); font-size:13px;">کلاس‌ها:</h4>
+      ${course.sections.map(s=>`
+        <div class="info-row">
+          <span class="k">${s.day}</span>
+          <span class="v">${toFa(s.start)}–${toFa(s.end)} · ${s.teacher}${s.location ? ` · ${s.location}` : ""}</span>
+        </div>
+        ${s.exam ? `<div class="info-row"><span class="k">امتحان</span><span class="v mono" style="color:var(--warn); font-size:12px;">${toFa(s.exam.replace(/-/g,"–"))}</span></div>` : ""}
+      `).join("")}
+    ` : `<div style="padding:10px; text-align:center; color:var(--text-mute); font-size:13px;">زمان کلاس این ترم ثبت نشده</div>`}
+  `;
+
+  const actions = document.getElementById("modalActions");
+  actions.innerHTML = "";
+
+  // add/remove button
+  const added = isCourseSelected(course.id);
+  const prereqOk = isPrereqMet(course);
+
+  if(!passed.has(course.name) && !prereqOk){
+    const warn = document.createElement("span");
+    warn.style.cssText = "color:var(--warn); font-size:13px; flex:1;";
+    warn.textContent = "⚠ ابتدا پیش‌نیازها را پاس کنید";
+    actions.appendChild(warn);
+  }
+
+  if(added){
+    const btn = document.createElement("button");
+    btn.className = "btn danger";
+    btn.textContent = "حذف از برنامه";
+    btn.onclick = ()=>{
+      const sel = selected.find(s=>s.courseId===course.id);
+      if(sel) removeCourse(sel.uid);
+      closeModal();
+    };
+    actions.appendChild(btn);
+  } else if(prereqOk && !passed.has(course.name)){
+    const btn = document.createElement("button");
+    btn.className = "btn";
+    btn.textContent = "افزودن به برنامه";
+    btn.onclick = ()=>{ addCourse(course.id); closeModal(); };
+    actions.appendChild(btn);
+  }
+
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "btn ghost";
+  closeBtn.textContent = "بستن";
+  closeBtn.onclick = closeModal;
+  actions.appendChild(closeBtn);
+
+  document.getElementById("modalBg").classList.add("show");
+}
+function closeModal(){ document.getElementById("modalBg").classList.remove("show"); }
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg, type="success"){
+  const t = document.getElementById("toast");
+  t.className = "toast " + type;
+  t.innerHTML = `<span>${msg}</span>`;
+  requestAnimationFrame(()=>t.classList.add("show"));
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>t.classList.remove("show"), 2800);
+}
+
+/* ============ MAIN RENDER ============ */
+function renderAll(){
+  renderSidebar();
+  renderGridEvents();
+  renderExams();
+  renderStats();
+  renderPassed();
+}
+
+/* ============ EVENTS ============ */
+document.getElementById("searchInput").addEventListener("input", renderSidebar);
+document.getElementById("filterTerm").addEventListener("change", renderSidebar);
+document.getElementById("filterDay").addEventListener("change", renderSidebar);
+document.getElementById("clearBtn").addEventListener("click", clearAll);
+document.getElementById("modalBg").addEventListener("click", e=>{
+  if(e.target.id === "modalBg") closeModal();
+});
+document.addEventListener("keydown", e=>{
+  if(e.key === "Escape"){
+    closeModal();
+  }
+});
+
+/* ============ INIT ============ */
+buildGridSkeleton();
+renderNoTime();
+buildPassedPanel();
+renderAll();
+</script>
+</body>
+</html>
