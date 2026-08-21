@@ -916,19 +916,38 @@
     min-height:42px;
   }
 
+  /* Mobile content order:
+     1) passed courses, 2) course selection, 3) weekly chart */
   .layout{
-    display:flex;
-    flex-direction:column;
+    display:grid;
+    grid-template-columns:1fr;
+    grid-template-areas:
+      "passed"
+      "courses"
+      "board"
+      "export"
+      "panels";
     gap:9px;
   }
 
+  .layout > div:last-child{
+    display:contents;
+  }
+
+  .passed-panel{ grid-area:passed; }
+
   .sidebar{
-    order:1;
+    grid-area:courses;
+    order:initial;
     position:static;
     max-height:none;
     padding:10px;
     border-radius:12px;
   }
+
+  .board{ grid-area:board; }
+  .export-panel{ grid-area:export; }
+  .panel-row{ grid-area:panels; }
 
   .sidebar-head{
     margin-bottom:8px;
@@ -967,7 +986,6 @@
   }
 
   .layout > div:last-child{
-    order:2;
     min-width:0;
   }
 
@@ -1218,6 +1236,36 @@ input,
   }
 }
 
+
+/* Final mobile cleanup: prevent the stray lower rounded area/overflow */
+@media (max-width:700px){
+  html, body{
+    overflow-x:hidden !important;
+  }
+
+  .container{
+    overflow-x:hidden;
+    padding-bottom:12px;
+  }
+
+  .site-footer{
+    margin-bottom:0 !important;
+    overflow:hidden;
+  }
+
+  /* Hidden overlays must never leave a visible fragment */
+  .modal-bg:not(.show){
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+  }
+
+  .toast:not(.show){
+    visibility:hidden;
+    pointer-events:none;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -1254,7 +1302,7 @@ input,
 
   <!-- TABS -->
   <div class="tabs">
-    <button class="tab active" data-tab="specialty">📘 دروس تخصصی <span class="badge" id="cntSpecialty">۰</span></button>
+    <button class="tab active" data-tab="specialty">📘 انتخاب دروس <span class="badge" id="cntSpecialty">۰</span></button>
     <button class="tab" data-tab="schedule">📅 تابلوی هفته</button>
   </div>
 
@@ -1609,7 +1657,7 @@ const SPECIALTY = [
     {day:"دوشنبه", start:"16:00", end:"19:20", teacher:"مصطفی هادی دولابی", location:"مخصوص 402 و مافیل", exam:"1405/10/19 (10:20-12:00)"},
   ]},
   {name:"طراحی سازه‌های صنایع هوایی", code:"6071137422", units:3, term:6, prereq:["تحلیل سازه‌های هوایی"], curriculumCode:50, courseType:"تخصصی", sections:[
-    {day:"یکشنبه", start:"16:00", end:"18:30", teacher:"مهدی مندعلی", location:"شهید فخری‌زاده (علوم پایه سابق)-60", exam:"1405/10/21 (12:20-14:00)"},
+    {day:"سه‌شنبه", start:"16:00", end:"18:30", teacher:"مهدی مندعلی", location:"شهید فخری‌زاده (علوم پایه سابق)-60", exam:"1405/10/21 (12:20-14:00)"},
     {day:"پنجشنبه", start:"10:30", end:"13:30", teacher:"مهدی مندعلی", location:"بلوک 2 آموزشی-424", exam:"1405/10/21 (12:20-14:00)"},
   ]},
   {name:"کنترل اتوماتیک", code:"6071161603", units:3, term:6, prereq:["ارتعاشات مکانیکی"], curriculumCode:51, courseType:"اصلی", sections:[
@@ -1629,7 +1677,7 @@ const SPECIALTY = [
     {day:"شنبه", start:"08:00", end:"09:40", teacher:"مهرنوش وطنی"},
   ]},
   {name:"زبان تخصصی مهندسی هوافضا", code:"1401130949", units:2, term:6, prereq:[], minUnits:70, curriculumCode:54, courseType:"تخصصی", sections:[
-    {day:"پنجشنبه", start:"11:20", end:"13:20", teacher:"احمد مامندی", location:"بلوک C ابن سینا-26", exam:"1405/10/12 (08:20-10:00)"},
+    {day:"یکشنبه", start:"11:20", end:"13:20", teacher:"احمد مامندی", location:"بلوک C ابن سینا-26", exam:"1405/10/12 (08:20-10:00)"},
     {day:"چهارشنبه", start:"08:00", end:"09:40", teacher:"مهدی جهانگیری", location:"فنی و مهندسی-102", exam:"1405/10/14 (14:20-16:00)"},
   ]},
   {name:"کارآموزی", code:"1401180001", units:2, term:6, prereq:[], minUnits:80, curriculumCode:56, courseType:"کارآموزی", sections:[]},
@@ -1747,6 +1795,14 @@ document.querySelectorAll(".tab").forEach(t=>{
     t.classList.add("active");
     activeTab = t.dataset.tab;
     renderSidebar();
+
+    // «تابلوی هفته» کاربر را مستقیم به چارت هفتگی می‌برد.
+    const target = activeTab === "schedule"
+      ? document.querySelector(".board")
+      : document.querySelector(".sidebar");
+    if(target){
+      target.scrollIntoView({behavior:"smooth", block:"start"});
+    }
   });
 });
 
