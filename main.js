@@ -1,4 +1,483 @@
 /* ============================================================
+   main.js — ONE shared script for the whole site
+   - network_lab.html / project.html: no data-page attribute,
+     runs the Network Lab section below unconditionally
+     (it only touches elements that exist on those two pages).
+   - index.html / doc.html / ai.html / linux.html / netsec.html /
+     python.html: each IIFE below checks <html data-page="...">
+     and only runs its own block on the matching page.
+   ============================================================ */
+
+/* ============================================================
+   Network Lab — shared script
+   - index.html: render the project grid
+   - project.html: render a single project (id from ?id=...)
+   - lightbox for image previews
+   ============================================================ */
+
+/* ---------- Project data ---------- */
+const PROJECTS = [
+  {
+    id: 'p1',
+    num: '01',
+    title: 'Setting Up an Internal Network',
+    tagline: 'Cisco Packet Tracer · Internal Network',
+    lead: 'A complete end-to-end simulation of an internal office network. The scenario covers switch and router configuration, DHCP addressing on a dedicated server, mixing DHCP and static clients, default routing to an upstream router, and end-to-end connectivity tests from every PC to the gateway and the simulated Internet.',
+    cover: 'images/p1_01.webp',
+    images: ['images/p1_01.webp', 'images/p1_05.webp'],
+    tags: ['DHCP', 'VLAN', 'Routing', 'Switching', 'End-to-End Test', 'Internal LAN'],
+    tools: [
+      { icon: 'PT', name: 'Cisco Packet Tracer', desc: 'Network simulation & testing' },
+      { icon: 'DH', name: 'DHCP', desc: 'Automatic client addressing' },
+      { icon: 'VL', name: 'VLAN', desc: 'Network segmentation & isolation' },
+      { icon: 'RT', name: 'Routing', desc: 'Inter-VLAN & default routes' },
+      { icon: 'SW', name: 'Switching', desc: 'Access & trunk ports' },
+      { icon: 'TC', name: 'Ping / Test', desc: 'Connectivity verification' },
+    ],
+    stats: [
+      { value: '2', label: 'Routers' },
+      { value: '1', label: 'Switch' },
+      { value: '1', label: 'Server' },
+      { value: '3', label: 'PCs' },
+    ],
+    downloads: [
+      { type: 'pkt', label: 'Packet Tracer Project', desc: 'Open the complete Cisco Packet Tracer topology.', file: 'downloads/p1_network.pkt' },
+      { type: 'doc', label: 'Project Report', desc: 'Full explanation, addressing, commands, tests and final result.', file: 'downloads/p1_internal_network_report.docx' },
+    ],
+  },
+  {
+    id: 'p2',
+    num: '02',
+    title: 'Tehran University LAN Scenario',
+    tagline: 'Cisco Packet Tracer · University LAN',
+    lead: 'A realistic university campus LAN scenario. Multiple faculties are connected through departmental routers and a backbone router, each with its own DHCP pool and static routes between them. ACLs are added to restrict traffic between departments, and full end-to-end tests prove that any faculty can reach any other faculty - or not, depending on the policy.',
+    cover: 'images/p2_01.webp',
+    images: ['images/p2_01.webp', 'images/p2_03.webp', 'images/p2_05.webp', 'images/p2_07.webp'],
+    tags: ['DHCP', 'Static Routing', 'ACLs', 'VLAN', 'Campus LAN', 'Multi-Router'],
+    tools: [
+      { icon: 'PT', name: 'Cisco Packet Tracer', desc: 'Network simulation & testing' },
+      { icon: 'DH', name: 'DHCP', desc: 'Per-department pools' },
+      { icon: 'SR', name: 'Static Routing', desc: 'Manual path configuration' },
+      { icon: 'AC', name: 'ACLs', desc: 'Per-department traffic filtering' },
+      { icon: 'VL', name: 'VLAN', desc: 'Department segmentation' },
+      { icon: 'RT', name: 'Routers', desc: 'Multi-router topology' },
+    ],
+    stats: [
+      { value: '3', label: 'Routers' },
+      { value: '2', label: 'Switches' },
+      { value: '2', label: 'PCs' },
+      { value: '2', label: 'Departments' },
+    ],
+    downloads: [
+      { type: 'pkt', label: 'Packet Tracer Project', desc: 'Open the complete university LAN topology.', file: 'downloads/p2_lan_university.pkt' },
+      { type: 'doc', label: 'Project Report', desc: 'Full scenario walkthrough, configurations, ACLs and tests.', file: 'downloads/p2_university_lan_report.docx' },
+    ],
+  },
+  {
+    id: 'p3',
+    num: '03',
+    title: 'Connecting to Google Web Server',
+    tagline: 'Cisco Packet Tracer · End-to-End Internet',
+    lead: 'A complete end-to-end simulation of a browser reaching www.google.com. The chain inside Packet Tracer: DHCP leases for the client PCs, DNS resolution on the simulated Google DNS server, PAT/NAT on the edge router so private IPs can reach the public Internet, and a real HTTP and HTTPS request to the simulated Google Web Server.',
+    cover: 'images/p3_05.webp',
+    images: ['images/p3_01.webp', 'images/p3_05.webp'],
+    tags: ['DHCP', 'DNS', 'Routing', 'Default Route', 'NAT / PAT', 'TCP / HTTPS'],
+    tools: [
+      { icon: 'PT', name: 'Cisco Packet Tracer', desc: 'Network simulation & testing' },
+      { icon: 'DH', name: 'DHCP', desc: 'Automatic client addressing' },
+      { icon: 'DN', name: 'DNS', desc: 'Domain name resolution' },
+      { icon: 'RT', name: 'Routing', desc: 'Static & default routing' },
+      { icon: 'NP', name: 'NAT / PAT', desc: 'Inside-to-outside translation' },
+      { icon: 'TC', name: 'TCP / HTTPS', desc: 'Application traffic testing' },
+    ],
+    stats: [
+      { value: '3', label: 'PCs' },
+      { value: '2', label: 'Routers' },
+      { value: '1', label: 'Switch' },
+      { value: '2', label: 'Servers' },
+    ],
+    downloads: [
+      { type: 'pkt', label: 'Packet Tracer Project', desc: 'Open the complete Cisco Packet Tracer topology.', file: 'downloads/p3_google_webserver.pkt' },
+      { type: 'doc', label: 'Project Report', desc: 'Full explanation, addressing, commands, tests and final result.', file: 'downloads/p3_google_webserver_report.docx' },
+    ],
+  },
+];
+
+/* ---------- Helpers ---------- */
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => Array.from(root.querySelectorAll(sel));
+const escape = (s = '') => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+function getParam(name) {
+  return new URLSearchParams(window.location.search).get(name);
+}
+
+/* ---------- Lightbox ---------- */
+const lightboxState = { images: [], index: 0 };
+
+function openLightbox(images, index, caption) {
+  lightboxState.images = images;
+  lightboxState.index = index;
+  const lb = $('#lightbox');
+  if (!lb) return;
+  $('#lightboxImg').src = images[index];
+  $('#lightboxImg').alt = caption || '';
+  $('#lightboxCaption').textContent = caption || `Image ${index + 1} of ${images.length}`;
+  lb.classList.add('open');
+  lb.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lb = $('#lightbox');
+  if (!lb) return;
+  lb.classList.remove('open');
+  lb.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+}
+
+function lightboxStep(dir) {
+  if (!lightboxState.images.length) return;
+  const len = lightboxState.images.length;
+  lightboxState.index = (lightboxState.index + dir + len) % len;
+  $('#lightboxImg').src = lightboxState.images[lightboxState.index];
+  $('#lightboxCaption').textContent = `Image ${lightboxState.index + 1} of ${len}`;
+}
+
+function setupLightbox() {
+  $('#lightboxClose')?.addEventListener('click', closeLightbox);
+  $('#lightboxPrev')?.addEventListener('click', () => lightboxStep(-1));
+  $('#lightboxNext')?.addEventListener('click', () => lightboxStep(1));
+  $('#lightbox')?.addEventListener('click', (e) => { if (e.target.id === 'lightbox') closeLightbox(); });
+  document.addEventListener('keydown', (e) => {
+    const lb = $('#lightbox');
+    if (!lb || !lb.classList.contains('open')) return;
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lightboxStep(-1);
+    if (e.key === 'ArrowRight') lightboxStep(1);
+  });
+}
+
+/* ---------- Smooth scroll for anchor links ---------- */
+function setupSmoothScroll() {
+  $$('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      const href = a.getAttribute('href');
+      if (href === '#' || href.length < 2) return;
+      const el = document.querySelector(href);
+      if (el) {
+        e.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    });
+  });
+}
+
+/* ============================================================
+   INDEX PAGE — render project grid
+   ============================================================ */
+function renderProjectsIndex() {
+  const grid = $('#projectsGrid');
+  if (!grid) return;
+  $('#projectCount').textContent = `${PROJECTS.length} projects`;
+
+  grid.innerHTML = PROJECTS.map(p => `
+    <a class="project-tile" href="project.html?id=${p.id}" data-id="${p.id}">
+      <div class="project-tile-cover">
+        <span class="project-tile-num">PROJECT ${p.num}</span>
+        <span class="project-tile-count">${p.images.length} screenshots</span>
+        <img src="${p.cover}" alt="${escape(p.title)}" loading="lazy">
+      </div>
+      <div class="project-tile-body">
+        <h3>${escape(p.title)}</h3>
+        <p>${escape(p.lead)}</p>
+        <div class="project-tile-tags">
+          ${p.tags.slice(0, 4).map(t => `<span>${escape(t)}</span>`).join('')}
+          ${p.tags.length > 4 ? `<span>+${p.tags.length - 4}</span>` : ''}
+        </div>
+        <div class="project-tile-cta">
+          <span>View project</span>
+          <span class="arrow">→</span>
+        </div>
+      </div>
+    </a>
+  `).join('');
+}
+
+/* ============================================================
+   PROJECT PAGE — render single project
+   ============================================================ */
+function renderProjectPage() {
+  const id = getParam('id') || 'p1';
+  const project = PROJECTS.find(p => p.id === id) || PROJECTS[0];
+
+  // Title and meta
+  document.title = `${project.title} — Network Lab | Amirali Gholian`;
+  $('#crumbProject').textContent = `Project ${project.num} — ${project.title}`;
+  $('#projectTagline').textContent = project.tagline;
+  $('#projectTitle').textContent = project.title;
+  $('#projectLead').textContent = project.lead;
+
+  // Stats
+  $('#projectStats').innerHTML = project.stats.map(s => `
+    <div><strong>${s.value}</strong><small>${s.label}</small></div>
+  `).join('');
+
+  // Tags
+  $('#projectTags').innerHTML = project.tags.map(t => `<span>${escape(t)}</span>`).join('');
+
+  // Cover
+  $('#coverImg').src = project.cover;
+  $('#coverImg').alt = project.title;
+  $('#coverCaption').textContent = `Cover image · ${project.images.length} screenshots total — click any image to enlarge`;
+  $('#imageCount').textContent = `${project.images.length} screenshots`;
+
+  // Gallery
+  $('#galleryGrid').innerHTML = project.images.map((src, i) => `
+    <div class="gallery-item" data-index="${i}">
+      <span class="gallery-num">${String(i + 1).padStart(2, '0')}</span>
+      <img src="${src}" alt="${escape(project.title)} screenshot ${i + 1}" loading="lazy">
+    </div>
+  `).join('');
+
+  // Open lightbox on cover click
+  $('#coverImg')?.addEventListener('click', () => openLightbox(project.images, 0, `${project.title} — cover`));
+
+  // Open lightbox on gallery click
+  $$('.gallery-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const i = parseInt(item.dataset.index, 10) || 0;
+      openLightbox(project.images, i, `${project.title} — image ${i + 1}/${project.images.length}`);
+    });
+  });
+
+  // Tools (rendered as clickable cards; clicking opens picker if shared with other projects)
+  const skillIndex = buildSkillProjectsIndex();
+  const toolsGrid = $('#toolsGrid');
+  toolsGrid.dataset.currentProject = project.id;
+  toolsGrid.innerHTML = project.tools.map(t => {
+    const skillKey = normalizeSkillName(t.name);
+    const ids = skillIndex[skillKey] || [project.id];
+    const href = `project.html?id=${project.id}`;
+    const isShared = ids.length > 1;
+    return `
+    <a class="tool-card${isShared ? ' is-shared' : ''}" href="${href}" data-skill="${escape(skillKey)}" data-projects="${ids.join(',')}">
+      <span class="tool-icon">${t.icon}</span>
+      <div>
+        <h3>${escape(t.name)}</h3>
+        <p>${escape(t.desc)}</p>
+        <small>${isShared ? `Used in ${ids.length} projects · choose →` : `Only in this project`}</small>
+      </div>
+    </a>`;
+  }).join('');
+
+  // Downloads
+  $('#downloadGrid').innerHTML = project.downloads.map(d => `
+    <a class="download-card" href="${d.file}" download>
+      <span class="file-type ${d.type}">.${d.type.toUpperCase()}</span>
+      <div>
+        <h3>${escape(d.label)}</h3>
+        <p>${escape(d.desc)}</p>
+      </div>
+      <span class="arrow">↗</span>
+    </a>
+  `).join('');
+
+  // Other projects
+  const others = PROJECTS.filter(p => p.id !== project.id);
+  $('#moreGrid').innerHTML = others.map(p => `
+    <a class="more-card" href="project.html?id=${p.id}">
+      <img src="${p.cover}" alt="${escape(p.title)}">
+      <div>
+        <h3>${escape(p.title)}</h3>
+        <small>${p.images.length} screenshots · ${p.downloads.length} files</small>
+      </div>
+      <span class="arrow">→</span>
+    </a>
+  `).join('');
+}
+
+/* ============================================================
+   SKILL INDEX — map normalized skill name → list of project ids
+   Built once from PROJECTS so each tool card knows if it's shared.
+   ============================================================ */
+function normalizeSkillName(name) {
+  return String(name || '').toLowerCase().trim();
+}
+
+function buildSkillProjectsIndex() {
+  const idx = {};
+  PROJECTS.forEach(p => {
+    (p.tools || []).forEach(t => {
+      const key = normalizeSkillName(t.name);
+      if (!idx[key]) idx[key] = [];
+      if (!idx[key].includes(p.id)) idx[key].push(p.id);
+    });
+  });
+  return idx;
+}
+
+/* ============================================================
+   TOAST — non-blocking notification (replaces alert())
+   ============================================================ */
+const Toast = {
+  container: null,
+  ensure() {
+    if (this.container) return this.container;
+    this.container = $('#toastContainer');
+    if (!this.container) {
+      this.container = document.createElement('div');
+      this.container.id = 'toastContainer';
+      this.container.className = 'toast-container';
+      this.container.setAttribute('aria-live', 'polite');
+      this.container.setAttribute('aria-atomic', 'true');
+      document.body.appendChild(this.container);
+    }
+    return this.container;
+  },
+  show(message, type = 'info', duration = 3200) {
+    const c = this.ensure();
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    toast.setAttribute('role', 'status');
+    const icon = type === 'success' ? '✓' : type === 'error' ? '⚠' : 'ℹ';
+    toast.innerHTML = `<span class="toast-icon">${icon}</span><span class="toast-msg">${escape(message)}</span>`;
+    c.appendChild(toast);
+    requestAnimationFrame(() => toast.classList.add('show'));
+    setTimeout(() => {
+      toast.classList.remove('show');
+      setTimeout(() => toast.remove(), 350);
+    }, duration);
+  }
+};
+
+/* ============================================================
+   PICKER MODAL — multi-project skills
+   Works on both index and project pages.
+   - Shared skill (ids.length > 1) → open picker so user can switch project
+   - Single-project skill:
+       · on index page → navigate to that project's page
+       · on project page → toast "Only used in this project"
+   ============================================================ */
+function setupSkillPicker() {
+  const picker = $('#picker');
+  const onProjectPage = !!$('#projectTitle') || document.body.classList.contains('page-project');
+
+  const titleEl  = picker ? $('#pickerTitle')  : null;
+  const subEl    = picker ? $('#pickerSub')    : null;
+  const listEl   = picker ? $('#pickerList')   : null;
+  const closeBtn = picker ? $('#pickerClose')  : null;
+
+  function openPicker(skillName, projectIds) {
+    if (!picker) return;
+    // Try to detect the current project from the project page (if any)
+    const toolsGrid = $('#toolsGrid');
+    const currentProjectId = toolsGrid ? toolsGrid.dataset.currentProject : null;
+
+    if (titleEl) titleEl.textContent = `${skillName}  -  choose a project`;
+    if (subEl) {
+      if (currentProjectId && projectIds.includes(currentProjectId)) {
+        subEl.textContent = `This skill is used in ${projectIds.length} projects. Your current project is highlighted below.`;
+      } else {
+        subEl.textContent = `This skill is used in ${projectIds.length} projects. Pick the one you want to open.`;
+      }
+    }
+    if (listEl) {
+      listEl.innerHTML = projectIds.map(id => {
+        const proj = PROJECTS.find(p => p.id === id);
+        if (!proj) return '';
+        const isCurrent = currentProjectId === proj.id;
+        return `
+          <a class="picker-item${isCurrent ? ' is-current' : ''}" href="project.html?id=${proj.id}" data-id="${proj.id}">
+            <span class="picker-item-num">${proj.num}</span>
+            <div class="picker-item-body">
+              <h4 class="picker-item-title">${escape(proj.title)}</h4>
+              <p class="picker-item-sub">${escape(proj.tagline)}</p>
+            </div>
+            <span class="picker-item-badge">${isCurrent ? 'You are here' : 'Open →'}</span>
+          </a>`;
+      }).join('');
+    }
+    picker.classList.add('open');
+    picker.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closePicker() {
+    if (!picker) return;
+    picker.classList.remove('open');
+    picker.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  // Use event delegation so dynamically injected tool cards (rendered
+  // AFTER setupSkillPicker runs) still receive clicks.
+  document.addEventListener('click', (e) => {
+    const card = e.target.closest('.tool-card[data-projects]');
+    if (!card) return;
+    e.preventDefault();
+    const skillName = card.querySelector('h3')?.textContent || 'Skill';
+    const ids = (card.dataset.projects || '').split(',').map(s => s.trim()).filter(Boolean);
+    const href = card.getAttribute('href') || '#';
+
+    if (typeof console !== 'undefined') console.log('[skill-card]', { skillName, ids, onProjectPage });
+
+    if (ids.length > 1) {
+      // Shared skill — open the picker so user can switch
+      openPicker(skillName, ids);
+    } else if (onProjectPage) {
+      // Already on a project page and this skill only lives here → toast
+      Toast.show(`${skillName} is already covered by the project you're viewing.`, 'info');
+    } else {
+      // On index page — navigate to that single project's page
+      window.location.href = href;
+    }
+  });
+
+  // When the user clicks a picker item that targets the project they're already on,
+  // don't reload — just show a toast and close the picker.
+  if (picker) {
+    picker.addEventListener('click', (e) => {
+      const item = e.target.closest('.picker-item');
+      if (!item || !picker.contains(item)) return;
+      const toolsGrid = $('#toolsGrid');
+      const currentProjectId = toolsGrid ? toolsGrid.dataset.currentProject : null;
+      if (currentProjectId && item.dataset.id === currentProjectId) {
+        e.preventDefault();
+        closePicker();
+        const skillName = (titleEl && titleEl.textContent || '').split(' - ')[0].trim() || 'This skill';
+        Toast.show(`${skillName} is already covered by the project you're viewing.`, 'info');
+      }
+    });
+  }
+
+  if (picker) {
+    closeBtn?.addEventListener('click', closePicker);
+    picker.addEventListener('click', (e) => { if (e.target === picker) closePicker(); });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && picker.classList.contains('open')) closePicker();
+    });
+  }
+}
+
+/* ---------- Init ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  setupSmoothScroll();
+  setupLightbox();
+  setupSkillPicker();
+
+  if ($('#projectsGrid')) renderProjectsIndex();
+  if ($('#projectTitle') || document.body.classList.contains('page-project')) renderProjectPage();
+});
+
+
+/* ============================================================
+   Shared script for index / doc / ai / linux / netsec / python
+   Each block below checks document.documentElement's data-page
+   attribute and only runs the code relevant to that page.
+   ============================================================ */
+
+/* ============================================================
    main.js — single shared script for the whole site
    Replaces: ai-data.js, linux-data.js, netsec-data.js, python-data.js,
              docs-common.js, doc.js, index.js
@@ -406,6 +885,41 @@ if (document.documentElement.getAttribute("data-page") === "doc") {
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
+
+})();
+}
+
+// ==================== NETWORK LAB PAGES (network_lab.html / project.html) ====================
+if (document.documentElement.getAttribute("data-page") === "network_lab") {
+(function() {
+
+  // ─── Typewriter Effect (hero) ───
+  const phrases = ["VLANs", "DHCP", "Static Routing", "ACLs", "NAT / PAT", "DNS"];
+  let phraseIndex = 0, charIndex = 0, isDeleting = false;
+  const typeEl = document.getElementById('typewriter');
+
+  function type() {
+    const current = phrases[phraseIndex];
+    if (isDeleting) {
+      typeEl.textContent = current.substring(0, charIndex - 1);
+      charIndex--;
+    } else {
+      typeEl.textContent = current.substring(0, charIndex + 1);
+      charIndex++;
+    }
+
+    let speed = isDeleting ? 60 : 100;
+    if (!isDeleting && charIndex === current.length) {
+      speed = 2000;
+      isDeleting = true;
+    } else if (isDeleting && charIndex === 0) {
+      isDeleting = false;
+      phraseIndex = (phraseIndex + 1) % phrases.length;
+      speed = 500;
+    }
+    setTimeout(type, speed);
+  }
+  if (typeEl) type();
 
 })();
 }
