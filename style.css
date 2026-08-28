@@ -1,3 +1,496 @@
+/* ============================================================
+   style.css — ONE shared stylesheet for the whole site
+   Every rule below is scoped with html[data-page="..."] so
+   pages never leak styles into each other:
+     - network_lab.html / project.html -> data-page="network_lab"
+     - index.html                       -> data-page="index"
+     - doc.html                         -> data-page="doc"
+     - ai.html / linux.html / netsec.html / python.html
+                                         -> data-page="ai" / "linux" / "netsec" / "python"
+   ============================================================ */
+
+/* ==================== NETWORK LAB PAGES (network_lab.html, project.html) ==================== */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap');
+
+html[data-page="network_lab"] {
+  --bg:#050914;
+  --bg2:#091322;
+  --card:rgba(17,27,43,.72);
+  --card2:rgba(11,19,33,.88);
+  --line:rgba(160,184,215,.14);
+  --line-strong:rgba(160,184,215,.28);
+  --text:#e8edf7;
+  --muted:#8e9bb0;
+  --muted-2:#aab5c7;
+  --cyan:#38c8ef;
+  --green:#52e59b;
+  --blue:#7da8ff;
+  --violet:#a78bfa;
+  --radius:22px;
+  --max:1200px;
+}
+
+html[data-page="network_lab"] * {box-sizing:border-box}
+html[data-page="network_lab"] {scroll-behavior:smooth}
+html[data-page="network_lab"] body {
+  margin:0; color:var(--text); background:
+  radial-gradient(circle at 12% 16%,rgba(25,103,139,.20),transparent 32%),
+  radial-gradient(circle at 86% 22%,rgba(85,56,145,.13),transparent 32%),
+  linear-gradient(135deg,#06101d 0%,#050914 52%,#0b0b1b 100%);
+  font-family:'Inter',Inter,system-ui,sans-serif; min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+html[data-page="network_lab"] body:before {
+  content:"";position:fixed;inset:0;pointer-events:none;opacity:.20;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.025) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px);
+  background-size:40px 40px;
+}
+html[data-page="network_lab"] a {color:inherit;text-decoration:none}
+html[data-page="network_lab"] img {display:block;max-width:100%}
+
+/* ============== TOPBAR (doc-style) ============== */
+html[data-page="network_lab"] .wrap {width:min(var(--max), calc(100% - 32px));margin:0 auto}
+html[data-page="network_lab"] .topbar {
+  position:sticky;top:0;z-index:100;
+  background:rgba(5,9,20,.74);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);
+  border-bottom:1px solid var(--line);
+}
+html[data-page="network_lab"] .topbar-inner {display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 0}
+html[data-page="network_lab"] .brand {display:flex;align-items:center;gap:12px;min-width:0}
+html[data-page="network_lab"] .avatar {
+  width:48px;height:48px;border-radius:50%;display:grid;place-items:center;overflow:hidden;
+  background:linear-gradient(135deg,var(--cyan),var(--green),var(--violet));
+  border:1px solid rgba(255,255,255,.15);box-shadow:0 12px 30px rgba(0,0,0,.35);
+  flex:0 0 auto;cursor:pointer;transition:transform .3s ease,box-shadow .3s ease;
+}
+html[data-page="network_lab"] .avatar:hover {transform:scale(1.1);box-shadow:0 16px 40px rgba(56,200,239,.25)}
+html[data-page="network_lab"] .avatar span {font-weight:800;color:#fff;letter-spacing:.5px;font-size:1.05rem}
+html[data-page="network_lab"] .brand-text h1 {margin:0;font-size:1.02rem;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:700;color:#fff}
+html[data-page="network_lab"] .brand-text small {display:block;margin-top:3px;color:#8e9bb0;font-size:.8rem;font-weight:500}
+html[data-page="network_lab"] .btn.back-btn {
+  padding:10px 16px;font-size:.85rem;background:rgba(56,200,239,.08);border-color:rgba(56,200,239,.20);color:var(--cyan);
+}
+html[data-page="network_lab"] .btn.back-btn:hover {background:rgba(56,200,239,.15);transform:translateX(-4px);border-color:rgba(56,200,239,.35)}
+html[data-page="network_lab"] .btn.back-btn svg {transition:transform .25s ease}
+html[data-page="network_lab"] .btn.back-btn:hover svg {transform:translateX(-3px)}
+
+html[data-page="network_lab"] main {max-width:var(--max);margin:auto;padding:80px 28px 90px;position:relative;z-index:1}
+
+/* ============== HERO ============== */
+html[data-page="network_lab"] .hero {max-width:880px;margin-bottom:80px}
+html[data-page="network_lab"] .eyebrow, html[data-page="network_lab"] .kicker {font-size:10px;font-weight:700;letter-spacing:.14em;color:#91a1b9}
+html[data-page="network_lab"] .eyebrow {display:inline-flex;gap:9px;align-items:center;padding:9px 14px;border:1px solid var(--line);border-radius:999px;background:rgba(21,35,54,.55)}
+html[data-page="network_lab"] .eyebrow .pulse, html[data-page="network_lab"] .pulse {width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 2s ease-in-out infinite;display:inline-block;flex:0 0 auto}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(82,229,155,.55)}70%{box-shadow:0 0 0 8px rgba(82,229,155,0)}}
+html[data-page="network_lab"] .hero > h1 {
+  display:block;
+  width:100%;
+  max-width:900px;
+  margin:24px 0 24px;
+  padding:8px 0 12px;
+  font-size:clamp(56px,9vw,112px);
+  line-height:1.02;
+  letter-spacing:-.0065em;
+  font-weight:900;
+  overflow:visible;
+  white-space:nowrap;
+}
+
+html[data-page="network_lab"] .hero > h1 em,
+html[data-page="network_lab"] .hero > h1 b {
+  display:inline-block;
+  overflow:visible;
+  line-height:1.02;
+}
+
+html[data-page="network_lab"] h1 em {font-style:normal;background:linear-gradient(90deg,var(--blue),var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-page="network_lab"] h1 b {color:var(--cyan);font-weight:500;animation:blink-network_lab 1.1s step-end infinite}
+html[data-page="network_lab"] .lead {max-width:720px;color:#aab5c7;line-height:1.85;font-size:15px;margin:0 0 8px}
+html[data-page="network_lab"] .lead code, html[data-page="network_lab"] .section-sub code {
+  font-family:'Fira Code',monospace;background:rgba(56,200,239,.10);color:var(--cyan);
+  padding:2px 7px;border-radius:6px;font-size:.85em;font-weight:600;
+}
+html[data-page="network_lab"] .hero-actions {display:flex;gap:10px;flex-wrap:wrap;margin:28px 0 0}
+html[data-page="network_lab"] .btn {
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 18px;border-radius:12px;
+  border:1px solid var(--line);background:rgba(21,30,45,.65);color:var(--text);font-size:12px;font-weight:600;
+  transition:.22s;box-shadow:inset 0 1px 0 rgba(255,255,255,.04);cursor:pointer;font-family:inherit;
+}
+html[data-page="network_lab"] .btn:hover {transform:translateY(-2px);border-color:rgba(75,225,176,.40);background:rgba(28,40,60,.85);color:#fff}
+html[data-page="network_lab"] .btn.primary {color:#03100b;background:linear-gradient(100deg,#40db91,#2dc2ed);border:0;font-weight:700;box-shadow:0 8px 24px rgba(45,194,237,.20)}
+html[data-page="network_lab"] .btn.primary:hover {filter:brightness(1.05);box-shadow:0 12px 32px rgba(45,194,237,.30)}
+html[data-page="network_lab"] .btn .arrow {transition:transform .2s ease}
+html[data-page="network_lab"] .btn:hover .arrow {transform:translateX(2px) translateY(-2px)}
+
+html[data-page="network_lab"] .hero-stats {
+  display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:36px;
+  border:1px solid var(--line);border-radius:16px;background:rgba(13,22,37,.6);padding:18px 8px;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.03);
+}
+html[data-page="network_lab"] .hero-stats > div {text-align:center;padding:6px;border-right:1px solid var(--line)}
+html[data-page="network_lab"] .hero-stats > div:last-child {border-right:0}
+html[data-page="network_lab"] .hero-stats strong {display:block;font-size:22px;font-weight:800;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-page="network_lab"] .hero-stats small {font-size:9px;color:#75849a;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;display:block}
+
+/* ============== HERO ANIMATION ============== */
+html[data-page="network_lab"] .hero,
+html[data-page="network_lab"] .project-hero {position:relative;overflow:visible;z-index:1}
+html[data-page="network_lab"] .hero::before,
+html[data-page="network_lab"] .hero::after,
+html[data-page="network_lab"] .project-hero::before,
+html[data-page="network_lab"] .project-hero::after {
+  content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+  filter:blur(60px);z-index:-1;pointer-events:none;opacity:.85;
+}
+html[data-page="network_lab"] .hero::before,
+html[data-page="network_lab"] .project-hero::before {
+  top:-90px;left:-80px;background:radial-gradient(circle,rgba(56,200,239,.55),transparent 68%);
+  animation:driftHero-network_lab 9s ease-in-out infinite;
+}
+html[data-page="network_lab"] .hero::after,
+html[data-page="network_lab"] .project-hero::after {
+  top:10px;right:-110px;background:radial-gradient(circle,rgba(82,229,155,.48),transparent 68%);
+  animation:driftHero-network_lab 11s ease-in-out infinite reverse;
+}
+@keyframes driftHero-network_lab {
+  0%,100% {transform:translate(0,0) scale(1)}
+  50% {transform:translate(36px,-30px) scale(1.12)}
+}
+@keyframes fadeInUpHero-network_lab {
+  from {opacity:0;transform:translateY(20px)}
+  to {opacity:1;transform:translateY(0)}
+}
+html[data-page="network_lab"] .hero .eyebrow,
+html[data-page="network_lab"] .project-hero .eyebrow {animation:fadeInUpHero-network_lab .65s ease-out both}
+html[data-page="network_lab"] .hero h1,
+html[data-page="network_lab"] .project-hero h1 {animation:fadeInUpHero-network_lab .7s ease-out .08s both}
+html[data-page="network_lab"] .hero .lead,
+html[data-page="network_lab"] .project-hero .lead {animation:fadeInUpHero-network_lab .7s ease-out .16s both}
+html[data-page="network_lab"] .hero-actions {animation:fadeInUpHero-network_lab .7s ease-out .24s both}
+html[data-page="network_lab"] .hero-stats {animation:fadeInUpHero-network_lab .7s ease-out .32s both}
+html[data-page="network_lab"] .project-hero .project-stats-row {animation:fadeInUpHero-network_lab .7s ease-out .24s both}
+html[data-page="network_lab"] .project-hero .tags {animation:fadeInUpHero-network_lab .7s ease-out .32s both}
+
+/* Typewriter row */
+html[data-page="network_lab"] .type-row {margin:14px 0 0;font-size:15px;color:#aab5c7;min-height:1.6em;font-weight:500}
+html[data-page="network_lab"] .type-text {color:var(--cyan);font-weight:700}
+html[data-page="network_lab"] .cursor {animation:blink-network_lab 1s infinite;color:#fff;margin-left:2px}
+@keyframes blink-network_lab {0%,49%{opacity:1}50%,100%{opacity:0}}
+
+@media (prefers-reduced-motion:reduce) {
+  html[data-page="network_lab"] .hero::before,
+  html[data-page="network_lab"] .hero::after,
+  html[data-page="network_lab"] .project-hero::before,
+  html[data-page="network_lab"] .project-hero::after,
+  html[data-page="network_lab"] h1 b,
+  html[data-page="network_lab"] .cursor {animation:none}
+  html[data-page="network_lab"] .hero .eyebrow, html[data-page="network_lab"] .hero h1, html[data-page="network_lab"] .hero .lead,
+  html[data-page="network_lab"] .hero-actions, html[data-page="network_lab"] .hero-stats,
+  html[data-page="network_lab"] .project-hero .eyebrow, html[data-page="network_lab"] .project-hero h1,
+  html[data-page="network_lab"] .project-hero .lead, html[data-page="network_lab"] .project-hero .project-stats-row,
+  html[data-page="network_lab"] .project-hero .tags {animation:none;opacity:1;transform:none}
+}
+
+/* ============== SECTIONS ============== */
+html[data-page="network_lab"] .section {margin-top:80px}
+html[data-page="network_lab"] .section-heading {display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:24px;flex-wrap:wrap}
+html[data-page="network_lab"] .section-heading h2 {font-size:clamp(24px,3vw,30px);letter-spacing:-.04em;margin:8px 0 0;font-weight:800;color:#fff}
+html[data-page="network_lab"] .section-sub {color:#7d8ca2;margin:6px 0 0;font-size:13px;line-height:1.7;max-width:680px}
+html[data-page="network_lab"] .count {font-size:10px;color:#69788e;letter-spacing:.1em;text-transform:uppercase;padding:6px 11px;border:1px solid var(--line);border-radius:999px;background:rgba(15,23,35,.5)}
+
+/* ============== PROJECTS GRID (index) ============== */
+html[data-page="network_lab"] .projects-grid {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;
+}
+html[data-page="network_lab"] .project-tile {
+  position:relative;display:flex;flex-direction:column;border:1px solid var(--line);
+  border-radius:20px;overflow:hidden;background:linear-gradient(145deg,rgba(19,33,52,.78),rgba(7,13,24,.92));
+  transition:.3s cubic-bezier(.4,0,.2,1);
+  box-shadow:0 18px 50px rgba(0,0,0,.22);
+  cursor:pointer;
+}
+html[data-page="network_lab"] .project-tile:hover {transform:translateY(-6px);border-color:rgba(75,225,176,.35);box-shadow:0 24px 60px rgba(0,0,0,.35),0 0 0 1px rgba(75,225,176,.15) inset}
+html[data-page="network_lab"] .project-tile-cover {
+  position:relative;aspect-ratio:16/10;overflow:hidden;background:#0a121e;
+  border-bottom:1px solid var(--line);
+}
+html[data-page="network_lab"] .project-tile-cover img {width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .5s ease}
+html[data-page="network_lab"] .project-tile:hover .project-tile-cover img {transform:scale(1.05)}
+html[data-page="network_lab"] .project-tile-cover::after {
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(180deg,rgba(0,0,0,0) 50%,rgba(0,0,0,.55) 100%);
+  pointer-events:none;
+}
+html[data-page="network_lab"] .project-tile-num {
+  position:absolute;top:12px;left:12px;font-size:10px;font-weight:800;
+  color:#03100b;background:linear-gradient(135deg,var(--green),var(--cyan));
+  padding:5px 10px;border-radius:8px;letter-spacing:.1em;z-index:2;
+}
+html[data-page="network_lab"] .project-tile-count {
+  position:absolute;top:12px;right:12px;font-size:9px;font-weight:600;
+  color:#e8edf7;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);
+  padding:5px 9px;border-radius:8px;border:1px solid rgba(255,255,255,.10);z-index:2;
+}
+html[data-page="network_lab"] .project-tile-body {padding:24px;display:flex;flex-direction:column;gap:10px;flex:1}
+html[data-page="network_lab"] .project-tile-body h3 {font-size:20px;line-height:1.2;letter-spacing:-.03em;margin:0;font-weight:800;color:#fff}
+html[data-page="network_lab"] .project-tile-body p {color:#9daabd;font-size:13px;line-height:1.75;margin:0}
+html[data-page="network_lab"] .project-tile-tags {display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+html[data-page="network_lab"] .project-tile-tags span {
+  padding:5px 9px;font-size:9px;font-weight:600;color:#a8b8d0;
+  background:rgba(56,200,239,.06);border:1px solid rgba(56,200,239,.18);border-radius:7px;
+  letter-spacing:.04em;
+}
+html[data-page="network_lab"] .project-tile-cta {
+  margin-top:auto;padding-top:14px;display:flex;align-items:center;justify-content:space-between;
+  border-top:1px solid var(--line);font-size:11px;color:#9aa6b8;font-weight:600;
+}
+html[data-page="network_lab"] .project-tile-cta .arrow {color:var(--green);font-size:16px;transition:transform .2s ease}
+html[data-page="network_lab"] .project-tile:hover .project-tile-cta .arrow {transform:translateX(4px)}
+
+/* ============== TOOL GRID ============== */
+html[data-page="network_lab"] .tool-grid {display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+html[data-page="network_lab"] .tool-card {
+  position:relative;display:flex;align-items:center;gap:14px;padding:20px;border:1px solid var(--line);border-radius:16px;
+  background:rgba(15,24,39,.62);transition:.2s;color:var(--text);text-decoration:none;
+}
+html[data-page="network_lab"] .tool-card:hover {transform:translateY(-3px);background:rgba(22,34,53,.85);border-color:rgba(75,225,176,.40);box-shadow:0 12px 30px rgba(0,0,0,.28)}
+html[data-page="network_lab"] .tool-card::after {
+  content:"→";position:absolute;top:14px;right:16px;font-size:14px;color:#75849a;
+  opacity:0;transform:translateX(-4px);transition:.2s;
+}
+html[data-page="network_lab"] .tool-card:hover::after {opacity:1;transform:translateX(0);color:var(--green)}
+html[data-page="network_lab"] .tool-icon {
+  width:46px;height:46px;display:grid;place-items:center;border-radius:12px;
+  background:linear-gradient(145deg,rgba(82,229,155,.18),rgba(56,200,239,.10));
+  border:1px solid var(--line);font-size:11px;font-weight:800;color:var(--green);
+  letter-spacing:.04em;flex:0 0 auto;
+}
+html[data-page="network_lab"] .tool-card h3 {font-size:13px;margin:0 0 5px;color:#fff;font-weight:700}
+html[data-page="network_lab"] .tool-card p {font-size:11px;color:#75849a;margin:0;line-height:1.5}
+html[data-page="network_lab"] .tool-card small {font-size:9px;color:var(--cyan);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:4px;display:block}
+
+/* ============== DOWNLOAD GRID ============== */
+html[data-page="network_lab"] .download-grid {display:grid;grid-template-columns:1fr 1fr;gap:14px}
+html[data-page="network_lab"] .download-card {
+  position:relative;display:flex;align-items:center;gap:16px;padding:22px;border:1px solid var(--line);
+  border-radius:18px;background:linear-gradient(145deg,rgba(16,27,43,.78),rgba(8,14,25,.82));transition:.25s;
+  overflow:hidden;
+}
+html[data-page="network_lab"] .download-card:hover {transform:translateY(-3px);border-color:rgba(60,208,171,.35);box-shadow:0 16px 40px rgba(0,0,0,.30)}
+html[data-page="network_lab"] .download-card::before {
+  content:"";position:absolute;inset:0;background:linear-gradient(135deg,rgba(82,229,155,.08),transparent);
+  opacity:0;transition:.25s;pointer-events:none;
+}
+html[data-page="network_lab"] .download-card:hover::before {opacity:1}
+html[data-page="network_lab"] .file-type {
+  font-size:11px;font-weight:800;color:var(--cyan);padding:13px 11px;border-radius:11px;
+  background:rgba(50,190,235,.10);border:1px solid rgba(50,190,235,.18);letter-spacing:.04em;flex:0 0 auto;
+}
+html[data-page="network_lab"] .file-type.doc {color:var(--green);background:rgba(70,224,153,.08);border-color:rgba(70,224,153,.18)}
+html[data-page="network_lab"] .file-type.pkt {color:var(--violet);background:rgba(167,139,250,.10);border-color:rgba(167,139,250,.20)}
+html[data-page="network_lab"] .download-card h3 {font-size:14px;margin:0 0 6px;color:#fff;font-weight:700}
+html[data-page="network_lab"] .download-card p {font-size:11px;color:#77869b;margin:0;line-height:1.6}
+html[data-page="network_lab"] .download-card .arrow {margin-left:auto;color:#9aa6b8;font-size:20px;transition:transform .2s ease}
+html[data-page="network_lab"] .download-card:hover .arrow {transform:translate(2px,-2px);color:var(--green)}
+
+/* ============== PROJECT PAGE ============== */
+html[data-page="network_lab"] .page-project main {padding-top:36px}
+html[data-page="network_lab"] .breadcrumb {display:flex;align-items:center;gap:8px;font-size:12px;color:#75849a;margin-bottom:24px}
+html[data-page="network_lab"] .breadcrumb a {color:var(--cyan);font-weight:500}
+html[data-page="network_lab"] .breadcrumb a:hover {color:#fff}
+html[data-page="network_lab"] .breadcrumb .sep {opacity:.5}
+
+html[data-page="network_lab"] .project-hero {max-width:880px;margin-bottom:60px}
+html[data-page="network_lab"] .project-hero h1 {font-size:clamp(36px,5.5vw,64px);margin:18px 0 18px;line-height:1;letter-spacing:-.04em}
+html[data-page="network_lab"] .project-hero .lead {font-size:15px}
+html[data-page="network_lab"] .project-stats-row {
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-top:30px;
+  border:1px solid var(--line);border-radius:16px;background:rgba(13,22,37,.6);padding:16px;
+}
+html[data-page="network_lab"] .project-stats-row > div {text-align:center;padding:8px;border-right:1px solid var(--line)}
+html[data-page="network_lab"] .project-stats-row > div:last-child {border-right:0}
+html[data-page="network_lab"] .project-stats-row strong {display:block;font-size:18px;font-weight:800;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;background-clip:text;color:transparent}
+html[data-page="network_lab"] .project-stats-row small {font-size:9px;color:#75849a;letter-spacing:.1em;text-transform:uppercase;margin-top:2px;display:block}
+
+html[data-page="network_lab"] .tags {display:flex;flex-wrap:wrap;gap:7px;margin-top:22px}
+html[data-page="network_lab"] .tags span {padding:7px 10px;font-size:10px;font-weight:600;color:#a8b8d0;background:rgba(56,200,239,.06);border:1px solid rgba(56,200,239,.18);border-radius:8px;letter-spacing:.04em}
+
+/* Cover / hero image */
+html[data-page="network_lab"] .cover-frame {
+  position:relative;border:1px solid var(--line);border-radius:20px;overflow:hidden;
+  background:#0a121e;box-shadow:0 20px 60px rgba(0,0,0,.30);
+}
+html[data-page="network_lab"] .cover-frame img {width:100%;height:auto;max-height:560px;object-fit:cover;object-position:center;display:block}
+html[data-page="network_lab"] .cover-caption {
+  display:flex;align-items:center;gap:8px;padding:12px 18px;background:rgba(0,0,0,.4);backdrop-filter:blur(10px);
+  border-top:1px solid var(--line);color:#aab5c7;font-size:11px;letter-spacing:.04em;
+}
+html[data-page="network_lab"] .cover-caption .dot {width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+/* Gallery */
+html[data-page="network_lab"] .gallery-grid {
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;
+}
+html[data-page="network_lab"] .gallery-item {
+  position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:14px;border:1px solid var(--line);
+  background:#0a121e;cursor:zoom-in;transition:.2s;
+}
+html[data-page="network_lab"] .gallery-item:hover {transform:translateY(-3px);border-color:rgba(75,225,176,.30);box-shadow:0 12px 30px rgba(0,0,0,.30)}
+html[data-page="network_lab"] .gallery-item img {width:100%;height:100%;object-fit:cover;object-position:center;transition:transform .4s ease}
+html[data-page="network_lab"] .gallery-item:hover img {transform:scale(1.06)}
+html[data-page="network_lab"] .gallery-item .gallery-num {
+  position:absolute;top:8px;left:8px;font-size:9px;font-weight:700;
+  color:#fff;background:rgba(0,0,0,.55);backdrop-filter:blur(8px);
+  padding:4px 8px;border-radius:6px;border:1px solid rgba(255,255,255,.10);
+}
+
+/* "More projects" grid */
+html[data-page="network_lab"] .more-grid {display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+html[data-page="network_lab"] .more-card {
+  display:flex;gap:14px;align-items:center;padding:18px;border:1px solid var(--line);border-radius:16px;
+  background:rgba(15,24,39,.6);transition:.2s;cursor:pointer;
+}
+html[data-page="network_lab"] .more-card:hover {transform:translateX(4px);border-color:rgba(75,225,176,.30);background:rgba(22,34,53,.85)}
+html[data-page="network_lab"] .more-card img {width:80px;height:60px;object-fit:cover;border-radius:10px;border:1px solid var(--line);flex:0 0 auto}
+html[data-page="network_lab"] .more-card h3 {font-size:14px;margin:0 0 4px;color:#fff;font-weight:700}
+html[data-page="network_lab"] .more-card small {font-size:10px;color:#75849a}
+html[data-page="network_lab"] .more-card .arrow {margin-left:auto;color:var(--green);font-size:20px}
+
+/* ============== LIGHTBOX ============== */
+html[data-page="network_lab"] .lightbox {
+  position:fixed;inset:0;z-index:100;background:rgba(0,0,0,.92);backdrop-filter:blur(20px);
+  display:none;align-items:center;justify-content:center;padding:40px 60px;
+}
+html[data-page="network_lab"] .lightbox.open {display:flex;animation:lbFade .25s ease}
+@keyframes lbFade{from{opacity:0}to{opacity:1}}
+html[data-page="network_lab"] .lightbox-frame {
+  position:relative;max-width:min(1200px,90vw);max-height:90vh;display:flex;flex-direction:column;align-items:center;gap:14px;margin:0
+}
+html[data-page="network_lab"] .lightbox-frame img {
+  max-width:100%;max-height:80vh;object-fit:contain;border-radius:14px;border:1px solid var(--line);
+  box-shadow:0 30px 80px rgba(0,0,0,.50);
+}
+html[data-page="network_lab"] #lightboxCaption {color:#aab5c7;font-size:13px;text-align:center;max-width:600px;line-height:1.6}
+html[data-page="network_lab"] .lightbox-close, html[data-page="network_lab"] .lightbox-prev, html[data-page="network_lab"] .lightbox-next {
+  position:absolute;width:50px;height:50px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(15,23,35,.85);backdrop-filter:blur(10px);color:#fff;font-size:24px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;font-family:inherit;line-height:1;
+}
+html[data-page="network_lab"] .lightbox-close:hover, html[data-page="network_lab"] .lightbox-prev:hover, html[data-page="network_lab"] .lightbox-next:hover {background:rgba(82,229,155,.20);border-color:rgba(75,225,176,.50);transform:scale(1.05)}
+html[data-page="network_lab"] .lightbox-close {top:30px;right:30px}
+html[data-page="network_lab"] .lightbox-prev {left:30px;top:50%;transform:translateY(-50%)}
+html[data-page="network_lab"] .lightbox-prev:hover {transform:translateY(-50%) scale(1.05)}
+html[data-page="network_lab"] .lightbox-next {right:30px;top:50%;transform:translateY(-50%)}
+html[data-page="network_lab"] .lightbox-next:hover {transform:translateY(-50%) scale(1.05)}
+
+/* ============== FOOTER ============== */
+html[data-page="network_lab"] .footer {
+  margin-top:40px;padding:32px 0 34px;text-align:center;
+  color:#8e9bb0;font-size:.88rem;border-top:1px solid var(--line);
+  position:relative;z-index:1;
+}
+html[data-page="network_lab"] .footer p {margin:0}
+html[data-page="network_lab"] .footer strong {color:var(--text)}
+html[data-page="network_lab"] .footer-sub {margin-top:6px !important;font-size:10px;letter-spacing:.06em;color:#56657b;opacity:.85;text-transform:uppercase}
+html[data-page="network_lab"] .footer-socials {display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+html[data-page="network_lab"] .footer-socials a {
+  display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;
+  background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--text);transition:.25s;
+}
+html[data-page="network_lab"] .footer-socials a:hover {
+  background:rgba(56,200,239,.14);border-color:rgba(56,200,239,.35);transform:translateY(-3px);color:#fff;
+}
+
+/* ============== SCROLLBAR ============== */
+html[data-page="network_lab"] ::-webkit-scrollbar {width:8px;height:8px}
+html[data-page="network_lab"] ::-webkit-scrollbar-track {background:#06101d}
+html[data-page="network_lab"] ::-webkit-scrollbar-thumb {background:rgba(82,229,155,.20);border-radius:4px}
+html[data-page="network_lab"] ::-webkit-scrollbar-thumb:hover {background:rgba(82,229,155,.35)}
+
+/* ============== PICKER MODAL ============== */
+html[data-page="network_lab"] .picker {
+  position:fixed;inset:0;z-index:120;background:rgba(0,0,0,.88);backdrop-filter:blur(18px);
+  display:none;align-items:center;justify-content:center;padding:32px;
+}
+html[data-page="network_lab"] .picker.open {display:flex;animation:lbFade .25s ease}
+html[data-page="network_lab"] .picker-frame {
+  position:relative;max-width:560px;width:100%;padding:38px 36px;border:1px solid var(--line);
+  border-radius:22px;background:linear-gradient(145deg,rgba(19,33,52,.92),rgba(7,13,24,.95));
+  box-shadow:0 30px 80px rgba(0,0,0,.55);
+}
+html[data-page="network_lab"] .picker-frame .kicker {font-size:10px;letter-spacing:.14em;color:var(--green);font-weight:700;display:block;margin-bottom:10px}
+html[data-page="network_lab"] .picker-frame h3 {font-size:22px;margin:0 0 8px;color:#fff;font-weight:800;letter-spacing:-.02em}
+html[data-page="network_lab"] .picker-sub {font-size:13px;color:#9aa6b8;margin:0 0 22px;line-height:1.6}
+html[data-page="network_lab"] .picker-close {
+  position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;
+  border:1px solid var(--line);background:rgba(15,23,35,.85);color:#fff;font-size:22px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:.2s;font-family:inherit;line-height:1;
+}
+html[data-page="network_lab"] .picker-close:hover {background:rgba(82,229,155,.20);border-color:rgba(75,225,176,.50);transform:scale(1.05)}
+html[data-page="network_lab"] .picker-list {display:flex;flex-direction:column;gap:10px}
+html[data-page="network_lab"] .picker-item {
+  display:flex;align-items:center;gap:14px;padding:16px 18px;border:1px solid var(--line);border-radius:14px;
+  background:rgba(15,24,39,.62);transition:.2s;color:var(--text);text-decoration:none;
+}
+html[data-page="network_lab"] .picker-item:hover {transform:translateX(4px);border-color:rgba(75,225,176,.40);background:rgba(22,34,53,.85)}
+html[data-page="network_lab"] .picker-item-num {
+  width:42px;height:42px;border-radius:10px;display:grid;place-items:center;
+  background:linear-gradient(135deg,var(--green),var(--cyan));
+  color:#03100b;font-size:13px;font-weight:900;letter-spacing:.04em;flex:0 0 auto;
+}
+html[data-page="network_lab"] .picker-item-body {flex:1;min-width:0}
+html[data-page="network_lab"] .picker-item-title {font-size:14px;color:#fff;font-weight:700;margin:0 0 3px;line-height:1.3}
+html[data-page="network_lab"] .picker-item-sub {font-size:11px;color:#75849a;margin:0;line-height:1.5}
+html[data-page="network_lab"] .picker-item .arrow {color:#9aa6b8;font-size:18px;transition:transform .2s ease,color .2s ease}
+html[data-page="network_lab"] .picker-item:hover .arrow {transform:translateX(3px);color:var(--green)}
+
+/* ============== RESPONSIVE ============== */
+@media(max-width:920px) {
+  nav{display:none}
+  .tool-grid{grid-template-columns:repeat(2,1fr)}
+  .download-grid{grid-template-columns:1fr}
+  .hero-stats{grid-template-columns:repeat(2,1fr);gap:6px}
+  .hero-stats > div{border-right:0}
+  .hero-stats > div:nth-child(odd){border-right:1px solid var(--line)}
+  .picker{padding:18px}
+  .picker-frame{padding:30px 24px}
+}
+@media(max-width:640px){
+  html[data-page="network_lab"] .topbar-inner {padding:10px 0}
+  html[data-page="network_lab"] .brand-text h1 {font-size:.92rem}
+  html[data-page="network_lab"] .brand-text small {font-size:9px}
+  html[data-page="network_lab"] main {padding:60px 18px 60px}
+  html[data-page="network_lab"] .hero {margin-bottom:50px}
+  html[data-page="network_lab"] .hero > h1 {font-size:54px; line-height:1.02; padding-bottom:10px}
+  html[data-page="network_lab"] .section {margin-top:60px}
+  html[data-page="network_lab"] .project-hero h1 {font-size:36px}
+  html[data-page="network_lab"] .gallery-grid {grid-template-columns:repeat(2,1fr);gap:8px}
+  html[data-page="network_lab"] .lightbox {padding:20px}
+  html[data-page="network_lab"] .lightbox-prev {left:10px;width:40px;height:40px;font-size:18px}
+  html[data-page="network_lab"] .lightbox-next {right:10px;width:40px;height:40px;font-size:18px}
+  html[data-page="network_lab"] .lightbox-close {top:10px;right:10px;width:40px;height:40px;font-size:20px}
+  html[data-page="network_lab"] .hero-stats {padding:12px 4px}
+  html[data-page="network_lab"] .hero-stats strong {font-size:18px}
+  html[data-page="network_lab"] .project-stats-row {padding:10px}
+  html[data-page="network_lab"] .project-stats-row strong {font-size:15px}
+  html[data-page="network_lab"] .more-card {padding:14px}
+  html[data-page="network_lab"] .more-card img {width:60px;height:50px}
+  html[data-page="network_lab"] .footer {padding:26px 18px 28px}
+}
+@media(max-width:420px){
+  html[data-page="network_lab"] .tool-grid {grid-template-columns:1fr}
+  html[data-page="network_lab"] .hero-stats {grid-template-columns:repeat(2,1fr)}
+  html[data-page="network_lab"] .gallery-grid {grid-template-columns:1fr}
+  html[data-page="network_lab"] .hero > h1 {font-size:46px; line-height:1.02; padding-bottom:10px}
+}
+
+
+/* ============================================================
+   Scoped styles for index / doc / ai / linux / netsec / python
+   ============================================================ */
+
 /* ==================== AI PAGE ==================== */
 html[data-page="ai"] {
       --bg: #060913; --bg-1: #0b0f1a; --bg-2: #0f1525; --bg-card: rgba(15,21,37,.72);
