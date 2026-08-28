@@ -25,6 +25,7 @@ const STATIC_FILES = [
     "/project.html",
     "/manifest.json",
     "/offline.html",
+    "/404.html",
     "/logo_2.png",
     "/logo.webp"
 ];
