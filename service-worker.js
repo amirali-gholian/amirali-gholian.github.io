@@ -3,7 +3,7 @@
 // Version 1.0.0
 // ===============================
 
-const VERSION = "1.0.8";
+const VERSION = "1.0.9";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -21,6 +21,8 @@ const STATIC_FILES = [
     "/ai.html",
     "/netsec.html",
     "/style.css",
+    "/network_lab.html",
+    "/project.html",
     "/manifest.json",
     "/offline.html",
     "/logo_2.png",
