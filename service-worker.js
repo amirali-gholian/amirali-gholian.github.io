@@ -1,9 +1,9 @@
 // ===============================
 // Amirali Gholian PWA Service Worker
-// Version 1.0.0
+// Version 2.0.0
 // ===============================
 
-const VERSION = "1.0.9";
+const VERSION = "2.0.0";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
