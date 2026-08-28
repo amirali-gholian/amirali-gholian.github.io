@@ -156,6 +156,30 @@ function setupLightbox() {
     if (e.key === 'ArrowLeft') lightboxStep(-1);
     if (e.key === 'ArrowRight') lightboxStep(1);
   });
+
+  // Touch swipe support (mobile): swipe left/right to navigate, swipe down to close
+  const lb = $('#lightbox');
+  if (lb) {
+    let touchStartX = 0, touchStartY = 0, touchActive = false;
+    lb.addEventListener('touchstart', (e) => {
+      if (e.touches.length !== 1) return;
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+      touchActive = true;
+    }, { passive: true });
+    lb.addEventListener('touchend', (e) => {
+      if (!touchActive) return;
+      touchActive = false;
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      const dy = e.changedTouches[0].clientY - touchStartY;
+      const absX = Math.abs(dx), absY = Math.abs(dy);
+      const SWIPE_THRESHOLD = 40;
+      if (absY > absX && dy > 60) { closeLightbox(); return; }
+      if (absX > absY && absX > SWIPE_THRESHOLD) {
+        if (dx < 0) lightboxStep(1); else lightboxStep(-1);
+      }
+    }, { passive: true });
+  }
 }
 
 /* ---------- Smooth scroll for anchor links ---------- */
