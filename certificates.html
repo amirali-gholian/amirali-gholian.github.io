@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html data-page="doc" lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Person",
+  "name":"Amirali Gholian",
+  "alternateName":"امیرعلی قولیان",
+  "url":"https://amiraligholian.ir/",
+  "image":"https://amiraligholian.ir/logo.webp",
+  "jobTitle":"Python Developer | Linux & AI Enthusiast",
+  "sameAs":[
+    "https://t.me/nexth0p"
+  ]
+}
+</script>
+  <script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"CollectionPage",
+  "name":"Certificates",
+  "description":"A collection of certificates and course completions earned by Amirali Gholian across programming, design, and motion graphics.",
+  "url":"https://amiraligholian.ir/certificates.html",
+  "inLanguage":"en",
+  "isPartOf":{"@type":"WebSite","url":"https://amiraligholian.ir/","name":"Amirali Gholian"},
+  "author":{"@type":"Person","name":"Amirali Gholian"}
+}
+</script>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Amirali Gholian - Certificates and course completions in Python, Git & GitHub, Adobe Premiere Pro, and After Effects." />
+  <meta name="theme-color" content="#060913" />
+  <title>Certificates | Amirali Gholian (امیرعلی قولیان)</title>
+  <link rel="icon" href="./logo.webp?v=2" type="image/png">
+  <link rel="canonical" href="https://amiraligholian.ir/certificates.html">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://amiraligholian.ir/certificates.html">
+  <meta property="og:title" content="Certificates | Amirali Gholian">
+  <meta property="og:description" content="A collection of certificates and course completions earned by Amirali Gholian.">
+  <meta property="og:image" content="https://amiraligholian.ir/logo.webp">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Certificates | Amirali Gholian">
+  <meta name="twitter:description" content="A collection of certificates and course completions earned by Amirali Gholian.">
+  <meta name="twitter:image" content="https://amiraligholian.ir/logo.webp">
+
+  <!-- PWA & Manifest -->
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/logo.webp">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Amirali Gholian">
+
+  <!-- Security -->
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- Page-specific additions for the certificates gallery/lightbox (reuses the "doc" theme variables) -->
+  <style>
+    html[data-page="doc"] .cert-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(300px, 1fr));
+      gap:24px;
+      margin:40px 0;
+    }
+    html[data-page="doc"] .cert-card{
+      position:relative;
+      display:flex;
+      flex-direction:column;
+      border-radius:20px;
+      overflow:hidden;
+      background:linear-gradient(135deg, rgba(56,189,248,.08), rgba(34,197,94,.04));
+      border:1px solid rgba(56,189,248,.15);
+      transition:all .35s cubic-bezier(.4,0,.2,1);
+      cursor:pointer;
+    }
+    html[data-page="doc"] .cert-card:hover{
+      border-color:var(--accent);
+      transform:translateY(-8px);
+      box-shadow:0 20px 50px rgba(56,189,248,.15);
+    }
+    html[data-page="doc"] .cert-thumb{
+      position:relative;
+      width:100%;
+      aspect-ratio:4/3;
+      overflow:hidden;
+      background:#0a0e1a;
+      border-bottom:1px solid rgba(56,189,248,.15);
+    }
+    html[data-page="doc"] .cert-thumb img{
+      width:100%;height:100%;object-fit:cover;
+      display:block;
+      transition:transform .5s ease;
+    }
+    html[data-page="doc"] .cert-card:hover .cert-thumb img{ transform:scale(1.06); }
+    html[data-page="doc"] .cert-thumb::after{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(180deg, transparent 55%, rgba(6,9,19,.85) 100%);
+    }
+    html[data-page="doc"] .cert-badge{
+      position:absolute; top:12px; right:12px; z-index:1;
+      padding:5px 12px;
+      border-radius:999px;
+      font-size:.72rem;
+      font-weight:700;
+      letter-spacing:.02em;
+      background:rgba(6,9,19,.65);
+      border:1px solid rgba(255,255,255,.16);
+      color:var(--text-bright);
+      backdrop-filter:blur(6px);
+    }
+    html[data-page="doc"] .cert-badge.issuer-mkh{ color:#38bdf8; border-color:rgba(56,189,248,.35); }
+    html[data-page="doc"] .cert-badge.issuer-inv{ color:#7ff2a6; border-color:rgba(34,197,94,.35); }
+    html[data-page="doc"] .cert-body{
+      padding:22px 24px 26px;
+      position:relative;
+      z-index:1;
+      flex:1;
+      display:flex;
+      flex-direction:column;
+    }
+    html[data-page="doc"] .cert-title{
+      font-size:1.18rem;
+      font-weight:700;
+      color:var(--accent);
+      margin-bottom:6px;
+      transition:color .3s ease;
+    }
+    html[data-page="doc"] .cert-card:hover .cert-title{ color:var(--text-bright); }
+    html[data-page="doc"] .cert-issuer{
+      font-size:.85rem;
+      color:var(--text-dim);
+      margin-bottom:14px;
+    }
+    html[data-page="doc"] .cert-meta{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      font-size:.78rem;
+      color:var(--text-bright);
+      margin-bottom:16px;
+    }
+    html[data-page="doc"] .cert-meta span{
+      background:rgba(56,189,248,.15);
+      padding:4px 10px;
+      border-radius:6px;
+      font-weight:500;
+    }
+    html[data-page="doc"] .cert-view{
+      margin-top:auto;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-size:.85rem;
+      font-weight:600;
+      color:var(--accent-2);
+    }
+    html[data-page="doc"] .cert-view svg{ transition:transform .25s ease; }
+    html[data-page="doc"] .cert-card:hover .cert-view svg{ transform:translate(3px,-3px); }
+
+    /* Lightbox */
+    html[data-page="doc"] .lightbox{
+      position:fixed; inset:0; z-index:1000;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+      background:rgba(4,6,11,.86);
+      backdrop-filter:blur(10px) saturate(1.2);
+      -webkit-backdrop-filter:blur(10px) saturate(1.2);
+    }
+    html[data-page="doc"] .lightbox.open{ display:flex; }
+    html[data-page="doc"] .lightbox-inner{
+      position:relative;
+      max-width:min(1100px, 92vw);
+      max-height:88vh;
+      border-radius:20px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:var(--shadow);
+      background:#0a0e1a;
+    }
+    html[data-page="doc"] .lightbox-inner img{
+      display:block;
+      width:100%;
+      height:100%;
+      max-height:88vh;
+      object-fit:contain;
+      background:#0a0e1a;
+    }
+    html[data-page="doc"] .lightbox-close{
+      position:absolute; top:14px; right:14px;
+      width:40px; height:40px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(6,9,19,.7);
+      color:#fff;
+      display:grid; place-items:center;
+      cursor:pointer;
+      transition:all .2s ease;
+    }
+    html[data-page="doc"] .lightbox-close:hover{ background:rgba(56,189,248,.25); transform:rotate(90deg); }
+    html[data-page="doc"] .lightbox-caption{
+      position:absolute; left:14px; bottom:14px; right:64px;
+      color:#e5e7eb;
+      font-size:.85rem;
+      background:rgba(6,9,19,.65);
+      padding:8px 14px;
+      border-radius:10px;
+      backdrop-filter:blur(6px);
+    }
+    html[data-page="doc"] .lightbox-download{
+      position:absolute; bottom:14px; right:14px;
+      width:40px; height:40px;
+      border-radius:50%;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(6,9,19,.7);
+      color:#fff;
+      display:grid; place-items:center;
+      transition:all .2s ease;
+    }
+    html[data-page="doc"] .lightbox-download:hover{ background:rgba(34,197,94,.25); }
+
+    @media (max-width:480px){
+      html[data-page="doc"] .cert-body{ padding:18px 18px 20px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-inner">
+        <div class="brand">
+          <a href="index.html" class="avatar" title="Back to Portfolio">
+            <span>AG</span>
+            <img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" />
+          </a>
+          <div class="brand-text">
+            <h1>Certificates</h1>
+            <small>Amirali Gholian</small>
+          </div>
+        </div>
+        <a href="index.html" class="btn back-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+          Main Site
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <main class="wrap">
+    <div class="page active" id="home">
+      <section class="hero">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <div class="eyebrow">
+              <span class="dot"></span>
+              Certificates & Achievements
+            </div>
+            <h2><span class="grad">My Certifications</span></h2>
+            <div class="type-row">
+              Verified in <span class="type-text" id="cert-typewriter"></span><span class="cursor">|</span>
+            </div>
+            <p>
+              A collection of course completions and certifications earned across programming, version control, and motion design. Each card links to the full, verifiable certificate.
+            </p>
+            <div class="cta-row">
+              <a href="#certs" class="btn primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a4 4 0 0 0 4-4V5a4 4 0 0 0-8 0v6a4 4 0 0 0 4 4z"></path><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 19v3"></path></svg>
+                View Certificates
+              </a>
+              <a href="doc.html" class="btn">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+                Documentation Hub
+              </a>
+            </div>
+          </div>
+          <div class="side-card">
+            <div>
+              <h3 style="font-size:1.1rem;color:var(--text-bright);margin-bottom:16px;font-weight:700;">Quick Stats</h3>
+              <div class="skills-grid">
+                <div class="skill-item">
+                  <span>🎓</span>
+                  <span>4 Certificates</span>
+                </div>
+                <div class="skill-item">
+                  <span>⏱️</span>
+                  <span>103+ Hours</span>
+                </div>
+                <div class="skill-item">
+                  <span>🏫</span>
+                  <span>2 Institutions</span>
+                </div>
+                <div class="skill-item">
+                  <span>📅</span>
+                  <span>2026</span>
+                </div>
+              </div>
+            </div>
+            <p style="color:var(--text-dim);font-size:.85rem;margin-top:20px;line-height:1.6;">
+              Every certificate below is verifiable via its official QR code / URL, issued by Maktabkhooneh or Inverse School.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="content-section" id="certs">
+        <h2>Earned Certificates</h2>
+        <p class="section-subtitle">Click on any card to view the full certificate in a lightbox.</p>
+
+        <div class="cert-grid">
+          <!-- Python Programming -->
+          <div class="cert-card" data-img="certificates/certificate1.webp" data-title="Python Programming" data-caption="Maktabkhooneh — 74 hours — completed 6/6/2026 — Certificate NO: MK-VB1HAY">
+            <div class="cert-thumb">
+              <span class="cert-badge issuer-mkh">Maktabkhooneh</span>
+              <img src="certificates/certificate1.webp" alt="Python Programming certificate" loading="lazy">
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">Python Programming</div>
+              <div class="cert-issuer">Instructed by Jadi Mirmirani</div>
+              <div class="cert-meta">
+                <span>74 hours</span>
+                <span>6/6/2026</span>
+              </div>
+              <span class="cert-view">
+                View Certificate
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Git & GitHub -->
+          <div class="cert-card" data-img="certificates/certificate4.webp" data-title="Git & GitHub" data-caption="Maktabkhooneh — 29 hours — completed 7/10/2026 — Certificate NO: MK-YS۰۵DD">
+            <div class="cert-thumb">
+              <span class="cert-badge issuer-mkh">Maktabkhooneh</span>
+              <img src="certificates/certificate4.webp" alt="Git & GitHub certificate" loading="lazy">
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">Git & GitHub</div>
+              <div class="cert-issuer">Instructed by Jadi Mirmirani</div>
+              <div class="cert-meta">
+                <span>29 hours</span>
+                <span>7/10/2026</span>
+              </div>
+              <span class="cert-view">
+                View Certificate
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- Adobe Premiere Pro -->
+          <div class="cert-card" data-img="certificates/certificate2.webp" data-title="Adobe Premiere Pro" data-caption="Inverse School — Score 3.8/5 (Level A) — Code: 2JFZFL4Q5344">
+            <div class="cert-thumb">
+              <span class="cert-badge issuer-inv">Inverse School</span>
+              <img src="certificates/certificate2.webp" alt="Adobe Premiere Pro certificate" loading="lazy">
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">Adobe Premiere Pro</div>
+              <div class="cert-issuer">Online course completion</div>
+              <div class="cert-meta">
+                <span>Score 3.8/5</span>
+                <span>Level A</span>
+              </div>
+              <span class="cert-view">
+                View Certificate
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </div>
+          </div>
+
+          <!-- After Effects -->
+          <div class="cert-card" data-img="certificates/certificate3.webp" data-title="After Effects — Character Rigging & Animation" data-caption="Inverse School — DUIK & Rubber Hose — Score 3.2/5 (Level B) — Code: MALXNZBS2290">
+            <div class="cert-thumb">
+              <span class="cert-badge issuer-inv">Inverse School</span>
+              <img src="certificates/certificate3.webp" alt="After Effects character rigging certificate" loading="lazy">
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">After Effects — Rigging & Animation</div>
+              <div class="cert-issuer">DUIK & Rubber Hose scripting</div>
+              <div class="cert-meta">
+                <span>Score 3.2/5</span>
+                <span>Level B</span>
+              </div>
+              <span class="cert-view">
+                View Certificate
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="cert-lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="cert-lightbox-close" aria-label="Close">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+      <img id="cert-lightbox-img" src="" alt="Certificate preview">
+      <div class="lightbox-caption" id="cert-lightbox-caption"></div>
+      <a class="lightbox-download" id="cert-lightbox-download" href="" download aria-label="Download certificate">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+      </a>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div class="wrap">
+      <div class="footer-socials">
+        <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+        </a>
+        <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
+        </a>
+        <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+        </a>
+      </div>
+      <p>Built by <strong style="color:var(--text-bright);">Amirali Gholian</strong> — Certificates</p>
+      <p style="margin-top:6px;font-size:.8rem;opacity:.7;">Python Developer | Linux | AI</p>
+    </div>
+  </footer>
+
+  <script src="main.js" defer></script>
+  <script>
+    // ─── Certificates page: custom typewriter + lightbox (kept separate from main.js) ───
+    document.addEventListener('DOMContentLoaded', () => {
+      // Typewriter cycling through certificate titles
+      const phrases = ["Python", "Git & GitHub", "Premiere Pro", "After Effects"];
+      let phraseIndex = 0, charIndex = 0, isDeleting = false;
+      const typeEl = document.getElementById('cert-typewriter');
+
+      function type() {
+        if (!typeEl) return;
+        const current = phrases[phraseIndex];
+        if (isDeleting) {
+          typeEl.textContent = current.substring(0, charIndex - 1);
+          charIndex--;
+        } else {
+          typeEl.textContent = current.substring(0, charIndex + 1);
+          charIndex++;
+        }
+        let speed = isDeleting ? 60 : 100;
+        if (!isDeleting && charIndex === current.length) {
+          speed = 2000;
+          isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+          isDeleting = false;
+          phraseIndex = (phraseIndex + 1) % phrases.length;
+          speed = 500;
+        }
+        setTimeout(type, speed);
+      }
+      if (typeEl) type();
+
+      // Lightbox
+      const lightbox = document.getElementById('cert-lightbox');
+      const lightboxImg = document.getElementById('cert-lightbox-img');
+      const lightboxCaption = document.getElementById('cert-lightbox-caption');
+      const lightboxDownload = document.getElementById('cert-lightbox-download');
+      const closeBtn = document.getElementById('cert-lightbox-close');
+
+      document.querySelectorAll('.cert-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const img = card.getAttribute('data-img');
+          const title = card.getAttribute('data-title');
+          const caption = card.getAttribute('data-caption');
+          lightboxImg.src = img;
+          lightboxImg.alt = title;
+          lightboxCaption.textContent = caption;
+          lightboxDownload.href = img;
+          lightboxDownload.setAttribute('download', img);
+          lightbox.classList.add('open');
+        });
+      });
+
+      function closeLightbox() {
+        lightbox.classList.remove('open');
+        lightboxImg.src = '';
+      }
+      closeBtn.addEventListener('click', closeLightbox);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLightbox();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeLightbox();
+      });
+
+      // Smooth scroll for anchor links on this page
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+      });
+    });
+  </script>
+</body>
+</html>
