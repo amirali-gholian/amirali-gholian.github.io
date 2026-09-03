@@ -29,7 +29,7 @@
   <meta name="twitter:description" content="Complete Linux Documentation - Comprehensive Linux Tutorial from Beginner to Advanced">
   <meta name="twitter:image" content="https://amiraligholian.ir/logo.webp">
 
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
 
   <meta name="theme-color" content="#060913">
   <title>Linux Documentation | Amirali Gholian (امیرعلی قولیان)</title>
@@ -43,31 +43,68 @@
 </head>
 <body>
   <div id="sidebar-overlay" style="position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:105;display:none;" onclick="toggleSidebar()"></div>
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <div class="brand">
-          <a href="index.html" class="avatar" title="Amirali Gholian">
-            <span>AG</span>
-            <img src="profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" />
-          </a>
-          <div class="brand-text">
-            <h1>Linux Documentation</h1>
-            <small>Amirali Gholian</small>
-          </div>
-        </div>
-        <div class="search-container">
-          <input type="text" class="search-input" id="searchInput" placeholder="Search documentation..." oninput="searchDocs()" onfocus="showSearchResults()" />
-          <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
-          <div class="search-results" id="searchResults"></div>
-        </div>
-        <a href="doc.html" class="btn back-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          Documentation
-        </a>
+<header class="global-header">
+  <div class="header-container">
+    <!-- Brand/Logo -->
+    <a href="index.html" class="brand-link" aria-label="Amirali Gholian home">
+      <img src="profile.webp" alt="Amirali Gholian" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-name">Amirali Gholian</span>
+        <span class="brand-sub">Developer &bull; AI &bull; NetSec</span>
       </div>
-    </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-menu" id="navMenu">
+      <!-- Network Lab Dropdown (Dynamic) -->
+      <div class="nav-item dropdown" id="netLabDropdown">
+        <button type="button" class="dropdown-trigger">Network Lab <i class="arrow-down"></i></button>
+        <div class="dropdown-content" id="netLabLinks">
+
+        </div>
+      </div>
+
+      <!-- Documents Dropdown -->
+      <div class="nav-item dropdown">
+        <button type="button" class="dropdown-trigger">Documents <i class="arrow-down"></i></button>
+        <div class="dropdown-content">
+          <a href="doc.html">All Documents</a>
+          <a href="python.html">Python</a>
+          <a href="linux.html">Linux</a>
+          <a href="netsec.html">Networking</a>
+          <a href="ai.html">AI</a>
+        </div>
+      </div>
+
+      <a href="certificates.html" class="nav-link">Certificates</a>
+
+      <!-- Inline Search -->
+      <div class="nav-item nav-search" id="navSearch">
+        <button type="button" id="globalSearchBtn" class="search-btn" aria-label="Search" aria-expanded="false">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        </button>
+        <div class="nav-search-panel" id="navSearchPanel" aria-hidden="true">
+          <div class="nav-search-input-wrap">
+            <svg class="search-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search documentation, projects, tools...">
+            <button type="button" id="closeSearchBtn" aria-label="Close search">&times;</button>
+          </div>
+          <div id="globalSearchResults" class="search-results-list"></div>
+        </div>
+      </div>
+
+      <!-- Auth Section -->
+      <div id="globalAuthMenu" class="auth-menu">
+        <!-- Dynamic: Sign In button or Profile Menu -->
+      </div>
+    </nav>
+
+    <!-- Mobile Toggle -->
+    <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+</header>
 
   <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Sidebar Menu">
     <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
@@ -1887,30 +1924,26 @@ backup() {
 
       <!-- FOOTER -->
       <footer class="footer">
-        <div class="footer-socials">
-          <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-          </a>
-          <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
-          </a>
-          <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-          </a>
-        </div>
-        <div class="footer-links">
-          <a href="doc.html">Documentation</a>
-          <a href="index.html">Homepage</a>
-          <a href="python.html">Python</a>
-          <a href="linux.html">Linux</a>
-          <a href="ai.html">Artificial Intelligence</a>
-        </div>
-        <p>Created by <strong style="color:var(--text-bright);">Amirali Gholian</strong> — Linux Documentation</p>
-        <p style="margin-top:6px;font-size:.8rem;opacity:.7;">Python Developer | Linux | AI</p>
-      </footer>
+  <div class="wrap">
+    <div class="footer-socials">
+      <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+      </a>
+      <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
+      </a>
+      <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
+      </a>
+    </div>
+    <p>Built by <strong style="color:var(--text-bright);">Amirali Gholian</strong> — Linux Documentation</p>
+    <p style="margin-top:6px;font-size:.8rem;opacity:.7;">Python Developer | Linux | AI</p>
+  </div>
+</footer>
     </main>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="main.js" defer></script>
 </body>
 </html>
