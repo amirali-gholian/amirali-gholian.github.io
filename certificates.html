@@ -164,11 +164,11 @@
               <div class="skills-grid">
                 <div class="skill-item">
                   <span>🎓</span>
-                  <span>4 Certificates</span>
+                  <span>5 Certificates</span>
                 </div>
                 <div class="skill-item">
                   <span>⏱️</span>
-                  <span>103+ Hours</span>
+                  <span>116+ Hours</span>
                 </div>
                 <div class="skill-item">
                   <span>🏫</span>
@@ -232,6 +232,25 @@
             </div>
           </div>
 
+          <!-- Network Principles -->
+          <div class="cert-card" data-img="certificates/certificate5.webp" data-title="Network Principles" data-caption="Maktabkhooneh — Instructor: Mr. Jadi Mirmirani — 13 hours — Completed 9/1/2026 — Certificate NO: MK-HPWE5D">
+            <div class="cert-thumb">
+              <span class="cert-badge issuer-inv">Maktabkhooneh</span>
+              <img src="certificates/certificate5.webp" alt="Network Principles certificate" loading="lazy">
+            </div>
+            <div class="cert-body">
+              <div class="cert-title">Network Principles</div>
+              <div class="cert-issuer">Maktabkhooneh — Mr. Jadi Mirmirani</div>
+              <div class="cert-meta">
+                <span>13 Hours</span>
+                <span>9/1/2026</span>
+              </div>
+              <span class="cert-view">
+                View Certificate
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </span>
+            </div>
+          </div>
           <!-- Adobe Premiere Pro -->
           <div class="cert-card" data-img="certificates/certificate2.webp" data-title="Adobe Premiere Pro" data-caption="Inverse School — Score 3.8/5 (Level A) — Code: 2JFZFL4Q5344">
             <div class="cert-thumb">
@@ -271,6 +290,8 @@
               </span>
             </div>
           </div>
+
+          
         </div>
       </section>
     </div>
@@ -334,7 +355,7 @@
     // ─── Certificates page: custom typewriter + lightbox (kept separate from main.js) ───
     document.addEventListener('DOMContentLoaded', () => {
       // Typewriter cycling through certificate titles
-      const phrases = ["Python", "Git & GitHub", "Premiere Pro", "After Effects"];
+      const phrases = ["Python", "Git & GitHub", "Premiere Pro", "After Effects", "Network Principles"];
       let phraseIndex = 0, charIndex = 0, isDeleting = false;
       const typeEl = document.getElementById('cert-typewriter');
 
