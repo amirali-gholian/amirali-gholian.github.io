@@ -462,7 +462,9 @@ function setupGlobalUIToggles() {
   const navMenu = document.getElementById('navMenu');
   if (mobileToggle && navMenu) {
     mobileToggle.addEventListener('click', () => {
-      navMenu.classList.toggle('open');
+      const isOpen = navMenu.classList.toggle('open');
+      mobileToggle.classList.toggle('open', isOpen);
+      document.body.classList.toggle('menu-open', isOpen);
     });
   }
 
