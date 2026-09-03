@@ -74,28 +74,73 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+
 </head>
 <body class="page-project">
-  <div class="topbar">
-    <div class="wrap">
-      <div class="topbar-inner">
-        <div class="brand">
-          <a href="./index.html" class="avatar" title="Back to Portfolio">
-            <span>AG</span>
-            <img src="./profile.webp" alt="Amirali Gholian" style="grid-area:1/1;width:100%;height:100%;object-fit:cover;" onerror="this.remove()" />
-          </a>
-          <div class="brand-text">
-            <h1>Network Lab</h1>
-            <small>Amirali Gholian</small>
-          </div>
-        </div>
-        <a href="./index.html" class="btn back-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-          Main Site
-        </a>
+<header class="global-header">
+  <div class="header-container">
+    <!-- Brand/Logo -->
+    <a href="index.html" class="brand-link" aria-label="Amirali Gholian home">
+      <img src="profile.webp" alt="Amirali Gholian" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-name">Amirali Gholian</span>
+        <span class="brand-sub">Developer &bull; AI &bull; NetSec</span>
       </div>
-    </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-menu" id="navMenu">
+      <!-- Network Lab Dropdown (Dynamic) -->
+      <div class="nav-item dropdown" id="netLabDropdown">
+        <button type="button" class="dropdown-trigger">Network Lab <i class="arrow-down"></i></button>
+        <div class="dropdown-content" id="netLabLinks">
+
+        </div>
+      </div>
+
+      <!-- Documents Dropdown -->
+      <div class="nav-item dropdown">
+        <button type="button" class="dropdown-trigger">Documents <i class="arrow-down"></i></button>
+        <div class="dropdown-content">
+          <a href="doc.html">All Documents</a>
+          <a href="python.html">Python</a>
+          <a href="linux.html">Linux</a>
+          <a href="netsec.html">Networking</a>
+          <a href="ai.html">AI</a>
+        </div>
+      </div>
+
+      <a href="certificates.html" class="nav-link">Certificates</a>
+
+      <!-- Inline Search -->
+      <div class="nav-item nav-search" id="navSearch">
+        <button type="button" id="globalSearchBtn" class="search-btn" aria-label="Search" aria-expanded="false">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        </button>
+        <div class="nav-search-panel" id="navSearchPanel" aria-hidden="true">
+          <div class="nav-search-input-wrap">
+            <svg class="search-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search documentation, projects, tools...">
+            <button type="button" id="closeSearchBtn" aria-label="Close search">&times;</button>
+          </div>
+          <div id="globalSearchResults" class="search-results-list"></div>
+        </div>
+      </div>
+
+      <!-- Auth Section -->
+      <div id="globalAuthMenu" class="auth-menu">
+        <!-- Dynamic: Sign In button or Profile Menu -->
+      </div>
+    </nav>
+
+    <!-- Mobile Toggle -->
+    <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+      <span></span><span></span><span></span>
+    </button>
   </div>
+</header>
+
+
 
   <main>
     <div class="breadcrumb">
@@ -181,21 +226,41 @@
     </section>
   </main>
 
-  <footer class="footer">
-    <div class="wrap">
-      <div class="footer-socials">
-        <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
-        </a>
-        <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21.198 2.433a2.242 2.242 0 0 0-1.022.215l-16.5 6.498a2.25 2.25 0 0 0 .107 4.26l3.85 1.262 1.5 5.088a1.5 1.5 0 0 0 2.8.4l2.1-3.6 4.35 3.2a2.25 2.25 0 0 0 3.6-1.8l2.55-13.5a2.242 2.242 0 0 0-2.035-2.623z"></path><path d="m9.5 13.5 9-6.5"></path></svg>
-        </a>
-        <a href="mailto:amirali.gholian.1380.80@gmail.com" aria-label="Email">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path></svg>
-        </a>
+  <footer>
+    <div class="wrap footer-grid">
+      <div class="footer-col footer-about">
+        <img class="footer-photo" src="profile.webp" alt="Amirali Gholian" loading="lazy" />
+        <span class="footer-name">Amirali Gholian</span>
+        <span class="footer-role">Network Engineer &bull; Python Developer</span>
+        <p class="footer-tagline">Building the digital future, one project at a time.</p>
       </div>
-      <p>Built by <strong>Amirali Gholian</strong> — Network Lab</p>
-      <p class="footer-sub">© 2026 · Cisco Packet Tracer · Networking Projects</p>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="doc.html">Knowledge Base</a>
+        <a href="network_lab.html">Network Lab</a>
+        <a href="doc.html">Documents</a>
+        <a href="certificates.html">Certificates</a>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="mailto:amirali.gholian.1380.80@gmail.com">Email</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom-row">
+      <div class="footer-bottom">&copy; <span id="year"></span> Amirali Gholian. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:amirali.gholian.1380.80@gmail.com">Contact</a>
+      </div>
     </div>
   </footer>
 
@@ -224,6 +289,7 @@
     </div>
   </div>
 
-  <script src="main.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js" defer></script>
 </body>
 </html>
