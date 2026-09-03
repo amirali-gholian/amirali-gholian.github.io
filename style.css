@@ -3766,3 +3766,116 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
     max-height: 40vh;
   }
 }
+
+/* ============================================================
+   FIX: Profile image sizing — ensures all avatar/profile images
+   are properly constrained within their containers
+   ============================================================ */
+
+/* Global avatar image constraint — applies to ALL avatar containers */
+.avatar img,
+.avatar-btn img,
+.brand-avatar img,
+.profile-photo img,
+.dropdown-avatar img,
+.user-avatar img,
+.user-profile-trigger img,
+.brand-logo img,
+.footer-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Ensure avatar containers maintain their size and clip overflow */
+.avatar,
+.avatar-btn,
+.brand-avatar,
+.dropdown-avatar,
+.user-avatar,
+.user-profile-trigger {
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+/* network_lab page avatar fix */
+html[data-page="network_lab"] .avatar img,
+html[data-page="network_lab"] .avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* index page avatar fixes */
+html[data-page="index"] .avatar img,
+html[data-page="index"] .avatar-btn img,
+html[data-page="index"] .brand-avatar img,
+html[data-page="index"] .profile-photo img,
+html[data-page="index"] .dropdown-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ai page avatar fixes */
+html[data-page="ai"] .avatar img,
+html[data-page="ai"] .avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* linux page avatar fixes */
+html[data-page="linux"] .avatar img,
+html[data-page="linux"] .avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* netsec page avatar fixes */
+html[data-page="netsec"] .avatar img,
+html[data-page="netsec"] .avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* python page avatar fixes */
+html[data-page="python"] .avatar img,
+html[data-page="python"] .avatar-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Global navigation header avatar fixes */
+.global-header .avatar img,
+.global-header .avatar-btn img,
+.global-header .brand-logo img,
+.global-header .user-profile-trigger img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* doc-page avatar fixes */
+.doc-page .avatar img,
+.doc-page .avatar-btn img,
+.doc-page .brand-avatar img,
+.doc-page .profile-photo img,
+.doc-page .dropdown-avatar img,
+.doc-page .footer-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
