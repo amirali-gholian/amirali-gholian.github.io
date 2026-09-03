@@ -3768,114 +3768,138 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
 }
 
 /* ============================================================
-   FIX: Profile image sizing — ensures all avatar/profile images
-   are properly constrained within their containers
+   FIX v2: Profile image sizing — comprehensive fix for all pages
    ============================================================ */
 
-/* Global avatar image constraint — applies to ALL avatar containers */
+/* CRITICAL: Force all images inside avatar containers to fill properly */
 .avatar img,
 .avatar-btn img,
 .brand-avatar img,
+.brand-avatar-fallback img,
 .profile-photo img,
 .dropdown-avatar img,
 .user-avatar img,
 .user-profile-trigger img,
 .brand-logo img,
-.footer-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+.footer-photo img,
+.user-profile-icon img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  max-width: none !important;
 }
 
-/* Ensure avatar containers maintain their size and clip overflow */
+/* Ensure containers clip overflow */
 .avatar,
 .avatar-btn,
 .brand-avatar,
+.brand-avatar-fallback,
 .dropdown-avatar,
 .user-avatar,
-.user-profile-trigger {
-  overflow: hidden;
-  flex-shrink: 0;
+.user-profile-trigger,
+.user-profile-icon {
+  overflow: hidden !important;
+  flex-shrink: 0 !important;
 }
 
-/* network_lab page avatar fix */
+/* Fix for elements that ARE images themselves (not containers) */
+img.brand-logo,
+img.user-profile-trigger,
+img.profile-photo,
+img.brand-avatar,
+img.footer-photo {
+  width: 44px !important;
+  height: 44px !important;
+  object-fit: cover !important;
+  border-radius: 50% !important;
+}
+
+img.user-profile-trigger {
+  width: 36px !important;
+  height: 36px !important;
+}
+
+img.profile-photo {
+  width: 96px !important;
+  height: 96px !important;
+}
+
+img.footer-photo {
+  width: 56px !important;
+  height: 56px !important;
+  border-radius: 16px !important;
+}
+
+/* Global header specific fixes */
+.global-header .avatar img,
+.global-header .avatar-btn img,
+.global-header .brand-logo img,
+.global-header .user-profile-trigger img,
+.global-header .user-avatar img,
+.global-header .dropdown-avatar img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+.global-header .avatar,
+.global-header .avatar-btn,
+.global-header .dropdown-avatar,
+.global-header .user-avatar,
+.global-header .user-profile-trigger {
+  overflow: hidden !important;
+}
+
+/* Page-specific fixes */
 html[data-page="network_lab"] .avatar img,
-html[data-page="network_lab"] .avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* index page avatar fixes */
+html[data-page="network_lab"] .avatar-btn img,
 html[data-page="index"] .avatar img,
 html[data-page="index"] .avatar-btn img,
 html[data-page="index"] .brand-avatar img,
 html[data-page="index"] .profile-photo img,
-html[data-page="index"] .dropdown-avatar img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* ai page avatar fixes */
+html[data-page="index"] .dropdown-avatar img,
+html[data-page="index"] .user-avatar img,
 html[data-page="ai"] .avatar img,
-html[data-page="ai"] .avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* linux page avatar fixes */
+html[data-page="ai"] .avatar-btn img,
 html[data-page="linux"] .avatar img,
-html[data-page="linux"] .avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* netsec page avatar fixes */
+html[data-page="linux"] .avatar-btn img,
 html[data-page="netsec"] .avatar img,
-html[data-page="netsec"] .avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* python page avatar fixes */
+html[data-page="netsec"] .avatar-btn img,
 html[data-page="python"] .avatar img,
-html[data-page="python"] .avatar-btn img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* Global navigation header avatar fixes */
-.global-header .avatar img,
-.global-header .avatar-btn img,
-.global-header .brand-logo img,
-.global-header .user-profile-trigger img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-/* doc-page avatar fixes */
+html[data-page="python"] .avatar-btn img,
 .doc-page .avatar img,
 .doc-page .avatar-btn img,
 .doc-page .brand-avatar img,
 .doc-page .profile-photo img,
 .doc-page .dropdown-avatar img,
+.doc-page .user-avatar img,
 .doc-page .footer-photo img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* Ensure overflow hidden on all avatar containers across all pages */
+html[data-page="network_lab"] .avatar,
+html[data-page="network_lab"] .avatar-btn,
+html[data-page="index"] .avatar,
+html[data-page="index"] .avatar-btn,
+html[data-page="index"] .dropdown-avatar,
+html[data-page="index"] .user-avatar,
+html[data-page="ai"] .avatar,
+html[data-page="ai"] .avatar-btn,
+html[data-page="linux"] .avatar,
+html[data-page="linux"] .avatar-btn,
+html[data-page="netsec"] .avatar,
+html[data-page="netsec"] .avatar-btn,
+html[data-page="python"] .avatar,
+html[data-page="python"] .avatar-btn,
+.doc-page .avatar,
+.doc-page .avatar-btn,
+.doc-page .dropdown-avatar,
+.doc-page .user-avatar {
+  overflow: hidden !important;
 }
