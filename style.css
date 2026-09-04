@@ -56,7 +56,7 @@ html[data-page="network_lab"] img {display:block;max-width:100%}
 /* ============== TOPBAR (doc-style) ============== */
 html[data-page="network_lab"] .wrap {width:min(var(--max), calc(100% - 32px));margin:0 auto}
 html[data-page="network_lab"] .topbar {
-  position:fixed;top:0;left:0;right:0;z-index:100;
+  position:sticky;top:0;left:0;right:0;z-index:100;
   background:rgba(5,9,20,.74);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);
   border-bottom:1px solid var(--line);
   width:100%;
@@ -630,6 +630,11 @@ html[data-page="ai"] ::-webkit-scrollbar-track { background: var(--bg); }
 html[data-page="ai"] ::-webkit-scrollbar-thumb { background: rgba(56,189,248,.2); border-radius: 4px; }
 html[data-page="ai"] ::-webkit-scrollbar-thumb:hover { background: rgba(56,189,248,.35); }
 html[data-page="ai"] .topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(6,9,19,.85); backdrop-filter: blur(24px) saturate(1.4); border-bottom: 1px solid rgba(255,255,255,.06); }
+
+/* Override to sticky for proper mobile behavior */
+@media (max-width: 1024px) {
+  html[data-page="ai"] .topbar { position: sticky; }
+}
 html[data-page="ai"] .topbar-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 14px 0; }
 html[data-page="ai"] .brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
 html[data-page="ai"] .avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent), var(--accent-2), var(--accent-3)); display: grid; place-items: center; border: 1px solid rgba(255,255,255,.15); box-shadow: 0 12px 30px rgba(0,0,0,.35); overflow: hidden; flex: 0 0 auto; cursor: pointer; transition: transform .3s ease; }
@@ -3333,6 +3338,15 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
   width: 100%;
 }
 
+/* Use sticky header for documentation pages */
+html[data-page="network_lab"] .global-header,
+html[data-page="ai"] .global-header,
+html[data-page="linux"] .global-header,
+html[data-page="netsec"] .global-header,
+html[data-page="python"] .global-header {
+  position: sticky;
+}
+
 .header-container {
   max-width: 1320px;
   margin: 0 auto;
@@ -3669,7 +3683,6 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
 
 @media (max-width: 1024px) {
   html { overflow-x: hidden; }
-  body { padding-top: 76px; }
   .mobile-toggle { display: flex; }
   .nav-menu {
     position: fixed;
@@ -3686,6 +3699,16 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
     transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1), visibility 0s linear 0.3s;
     box-shadow: -10px 0 30px rgba(0,0,0,0.5);
     z-index: 1100;
+  }
+  
+  /* For sticky header pages (network_lab, ai, linux, netsec, python) */
+  html[data-page="network_lab"] .nav-menu,
+  html[data-page="ai"] .nav-menu,
+  html[data-page="linux"] .nav-menu,
+  html[data-page="netsec"] .nav-menu,
+  html[data-page="python"] .nav-menu {
+    top: 0;
+    height: 100vh;
   }
   .nav-menu.open {
     right: 0;
@@ -3751,5 +3774,22 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
   .nav-search .search-results-list:not(:empty) {
     margin-top: 12px;
     max-height: 40vh;
+  }
+}
+
+/* Padding-top for fixed header on index and doc pages only (mobile) */
+@media (max-width: 1024px) {
+  html[data-page="index"] body,
+  html[data-page="doc"] body {
+    padding-top: 76px;
+  }
+  
+  /* Remove padding-top for documentation pages with sticky header */
+  html[data-page="network_lab"] body,
+  html[data-page="ai"] body,
+  html[data-page="linux"] body,
+  html[data-page="netsec"] body,
+  html[data-page="python"] body {
+    padding-top: 0;
   }
 }
