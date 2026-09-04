@@ -3756,10 +3756,18 @@ html[data-page="404"] .status { margin-top:18px; font-size:12px; color:var(--mut
   }
 }
 
-/* Padding-top for fixed header on all pages (mobile) */
+/* Index and Documents/Certificates pages use the fixed .global-header
+   and have no other layout offsetting it, so they need this space
+   reserved at ALL screen sizes, not just mobile. */
+html[data-page="index"] body,
+html[data-page="doc"] body,
+.doc-page body {
+  padding-top: 76px;
+}
+
+/* Padding-top for fixed header on the sidebar-layout pages (mobile only —
+   on desktop these already reserve the space via .main-layout/main). */
 @media (max-width: 1024px) {
-  html[data-page="index"] body,
-  html[data-page="doc"] body,
   html[data-page="network_lab"] body,
   html[data-page="ai"] body,
   html[data-page="linux"] body,
