@@ -1787,12 +1787,24 @@ html[data-page="index"] .spark-3 {bottom:14%;left:38%;animation-delay:2s;}
   html[data-page="index"] .feature-block::after {animation:none !important;opacity:1;transform:none;}
 }
 
-@media (max-width:820px) {
-  html[data-page="index"] .feature-block {grid-template-columns:1fr;padding:28px;}
+@media (max-width:900px) {
+  html[data-page="index"] .feature-block {grid-template-columns:1fr !important;padding:28px;}
   html[data-page="index"] .feature-block.reverse .feature-text,
   html[data-page="index"] .feature-block.reverse .feature-panel {order:0;}
+  html[data-page="index"] .feature-text,
+  html[data-page="index"] .feature-panel {width:100%;max-width:100%;box-sizing:border-box;}
   html[data-page="index"] .node-panel,
   html[data-page="index"] .badge-panel {min-height:220px;}
+}
+
+/* Below this width the absolute-positioned node diagram no longer has room
+   to lay itself out without nodes overlapping or clipping, so it switches
+   to a simple, safe, centered flex layout instead. */
+@media (max-width:640px) {
+  html[data-page="index"] .node-panel {display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:14px;min-height:auto;padding:26px;}
+  html[data-page="index"] .node-lines {display:none;}
+  html[data-page="index"] .node {position:static;width:76px;height:76px;}
+  html[data-page="index"] .node-core {width:88px;height:88px;}
 }
 html[data-page="index"] .stats-bar {display:grid;grid-template-columns:repeat(3,minmax(95px,1fr));gap:12px;margin:22px 0 28px;}
 html[data-page="index"] .stat-box {display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:90px;padding:16px 8px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:18px;transition:.3s;}
