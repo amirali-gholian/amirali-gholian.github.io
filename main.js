@@ -1048,6 +1048,52 @@ function setupSkillPicker() {
   }
 }
 
+/* ---------- Doc Pages: Study Progress + Scroll-to-Top ----------
+   Runs on python.html / linux.html / netsec.html / ai.html.
+   - Fills #progressFill / #progressText based on how far the page
+     has been scrolled (0% at top, 100% at bottom).
+   - Toggles the .visible class on #scrollTopBtn so the button
+     actually appears once the user has scrolled down a bit.
+   Works with both scroll events (desktop mouse-wheel/trackpad) and
+   touch scrolling on mobile since both fire the same 'scroll' event. */
+function setupDocProgressAndScrollTop() {
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  const scrollTopBtn = document.getElementById('scrollTopBtn');
+
+  if (!progressFill && !progressText && !scrollTopBtn) return;
+
+  const SHOW_AFTER_PX = 300; // show back-to-top button after scrolling this far
+  let ticking = false;
+
+  function update() {
+    ticking = false;
+
+    // How far down the page we are, as a percentage
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const percent = docHeight > 0 ? Math.min(100, Math.max(0, Math.round((scrollTop / docHeight) * 100))) : 0;
+
+    if (progressFill) progressFill.style.width = percent + '%';
+    if (progressText) progressText.textContent = percent + '%';
+
+    if (scrollTopBtn) {
+      scrollTopBtn.classList.toggle('visible', scrollTop > SHOW_AFTER_PX);
+    }
+  }
+
+  function onScroll() {
+    if (!ticking) {
+      window.requestAnimationFrame(update);
+      ticking = true;
+    }
+  }
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+  update(); // set correct state immediately on load
+}
+
 /* ---------- Reveal on Scroll ----------
    Fixes elements permanently stuck at opacity:0 (.reveal in style.css
    requires a .visible class that was never being added anywhere). */
@@ -1113,6 +1159,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Doc Page Specifics
   const page = document.documentElement.getAttribute('data-page');
+  if (['python', 'linux', 'netsec', 'ai'].includes(page)) {
+    setupDocProgressAndScrollTop();
+  }
   if (page === 'doc') {
     initTypewriter(["Python", "Linux", "AI & ML", "Networking", "Cybersecurity", "Cloud"], 'typewriter');
   } else if (page === 'network_lab') {
