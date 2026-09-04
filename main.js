@@ -460,11 +460,30 @@ function setupGlobalUIToggles() {
   // Mobile Menu
   const mobileToggle = document.getElementById('mobileToggle');
   const navMenu = document.getElementById('navMenu');
+  let scrollPosition = 0;
+  
+  // Helper function to close menu
+  const closeMenu = () => {
+    if (navMenu && navMenu.classList.contains('open')) {
+      navMenu.classList.remove('open');
+      if (mobileToggle) mobileToggle.classList.remove('open');
+      document.body.classList.remove('menu-open');
+      window.scrollTo(0, scrollPosition);
+    }
+  };
+  
   if (mobileToggle && navMenu) {
     mobileToggle.addEventListener('click', () => {
       const isOpen = navMenu.classList.toggle('open');
       mobileToggle.classList.toggle('open', isOpen);
       document.body.classList.toggle('menu-open', isOpen);
+      
+      // Prevent scroll-to-top on mobile (save position, restore after close)
+      if (isOpen) {
+        scrollPosition = window.scrollY;
+      } else {
+        window.scrollTo(0, scrollPosition);
+      }
     });
   }
 
@@ -529,6 +548,33 @@ function setupGlobalUIToggles() {
       }
     });
   }
+
+  // Close menu automatically when clicking a navigation link (mobile)
+  document.addEventListener('click', (e) => {
+    if (mobileToggle && navMenu && navMenu.classList.contains('open')) {
+      const link = e.target.closest('#navMenu a:not([data-toggle])');
+      if (link) {
+        closeMenu();
+      }
+    }
+  });
+
+  // Close menu when clicking on overlay/backdrop (mobile)
+  document.addEventListener('click', (e) => {
+    if (mobileToggle && navMenu && navMenu.classList.contains('open')) {
+      // If click is outside the menu and the toggle, close it
+      if (!e.target.closest('#navMenu') && !e.target.closest('#mobileToggle')) {
+        closeMenu();
+      }
+    }
+  });
+
+  // Close menu with Escape key (mobile)
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && navMenu && navMenu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
 }
 
 /* ---------- Project data ---------- */
@@ -1071,6 +1117,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initTypewriter(["Python", "Linux", "AI & ML", "Networking", "Cybersecurity", "Cloud"], 'typewriter');
   } else if (page === 'network_lab') {
     initTypewriter(["VLANs", "DHCP", "Static Routing", "ACLs", "NAT / PAT", "DNS"], 'typewriter');
+  } else if (page === 'index') {
+    initTypewriter(["Python Developer", "Linux Enthusiast", "AI & ML Explorer", "Network & Security"], 'typeText');
   }
 
   if ($('#projectsGrid')) renderProjectsIndex();
