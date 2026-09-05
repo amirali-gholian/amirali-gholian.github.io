@@ -1173,3 +1173,341 @@ document.addEventListener('DOMContentLoaded', () => {
   if ($('#projectsGrid')) renderProjectsIndex();
   if ($('#projectTitle') || document.body.classList.contains('page-project')) renderProjectPage();
 });
+
+
+
+/* ============================================================
+   Amirali AI — Website Assistant
+   Frontend only. The AI endpoint lives on a Cloudflare Worker.
+   IMPORTANT: never put a Cloudflare API token in this file.
+   ============================================================ */
+(function initAmiraliAI() {
+  "use strict";
+
+  const AI_CONFIG = {
+    // Replace this with your deployed Cloudflare Worker URL.
+    // Example: https://amirali-ai.YOUR-SUBDOMAIN.workers.dev
+    endpoint: "https://amirali-ai.amirali-gholian-1380-80.workers.dev",
+    maxHistoryMessages: 12,
+    maxInputLength: 2000,
+    storageKey: "amirali-ai-chat-v1",
+    quotaStorageKey: "amirali-ai-quota-v1"
+  };
+
+  const root = document.getElementById("aiChatRoot");
+  if (!root) return;
+
+  const launcher = document.getElementById("aiChatLauncher");
+  const panel = document.getElementById("aiChatPanel");
+  const closeBtn = document.getElementById("aiCloseChat");
+  const clearBtn = document.getElementById("aiClearChat");
+  const langBtn = document.getElementById("aiLanguageToggle");
+  const form = document.getElementById("aiChatForm");
+  const input = document.getElementById("aiChatInput");
+  const sendBtn = document.getElementById("aiSendButton");
+  const messagesEl = document.getElementById("aiChatMessages");
+  const suggestionsEl = document.getElementById("aiChatSuggestions");
+  const noticeText = document.getElementById("aiNoticeText");
+  const languageLabel = document.getElementById("aiLanguageLabel");
+  const quotaEl = document.getElementById("aiQuota");
+
+  let language = localStorage.getItem("amirali-ai-lang") || "en";
+  let history = [];
+  let busy = false;
+
+  const TEXT = {
+    en: {
+      notice: "Ask me about Amirali, his projects, skills, Network Lab, documents, or certificates.",
+      placeholder: "Ask something about Amirali...",
+      language: "English",
+      switch: "FA",
+      welcome:
+        "Hi! I’m Amirali AI. I can tell you about Amirali, his skills, projects, Network Lab, documentation, and certificates. Ask me anything.",
+      thinking: "Thinking…",
+      error: "I couldn’t reach the AI service right now. Please try again in a moment.",
+      notConfigured:
+        "The AI backend is not connected yet. The frontend is ready; connect the Cloudflare Worker endpoint in main.js to activate live answers.",
+      empty: "Please type a message first.",
+      clearConfirm: "Clear this conversation?",
+      rateLimited: "Too many requests right now. Please wait a little and try again.",
+      quota: count => `${count} requests left today`,
+      quotaLimit: "Daily AI limit reached. Please try again tomorrow."
+    },
+    fa: {
+      notice: "درباره امیرعلی، پروژه‌ها، مهارت‌ها، Network Lab، مستندات یا گواهی‌ها سؤال کن.",
+      placeholder: "درباره امیرعلی سؤال بپرس...",
+      language: "فارسی",
+      switch: "EN",
+      welcome:
+        "سلام! من دستیار هوشمند سایت امیرعلی هستم. می‌تونم درباره امیرعلی، مهارت‌ها، پروژه‌ها، Network Lab، مستندات و گواهی‌ها توضیح بدم. سؤالت رو بپرس.",
+      thinking: "در حال فکر کردن…",
+      error: "فعلاً نتونستم به سرویس هوش مصنوعی وصل بشم. کمی بعد دوباره امتحان کن.",
+      notConfigured:
+        "بک‌اند هوش مصنوعی هنوز متصل نشده است. رابط کاربری آماده است؛ فقط آدرس Cloudflare Worker را در main.js قرار بده.",
+      empty: "اول یک پیام بنویس.",
+      clearConfirm: "گفتگو پاک شود؟",
+      rateLimited: "درخواست‌ها در حال حاضر زیاد هستند. کمی صبر کن و دوباره امتحان کن.",
+      quota: count => `${count} درخواست تا پایان سهمیه امروز باقی مانده`,
+      quotaLimit: "سهمیه روزانه دستیار هوش مصنوعی تمام شده است. فردا دوباره امتحان کن."
+    }
+  };
+
+  function t(key) {
+    return TEXT[language][key];
+  }
+
+  function applyLanguage() {
+    noticeText.textContent = t("notice");
+    input.placeholder = t("placeholder");
+    languageLabel.textContent = t("language");
+    langBtn.textContent = t("switch");
+    langBtn.title = language === "en" ? "Switch to Persian" : "Switch to English";
+    if (quotaEl) {
+      const current = quotaEl.dataset.remaining;
+      if (current !== undefined) updateQuota(Number(current));
+    }
+    document.documentElement.lang = document.documentElement.lang || "en";
+    suggestionsEl.querySelectorAll("[data-ai-prompt]").forEach((button, index) => {
+      const en = ["Who is Amirali?", "His projects", "Network Lab", "Main skills"];
+      const fa = ["امیرعلی کیست؟", "پروژه‌های او", "Network Lab", "مهارت‌های اصلی"];
+      button.textContent = (language === "en" ? en : fa)[index] || button.textContent;
+    });
+  }
+
+  function updateQuota(remaining) {
+    if (!quotaEl || !Number.isFinite(Number(remaining))) return;
+    const count = Math.max(0, Number(remaining));
+    quotaEl.dataset.remaining = String(count);
+    quotaEl.textContent = typeof t("quota") === "function" ? t("quota")(count) : `${count} requests left today`;
+    quotaEl.classList.toggle("is-low", count <= 3);
+    quotaEl.classList.toggle("is-empty", count === 0);
+  }
+
+  function saveLocalQuota(remaining) {
+    try {
+      localStorage.setItem(AI_CONFIG.quotaStorageKey, JSON.stringify({
+        date: new Date().toISOString().slice(0, 10),
+        remaining: Number(remaining)
+      }));
+    } catch (_) {}
+  }
+
+  function loadLocalQuota() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(AI_CONFIG.quotaStorageKey) || "null");
+      if (saved && saved.date === new Date().toISOString().slice(0, 10)) {
+        updateQuota(saved.remaining);
+      }
+    } catch (_) {}
+  }
+
+  function saveHistory() {
+    try {
+      localStorage.setItem(AI_CONFIG.storageKey, JSON.stringify(history.slice(-AI_CONFIG.maxHistoryMessages)));
+    } catch (_) {}
+  }
+
+  function loadHistory() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(AI_CONFIG.storageKey) || "[]");
+      if (Array.isArray(saved)) history = saved.slice(-AI_CONFIG.maxHistoryMessages);
+    } catch (_) {
+      history = [];
+    }
+  }
+
+  function escapeHTML(value) {
+    return String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;")
+      .replaceAll("'", "&#039;");
+  }
+
+  function renderBasicMarkdown(text) {
+    let safe = escapeHTML(text);
+    safe = safe.replace(/```([\s\S]*?)```/g, (_, code) =>
+      `<pre class="ai-code"><code>${code.trim()}</code></pre>`
+    );
+    safe = safe.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+    safe = safe.replace(/`([^`]+)`/g, "<code>$1</code>");
+    safe = safe.replace(/\n/g, "<br>");
+    return safe;
+  }
+
+  function addMessage(role, content, opts = {}) {
+    const bubble = document.createElement("div");
+    bubble.className = `ai-message ${role}${opts.typing ? " typing" : ""}`;
+    bubble.innerHTML = opts.typing
+      ? `<span class="ai-typing"><i></i><i></i><i></i></span>`
+      : `<div class="ai-message-content">${role === "assistant" ? renderBasicMarkdown(content) : escapeHTML(content).replace(/\n/g, "<br>")}</div>`;
+    messagesEl.appendChild(bubble);
+    messagesEl.scrollTop = messagesEl.scrollHeight;
+    return bubble;
+  }
+
+  function openChat() {
+    panel.classList.add("open");
+    panel.setAttribute("aria-hidden", "false");
+    launcher.setAttribute("aria-expanded", "true");
+    setTimeout(() => input.focus(), 120);
+  }
+
+  function closeChat() {
+    panel.classList.remove("open");
+    panel.setAttribute("aria-hidden", "true");
+    launcher.setAttribute("aria-expanded", "false");
+  }
+
+  function renderWelcome() {
+    messagesEl.innerHTML = "";
+    if (history.length) {
+      history.forEach(m => addMessage(m.role === "user" ? "user" : "assistant", m.content));
+    } else {
+      addMessage("assistant", t("welcome"));
+    }
+  }
+
+  function resetChat() {
+    if (!confirm(t("clearConfirm"))) return;
+    history = [];
+    localStorage.removeItem(AI_CONFIG.storageKey);
+    renderWelcome();
+  }
+
+  async function sendMessage(rawText) {
+    const text = String(rawText || "").trim();
+    if (!text || busy) {
+      if (!text) addMessage("assistant", t("empty"));
+      return;
+    }
+
+    if (text.length > AI_CONFIG.maxInputLength) return;
+
+    openChat();
+    busy = true;
+    sendBtn.disabled = true;
+    input.disabled = true;
+
+    addMessage("user", text);
+    history.push({ role: "user", content: text });
+    history = history.slice(-AI_CONFIG.maxHistoryMessages);
+    saveHistory();
+
+    const typingBubble = addMessage("assistant", "", { typing: true });
+
+    try {
+      if (!AI_CONFIG.endpoint || AI_CONFIG.endpoint.includes("YOUR-AMIRALI-AI-WORKER")) {
+        typingBubble.remove();
+        addMessage("assistant", t("notConfigured"));
+        return;
+      }
+
+      const response = await fetch(AI_CONFIG.endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: history,
+          language,
+          page: window.location.pathname
+        })
+      });
+
+      if (response.status === 429) throw new Error("RATE_LIMIT");
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 403 && data.code === "DAILY_QUOTA") {
+        typingBubble.remove();
+        if (Number.isFinite(Number(data.remaining))) {
+          updateQuota(Number(data.remaining));
+          saveLocalQuota(Number(data.remaining));
+        }
+        addMessage("assistant", t("quotaLimit"));
+        return;
+      }
+      if (!response.ok) throw new Error(`HTTP_${response.status}`);
+
+      
+      typingBubble.remove();
+
+      if (Number.isFinite(Number(data.remaining))) {
+        updateQuota(Number(data.remaining));
+        saveLocalQuota(Number(data.remaining));
+      }
+
+      if (response.status === 403 && data.code === "DAILY_QUOTA") {
+        addMessage("assistant", t("quotaLimit"));
+        return;
+      }
+
+      const answer = String(data.answer || data.response || "").trim();
+      if (!answer) throw new Error("EMPTY_RESPONSE");
+
+      addMessage("assistant", answer);
+      history.push({ role: "assistant", content: answer });
+      history = history.slice(-AI_CONFIG.maxHistoryMessages);
+      saveHistory();
+    } catch (error) {
+      typingBubble.remove();
+      addMessage("assistant", error.message === "RATE_LIMIT" ? t("rateLimited") : t("error"));
+      console.error("[Amirali AI]", error);
+    } finally {
+      busy = false;
+      sendBtn.disabled = false;
+      input.disabled = false;
+      input.focus();
+    }
+  }
+
+  launcher.addEventListener("click", () => {
+    panel.classList.contains("open") ? closeChat() : openChat();
+  });
+  closeBtn.addEventListener("click", closeChat);
+  clearBtn.addEventListener("click", resetChat);
+
+  langBtn.addEventListener("click", () => {
+    language = language === "en" ? "fa" : "en";
+    localStorage.setItem("amirali-ai-lang", language);
+    applyLanguage();
+    renderWelcome();
+  });
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    const value = input.value;
+    input.value = "";
+    input.style.height = "auto";
+    sendMessage(value);
+  });
+
+  input.addEventListener("input", () => {
+    input.style.height = "auto";
+    input.style.height = Math.min(input.scrollHeight, 120) + "px";
+  });
+
+  input.addEventListener("keydown", event => {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
+
+  suggestionsEl.addEventListener("click", event => {
+    const button = event.target.closest("[data-ai-prompt]");
+    if (!button) return;
+    const prompt = button.dataset.aiPrompt || "";
+    input.value = language === "fa"
+      ? ({ "Who is Amirali?": "امیرعلی کیست؟", "His projects": "پروژه‌های امیرعلی چیست؟", "Network Lab": "درباره Network Lab توضیح بده.", "Main skills": "مهارت‌های اصلی امیرعلی چیست؟" }[button.textContent] || prompt)
+      : prompt;
+    form.requestSubmit();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && panel.classList.contains("open")) closeChat();
+  });
+
+  loadHistory();
+  loadLocalQuota();
+  applyLanguage();
+  renderWelcome();
+})();
