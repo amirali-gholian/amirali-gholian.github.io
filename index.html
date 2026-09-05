@@ -28,7 +28,7 @@
 
   <!-- Security Headers (meta equivalents - also configure on server) -->
   <!-- فقط تگ CSP حفظ شده است. سایر تگ ها به دلیل تزریق از طریق Cloudflare حذف شدند -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co https://amirali-ai.amirali-gholian-1380-80.workers.dev; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://static.cloudflareinsights.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
 
   <!-- PWA & Manifest -->
   <link rel="manifest" href="/manifest.json">
@@ -53,6 +53,7 @@
   <meta name="twitter:image" content="https://amiraligholian.ir/logo.webp">
 
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="ai-quota.css">
 </head>
 
 <body>
@@ -322,7 +323,6 @@
 
   <div class="floating" aria-label="Quick links">
     <a href="#top" title="Back to top">&uarr;</a>
-    <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer" title="Telegram">&#9992;</a>
   </div>
 
   <div class="lightbox" id="lightbox" aria-hidden="true">
@@ -391,6 +391,7 @@
       <div class="ai-chat-notice" id="aiChatNotice">
         <span class="ai-notice-icon">✦</span>
         <span id="aiNoticeText">Ask me about Amirali, his projects, skills, Network Lab, documents, or certificates.</span>
+        <span class="ai-quota" id="aiQuota" aria-live="polite">20 requests left today</span>
       </div>
 
       <div class="ai-chat-messages" id="aiChatMessages" role="log"
