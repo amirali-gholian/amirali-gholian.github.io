@@ -1190,7 +1190,8 @@ document.addEventListener('DOMContentLoaded', () => {
     endpoint: "https://amirali-ai.amirali-gholian-1380-80.workers.dev",
     maxHistoryMessages: 12,
     maxInputLength: 2000,
-    storageKey: "amirali-ai-chat-v1"
+    storageKey: "amirali-ai-chat-v1",
+    quotaStorageKey: "amirali-ai-quota-v1"
   };
 
   const root = document.getElementById("aiChatRoot");
@@ -1208,6 +1209,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const suggestionsEl = document.getElementById("aiChatSuggestions");
   const noticeText = document.getElementById("aiNoticeText");
   const languageLabel = document.getElementById("aiLanguageLabel");
+  const quotaEl = document.getElementById("aiQuota");
 
   let language = localStorage.getItem("amirali-ai-lang") || "en";
   let history = [];
@@ -1227,7 +1229,9 @@ document.addEventListener('DOMContentLoaded', () => {
         "The AI backend is not connected yet. The frontend is ready; connect the Cloudflare Worker endpoint in main.js to activate live answers.",
       empty: "Please type a message first.",
       clearConfirm: "Clear this conversation?",
-      rateLimited: "Too many requests right now. Please wait a little and try again."
+      rateLimited: "Too many requests right now. Please wait a little and try again.",
+      quota: count => `${count} requests left today`,
+      quotaLimit: "Daily AI limit reached. Please try again tomorrow."
     },
     fa: {
       notice: "درباره امیرعلی، پروژه‌ها، مهارت‌ها، Network Lab، مستندات یا گواهی‌ها سؤال کن.",
@@ -1242,7 +1246,9 @@ document.addEventListener('DOMContentLoaded', () => {
         "بک‌اند هوش مصنوعی هنوز متصل نشده است. رابط کاربری آماده است؛ فقط آدرس Cloudflare Worker را در main.js قرار بده.",
       empty: "اول یک پیام بنویس.",
       clearConfirm: "گفتگو پاک شود؟",
-      rateLimited: "درخواست‌ها در حال حاضر زیاد هستند. کمی صبر کن و دوباره امتحان کن."
+      rateLimited: "درخواست‌ها در حال حاضر زیاد هستند. کمی صبر کن و دوباره امتحان کن.",
+      quota: count => `${count} درخواست تا پایان سهمیه امروز باقی مانده`,
+      quotaLimit: "سهمیه روزانه دستیار هوش مصنوعی تمام شده است. فردا دوباره امتحان کن."
     }
   };
 
@@ -1256,12 +1262,43 @@ document.addEventListener('DOMContentLoaded', () => {
     languageLabel.textContent = t("language");
     langBtn.textContent = t("switch");
     langBtn.title = language === "en" ? "Switch to Persian" : "Switch to English";
+    if (quotaEl) {
+      const current = quotaEl.dataset.remaining;
+      if (current !== undefined) updateQuota(Number(current));
+    }
     document.documentElement.lang = document.documentElement.lang || "en";
     suggestionsEl.querySelectorAll("[data-ai-prompt]").forEach((button, index) => {
       const en = ["Who is Amirali?", "His projects", "Network Lab", "Main skills"];
       const fa = ["امیرعلی کیست؟", "پروژه‌های او", "Network Lab", "مهارت‌های اصلی"];
       button.textContent = (language === "en" ? en : fa)[index] || button.textContent;
     });
+  }
+
+  function updateQuota(remaining) {
+    if (!quotaEl || !Number.isFinite(Number(remaining))) return;
+    const count = Math.max(0, Number(remaining));
+    quotaEl.dataset.remaining = String(count);
+    quotaEl.textContent = typeof t("quota") === "function" ? t("quota")(count) : `${count} requests left today`;
+    quotaEl.classList.toggle("is-low", count <= 3);
+    quotaEl.classList.toggle("is-empty", count === 0);
+  }
+
+  function saveLocalQuota(remaining) {
+    try {
+      localStorage.setItem(AI_CONFIG.quotaStorageKey, JSON.stringify({
+        date: new Date().toISOString().slice(0, 10),
+        remaining: Number(remaining)
+      }));
+    } catch (_) {}
+  }
+
+  function loadLocalQuota() {
+    try {
+      const saved = JSON.parse(localStorage.getItem(AI_CONFIG.quotaStorageKey) || "null");
+      if (saved && saved.date === new Date().toISOString().slice(0, 10)) {
+        updateQuota(saved.remaining);
+      }
+    } catch (_) {}
   }
 
   function saveHistory() {
@@ -1378,10 +1415,30 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       if (response.status === 429) throw new Error("RATE_LIMIT");
+      const data = await response.json().catch(() => ({}));
+      if (response.status === 403 && data.code === "DAILY_QUOTA") {
+        typingBubble.remove();
+        if (Number.isFinite(Number(data.remaining))) {
+          updateQuota(Number(data.remaining));
+          saveLocalQuota(Number(data.remaining));
+        }
+        addMessage("assistant", t("quotaLimit"));
+        return;
+      }
       if (!response.ok) throw new Error(`HTTP_${response.status}`);
 
-      const data = await response.json();
+      
       typingBubble.remove();
+
+      if (Number.isFinite(Number(data.remaining))) {
+        updateQuota(Number(data.remaining));
+        saveLocalQuota(Number(data.remaining));
+      }
+
+      if (response.status === 403 && data.code === "DAILY_QUOTA") {
+        addMessage("assistant", t("quotaLimit"));
+        return;
+      }
 
       const answer = String(data.answer || data.response || "").trim();
       if (!answer) throw new Error("EMPTY_RESPONSE");
@@ -1450,6 +1507,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   loadHistory();
+  loadLocalQuota();
   applyLanguage();
   renderWelcome();
 })();
