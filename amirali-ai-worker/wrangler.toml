@@ -1,0 +1,19 @@
+name = "amirali-ai"
+main = "worker.js"
+compatibility_date = "2026-09-05"
+
+[[ratelimits]]
+name = "AI_IP_LIMITER"
+namespace_id = "1001"
+
+  [ratelimits.simple]
+  limit = 10
+  period = 60
+
+[[durable_objects.bindings]]
+name = "AI_DAILY_QUOTA"
+class_name = "AIDailyQuota"
+
+[[migrations]]
+tag = "v1"
+new_sqlite_classes = ["AIDailyQuota"]
