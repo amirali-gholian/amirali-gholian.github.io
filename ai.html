@@ -255,24 +255,32 @@
             <tr><td><strong>Deep Learning</strong></td><td>ML using multi-layer neural networks</td><td>Image recognition, language models</td></tr>
           </tbody>
         </table>
-        <h3>Why Python Dominates AI/ML</h3>
+        <h3 id="intro-why-python-dominates-ai-ml">Why Python Dominates AI/ML</h3>
         <ul>
           <li><strong>Rich ecosystem:</strong> NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch all mature and interoperable</li>
           <li><strong>Readable syntax:</strong> Lets researchers focus on ideas instead of boilerplate</li>
           <li><strong>Community &amp; research adoption:</strong> Most papers ship Python reference implementations</li>
           <li><strong>Interoperability:</strong> Easy to bind to fast C/C++/CUDA backends under the hood</li>
         </ul>
+        <p>A minimal "hello world" of machine learning.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression</div>
+            </div>
+          </div>
+        </div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="cmm"># A minimal "hello world" of machine learning</span>
-<span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LinearRegression
-
-X = [[<span class="num">1</span>], [<span class="num">2</span>], [<span class="num">3</span>], [<span class="num">4</span>]]
-y = [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>]
-
-model = LinearRegression()
+          <div class="code-block">X = [[<span class="num">1</span>], [<span class="num">2</span>], [<span class="num">3</span>], [<span class="num">4</span>]]
+y = [<span class="num">2</span>, <span class="num">4</span>, <span class="num">6</span>, <span class="num">8</span>]</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = LinearRegression()
 model.fit(X, y)
-<span class="fn">print</span>(model.predict([[<span class="num">5</span>]]))  <span class="cmm"># [10.]</span></div>
+<span class="fn">print</span>(model.predict([[<span class="num">5</span>]]))</div>
         </div>
         <div class="explanation info">
           <strong>Note:</strong> This documentation uses Python throughout, since it's the de-facto standard language across research and industry for AI and machine learning.
@@ -307,24 +315,38 @@ model.fit(X, y)
       <section class="content-section" id="math-foundations">
         <h2><span class="section-num">3</span> Math Foundations</h2>
         <p class="section-subtitle">The minimum math you need to understand what's happening</p>
-        <h3>Linear Algebra</h3>
+        <h3 id="math-foundations-linear-algebra">Linear Algebra</h3>
         <p>Data in ML is represented as <strong>vectors</strong> and <strong>matrices</strong>. A neural network layer is fundamentally a matrix multiplication followed by a non-linear function.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np</div>
+            </div>
+          </div>
+        </div>
+        <p>Vector and matrix.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
-
-<span class="cmm"># Vector and matrix</span>
-v = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
-M = np.array([[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]])
-
-<span class="cmm"># Dot product (core operation in neural network layers)</span>
-result = np.dot(M, v[:<span class="num">2</span>])
-
-<span class="cmm"># Matrix transpose and inverse</span>
-M.T
+          <div class="code-block">v = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+M = np.array([[<span class="num">1</span>, <span class="num">2</span>], [<span class="num">3</span>, <span class="num">4</span>]])</div>
+        </div>
+        <p>Dot product (core operation in neural network layers).</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">result = np.dot(M, v[:<span class="num">2</span>])</div>
+            </div>
+          </div>
+        </div>
+        <p>Matrix transpose and inverse.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">M.T
 np.linalg.inv(M)</div>
         </div>
-        <h3>Calculus (Gradients)</h3>
+        <h3 id="math-foundations-calculus-gradients">Calculus (Gradients)</h3>
         <p>Training a model means minimizing a <strong>loss function</strong>. <strong>Gradient descent</strong> uses the derivative of the loss with respect to each parameter to know which direction reduces error, and steps the parameters that way, repeatedly.</p>
         <h3>Probability &amp; Statistics</h3>
         <ul>
@@ -342,35 +364,92 @@ np.linalg.inv(M)</div>
       <section class="content-section" id="setup">
         <h2><span class="section-num">4</span> Environment Setup</h2>
         <p class="section-subtitle">Getting your AI/ML development environment ready</p>
-        <div class="code-container">
-          <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="cmm"># Create an isolated virtual environment</span>
-python3 -m venv ai-env
-<span class="kw">source</span> ai-env/bin/activate      <span class="cmm"># Linux/Mac</span>
-ai-env\Scripts\activate         <span class="cmm"># Windows</span>
-
-<span class="cmm"># Or with conda (popular in the ML community)</span>
-conda create -n ai-env python=<span class="num">3.11</span>
-conda activate ai-env
-
-<span class="cmm"># Install the core stack</span>
-pip install numpy pandas matplotlib scikit-learn
-
-<span class="cmm"># Deep learning frameworks</span>
-pip install tensorflow
-pip install torch torchvision torchaudio
-
-<span class="cmm"># Jupyter for interactive notebooks</span>
-pip install jupyterlab
-jupyter lab</div>
+                  <p>Create an isolated virtual environment.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">python3 -m venv ai-env</div>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">source</span> ai-env/bin/activate</div>
+            </div>
+            <p class="cmd-desc">Linux/Mac.</p>
+          </div>
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">ai-env\Scripts\activate</div>
+            </div>
+            <p class="cmd-desc">Windows.</p>
+          </div>
         </div>
-        <h3>Checking GPU Availability</h3>
+          <p>Or with conda (popular in the ML community)</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">conda create -n ai-env python=<span class="num">3.11</span></div>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">conda activate ai-env</div>
+            </div>
+          </div>
+        </div>
+          <p>Install the core stack.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">pip install numpy pandas matplotlib scikit-learn</div>
+            </div>
+          </div>
+        </div>
+          <p>Deep learning frameworks.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">pip install tensorflow</div>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">pip install torch torchvision torchaudio</div>
+            </div>
+          </div>
+        </div>
+          <p>Jupyter for interactive notebooks.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">pip install jupyterlab</div>
+            </div>
+          </div>
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">bash</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">jupyter lab</div>
+            </div>
+          </div>
+        </div>
+        <h3 id="setup-checking-gpu-availability">Checking GPU Availability</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> torch
-<span class="fn">print</span>(torch.cuda.is_available())
-
-<span class="kw">import</span> tensorflow <span class="kw">as</span> tf
+<span class="fn">print</span>(torch.cuda.is_available())</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">import</span> tensorflow <span class="kw">as</span> tf
 <span class="fn">print</span>(tf.config.list_physical_devices(<span class="str">'GPU'</span>))</div>
         </div>
         <div class="tip-box">
@@ -383,33 +462,47 @@ jupyter lab</div>
         <h2><span class="section-num">5</span> NumPy Fundamentals</h2>
         <p class="section-subtitle">The array library everything else in AI/ML is built on</p>
         <p><strong>NumPy</strong> provides the <code class="inline">ndarray</code>, a fast, memory-efficient, multi-dimensional array type with vectorized operations that avoid slow Python loops. Every major ML/DL framework either uses NumPy directly or mirrors its API.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np</div>
+            </div>
+          </div>
+        </div>
+        <p>Creating arrays.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">import</span> numpy <span class="kw">as</span> np
-
-<span class="cmm"># Creating arrays</span>
-a = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
+          <div class="code-block">a = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
 zeros = np.zeros((<span class="num">3</span>, <span class="num">4</span>))
 ones = np.ones((<span class="num">2</span>, <span class="num">2</span>))
-rand = np.random.rand(<span class="num">3</span>, <span class="num">3</span>)
-
-<span class="cmm"># Shape, dtype, reshape</span>
-<span class="fn">print</span>(a.shape, a.dtype)
-b = np.arange(<span class="num">12</span>).reshape(<span class="num">3</span>, <span class="num">4</span>)
-
-<span class="cmm"># Vectorized operations (no explicit loops)</span>
-c = a * <span class="num">2</span> + <span class="num">1</span>
-d = np.sqrt(a)
-
-<span class="cmm"># Broadcasting: operate on arrays of different shapes</span>
-M = np.ones((<span class="num">3</span>, <span class="num">3</span>))
+rand = np.random.rand(<span class="num">3</span>, <span class="num">3</span>)</div>
+        </div>
+        <p>Shape, dtype, reshape.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="fn">print</span>(a.shape, a.dtype)
+b = np.arange(<span class="num">12</span>).reshape(<span class="num">3</span>, <span class="num">4</span>)</div>
+        </div>
+        <p>Vectorized operations (no explicit loops).</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">c = a * <span class="num">2</span> + <span class="num">1</span>
+d = np.sqrt(a)</div>
+        </div>
+        <p>Broadcasting: operate on arrays of different shapes.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">M = np.ones((<span class="num">3</span>, <span class="num">3</span>))
 row = np.array([<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>])
-result = M + row  <span class="cmm"># row is broadcast across each row of M</span>
-
-<span class="cmm"># Indexing and slicing</span>
-b[<span class="num">0</span>, :]      <span class="cmm"># first row</span>
-b[:, <span class="num">1</span>]      <span class="cmm"># second column</span>
-b[b > <span class="num">5</span>]     <span class="cmm"># boolean mask</span></div>
+result = M + row</div>
+        </div>
+        <p>Indexing and slicing.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">b[<span class="num">0</span>, :]
+b[:, <span class="num">1</span>]
+b[b > <span class="num">5</span>]</div>
         </div>
         <h3>Common Operations</h3>
         <table class="data-table">
@@ -432,35 +525,63 @@ b[b > <span class="num">5</span>]     <span class="cmm"># boolean mask</span></d
         <h2><span class="section-num">6</span> Pandas for Data Manipulation</h2>
         <p class="section-subtitle">Loading, cleaning, and exploring tabular data</p>
         <p><strong>Pandas</strong> introduces the <code class="inline">DataFrame</code>, a labeled 2D table structure ideal for real-world, messy datasets — CSVs, SQL query results, spreadsheets, and logs.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">import</span> pandas <span class="kw">as</span> pd</div>
+            </div>
+          </div>
+        </div>
+        <p>Loading data.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">df = pd.read_csv(<span class="str">'data.csv'</span>)</div>
+            </div>
+          </div>
+        </div>
+        <p>Quick exploration.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">import</span> pandas <span class="kw">as</span> pd
-
-<span class="cmm"># Loading data</span>
-df = pd.read_csv(<span class="str">'data.csv'</span>)
-
-<span class="cmm"># Quick exploration</span>
-df.head()
+          <div class="code-block">df.head()
 df.info()
 df.describe()
-df.shape
-
-<span class="cmm"># Selecting columns and rows</span>
-df[<span class="str">'age'</span>]
+df.shape</div>
+        </div>
+        <p>Selecting columns and rows.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">df[<span class="str">'age'</span>]
 df[[<span class="str">'age'</span>, <span class="str">'income'</span>]]
 df.loc[df[<span class="str">'age'</span>] > <span class="num">30</span>]
-df.iloc[<span class="num">0</span>:<span class="num">5</span>]
-
-<span class="cmm"># Handling missing values</span>
-df.isnull().<span class="fn">sum</span>()
+df.iloc[<span class="num">0</span>:<span class="num">5</span>]</div>
+        </div>
+        <p>Handling missing values.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">df.isnull().<span class="fn">sum</span>()
 df.dropna()
-df.fillna(df.mean(numeric_only=<span class="kw">True</span>))
-
-<span class="cmm"># Grouping and aggregation</span>
-df.groupby(<span class="str">'category'</span>)[<span class="str">'sales'</span>].<span class="fn">sum</span>()
-
-<span class="cmm"># Merging datasets</span>
-merged = pd.merge(df1, df2, on=<span class="str">'id'</span>, how=<span class="str">'left'</span>)</div>
+df.fillna(df.mean(numeric_only=<span class="kw">True</span>))</div>
+        </div>
+        <p>Grouping and aggregation.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">df.groupby(<span class="str">'category'</span>)[<span class="str">'sales'</span>].<span class="fn">sum</span>()</div>
+            </div>
+          </div>
+        </div>
+        <p>Merging datasets.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">merged = pd.merge(df1, df2, on=<span class="str">'id'</span>, how=<span class="str">'left'</span>)</div>
+            </div>
+          </div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> Most real-world ML time is spent here, not on modeling — <em>data cleaning and exploration typically take 60-80% of a project's time.</em>
@@ -475,21 +596,51 @@ merged = pd.merge(df1, df2, on=<span class="str">'id'</span>, how=<span class="s
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> matplotlib.pyplot <span class="kw">as</span> plt
-<span class="kw">import</span> seaborn <span class="kw">as</span> sns
-
-<span class="cmm"># Distribution of a single feature</span>
-sns.histplot(df[<span class="str">'age'</span>], kde=<span class="kw">True</span>)
-
-<span class="cmm"># Relationship between two features</span>
-sns.scatterplot(data=df, x=<span class="str">'income'</span>, y=<span class="str">'spending'</span>, hue=<span class="str">'segment'</span>)
-
-<span class="cmm"># Correlation heatmap</span>
-sns.heatmap(df.corr(numeric_only=<span class="kw">True</span>), annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>)
-
-<span class="cmm"># Box plot to spot outliers</span>
-sns.boxplot(data=df, x=<span class="str">'category'</span>, y=<span class="str">'price'</span>)
-
-plt.show()</div>
+<span class="kw">import</span> seaborn <span class="kw">as</span> sns</div>
+        </div>
+        <p>Distribution of a single feature.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">sns.histplot(df[<span class="str">'age'</span>], kde=<span class="kw">True</span>)</div>
+            </div>
+          </div>
+        </div>
+        <p>Relationship between two features.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">sns.scatterplot(data=df, x=<span class="str">'income'</span>, y=<span class="str">'spending'</span>, hue=<span class="str">'segment'</span>)</div>
+            </div>
+          </div>
+        </div>
+        <p>Correlation heatmap.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">sns.heatmap(df.corr(numeric_only=<span class="kw">True</span>), annot=<span class="kw">True</span>, cmap=<span class="str">'coolwarm'</span>)</div>
+            </div>
+          </div>
+        </div>
+        <p>Box plot to spot outliers.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">sns.boxplot(data=df, x=<span class="str">'category'</span>, y=<span class="str">'price'</span>)</div>
+            </div>
+          </div>
+        </div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">plt.show()</div>
+            </div>
+          </div>
         </div>
         <h3>Common Plot Types</h3>
         <table class="data-table">
@@ -508,22 +659,28 @@ plt.show()</div>
       <section class="content-section" id="preprocessing">
         <h2><span class="section-num">8</span> Data Preprocessing &amp; Feature Engineering</h2>
         <p class="section-subtitle">Turning raw data into model-ready features</p>
-        <h3>Scaling &amp; Encoding</h3>
+        <h3 id="preprocessing-scaling-encoding">Scaling &amp; Encoding</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler, OneHotEncoder
-<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split
-
-<span class="cmm"># Feature scaling (mean 0, std 1) — required for many algorithms</span>
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X_train)
-
-<span class="cmm"># One-hot encoding categorical variables</span>
-encoder = OneHotEncoder(sparse_output=<span class="kw">False</span>)
-X_cat = encoder.fit_transform(df[[<span class="str">'category'</span>]])
-
-<span class="cmm"># Train/test split</span>
-X_train, X_test, y_train, y_test = train_test_split(
+<span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> train_test_split</div>
+        </div>
+        <p>Feature scaling (mean 0, std 1) — required for many algorithms.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_train)</div>
+        </div>
+        <p>One-hot encoding categorical variables.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">encoder = OneHotEncoder(sparse_output=<span class="kw">False</span>)
+X_cat = encoder.fit_transform(df[[<span class="str">'category'</span>]])</div>
+        </div>
+        <p>Train/test split.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=<span class="num">0.2</span>, random_state=<span class="num">42</span>
 )</div>
         </div>
@@ -550,15 +707,19 @@ X_train, X_test, y_train, y_test = train_test_split(
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.pipeline <span class="kw">import</span> Pipeline
 <span class="kw">from</span> sklearn.preprocessing <span class="kw">import</span> StandardScaler
-<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
-
-<span class="cmm"># Pipelines chain preprocessing + model into one object</span>
-pipeline = Pipeline([
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier</div>
+        </div>
+        <p>Pipelines chain preprocessing + model into one object.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">pipeline = Pipeline([
     (<span class="str">'scaler'</span>, StandardScaler()),
     (<span class="str">'model'</span>, RandomForestClassifier(n_estimators=<span class="num">100</span>))
-])
-
-pipeline.fit(X_train, y_train)
+])</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">pipeline.fit(X_train, y_train)
 predictions = pipeline.predict(X_test)
 accuracy = pipeline.score(X_test, y_test)</div>
         </div>
@@ -586,13 +747,17 @@ accuracy = pipeline.score(X_test, y_test)</div>
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> Ridge
 <span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestRegressor
-<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_squared_error, r2_score
-
-model = RandomForestRegressor(n_estimators=<span class="num">200</span>, random_state=<span class="num">42</span>)
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> mean_squared_error, r2_score</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = RandomForestRegressor(n_estimators=<span class="num">200</span>, random_state=<span class="num">42</span>)
 model.fit(X_train, y_train)
-preds = model.predict(X_test)
-
-<span class="fn">print</span>(<span class="str">"RMSE:"</span>, mean_squared_error(y_test, preds, squared=<span class="kw">False</span>))
+preds = model.predict(X_test)</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="fn">print</span>(<span class="str">"RMSE:"</span>, mean_squared_error(y_test, preds, squared=<span class="kw">False</span>))
 <span class="fn">print</span>(<span class="str">"R2:"</span>, r2_score(y_test, preds))</div>
         </div>
       </section>
@@ -616,13 +781,17 @@ preds = model.predict(X_test)
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.linear_model <span class="kw">import</span> LogisticRegression
-<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix
-
-clf = LogisticRegression(max_iter=<span class="num">1000</span>)
+<span class="kw">from</span> sklearn.metrics <span class="kw">import</span> classification_report, confusion_matrix</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">clf = LogisticRegression(max_iter=<span class="num">1000</span>)
 clf.fit(X_train, y_train)
-preds = clf.predict(X_test)
-
-<span class="fn">print</span>(classification_report(y_test, preds))
+preds = clf.predict(X_test)</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="fn">print</span>(classification_report(y_test, preds))
 <span class="fn">print</span>(confusion_matrix(y_test, preds))</div>
         </div>
       </section>
@@ -641,19 +810,23 @@ preds = clf.predict(X_test)
             <tr><td><strong>Gaussian Mixture Models</strong></td><td>Soft, probabilistic clustering</td></tr>
           </tbody>
         </table>
-        <h3>Dimensionality Reduction</h3>
+        <h3 id="clustering-dimensionality-reduction">Dimensionality Reduction</h3>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.decomposition <span class="kw">import</span> PCA
-<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans
-
-<span class="cmm"># PCA: project high-dimensional data onto principal components</span>
-pca = PCA(n_components=<span class="num">2</span>)
+<span class="kw">from</span> sklearn.cluster <span class="kw">import</span> KMeans</div>
+        </div>
+        <p>PCA: project high-dimensional data onto principal components.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">pca = PCA(n_components=<span class="num">2</span>)
 X_reduced = pca.fit_transform(X_scaled)
-<span class="fn">print</span>(pca.explained_variance_ratio_)
-
-<span class="cmm"># K-Means clustering</span>
-kmeans = KMeans(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>, n_init=<span class="str">'auto'</span>)
+<span class="fn">print</span>(pca.explained_variance_ratio_)</div>
+        </div>
+        <p>K-Means clustering.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">kmeans = KMeans(n_clusters=<span class="num">3</span>, random_state=<span class="num">42</span>, n_init=<span class="str">'auto'</span>)
 labels = kmeans.fit_predict(X_scaled)</div>
         </div>
         <div class="explanation">
@@ -671,11 +844,17 @@ labels = kmeans.fit_predict(X_scaled)</div>
           <li><strong>Stacking:</strong> Train a meta-model on the outputs of several base models</li>
           <li><strong>Voting:</strong> Combine predictions from different model types by majority vote or averaging</li>
         </ul>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">from</span> xgboost <span class="kw">import</span> XGBClassifier</div>
+            </div>
+          </div>
+        </div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">from</span> xgboost <span class="kw">import</span> XGBClassifier
-
-model = XGBClassifier(
+          <div class="code-block">model = XGBClassifier(
     n_estimators=<span class="num">300</span>, learning_rate=<span class="num">0.05</span>,
     max_depth=<span class="num">6</span>, subsample=<span class="num">0.8</span>
 )
@@ -746,14 +925,18 @@ model.fit(X_train, y_train)</div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> sklearn.model_selection <span class="kw">import</span> cross_val_score, GridSearchCV
-<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier
-
-<span class="cmm"># K-Fold cross-validation</span>
-scores = cross_val_score(RandomForestClassifier(), X, y, cv=<span class="num">5</span>)
-<span class="fn">print</span>(<span class="str">"Mean accuracy:"</span>, scores.mean())
-
-<span class="cmm"># Grid search over hyperparameters</span>
-param_grid = {
+<span class="kw">from</span> sklearn.ensemble <span class="kw">import</span> RandomForestClassifier</div>
+        </div>
+        <p>K-Fold cross-validation.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">scores = cross_val_score(RandomForestClassifier(), X, y, cv=<span class="num">5</span>)
+<span class="fn">print</span>(<span class="str">"Mean accuracy:"</span>, scores.mean())</div>
+        </div>
+        <p>Grid search over hyperparameters.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">param_grid = {
     <span class="str">'n_estimators'</span>: [<span class="num">100</span>, <span class="num">200</span>, <span class="num">300</span>],
     <span class="str">'max_depth'</span>: [<span class="kw">None</span>, <span class="num">10</span>, <span class="num">20</span>]
 }
@@ -795,29 +978,41 @@ grid.fit(X_train, y_train)
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> tensorflow <span class="kw">as</span> tf
-<span class="kw">from</span> tensorflow <span class="kw">import</span> keras
-
-model = keras.Sequential([
+<span class="kw">from</span> tensorflow <span class="kw">import</span> keras</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = keras.Sequential([
     keras.layers.Dense(<span class="num">64</span>, activation=<span class="str">'relu'</span>, input_shape=(<span class="num">20</span>,)),
     keras.layers.Dropout(<span class="num">0.3</span>),
     keras.layers.Dense(<span class="num">32</span>, activation=<span class="str">'relu'</span>),
     keras.layers.Dense(<span class="num">1</span>, activation=<span class="str">'sigmoid'</span>)
-])
-
-model.<span class="fn">compile</span>(
+])</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model.<span class="fn">compile</span>(
     optimizer=<span class="str">'adam'</span>,
     loss=<span class="str">'binary_crossentropy'</span>,
     metrics=[<span class="str">'accuracy'</span>]
-)
-
-history = model.fit(
+)</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">history = model.fit(
     X_train, y_train,
     validation_split=<span class="num">0.2</span>,
     epochs=<span class="num">20</span>,
     batch_size=<span class="num">32</span>
-)
-
-model.evaluate(X_test, y_test)</div>
+)</div>
+        </div>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block">model.evaluate(X_test, y_test)</div>
+            </div>
+          </div>
         </div>
         <div class="tip-box">
           <strong>Tip:</strong> Use <code class="inline">keras.callbacks.EarlyStopping</code> and <code class="inline">ModelCheckpoint</code> to automatically stop training and save the best-performing weights once validation loss stops improving.
@@ -832,9 +1027,11 @@ model.evaluate(X_test, y_test)</div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">import</span> torch
-<span class="kw">import</span> torch.nn <span class="kw">as</span> nn
-
-<span class="kw">class</span> <span class="fn">Net</span>(nn.Module):
+<span class="kw">import</span> torch.nn <span class="kw">as</span> nn</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">class</span> <span class="fn">Net</span>(nn.Module):
     <span class="kw">def</span> <span class="fn">__init__</span>(self):
         <span class="fn">super</span>().__init__()
         self.fc1 = nn.Linear(<span class="num">20</span>, <span class="num">64</span>)
@@ -844,13 +1041,17 @@ model.evaluate(X_test, y_test)</div>
 
     <span class="kw">def</span> <span class="fn">forward</span>(self, x):
         x = self.relu(self.fc1(x))
-        <span class="kw">return</span> self.sigmoid(self.fc2(x))
-
-model = Net()
+        <span class="kw">return</span> self.sigmoid(self.fc2(x))</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = Net()
 criterion = nn.BCELoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</span>)
-
-<span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>):
+optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</span>)</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">for</span> epoch <span class="kw">in</span> <span class="fn">range</span>(<span class="num">20</span>):
     optimizer.zero_grad()
     outputs = model(X_train)
     loss = criterion(outputs, y_train)
@@ -867,7 +1068,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</spa
         <h2><span class="section-num">20</span> Convolutional Neural Networks (CNNs)</h2>
         <p class="section-subtitle">The architecture behind modern computer vision</p>
         <p><strong>Convolutional layers</strong> slide small learnable filters across an image to detect local patterns like edges, textures, and shapes — with far fewer parameters than a fully-connected layer would need.</p>
-        <h3>Core Layers</h3>
+        <h3 id="cnn-core-layers">Core Layers</h3>
         <table class="data-table">
           <thead><tr><th>Layer</th><th>Role</th></tr></thead>
           <tbody>
@@ -908,6 +1109,7 @@ optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</spa
             <tr><td><strong>Seq2Seq (Encoder-Decoder)</strong></td><td>Translation, summarization</td></tr>
           </tbody>
         </table>
+        <p>A simple LSTM-based classifier: an embedding layer, an LSTM layer, and a dense output layer.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block">model = keras.Sequential([
@@ -926,21 +1128,29 @@ optimizer = torch.optim.Adam(model.parameters(), lr=<span class="num">0.001</spa
         <h2><span class="section-num">22</span> Transformers &amp; Attention Mechanism</h2>
         <p class="section-subtitle">The architecture behind modern LLMs</p>
         <p>Introduced in "Attention Is All You Need" (2017), the <strong>Transformer</strong> processes an entire sequence in parallel using <strong>self-attention</strong>, which lets every token directly weigh how relevant every other token is — removing the sequential bottleneck of RNNs and enabling massive-scale training.</p>
-        <h3>Core Ideas</h3>
+        <h3 id="transformers-core-ideas">Core Ideas</h3>
         <ul>
           <li><strong>Self-Attention:</strong> Computes a weighted representation of each token based on all other tokens</li>
           <li><strong>Multi-Head Attention:</strong> Runs several attention operations in parallel to capture different relationships</li>
           <li><strong>Positional Encoding:</strong> Injects word-order information since attention itself is order-agnostic</li>
           <li><strong>Encoder-Decoder / Decoder-only:</strong> BERT-style encoders for understanding, GPT-style decoders for generation</li>
         </ul>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer, AutoModel</div>
+            </div>
+          </div>
+        </div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> AutoTokenizer, AutoModel
-
-tokenizer = AutoTokenizer.from_pretrained(<span class="str">'bert-base-uncased'</span>)
-model = AutoModel.from_pretrained(<span class="str">'bert-base-uncased'</span>)
-
-inputs = tokenizer(<span class="str">"Transformers changed AI."</span>, return_tensors=<span class="str">'pt'</span>)
+          <div class="code-block">tokenizer = AutoTokenizer.from_pretrained(<span class="str">'bert-base-uncased'</span>)
+model = AutoModel.from_pretrained(<span class="str">'bert-base-uncased'</span>)</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">inputs = tokenizer(<span class="str">"Transformers changed AI."</span>, return_tensors=<span class="str">'pt'</span>)
 outputs = model(**inputs)</div>
         </div>
         <div class="explanation">
@@ -961,20 +1171,26 @@ outputs = model(**inputs)</div>
             <tr><td><strong>Contextual Embeddings (BERT)</strong></td><td>Word meaning changes based on surrounding context</td></tr>
           </tbody>
         </table>
-        <h3>Common NLP Tasks</h3>
+        <h3 id="nlp-common-nlp-tasks">Common NLP Tasks</h3>
         <ul>
           <li><strong>Text classification:</strong> Sentiment analysis, spam detection, topic labeling</li>
           <li><strong>Named Entity Recognition (NER):</strong> Extracting people, places, organizations</li>
           <li><strong>Machine translation:</strong> Converting text between languages</li>
           <li><strong>Question answering &amp; summarization:</strong> Extractive or generative</li>
         </ul>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> pipeline</div>
+            </div>
+          </div>
+        </div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">from</span> transformers <span class="kw">import</span> pipeline
-
-classifier = pipeline(<span class="str">'sentiment-analysis'</span>)
+          <div class="code-block">classifier = pipeline(<span class="str">'sentiment-analysis'</span>)
 result = classifier(<span class="str">"This documentation is really helpful!"</span>)
-<span class="fn">print</span>(result)  <span class="cmm"># [{'label': 'POSITIVE', 'score': 0.99...}]</span></div>
+<span class="fn">print</span>(result)</div>
         </div>
       </section>
 
@@ -982,7 +1198,7 @@ result = classifier(<span class="str">"This documentation is really helpful!"</s
       <section class="content-section" id="computer-vision">
         <h2><span class="section-num">24</span> Computer Vision</h2>
         <p class="section-subtitle">Teaching machines to interpret visual data</p>
-        <h3>Common Vision Tasks</h3>
+        <h3 id="computer-vision-common-vision-tasks">Common Vision Tasks</h3>
         <table class="data-table">
           <thead><tr><th>Task</th><th>Output</th><th>Example Models</th></tr></thead>
           <tbody>
@@ -995,9 +1211,11 @@ result = classifier(<span class="str">"This documentation is really helpful!"</s
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
           <div class="code-block"><span class="kw">from</span> tensorflow.keras.applications <span class="kw">import</span> ResNet50
-<span class="kw">from</span> tensorflow.keras.applications.resnet50 <span class="kw">import</span> preprocess_input, decode_predictions
-
-model = ResNet50(weights=<span class="str">'imagenet'</span>)
+<span class="kw">from</span> tensorflow.keras.applications.resnet50 <span class="kw">import</span> preprocess_input, decode_predictions</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = ResNet50(weights=<span class="str">'imagenet'</span>)
 preds = model.predict(preprocess_input(image_batch))
 <span class="fn">print</span>(decode_predictions(preds, top=<span class="num">3</span>)[<span class="num">0</span>])</div>
         </div>
@@ -1037,14 +1255,22 @@ preds = model.predict(preprocess_input(image_batch))
         <h2><span class="section-num">26</span> Transfer Learning &amp; Pretrained Models</h2>
         <p class="section-subtitle">Standing on the shoulders of models trained on massive datasets</p>
         <p><strong>Transfer learning</strong> reuses a model already trained on a large, general dataset and adapts it to a new, often smaller, task-specific dataset — dramatically reducing the data and compute needed.</p>
+        <div class="cmd-list">
+          <div class="cmd-item">
+            <div class="code-container mini-code">
+              <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+              <div class="code-block"><span class="kw">from</span> tensorflow.keras.applications <span class="kw">import</span> MobileNetV2</div>
+            </div>
+          </div>
+        </div>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="kw">from</span> tensorflow.keras.applications <span class="kw">import</span> MobileNetV2
-
-base_model = MobileNetV2(weights=<span class="str">'imagenet'</span>, include_top=<span class="kw">False</span>, input_shape=(<span class="num">224</span>,<span class="num">224</span>,<span class="num">3</span>))
-base_model.trainable = <span class="kw">False</span>  <span class="cmm"># freeze pretrained weights</span>
-
-model = keras.Sequential([
+          <div class="code-block">base_model = MobileNetV2(weights=<span class="str">'imagenet'</span>, include_top=<span class="kw">False</span>, input_shape=(<span class="num">224</span>,<span class="num">224</span>,<span class="num">3</span>))
+base_model.trainable = <span class="kw">False</span></div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block">model = keras.Sequential([
     base_model,
     keras.layers.GlobalAveragePooling2D(),
     keras.layers.Dense(<span class="num">10</span>, activation=<span class="str">'softmax'</span>)
@@ -1080,18 +1306,22 @@ model = keras.Sequential([
       <section class="content-section" id="deployment">
         <h2><span class="section-num">28</span> Model Deployment &amp; MLOps</h2>
         <p class="section-subtitle">Getting models from notebooks into production</p>
+        <p>Save and load a trained model.</p>
         <div class="code-container">
           <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
-          <div class="code-block"><span class="cmm"># Save and load a trained model</span>
-<span class="kw">import</span> joblib
+          <div class="code-block"><span class="kw">import</span> joblib
 joblib.dump(model, <span class="str">'model.pkl'</span>)
-loaded = joblib.load(<span class="str">'model.pkl'</span>)
-
-<span class="cmm"># Serving with FastAPI</span>
-<span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
-app = FastAPI()
-
-<span class="dec">@app.post</span>(<span class="str">"/predict"</span>)
+loaded = joblib.load(<span class="str">'model.pkl'</span>)</div>
+        </div>
+        <p>Serving with FastAPI.</p>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+app = FastAPI()</div>
+        </div>
+        <div class="code-container">
+          <div class="code-header"><span class="lang-label">python</span><button class="code-copy" onclick="copyCode(this)">Copy</button></div>
+          <div class="code-block"><span class="dec">@app.post</span>(<span class="str">"/predict"</span>)
 <span class="kw">def</span> <span class="fn">predict</span>(features: <span class="fn">list</span>):
     <span class="kw">return</span> {<span class="str">"prediction"</span>: loaded.predict([features]).tolist()}</div>
         </div>
