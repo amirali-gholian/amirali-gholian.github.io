@@ -1,9 +1,9 @@
 // ======================================================
 // Amirali Gholian PWA Service Worker
-// Version 3.2.0
+// Version 3.3.0
 // ======================================================
 
-const VERSION = "3.2.0";
+const VERSION = "3.3.0";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
@@ -17,6 +17,8 @@ const OFFLINE_PAGE = "/offline.html";
 
 const STATIC_FILES = [
     "/style.css",
+    "/loader.css",
+    "/loader.js",
     "/manifest.json",
     "/offline.html",
     "/404.html",
