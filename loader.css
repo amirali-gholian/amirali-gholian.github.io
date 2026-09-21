@@ -1,0 +1,206 @@
+/* ============================================================
+   loader.css — Global preloader, shared across every page.
+   Reads the same CSS variables each page already defines
+   (--bg, --cyan, --green, --violet, --text, --muted, --line)
+   so it always matches that page's palette automatically.
+   Add this <link> in <head>, after style.css:
+     <link rel="stylesheet" href="loader.css">
+   ============================================================ */
+
+html.loader-lock,
+html.loader-lock body {
+  overflow: hidden !important;
+  height: 100%;
+}
+
+#site-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 14% 18%, rgba(56, 200, 239, .12), transparent 38%),
+    radial-gradient(circle at 86% 82%, rgba(167, 139, 250, .12), transparent 38%),
+    var(--bg, #050914);
+  opacity: 1;
+  transition: opacity .5s ease, visibility 0s linear 0s;
+  visibility: visible;
+}
+
+#site-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: .18;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, .04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, .04) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+#site-loader.loader-hide {
+  opacity: 0;
+  transition: opacity .5s ease, visibility 0s linear .5s;
+  visibility: hidden;
+}
+
+.loader-inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 22px;
+  padding: 20px;
+  width: min(320px, 86vw);
+  text-align: center;
+}
+
+/* Logo + spinning ring */
+.loader-mark {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  flex: 0 0 auto;
+}
+
+.loader-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg,
+    var(--cyan, #38c8ef),
+    var(--green, #52e59b),
+    var(--violet, #a78bfa),
+    var(--cyan, #38c8ef));
+  animation: loaderSpin 1.6s linear infinite;
+}
+
+.loader-ring::after {
+  content: "";
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--bg, #050914);
+}
+
+.loader-logo {
+  position: absolute;
+  inset: 13px;
+  border-radius: 50%;
+  overflow: hidden;
+  background: var(--card2, #0b1321);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: inset 0 0 0 1px var(--line, rgba(160, 184, 215, .14));
+}
+
+.loader-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.loader-logo .loader-fallback {
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-weight: 600;
+  font-size: 22px;
+  background: linear-gradient(135deg, var(--cyan, #38c8ef), var(--green, #52e59b), var(--violet, #a78bfa));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Brand name */
+.loader-brand {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: .01em;
+  background: linear-gradient(135deg, var(--cyan, #38c8ef), var(--green, #52e59b), var(--violet, #a78bfa));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Terminal-style status line */
+.loader-terminal {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: .78rem;
+  color: var(--muted-2, #aab5c7);
+  min-height: 18px;
+}
+
+.loader-terminal .loader-prompt {
+  color: var(--green, #52e59b);
+  flex: 0 0 auto;
+}
+
+.loader-terminal .loader-msg {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 220px;
+}
+
+.loader-terminal .loader-cursor {
+  display: inline-block;
+  width: 6px;
+  height: 13px;
+  background: var(--cyan, #38c8ef);
+  animation: loaderBlink 1s step-end infinite;
+  flex: 0 0 auto;
+}
+
+/* Progress bar */
+.loader-bar-track {
+  width: 100%;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--line, rgba(160, 184, 215, .14));
+  overflow: hidden;
+}
+
+.loader-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--cyan, #38c8ef), var(--green, #52e59b), var(--violet, #a78bfa));
+  box-shadow: 0 0 10px rgba(56, 200, 239, .5);
+  transition: width .25s ease-out;
+}
+
+.loader-percent {
+  align-self: flex-end;
+  font-family: 'Fira Code', 'Courier New', monospace;
+  font-size: .72rem;
+  color: var(--muted, #8e9bb0);
+}
+
+@keyframes loaderSpin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loaderBlink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader-ring { animation: none; }
+  .loader-cursor { animation: none; }
+  #site-loader, #site-loader.loader-hide { transition: opacity .2s linear; }
+}
+
+@media (max-width: 420px) {
+  .loader-mark { width: 68px; height: 68px; }
+  .loader-brand { font-size: .95rem; }
+}
