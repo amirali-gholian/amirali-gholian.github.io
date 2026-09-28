@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex,nofollow">
+<style id="authGate">html{visibility:hidden!important}</style>
 <style>
     :root {
       --bg-primary: #0a0e1a;
@@ -410,6 +412,32 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
 <script>
 
+const LOGIN_URL='/';
+const S=window.supabase.createClient('https://cwwqmushilpxzpcpjute.supabase.co','sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK');
+const kick=()=>{document.documentElement.style.visibility='hidden';location.replace(LOGIN_URL)};
+// Verify the login with the server (not just local storage) before anything is built or shown
+async function verify(){
+  try{
+    const {data:{session}}=await S.auth.getSession();
+    if(!session)return null;
+    const {data:{user},error}=await S.auth.getUser();   // server-side token validation
+    if(error||!user)return null;
+    return session;
+  }catch(_){return null}
+}
+(async()=>{
+  const session=await verify();
+  if(!session){kick();return}
+  init(session);
+  document.getElementById('authGate').remove();
+  // logged out in another tab / expired token
+  S.auth.onAuthStateChange((ev,s)=>{if(ev==='SIGNED_OUT'||!s)kick()});
+  // back/forward cache: re-check when the page is restored
+  addEventListener('pageshow',async ev=>{if(ev.persisted&&!(await verify()))kick()});
+})();
+
+function init(SESSION){
+
 const fa=localStorage.getItem('language')==='fa';
 const L=(a,b)=>fa?b:a;
 document.documentElement.lang=fa?'fa':'en';
@@ -617,8 +645,7 @@ document.addEventListener('click',ev=>{const c=ev.target.closest('.row code');if
 
 // Profile info (same account as the profile page)
 (async()=>{try{
-  const S=window.supabase.createClient('https://cwwqmushilpxzpcpjute.supabase.co','sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK');
-  const {data:{session}}=await S.auth.getSession();if(!session)return;
+  const session=SESSION;
   const {data:p}=await S.from('profiles').select('*').eq('id',session.user.id).single();
   const name=[p&&p.first_name,p&&p.last_name].filter(Boolean).join(' ')||(p&&p.username)||'';
   const ch=((p&&(p.first_name||p.username))||session.user.email||'A')[0].toUpperCase();
@@ -627,6 +654,7 @@ document.addEventListener('click',ev=>{const c=ev.target.closest('.row code');if
   $id('sidebarUserName').textContent=name||L('User','کاربر');$id('sidebarUserEmail').textContent=session.user.email||'';
   $id('userCardWrap').hidden=false;
 }catch(e){}})();
+}
 </script>
 </body>
 </html>
