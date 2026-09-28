@@ -10,7 +10,7 @@
   <link rel="canonical" href="https://amiraligholian.ir/login/login.html">
 
   <!-- Security Headers -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net https://challenges.cloudflare.com 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://*.supabase.co https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
 
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://amiraligholian.ir/login/login.html">
@@ -262,6 +262,13 @@
     .login-footer a{color:var(--accent);text-decoration:none;}
     .login-footer a:hover{text-decoration:underline;}
 
+    [hidden]{display:none !important}
+    .captcha-box{display:flex;justify-content:center}
+    .form-group input.otp-input{text-align:center;letter-spacing:.4em;font-size:1.4rem;font-weight:700}
+    .link-btn{align-self:center;background:none;border:none;color:var(--accent);cursor:pointer;font-size:.9rem;font-weight:600;font-family:inherit;padding:4px 8px}
+    .link-btn:hover:not(:disabled){text-decoration:underline}
+    .link-btn:disabled{color:var(--muted);cursor:not-allowed}
+
     @media (max-width:480px){
       body{padding:16px;}
       .login-card{padding:28px 22px;border-radius:24px;}
@@ -325,8 +332,10 @@
             <input type="checkbox" id="rememberMe" />
             Remember me
           </label>
-          <a href="#" class="forgot-link" onclick="Toast.show('Contact admin to reset password', 'info'); return false;">Forgot password?</a>
+          <a href="#" class="forgot-link" id="forgotLink">Forgot password?</a>
         </div>
+
+        <div id="captchaAuth" class="captcha-box"></div>
 
         <button type="button" id="authBtn" class="submit-btn">
           <span class="spinner"></span>
@@ -336,6 +345,48 @@
         <p class="auth-toggle">
           Don't have an account? <a href="#" id="toggleMode">Create one</a>
         </p>
+      </div>
+
+      <div id="forgotForm" class="login-form" hidden>
+        <div class="form-group">
+          <label for="forgotEmail">Email Address</label>
+          <input type="email" id="forgotEmail" placeholder="you@example.com" autocomplete="email" required />
+        </div>
+        <div id="captchaForgot" class="captcha-box"></div>
+        <button type="button" id="forgotBtn" class="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-text">Send Code</span>
+        </button>
+        <p class="auth-toggle"><a href="#" data-goto="signin">Back to sign in</a></p>
+      </div>
+
+      <div id="otpForm" class="login-form" hidden>
+        <div class="form-group">
+          <label for="otpInput">Verification Code</label>
+          <input type="text" id="otpInput" class="otp-input" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="000000" />
+        </div>
+        <div id="captchaOtp" class="captcha-box"></div>
+        <button type="button" id="verifyBtn" class="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-text">Verify</span>
+        </button>
+        <button type="button" id="resendBtn" class="link-btn">Resend code</button>
+        <p class="auth-toggle"><a href="#" data-goto="signin">Back to sign in</a></p>
+      </div>
+
+      <div id="resetForm" class="login-form" hidden>
+        <div class="form-group">
+          <label for="newPassword">New Password</label>
+          <input type="password" id="newPassword" placeholder="At least 6 characters" autocomplete="new-password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <input type="password" id="confirmPassword" placeholder="Repeat your new password" autocomplete="new-password" required />
+        </div>
+        <button type="button" id="resetBtn" class="submit-btn">
+          <span class="spinner"></span>
+          <span class="btn-text">Update Password</span>
+        </button>
       </div>
 
       <div id="successState" class="success-state">
@@ -382,73 +433,223 @@
     const SUPABASE_KEY = 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK';
     const SUPABASE = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-    const email = document.getElementById('email');
-    const password = document.getElementById('password');
-    const authBtn = document.getElementById('authBtn');
-    const authTitle = document.getElementById('authTitle');
-    const authSubtitle = document.getElementById('authSubtitle');
-    const toggleMode = document.getElementById('toggleMode');
-    const loginForm = document.getElementById('loginForm');
-    const successState = document.getElementById('successState');
-    const successEmail = document.getElementById('successEmail');
-    let isSignup = false;
+    // ====== Cloudflare Turnstile ======
+    const TURNSTILE_SITE_KEY = 'YOUR_TURNSTILE_SITE_KEY'; // Site Key (public) from Cloudflare
+    const OTP_RESEND_SECONDS = 60;
 
-    async function checkSession() {
+    const turnstileReady = new Promise((res) => { window.onTurnstileReady = res; });
+    const Captcha = {
+      widgets: {}, used: {}, pending: {},
+      // Runs the (invisible) challenge and returns a fresh single-use token.
+      async token(id) {
+        if (!TURNSTILE_SITE_KEY || TURNSTILE_SITE_KEY.startsWith('YOUR_')) throw new Error('Turnstile site key is not set');
+        await Promise.race([turnstileReady, new Promise((_, rej) => setTimeout(() => rej(new Error('Captcha failed to load. Disable ad blockers and retry.')), 10000))]);
+        const fail = (m) => { const w = this.pending[id]; if (w) w.reject(new Error(m)); return true; };
+        if (this.widgets[id] === undefined) {
+          this.widgets[id] = turnstile.render('#' + id, {
+            sitekey: TURNSTILE_SITE_KEY, theme: 'dark',
+            execution: 'execute', appearance: 'interaction-only',
+            callback: (t) => { const w = this.pending[id]; if (w) w.resolve(t); },
+            'error-callback': () => fail('Captcha verification failed. Please try again.'),
+            'timeout-callback': () => fail('Captcha timed out. Please try again.')
+          });
+        } else if (this.used[id]) {
+          turnstile.reset(this.widgets[id]);
+        }
+        this.used[id] = true;
+        return new Promise((resolve, reject) => {
+          this.pending[id] = { resolve, reject };
+          turnstile.execute(this.widgets[id]);
+        });
+      }
+    };
+
+    // ====== Elements & state ======
+    const $ = (id) => document.getElementById(id);
+    const email = $('email'), password = $('password'), authBtn = $('authBtn');
+    const authTitle = $('authTitle'), authSubtitle = $('authSubtitle'), toggleMode = $('toggleMode');
+    const loginForm = $('loginForm'), successState = $('successState'), successEmail = $('successEmail');
+    const forgotEmail = $('forgotEmail'), forgotBtn = $('forgotBtn');
+    const otpInput = $('otpInput'), verifyBtn = $('verifyBtn'), resendBtn = $('resendBtn');
+    const newPassword = $('newPassword'), confirmPassword = $('confirmPassword'), resetBtn = $('resetBtn');
+    const forms = { signin: loginForm, forgot: $('forgotForm'), otp: $('otpForm'), reset: $('resetForm') };
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    let isSignup = false, otpType = 'signup', pendingEmail = '', cooldownTimer = null;
+
+    function showView(name) {
+      Object.entries(forms).forEach(([k, el]) => { el.hidden = k !== name; });
+      successState.classList.remove('show');
+      const t = {
+        signin: isSignup ? ['Create Account', 'Sign up to start your learning journey']
+                         : ['Welcome Back', 'Sign in to access your profile and learning resources'],
+        forgot: ['Reset Password', "Enter your email and we'll send you a verification code"],
+        otp: otpType === 'signup' ? ['Verify Your Email', `Enter the code we sent to ${pendingEmail}`]
+                                  : ['Check Your Email', `Enter the reset code we sent to ${pendingEmail}`],
+        reset: ['Set New Password', 'Choose a new password for your account']
+      }[name];
+      authTitle.textContent = t[0];
+      authSubtitle.textContent = t[1];
+    }
+
+    async function run(btn, fn) {
+      btn.disabled = true; btn.classList.add('loading');
+      try { await fn(); }
+      catch (err) { Toast.show(err.message || 'Something went wrong', 'error'); }
+      finally { btn.disabled = false; btn.classList.remove('loading'); }
+    }
+
+    // Sends the signup confirmation code or the password-reset code (each needs a Turnstile token).
+    async function sendCode(type, addr, captchaId) {
+      const captchaToken = await Captcha.token(captchaId);
+      const { error } = type === 'signup'
+        ? await SUPABASE.auth.resend({ type: 'signup', email: addr, options: { captchaToken } })
+        : await SUPABASE.auth.resetPasswordForEmail(addr, { captchaToken });
+      if (error) throw error;
+    }
+
+    function startCooldown() {
+      clearInterval(cooldownTimer);
+      let left = OTP_RESEND_SECONDS;
+      const tick = () => {
+        resendBtn.disabled = left > 0;
+        resendBtn.textContent = left > 0 ? `Resend code (${left}s)` : 'Resend code';
+        if (left-- <= 0) clearInterval(cooldownTimer);
+      };
+      tick();
+      cooldownTimer = setInterval(tick, 1000);
+    }
+
+    function startOtp(type, addr) {
+      otpType = type; pendingEmail = addr; otpInput.value = '';
+      showView('otp'); startCooldown(); otpInput.focus();
+    }
+
+    function showSuccess(e, msg) {
+      Object.values(forms).forEach((f) => { f.hidden = true; });
+      successState.classList.add('show');
+      successEmail.textContent = msg || `Signed in as ${e}`;
+      Toast.show(msg || 'Successfully signed in!', 'success');
+      setTimeout(() => { window.location.href = '/profile.html'; }, 2000);
+    }
+
+    // ====== Session ======
+    const isRecoveryLink = /type=recovery/.test(location.hash + location.search);
+    (async () => {
       try {
         const { data: { session } } = await SUPABASE.auth.getSession();
-        if (session) {
-          window.location.href = '/profile.html';
-        }
-      } catch (err) {
-      }
-    }
-    checkSession();
+        if (session && !isRecoveryLink) window.location.href = '/profile.html';
+      } catch (err) {}
+    })();
+    // Fallback if the reset email still contains a link instead of a code
+    SUPABASE.auth.onAuthStateChange((event) => { if (event === 'PASSWORD_RECOVERY') showView('reset'); });
 
+    // ====== Sign in / Sign up ======
     toggleMode.addEventListener('click', (e) => {
       e.preventDefault();
       isSignup = !isSignup;
-      authTitle.textContent = isSignup ? 'Create Account' : 'Welcome Back';
-      authSubtitle.textContent = isSignup 
-        ? 'Sign up to start your learning journey' 
-        : 'Sign in to access your profile and learning resources';
       authBtn.querySelector('.btn-text').textContent = isSignup ? 'Create Account' : 'Sign In';
       toggleMode.textContent = isSignup ? 'Sign in instead' : 'Create one';
       toggleMode.previousSibling.textContent = isSignup ? 'Already have an account? ' : "Don't have an account? ";
+      password.autocomplete = isSignup ? 'new-password' : 'current-password';
+      showView('signin');
     });
 
-    authBtn.addEventListener('click', async () => {
-      const e = email.value.trim();
-      const p = password.value;
+    authBtn.addEventListener('click', () => {
+      const e = email.value.trim(), p = password.value;
       if (!e || !p) { Toast.show('Please fill all fields', 'error'); return; }
-      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       if (!emailRegex.test(e)) { Toast.show('Please enter a valid email address', 'error'); return; }
       if (p.length < 6) { Toast.show('Password must be at least 6 characters', 'error'); return; }
-      authBtn.disabled = true;
-      authBtn.classList.add('loading');
+      run(authBtn, async () => {
+        const captchaToken = await Captcha.token('captchaAuth');
+        if (!isSignup) {
+          const { error } = await SUPABASE.auth.signInWithPassword({ email: e, password: p, options: { captchaToken } });
+          if (error) {
+            if (error.code === 'email_not_confirmed' || /not confirmed/i.test(error.message)) {
+              await sendCode('signup', e, 'captchaAuth');
+              Toast.show('Your email is not verified yet. We sent you a new code.', 'info');
+              startOtp('signup', e);
+              return;
+            }
+            throw error;
+          }
+          showSuccess(e);
+        } else {
+          const { data, error } = await SUPABASE.auth.signUp({ email: e, password: p, options: { captchaToken } });
+          if (error) throw error;
+          if (data.session) { showSuccess(e); return; } // email confirmation is off
+          if (data.user && data.user.identities && data.user.identities.length === 0) {
+            throw new Error('This email is already registered. Sign in or reset your password.');
+          }
+          Toast.show('Verification code sent. Check your email.', 'success');
+          startOtp('signup', e);
+        }
+      });
+    });
+
+    // ====== Forgot password ======
+    $('forgotLink').addEventListener('click', (e) => {
+      e.preventDefault();
+      forgotEmail.value = email.value.trim();
+      showView('forgot');
+      forgotEmail.focus();
+    });
+
+    forgotBtn.addEventListener('click', () => {
+      const e = forgotEmail.value.trim();
+      if (!emailRegex.test(e)) { Toast.show('Please enter a valid email address', 'error'); return; }
+      run(forgotBtn, async () => {
+        await sendCode('recovery', e, 'captchaForgot');
+        Toast.show('If an account exists for this email, a code has been sent.', 'success');
+        startOtp('recovery', e);
+      });
+    });
+
+    // ====== OTP verification ======
+    otpInput.addEventListener('input', () => { otpInput.value = otpInput.value.replace(/\D/g, ''); });
+
+    verifyBtn.addEventListener('click', () => {
+      const code = otpInput.value.trim();
+      if (!/^\d{6,10}$/.test(code)) { Toast.show('Enter the code from your email', 'error'); return; }
+      run(verifyBtn, async () => {
+        const { error } = await SUPABASE.auth.verifyOtp({ email: pendingEmail, token: code, type: otpType });
+        if (error) throw error;
+        if (otpType === 'signup') { showSuccess(pendingEmail); return; }
+        Toast.show('Code verified. Set your new password.', 'success');
+        showView('reset');
+        newPassword.focus();
+      });
+    });
+
+    resendBtn.addEventListener('click', async () => {
+      resendBtn.disabled = true;
       try {
-        const res = isSignup 
-          ? await SUPABASE.auth.signUp({ email: e, password: p })
-          : await SUPABASE.auth.signInWithPassword({ email: e, password: p });
-        if (res.error) throw res.error;
-        showSuccess(e);
+        await sendCode(otpType, pendingEmail, 'captchaOtp');
+        Toast.show('A new code has been sent.', 'success');
+        startCooldown();
       } catch (err) {
-        Toast.show('Error: ' + err.message, 'error');
-        authBtn.disabled = false;
-        authBtn.classList.remove('loading');
+        Toast.show(err.message || 'Could not resend the code', 'error');
+        resendBtn.disabled = false;
       }
     });
 
-    function showSuccess(e) {
-      loginForm.style.display = 'none';
-      successState.classList.add('show');
-      successEmail.textContent = `Signed in as ${e}`;
-      Toast.show('Successfully signed in!', 'success');
-      setTimeout(() => {
-        window.location.href = '/profile.html';
-      }, 2000);
-    }
+    // ====== New password ======
+    resetBtn.addEventListener('click', () => {
+      const np = newPassword.value;
+      if (np.length < 6) { Toast.show('Password must be at least 6 characters', 'error'); return; }
+      if (np !== confirmPassword.value) { Toast.show('Passwords do not match', 'error'); return; }
+      run(resetBtn, async () => {
+        const { error } = await SUPABASE.auth.updateUser({ password: np });
+        if (error) throw error;
+        showSuccess(pendingEmail, 'Password updated successfully.');
+      });
+    });
 
-    const googleSignInBtn = document.getElementById('googleSignInBtn');
+    document.querySelectorAll('[data-goto="signin"]').forEach((a) => {
+      a.addEventListener('click', (e) => { e.preventDefault(); clearInterval(cooldownTimer); showView('signin'); });
+    });
+
+    // ====== Google ======
+    const googleSignInBtn = $('googleSignInBtn');
     if (googleSignInBtn) {
       googleSignInBtn.addEventListener('click', async (e) => {
         e.preventDefault();
@@ -457,21 +658,19 @@
             provider: 'google',
             options: { redirectTo: window.location.origin + '/profile.html' }
           });
-          if (error) {
-            Toast.show('Google Sign In Error: ' + error.message, 'error');
-          }
+          if (error) Toast.show('Google Sign In Error: ' + error.message, 'error');
         } catch (err) {
           Toast.show('Error: ' + err.message, 'error');
         }
       });
     }
 
-    password.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') authBtn.click();
-    });
-    email.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') password.focus();
-    });
+    // ====== Enter key ======
+    email.addEventListener('keydown', (e) => { if (e.key === 'Enter') password.focus(); });
+    newPassword.addEventListener('keydown', (e) => { if (e.key === 'Enter') confirmPassword.focus(); });
+    [[password, authBtn], [forgotEmail, forgotBtn], [otpInput, verifyBtn], [confirmPassword, resetBtn]]
+      .forEach(([inp, btn]) => inp.addEventListener('keydown', (e) => { if (e.key === 'Enter') btn.click(); }));
   </script>
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=onTurnstileReady" async defer></script>
 </body>
 </html>
