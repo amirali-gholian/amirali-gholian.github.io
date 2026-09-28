@@ -616,14 +616,42 @@
     .t-banner header h1,.t-banner header .role{color:#fff}.t-banner .ct{font-size:.8rem;opacity:.92}
     .t-banner .cols{display:grid;grid-template-columns:1.7fr 1fr;gap:28px;padding:28px 36px}
     .t-banner .cg{grid-template-columns:1fr}
-    @media(max-width:1100px){.rs-wrap{grid-template-columns:1fr}.rs-stage{position:static}}
-    @media(max-width:520px){.rs-g{grid-template-columns:1fr}.rs-lv{grid-template-columns:1fr 100px auto}}
+    .rs-fc{overflow:visible}
+    .rs-cb{position:relative}.rs-cb input{padding-inline-end:36px}
+    .rs-caret{position:absolute;inset-inline-end:4px;top:50%;transform:translateY(-50%);background:0;border:0;color:var(--text-muted);font-size:1rem;cursor:pointer;padding:6px 10px}
+    .rs-dd{display:none;position:absolute;z-index:60;inset-inline:0;top:calc(100% + 4px);max-height:220px;overflow-y:auto;-webkit-overflow-scrolling:touch;background:#141c2e;border:1px solid var(--border-accent);border-radius:12px;box-shadow:0 12px 32px rgba(0,0,0,.5)}
+    .rs-op{padding:11px 14px;font-size:.88rem;cursor:pointer;color:var(--text-primary);border-bottom:1px solid var(--border-subtle)}
+    .rs-op:last-child{border:0}.rs-op:hover,.rs-op:active{background:rgba(0,212,255,.1)}
+    .rs-lk{display:grid;grid-template-columns:auto 1fr auto auto;gap:8px;align-items:center;margin-bottom:10px}
+    .rs-lk input{padding:10px 12px;background:rgba(15,21,37,.6);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-primary);font-family:inherit;min-width:0}
+    .rs-nm{font-size:.72rem;color:var(--accent-cyan);min-width:48px}
+    .ic{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;border-radius:7px;color:#fff;font-style:normal;font-size:.62rem;font-weight:800;line-height:1;flex-shrink:0}
+    .rs-paper .lk{display:flex;align-items:center;gap:7px;font-size:.78rem;margin-bottom:6px;word-break:break-all;direction:ltr;text-align:left}
+    .rs-paper.rtl .lk{justify-content:flex-end}
+    .rs-paper .ct{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
+    .rs-paper .ct .lk{margin:0}
+    .t-classic .ct,.t-minimal .ct{justify-content:center}
+    .rs-load{position:fixed;inset:0;z-index:9999;background:#0a0e1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .5s,visibility .5s}
+    .rs-load.off{opacity:0;visibility:hidden}
+    .rs-ring{position:relative;width:84px;height:84px;display:grid;place-items:center}
+    .rs-ring::before{content:'';position:absolute;inset:0;border-radius:50%;border:3px solid rgba(148,163,184,.15);border-top-color:#00d4ff;border-right-color:#7c3aed;animation:rsSpin 1s linear infinite}
+    .rs-ring img{width:44px;height:44px;object-fit:contain;animation:rsPulse 1.6s ease-in-out infinite}
+    .rs-load p{color:var(--text-secondary);font-size:.9rem;letter-spacing:.5px}
+    @keyframes rsSpin{to{transform:rotate(360deg)}}@keyframes rsPulse{50%{transform:scale(.85);opacity:.7}}
+    .rs-fab,.rs-close{display:none}
+    @media(max-width:1100px){.rs-wrap{grid-template-columns:1fr}
+      .rs-stage{position:fixed;inset:0;z-index:1000;display:none;align-items:flex-start;overflow:auto;background:rgba(10,14,26,.98);padding:64px 10px 28px;top:0}
+      .rs-stage.open{display:flex}
+      .rs-close{display:grid;place-items:center;position:fixed;top:14px;inset-inline-end:14px;width:42px;height:42px;border-radius:50%;border:1px solid var(--border-accent);background:#141c2e;color:#fff;font-size:1.1rem;cursor:pointer;z-index:1001}
+      .rs-fab{display:flex;align-items:center;gap:8px;position:fixed;bottom:20px;inset-inline-end:16px;z-index:900;padding:13px 20px;border:0;border-radius:999px;background:var(--accent-gradient);color:#06121c;font:inherit;font-weight:700;font-size:.9rem;box-shadow:0 8px 28px rgba(0,212,255,.35);cursor:pointer}}
+    @media(max-width:520px){.rs-g{grid-template-columns:1fr}.rs-lk{grid-template-columns:auto 1fr auto}.rs-nm{display:none}.rs-lv{grid-template-columns:1fr 100px auto}}
 
     a.nav-item{text-decoration:none}
     .content-area{max-width:1400px}
   </style>
 </head>
 <body data-lang="en">
+  <div class="rs-load" id="rsLoad"><div class="rs-ring"><img src="./logo.webp" alt=""></div><p data-fa="در حال بارگذاری…" data-en="Loading…">Loading…</p></div>
   <div class="bg-mesh"></div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <aside class="sidebar" id="sidebar">
@@ -657,15 +685,16 @@
       <div class="toast success" id="toastSuccess"></div>
       <div class="toast error" id="toastError"></div>
         <!-- Resume Tab -->
-        <div id="panel-resume">
+        <div class="tab-panel hidden" id="panel-resume">
           <div class="section-card rs-top">
             <div><h3><span class="section-icon">📄</span> <span id="rsTitle"></span></h3><p id="rsSub"></p></div>
             <div class="rs-actions"><span id="rsStatus"></span><button class="btn btn-outline" id="rsPdf"></button><button class="btn" id="rsSave"></button></div>
           </div>
           <div class="rs-wrap">
-            <div class="section-card"><div class="rs-prog" id="rsProg"></div><div id="rsForm"></div>
+            <div class="section-card rs-fc"><div class="rs-prog" id="rsProg"></div><div id="rsForm"></div>
               <div class="rs-nav"><button class="btn btn-outline" id="rsPrev"></button><button class="btn" id="rsNext"></button></div></div>
-            <div class="rs-stage" id="rsStage"><div id="rsBox"><div class="rs-paper" id="rsPaper"></div></div></div>
+            <button class="rs-fab" id="rsFab" type="button"></button>
+            <div class="rs-stage" id="rsStage"><button class="rs-close" id="rsClose" type="button">✕</button><div id="rsBox"><div class="rs-paper" id="rsPaper"></div></div></div>
           </div>
         </div>
 
@@ -714,9 +743,17 @@
         skill: 'Python|Python;Linux|Linux;JavaScript|JavaScript;Bash|Bash;SQL|SQL;Git|Git;Docker|Docker;شبکه|Networking;Cisco|Cisco;امنیت سایبری|Cybersecurity;کار تیمی|Teamwork;حل مسئله|Problem Solving',
         lang: 'فارسی|Persian;انگلیسی|English;عربی|Arabic;ترکی|Turkish;آلمانی|German;فرانسوی|French;اسپانیایی|Spanish;روسی|Russian'
       };
+      const NET = [[/linkedin\.com/i, 'LinkedIn', '#0a66c2', 'in'], [/github\.com/i, 'GitHub', '#24292f', 'GH'], [/gitlab\.com/i, 'GitLab', '#fc6d26', 'GL'], [/(^|\.)(twitter|x)\.com$/i, 'X', '#000', '𝕏'], [/instagram\.com/i, 'Instagram', '#e1306c', '◎'], [/(^|\.)(t\.me|telegram\.(me|org))$/i, 'Telegram', '#229ed9', '➤'], [/facebook\.com|(^|\.)fb\.com/i, 'Facebook', '#1877f2', 'f'], [/youtube\.com|youtu\.be/i, 'YouTube', '#f00', '▶'], [/(^|\.)wa\.me$|whatsapp\.com/i, 'WhatsApp', '#25d366', '✆'], [/medium\.com/i, 'Medium', '#111', 'M'], [/stackoverflow\.com/i, 'Stack Overflow', '#f48024', 'SO'], [/behance\.net/i, 'Behance', '#1769ff', 'Bē'], [/dribbble\.com/i, 'Dribbble', '#ea4c89', '◐'], [/discord\.(gg|com)/i, 'Discord', '#5865f2', 'D'], [/reddit\.com/i, 'Reddit', '#ff4500', 'r/'], [/tiktok\.com/i, 'TikTok', '#010101', '♪'], [/aparat\.com/i, 'Aparat', '#ed145b', 'A'], [/eitaa\.com/i, 'Eitaa', '#f57c00', 'E']];
+      function net(u) {
+        const h = (u || '').trim().replace(/^[a-z]+:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, ''); if (!h) return null;
+        const host = h.split(/[/?#]/)[0], n = NET.find(x => x[0].test(host));
+        return n ? { name: n[1], c: n[2], g: n[3], txt: h } : { name: t('وب‌سایت', 'Website'), c: '#475569', g: '🌐', txt: h };
+      }
+      const badge = n => `<i class="ic" style="background:${n.c}">${n.g}</i>`;
       const STEPS = [
         { k: 'me', h: ['اطلاعات شخصی', 'Personal details'], d: ['نام، ایمیل و تلفن از پروفایلت پر شده؛ هرکدام را می‌توانی تغییر بدهی.', 'Prefilled from your profile; edit anything you like.'],
-          f: [['name', 'نام و نام خانوادگی', 'Full name', 't', 1], ['title', 'عنوان شغلی (انتخاب یا تایپ)', 'Job title (pick or type)', 't', 1, 'job'], ['email', 'ایمیل', 'Email', 't'], ['phone', 'تلفن', 'Phone', 't'], ['loc', 'موقعیت مکانی (انتخاب یا تایپ)', 'Location (pick or type)', 't', 1, 'loc'], ['link', 'لینک (LinkedIn / GitHub)', 'Link (LinkedIn / GitHub)', 't', 1], ['photo', 'عکس پرسنلی (اختیاری)', 'Photo (optional)', 'p', 1]] },
+          f: [['name', 'نام و نام خانوادگی', 'Full name', 't', 1], ['title', 'عنوان شغلی (انتخاب یا تایپ)', 'Job title (pick or type)', 't', 1, 'job'], ['email', 'ایمیل', 'Email', 't'], ['phone', 'تلفن', 'Phone', 't'], ['loc', 'موقعیت مکانی (انتخاب یا تایپ)', 'Location (pick or type)', 't', 1, 'loc'], ['photo', 'عکس پرسنلی (اختیاری)', 'Photo (optional)', 'p', 1]] },
+        { k: 'links', h: ['شبکه‌های اجتماعی و لینک‌ها', 'Social & website links'], d: ['فقط لینک را paste کن؛ شبکه اجتماعی و لوگویش خودکار تشخیص داده می‌شود. هر لینک دیگری هم به‌صورت وب‌سایت اضافه می‌شود.', 'Just paste a URL; the network and its logo are detected automatically. Any other link is added as a website.'] },
         { k: 'sum', h: ['خلاصه حرفه‌ای', 'Professional summary'], d: ['۲ تا ۴ جمله درباره تخصص و هدفت.', '2–4 sentences about your expertise and goals.'], f: [['summary', 'خلاصه', 'Summary', 'a', 1]] },
         { k: 'exp', L: 1, h: ['سابقه کاری', 'Work experience'], d: ['از جدیدترین شروع کن و روی دستاوردها تمرکز کن.', 'Start with the most recent; focus on achievements.'],
           f: [['role', 'عنوان شغلی', 'Role', 't', 0, 'job'], ['co', 'شرکت', 'Company', 't'], ['from', 'از', 'From', 't'], ['to', 'تا (یا اکنون)', 'To (or Present)', 't'], ['desc', 'شرح و دستاوردها', 'Responsibilities & achievements', 'a', 1]] },
@@ -728,29 +765,31 @@
         { k: 'proj', L: 1, h: ['پروژه‌ها', 'Projects'], d: ['مهم‌ترین پروژه‌هایت.', 'Your most important projects.'], f: [['name', 'نام پروژه', 'Project name', 't', 1], ['desc', 'توضیح کوتاه', 'Short description', 'a', 1]] },
         { k: 'tpl', h: ['قالب و خروجی', 'Template & output'], d: ['قالب، رنگ و زبان رزومه را انتخاب کن، بعد ذخیره کن.', 'Pick a template, color and language, then save.'] }
       ];
-      const blank = () => ({ tpl: 'side', color: COLORS[0], rlang: isFa() ? 'fa' : 'en', certMode: 'grid', name: '', title: '', email: '', phone: '', loc: '', link: '', photo: '', summary: '', exp: [{}], edu: [{}], skills: [{}], langs: [{}], cert: [{}], proj: [{}] });
+      const blank = () => ({ tpl: 'side', color: COLORS[0], rlang: isFa() ? 'fa' : 'en', certMode: 'grid', name: '', title: '', email: '', phone: '', loc: '', photo: '', links: [{}], summary: '', exp: [{}], edu: [{}], skills: [{}], langs: [{}], cert: [{}], proj: [{}] });
       let D = blank(), cur = 0, loaded = false, busy = false;
       const base = () => `${currentUser.id}/resume/`;
       const bucket = () => SUPABASE.storage.from('user-files');
       const status = m => { $('rsStatus').textContent = m || ''; };
 
+      const cb = (p, v, ls, ph) => `<div class="rs-cb"><input data-p="${p}" data-ls="${ls}" value="${esc(v)}" autocomplete="off"${ph ? ` placeholder="${ph}"` : ''}><button type="button" class="rs-caret" tabindex="-1" data-cb="1">▾</button><div class="rs-dd"></div></div>`;
       function fld(f, p, v) {
         const [, a, b, ty, w, ls] = f; let c;
         if (ty === 'a') c = `<textarea data-p="${p}">${esc(v)}</textarea>`;
         else if (ty === 'p' || ty === 'c') c = `<input type="file" accept="image/*" data-img="${p}" data-m="${ty}">${v ? `<img class="rs-th" src="${v}">` : ''}${ty === 'p' && currentProfile && currentProfile.avatar_url ? `<button type="button" class="btn btn-outline rs-sm" data-av="${p}">${t('استفاده از عکس پروفایل', 'Use profile photo')}</button>` : ''}`;
-        else c = `<input data-p="${p}" value="${esc(v)}"${ls ? ` list="rsdl-${ls}"` : ''}>`;
+        else c = ls ? cb(p, v, ls) : `<input data-p="${p}" value="${esc(v)}">`;
         return `<div class="form-group${w ? ' rs-w' : ''}"><label>${t(a, b)}</label>${c}</div>`;
       }
       function lvRows(key, ls, lv) {
-        return D[key].map((it, i) => `<div class="rs-lv"><input data-p="${key}.${i}.n" list="rsdl-${ls}" value="${esc(it.n)}" placeholder="${t('نام', 'Name')}"><select data-p="${key}.${i}.lv">${lv.map(o => `<option value="${o[0]}"${(it.lv || '') === o[0] ? ' selected' : ''}>${t(o[1], o[2])}</option>`).join('')}</select>${D[key].length > 1 ? `<button class="rs-x" data-rm="${key}.${i}">✕</button>` : '<span></span>'}</div>`).join('') + `<button class="rs-add" data-add="${key}">${t('+ افزودن', '+ Add')}</button>`;
+        return D[key].map((it, i) => `<div class="rs-lv">${cb(`${key}.${i}.n`, it.n, ls, t('نام', 'Name'))}<select data-p="${key}.${i}.lv">${lv.map(o => `<option value="${o[0]}"${(it.lv || '') === o[0] ? ' selected' : ''}>${t(o[1], o[2])}</option>`).join('')}</select>${D[key].length > 1 ? `<button class="rs-x" data-rm="${key}.${i}">✕</button>` : '<span></span>'}</div>`).join('') + `<button class="rs-add" data-add="${key}">${t('+ افزودن', '+ Add')}</button>`;
       }
       function form() {
         const s = STEPS[cur];
         $('rsProg').innerHTML = STEPS.map((_, i) => `<b class="${i <= cur ? 'on' : ''}"></b>`).join('');
-        let h = `<div id="rsDl">${Object.entries(LISTS).map(([k, v]) => `<datalist id="rsdl-${k}">${v.split(';').map(x => `<option value="${esc(x.split('|')[isFa() ? 0 : 1])}">`).join('')}</datalist>`).join('')}</div>`;
-        h += `<div class="rs-st">${t('مرحله', 'Step')} ${cur + 1} ${t('از', 'of')} ${STEPS.length}</div><h4>${t(...s.h)}</h4><p class="rs-hint">${t(...s.d)}</p>`;
+        let h = `<div class="rs-st">${t('مرحله', 'Step')} ${cur + 1} ${t('از', 'of')} ${STEPS.length}</div><h4>${t(...s.h)}</h4><p class="rs-hint">${t(...s.d)}</p>`;
         if (s.L) {
           h += D[s.k].map((it, i) => `<div class="rs-item"><div class="rs-tp"><span>${t('مورد', 'Item')} ${i + 1}</span>${D[s.k].length > 1 ? `<button class="rs-x" data-rm="${s.k}.${i}">${t('حذف', 'Remove')}</button>` : ''}</div><div class="rs-g">${s.f.map(f => fld(f, `${s.k}.${i}.${f[0]}`, it[f[0]])).join('')}</div></div>`).join('') + `<button class="rs-add" data-add="${s.k}">${t('+ افزودن', '+ Add')}</button>`;
+        } else if (s.k === 'links') {
+          h += D.links.map((it, i) => { const n = net(it.u); return `<div class="rs-lk"><i class="ic" style="background:${n ? n.c : '#334155'}">${n ? n.g : '🔗'}</i><input dir="ltr" data-p="links.${i}.u" value="${esc(it.u)}" placeholder="https://linkedin.com/in/…"><small class="rs-nm">${n ? n.name : ''}</small>${D.links.length > 1 ? `<button class="rs-x" data-rm="links.${i}">✕</button>` : '<span></span>'}</div>`; }).join('') + `<button class="rs-add" data-add="links">${t('+ افزودن لینک', '+ Add link')}</button>`;
         } else if (s.k === 'sk') {
           h += `<div class="rs-sub">${t('مهارت‌ها', 'Skills')}</div>${lvRows('skills', 'skill', SKL)}<div class="rs-sub">${t('زبان‌ها', 'Languages')}</div>${lvRows('langs', 'lang', LGL)}`;
         } else if (s.k === 'tpl') {
@@ -777,7 +816,22 @@
         });
       }
       const F = $('rsForm');
-      const onEdit = e => { const p = e.target.dataset.p; if (!p) return; setP(p, e.target.value); if (p === 'rlang' || p === 'certMode') { render(); } else render(); };
+      const opts = ls => LISTS[ls].split(';').map(x => x.split('|')[isFa() ? 0 : 1]);
+      let openCb = null;
+      const closeCb = () => { if (openCb) { openCb.querySelector('.rs-dd').style.display = 'none'; openCb = null; } };
+      function showCb(box, all) {
+        closeCb(); const inp = box.querySelector('input'), dd = box.querySelector('.rs-dd'), q = all ? '' : inp.value.trim().toLowerCase();
+        const m = opts(inp.dataset.ls).filter(o => o.toLowerCase().includes(q)); if (!m.length) return;
+        dd.innerHTML = m.map(o => `<div class="rs-op" data-v="${esc(o)}">${esc(o)}</div>`).join(''); dd.style.display = 'block'; openCb = box;
+      }
+      document.addEventListener('pointerdown', e => { if (openCb && !openCb.contains(e.target)) closeCb(); });
+      const onEdit = e => {
+        const p = e.target.dataset.p; if (!p) return; setP(p, e.target.value);
+        if (p.startsWith('links.')) { const n = net(e.target.value), r = e.target.parentElement; r.querySelector('.ic').outerHTML = `<i class="ic" style="background:${n ? n.c : '#334155'}">${n ? n.g : '🔗'}</i>`; r.querySelector('.rs-nm').textContent = n ? n.name : ''; }
+        if (e.type === 'input' && e.target.dataset.ls) showCb(e.target.closest('.rs-cb'), false);
+        render();
+      };
+      F.addEventListener('focusin', e => { if (e.target.dataset && e.target.dataset.ls) showCb(e.target.closest('.rs-cb'), true); });
       F.addEventListener('input', onEdit); F.addEventListener('change', onEdit);
       F.addEventListener('change', async e => {
         const p = e.target.dataset.img; if (!p || !e.target.files[0]) return;
@@ -785,6 +839,9 @@
       });
       F.addEventListener('click', async e => {
         const d = e.target.dataset, s = STEPS[cur];
+        const op = e.target.closest('.rs-op');
+        if (op) { const box = op.closest('.rs-cb'), inp = box.querySelector('input'); inp.value = op.dataset.v; setP(inp.dataset.p, op.dataset.v); closeCb(); render(); return; }
+        if (d.cb) { const box = e.target.closest('.rs-cb'); if (openCb === box) closeCb(); else showCb(box, true); return; }
         if (d.add) { D[d.add].push({}); form(); }
         if (d.rm) { const [k, i] = d.rm.split('.'); D[k].splice(+i, 1); form(); render(); }
         if (d.tpl) { D.tpl = d.tpl; form(); render(); }
@@ -799,7 +856,11 @@
       function render() {
         const rtl = D.rlang === 'fa', h = (a, b) => (rtl ? a : b), ne = a => a.filter(x => x && Object.values(x).some(v => v));
         const ex = ne(D.exp), ed = ne(D.edu), sk = D.skills.filter(x => x.n), lg = D.langs.filter(x => x.n), ce = ne(D.cert), pr = ne(D.proj);
-        const ct = [D.email, D.phone, D.loc, D.link].filter(Boolean), pi = rtl ? 1 : 2;
+        const ct = [D.email, D.phone, D.loc].filter(Boolean), pi = rtl ? 1 : 2;
+        const lks = D.links.filter(x => x && x.u && x.u.trim()).map(x => net(x.u));
+        const lkS = lks.map(n => `<div class="lk">${badge(n)}<span>${esc(n.txt)}</span></div>`).join('');
+        const lkI = lks.map(n => `<span class="lk">${badge(n)}<span>${esc(n.txt)}</span></span>`).join('');
+        const lkM = lks.map(n => esc(n.name + ': ' + n.txt));
         const sec = (ti, b) => (b ? `<section><h3>${ti}</h3>${b}</section>` : '');
         const bar = lv => (lv ? `<div class="bar"><i style="width:${lv * 25}%"></i></div>` : '');
         const lgn = lv => { const r = LGL.find(z => z[0] === lv); return r && lv ? r[pi] : ''; };
@@ -818,16 +879,19 @@
         const sum = sec(h('درباره من', 'Profile'), D.summary ? `<p>${esc(D.summary).replace(/\n/g, '<br>')}</p>` : '');
         const T = { exp: h('سابقه کاری', 'Experience'), edu: h('تحصیلات', 'Education'), sk: h('مهارت‌ها', 'Skills'), lg: h('زبان‌ها', 'Languages'), ce: h('گواهینامه‌ها', 'Certificates'), pr: h('پروژه‌ها', 'Projects'), ct: h('تماس', 'Contact') };
         let pg;
-        if (D.tpl === 'side') pg = `<div class="pg t-side"><aside>${ph}${sec(T.ct, ct.map(x => `<p>${esc(x)}</p>`).join(''))}${sec(T.sk, skB)}${sec(T.lg, lgB)}</aside><main>${head}${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</main></div>`;
-        else if (D.tpl === 'banner') pg = `<div class="pg t-banner"><header>${ph}<div>${head}<div class="ct">${ct.map(esc).join(' • ')}</div></div></header><div class="cols"><main>${sum}${sec(T.exp, exH)}${sec(T.pr, prH)}</main><aside>${sec(T.edu, edH)}${sec(T.sk, skB)}${sec(T.lg, lgB)}${sec(T.ce, ce.length ? ceH : '')}</aside></div></div>`;
-        else pg = `<div class="pg t-${D.tpl}"><header>${head}<div class="ct">${ct.map(esc).join(' • ')}</div></header>${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.sk, skT ? `<p>${skT}</p>` : '')}${sec(T.lg, lgT ? `<p>${lgT}</p>` : '')}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</div>`;
+        if (D.tpl === 'side') pg = `<div class="pg t-side"><aside>${ph}${sec(T.ct, ct.map(x => `<p>${esc(x)}</p>`).join('') + lkS)}${sec(T.sk, skB)}${sec(T.lg, lgB)}</aside><main>${head}${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</main></div>`;
+        else if (D.tpl === 'banner') pg = `<div class="pg t-banner"><header>${ph}<div>${head}<div class="ct">${ct.map(x => `<span>${esc(x)}</span>`).join('')}${lkI}</div></div></header><div class="cols"><main>${sum}${sec(T.exp, exH)}${sec(T.pr, prH)}</main><aside>${sec(T.edu, edH)}${sec(T.sk, skB)}${sec(T.lg, lgB)}${sec(T.ce, ce.length ? ceH : '')}</aside></div></div>`;
+        else pg = `<div class="pg t-${D.tpl}"><header>${head}<div class="ct">${D.tpl === 'minimal' ? ct.map(esc).concat(lkM).join(' • ') : ct.map(x => `<span>${esc(x)}</span>`).join('') + lkI}</div></header>${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.sk, skT ? `<p>${skT}</p>` : '')}${sec(T.lg, lgT ? `<p>${lgT}</p>` : '')}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</div>`;
         const P = $('rsPaper'); P.className = 'rs-paper' + (rtl ? ' rtl' : ''); P.style.setProperty('--acc', D.color); P.innerHTML = pg + cP; fit();
       }
       function fit() {
-        const P = $('rsPaper'), st = $('rsStage'), k = Math.min(1, (st.clientWidth || 794) / 794);
+        const P = $('rsPaper'), st = $('rsStage'), cs = getComputedStyle(st), w = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), k = Math.min(1, (w > 0 ? w : 794) / 794);
         P.style.transform = `scale(${k})`; $('rsBox').style.width = 794 * k + 'px'; $('rsBox').style.height = P.offsetHeight * k + 'px';
       }
       new ResizeObserver(fit).observe($('rsStage'));
+      const openPv = o => { $('rsStage').classList.toggle('open', o); document.body.style.overflow = o ? 'hidden' : ''; fit(); };
+      $('rsFab').onclick = () => openPv(true); $('rsClose').onclick = () => openPv(false);
+      addEventListener('resize', () => { if (innerWidth > 1100) openPv(false); });
 
       async function pdf() {
         if (!window.html2pdf) throw new Error('html2pdf missing');
@@ -856,7 +920,7 @@
       function ui() {
         $('rsTitle').textContent = t('رزومه‌ساز حرفه‌ای', 'Professional Resume Builder');
         $('rsSub').textContent = t('قدم‌به‌قدم بساز، ذخیره کن و هر وقت خواستی ویرایشش کن.', 'Build step by step, save it, and edit any time.');
-        $('rsPdf').textContent = t('دانلود PDF', 'Download PDF'); $('rsSave').textContent = t('ذخیره', 'Save'); form(); render();
+        $('rsFab').textContent = '👁 ' + t('پیش‌نمایش زنده', 'Live preview'); $('rsPdf').textContent = t('دانلود PDF', 'Download PDF'); $('rsSave').textContent = t('ذخیره', 'Save'); form(); render();
       }
       window.rsInit = async function () {
         if (!loaded) {
@@ -864,6 +928,7 @@
           try {
             const { data, error } = await bucket().download(base() + 'resume-data.json');
             if (error) throw error; D = Object.assign(blank(), JSON.parse(await data.text()));
+            if (D.link && !D.links.some(x => x.u)) D.links = [{ u: D.link }];
           } catch (_) {
             const p = currentProfile || {}; D = blank();
             D.name = [p.first_name, p.last_name].filter(Boolean).join(' '); D.email = p.email || (currentUser && currentUser.email) || ''; D.phone = p.phone || '';
@@ -878,12 +943,13 @@
 
     (async function () {
       applyLang(languageManager.currentLang);
+      setTimeout(() => document.getElementById('rsLoad').classList.add('off'), 8000);
       const { data: { session } } = await SUPABASE.auth.getSession();
       if (!session) { location.href = '/'; return; }
       currentUser = session.user;
       try { const { data } = await SUPABASE.from('profiles').select('*').eq('id', currentUser.id).single(); currentProfile = data; } catch (e) {}
       currentProfile = currentProfile || { id: currentUser.id, email: currentUser.email };
-      showUser(currentProfile); rsInit();
+      showUser(currentProfile); try { await rsInit(); } finally { document.getElementById('rsLoad').classList.add('off'); }
     })();
   </script>
 </body>
