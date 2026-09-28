@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="loader.css">
   <style>
     :root {
       --bg-primary: #0a0e1a;
@@ -631,13 +632,6 @@
     .rs-paper .ct{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
     .rs-paper .ct .lk{margin:0}
     .t-classic .ct,.t-minimal .ct{justify-content:center}
-    .rs-load{position:fixed;inset:0;z-index:9999;background:#0a0e1a;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:22px;transition:opacity .5s,visibility .5s}
-    .rs-load.off{opacity:0;visibility:hidden}
-    .rs-ring{position:relative;width:84px;height:84px;display:grid;place-items:center}
-    .rs-ring::before{content:'';position:absolute;inset:0;border-radius:50%;border:3px solid rgba(148,163,184,.15);border-top-color:#00d4ff;border-right-color:#7c3aed;animation:rsSpin 1s linear infinite}
-    .rs-ring img{width:44px;height:44px;object-fit:contain;animation:rsPulse 1.6s ease-in-out infinite}
-    .rs-load p{color:var(--text-secondary);font-size:.9rem;letter-spacing:.5px}
-    @keyframes rsSpin{to{transform:rotate(360deg)}}@keyframes rsPulse{50%{transform:scale(.85);opacity:.7}}
     .rs-fab,.rs-close{display:none}
     @media(max-width:1100px){.rs-wrap{grid-template-columns:1fr}
       .rs-stage{position:fixed;inset:0;z-index:1000;display:none;align-items:flex-start;overflow:auto;background:rgba(10,14,26,.98);padding:64px 10px 28px;top:0}
@@ -651,7 +645,7 @@
   </style>
 </head>
 <body data-lang="en">
-  <div class="rs-load" id="rsLoad"><div class="rs-ring"><img src="./logo.webp" alt=""></div><p data-fa="در حال بارگذاری…" data-en="Loading…">Loading…</p></div>
+  <script src="loader.js"></script>
   <div class="bg-mesh"></div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
   <aside class="sidebar" id="sidebar">
@@ -685,7 +679,7 @@
       <div class="toast success" id="toastSuccess"></div>
       <div class="toast error" id="toastError"></div>
         <!-- Resume Tab -->
-        <div class="tab-panel hidden" id="panel-resume">
+        <div id="panel-resume">
           <div class="section-card rs-top">
             <div><h3><span class="section-icon">📄</span> <span id="rsTitle"></span></h3><p id="rsSub"></p></div>
             <div class="rs-actions"><span id="rsStatus"></span><button class="btn btn-outline" id="rsPdf"></button><button class="btn" id="rsSave"></button></div>
@@ -943,13 +937,12 @@
 
     (async function () {
       applyLang(languageManager.currentLang);
-      setTimeout(() => document.getElementById('rsLoad').classList.add('off'), 8000);
       const { data: { session } } = await SUPABASE.auth.getSession();
       if (!session) { location.href = '/'; return; }
       currentUser = session.user;
       try { const { data } = await SUPABASE.from('profiles').select('*').eq('id', currentUser.id).single(); currentProfile = data; } catch (e) {}
       currentProfile = currentProfile || { id: currentUser.id, email: currentUser.email };
-      showUser(currentProfile); try { await rsInit(); } finally { document.getElementById('rsLoad').classList.add('off'); }
+      showUser(currentProfile); await rsInit();
     })();
   </script>
 </body>
