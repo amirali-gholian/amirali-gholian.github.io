@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>IT Tools</title>
+<link rel="icon" href="./logo.webp" type="image/png">
+<meta name="theme-color" content="#0a0e1a">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #0f1525;
+      --bg-tertiary: #141c2e;
+      --bg-card: rgba(20,28,46,0.7);
+      --bg-glass: rgba(15,21,37,0.85);
+      --accent-cyan: #00d4ff;
+      --accent-teal: #00b8a9;
+      --accent-purple: #7c3aed;
+      --accent-pink: #ec4899;
+      --accent-gradient: linear-gradient(135deg,#00d4ff 0%,#00b8a9 50%,#7c3aed 100%);
+      --accent-gradient-soft: linear-gradient(135deg,rgba(0,212,255,0.15) 0%,rgba(0,184,169,0.1) 50%,rgba(124,58,237,0.1) 100%);
+      --text-primary: #f0f4f8;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --text-inverse: #0a0e1a;
+      --border-subtle: rgba(148,163,184,0.08);
+      --border-medium: rgba(148,163,184,0.12);
+      --border-accent: rgba(0,212,255,0.25);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+      --shadow-md: 0 8px 32px rgba(0,0,0,0.4);
+      --shadow-lg: 0 16px 48px rgba(0,0,0,0.5);
+      --shadow-glow: 0 0 40px rgba(0,212,255,0.08);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --radius-full: 9999px;
+      --sidebar-width: 280px;
+      --header-height: 64px;
+      --max-content: 1200px;
+      --transition-fast: 0.15s cubic-bezier(0.4,0,0.2,1);
+      --transition-base: 0.25s cubic-bezier(0.4,0,0.2,1);
+      --transition-slow: 0.4s cubic-bezier(0.16,1,0.3,1);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: 'Inter','Vazirmatn',ui-sans-serif,system-ui,-apple-system,sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .bg-mesh { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+    .bg-mesh::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background:
+        radial-gradient(ellipse 600px 600px at 20% 20%, rgba(0,212,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 500px 500px at 80% 60%, rgba(124,58,237,0.03) 0%, transparent 60%),
+        radial-gradient(ellipse 400px 400px at 50% 90%, rgba(0,184,169,0.03) 0%, transparent 60%);
+      animation: meshFloat 20s ease-in-out infinite;
+    }
+    .bg-mesh::after {
+      content: ''; position: absolute; inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%2300d4ff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      opacity: 0.5;
+    }
+    @keyframes meshFloat {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      33% { transform: translate(2%,2%) rotate(1deg); }
+      66% { transform: translate(-1%,1%) rotate(-1deg); }
+    }
+    .sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0;
+      width: var(--sidebar-width);
+      background: linear-gradient(180deg, rgba(10,14,26,0.98) 0%, rgba(15,21,37,0.98) 100%);
+      backdrop-filter: blur(20px);
+      border-right: 1px solid var(--border-subtle);
+      z-index: 100;
+      display: flex; flex-direction: column;
+      transition: transform var(--transition-slow);
+      overflow: hidden;
+    }
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+      z-index: 99; opacity: 0;
+      transition: opacity var(--transition-base);
+    }
+    .sidebar-overlay.active { display: block; opacity: 1; }
+    .sidebar-brand {
+      padding: 24px 20px;
+      display: flex; align-items: center; gap: 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .brand-avatar {
+      width: 44px; height: 44px; border-radius: var(--radius-lg);
+      background: var(--accent-gradient);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(0,212,255,0.2);
+      overflow: hidden;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .brand-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .brand-avatar span { font-weight: 800; color: #fff; font-size: 1.1rem; }
+    .brand-info { overflow: hidden; white-space: nowrap; }
+    .brand-info h1 { font-size: 0.95rem; font-weight: 700; color: var(--text-primary); line-height: 1.2; margin: 0; }
+    .brand-info p { font-size: 0.75rem; color: var(--accent-cyan); font-weight: 500; margin: 4px 0 0; letter-spacing: 0.5px; }
+    .sidebar-user {
+      padding: 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      flex-shrink: 0;
+    }
+    .user-card {
+      background: var(--accent-gradient-soft);
+      border: 1px solid var(--border-accent);
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      display: flex; align-items: center; gap: 12px;
+      transition: all var(--transition-base);
+    }
+    .user-card:hover { border-color: rgba(0,212,255,0.4); box-shadow: var(--shadow-glow); }
+    .user-avatar-lg {
+      width: 48px; height: 48px; border-radius: var(--radius-full);
+      background: var(--accent-gradient);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      border: 2px solid rgba(255,255,255,0.15);
+      overflow: hidden;
+    }
+    .user-avatar-lg img { width: 100%; height: 100%; object-fit: cover; }
+    .user-avatar-lg span { font-weight: 800; color: #fff; font-size: 1.2rem; }
+    .user-details { overflow: hidden; }
+    .user-details .name { font-weight: 600; font-size: 0.9rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .user-details .email { font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+    .user-status { display: inline-flex; align-items: center; gap: 6px; margin-top: 6px; font-size: 0.7rem; color: var(--accent-teal); font-weight: 500; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-teal); animation: pulse-dot 2s ease-in-out infinite; }
+    @keyframes pulse-dot { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.6; transform: scale(0.8); } }
+    .sidebar-nav { flex: 1; padding: 16px 12px; overflow-y: auto; scrollbar-width: thin; scrollbar-color: var(--border-medium) transparent; }
+    .sidebar-nav::-webkit-scrollbar { width: 4px; }
+    .sidebar-nav::-webkit-scrollbar-thumb { background: var(--border-medium); border-radius: var(--radius-full); }
+    .nav-section-title { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); padding: 16px 12px 8px; white-space: nowrap; }
+    .nav-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 10px 14px; margin: 2px 0;
+      border-radius: var(--radius-md);
+      color: var(--text-secondary);
+      font-size: 0.88rem; font-weight: 500;
+      cursor: pointer;
+      transition: all var(--transition-fast);
+      border: none; background: none;
+      width: 100%; text-align: left;
+      font-family: inherit;
+      white-space: nowrap;
+      position: relative; overflow: hidden;
+    }
+    .nav-item::before {
+      content: ''; position: absolute;
+      left: 0; top: 50%; transform: translateY(-50%);
+      width: 3px; height: 0;
+      background: var(--accent-gradient);
+      border-radius: 0 3px 3px 0;
+      transition: height var(--transition-base);
+    }
+    .nav-item:hover { background: rgba(0,212,255,0.06); color: var(--text-primary); }
+    .nav-item:hover::before { height: 60%; }
+    .nav-item.active { background: rgba(0,212,255,0.1); color: var(--accent-cyan); }
+    .nav-item.active::before { height: 80%; }
+    .nav-item .nav-icon { width: 22px; height: 22px; display: grid; place-items: center; font-size: 1.1rem; flex-shrink: 0; transition: transform var(--transition-fast); }
+    .nav-item:hover .nav-icon { transform: scale(1.1); }
+    .nav-item .nav-label { flex: 1; overflow: hidden; text-overflow: ellipsis; }
+    .nav-item .nav-badge { font-size: 0.65rem; font-weight: 700; padding: 2px 8px; border-radius: var(--radius-full); background: rgba(0,212,255,0.15); color: var(--accent-cyan); flex-shrink: 0; }
+    .nav-chevron { font-size: 0.8rem; color: var(--text-muted); transition: transform var(--transition-base); flex-shrink: 0; }
+    .nav-group.open .nav-chevron { transform: rotate(180deg); }
+    .nav-sub { display: none; position: relative; padding: 2px 0 6px; }
+    .nav-group.open .nav-sub { display: block; }
+    .nav-sub::before { content: ''; position: absolute; top: 4px; bottom: 10px; inset-inline-start: 25px; width: 1px; background: var(--border-medium); }
+    .nav-sub-item { display: flex; align-items: center; gap: 10px; margin: 1px 0; padding: 8px 14px; padding-inline-start: 46px; border-radius: var(--radius-md); color: var(--text-secondary); font-size: 0.82rem; font-weight: 500; text-decoration: none; white-space: nowrap; transition: all var(--transition-fast); }
+    .nav-sub-item .si { width: 18px; text-align: center; font-size: 0.95rem; flex-shrink: 0; }
+    .nav-sub-item span:last-child { overflow: hidden; text-overflow: ellipsis; }
+    .nav-sub-item:hover { background: rgba(0,212,255,0.06); color: var(--text-primary); }
+    .sidebar-footer { padding: 16px; border-top: 1px solid var(--border-subtle); flex-shrink: 0; }
+    .lang-switcher {
+      display: flex; align-items: center; gap: 10px;
+      padding: 10px 14px;
+      border-radius: var(--radius-md);
+      background: rgba(0,212,255,0.06);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-cyan);
+      font-size: 0.85rem; font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition-base);
+      font-family: inherit; width: 100%;
+      white-space: nowrap;
+    }
+    .lang-switcher:hover { background: rgba(0,212,255,0.12); border-color: rgba(0,212,255,0.4); box-shadow: 0 0 20px rgba(0,212,255,0.1); }
+    .lang-switcher .lang-flag { font-size: 1.1rem; }
+    .main-wrapper { flex: 1; margin-left: var(--sidebar-width); min-height: 100vh; display: flex; flex-direction: column; position: relative; z-index: 1; transition: margin-left var(--transition-slow); max-width: 100%; overflow-x: hidden; }
+    .top-header {
+      position: sticky; top: 0; z-index: 50;
+      height: var(--header-height);
+      background: linear-gradient(180deg, rgba(10,14,26,0.95) 0%, rgba(10,14,26,0.85) 100%);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 28px;
+    }
+    .header-left { display: flex; align-items: center; gap: 16px; }
+    .menu-toggle {
+      display: none; width: 40px; height: 40px;
+      border-radius: var(--radius-md);
+      background: rgba(0,212,255,0.06);
+      border: 1px solid var(--border-accent);
+      color: var(--accent-cyan);
+      cursor: pointer;
+      align-items: center; justify-content: center;
+      font-size: 1.2rem;
+      transition: all var(--transition-base);
+    }
+    .menu-toggle:hover { background: rgba(0,212,255,0.12); box-shadow: 0 0 16px rgba(0,212,255,0.15); }
+    .page-title { font-size: 1.25rem; font-weight: 700; color: var(--text-primary); display: flex; align-items: center; gap: 10px; }
+    .page-title .title-icon { font-size: 1.4rem; }
+    .header-right { display: flex; align-items: center; gap: 12px; }
+    .header-btn {
+      width: 40px; height: 40px; border-radius: var(--radius-md);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      cursor: pointer;
+      display: grid; place-items: center;
+      font-size: 1.1rem;
+      transition: all var(--transition-base);
+      position: relative;
+    }
+    .header-btn:hover { background: rgba(0,212,255,0.08); border-color: var(--border-accent); color: var(--accent-cyan); box-shadow: 0 0 16px rgba(0,212,255,0.1); }
+    .header-btn .notification-dot { position: absolute; top: 8px; right: 8px; width: 8px; height: 8px; border-radius: 50%; background: var(--accent-pink); border: 2px solid var(--bg-primary); }
+    .back-to-site-btn {
+      display: flex; align-items: center; gap: 8px;
+      padding: 9px 16px;
+      border-radius: var(--radius-full);
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-secondary);
+      font-size: 0.85rem; font-weight: 600;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all var(--transition-base);
+    }
+    .back-to-site-btn:hover { background: rgba(0,212,255,0.08); border-color: var(--border-accent); color: var(--accent-cyan); box-shadow: 0 0 16px rgba(0,212,255,0.1); }
+    .back-to-site-btn .back-arrow { font-size: 1rem; line-height: 1; }
+    body[data-lang="fa"] .back-to-site-btn .back-arrow { transform: scaleX(-1); display: inline-block; }
+    .header-avatar {
+      width: 38px; height: 38px; border-radius: var(--radius-full);
+      background: var(--accent-gradient);
+      display: grid; place-items: center;
+      border: 2px solid rgba(255,255,255,0.1);
+      overflow: hidden; cursor: pointer;
+      transition: all var(--transition-base);
+    }
+    .header-avatar:hover { box-shadow: 0 0 20px rgba(0,212,255,0.2); transform: scale(1.05); }
+    .header-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .header-avatar span { font-weight: 700; color: #fff; font-size: 0.9rem; }
+
+    .nav-item { text-decoration: none; }
+    .nav-item.active, .nav-sub-item.active { background: rgba(0,212,255,0.1); color: var(--accent-cyan); }
+    .content-area { flex: 1; padding: 28px; max-width: var(--max-content); width: 100%; margin: 0 auto; }
+    .hidden, [hidden] { display: none !important; }
+    :focus-visible { outline: 2px solid var(--accent-cyan); outline-offset: 2px; }
+    .toolbar { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 24px; }
+    .search { flex: 1 1 240px; max-width: 360px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-family: inherit; font-size: 0.85rem; font-weight: 500; color: var(--text-secondary); background: none; border: 1px solid var(--border-medium); border-radius: var(--radius-full); padding: 6px 14px; cursor: pointer; transition: all var(--transition-fast); }
+    .chip:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .chip[aria-pressed=true] { color: var(--accent-cyan); background: rgba(0,212,255,0.1); border-color: var(--border-accent); }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 440px), 1fr)); gap: 20px; align-items: start; animation: fadeInUp 0.5s cubic-bezier(0.16,1,0.3,1); }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    body.single .grid { grid-template-columns: minmax(0, 760px); }
+    body.single .tool h3 { display: none; }
+    .tool { display: flex; flex-direction: column; gap: 14px; background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: var(--radius-xl); padding: 24px; backdrop-filter: blur(10px); transition: border-color var(--transition-base); }
+    .tool:hover { border-color: var(--border-accent); }
+    .tool h3 { font-size: 1.05rem; font-weight: 700; }
+    .tool h3 a { display: flex; align-items: center; gap: 12px; color: inherit; text-decoration: none; }
+    .ic { width: 40px; height: 40px; border-radius: var(--radius-md); background: rgba(0,212,255,0.08); border: 1px solid var(--border-accent); display: grid; place-items: center; font-size: 1.15rem; flex-shrink: 0; }
+    .tool > p { color: var(--text-secondary); font-size: 0.85rem; margin-top: -4px; }
+    label { display: block; font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 4px; }
+    input, select, textarea { width: 100%; background: var(--bg-secondary); border: 1px solid var(--border-medium); color: var(--text-primary); border-radius: var(--radius-md); padding: 10px 12px; font-family: inherit; font-size: 0.92rem; }
+    input:focus, select:focus, textarea:focus { border-color: var(--accent-cyan); outline: none; box-shadow: 0 0 0 3px rgba(0,212,255,0.1); }
+    input[type=checkbox] { width: auto; accent-color: var(--accent-teal); }
+    textarea { resize: vertical; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; }
+    .two { display: grid; grid-template-columns: 1fr 110px; gap: 10px; align-items: end; }
+    .acts { display: flex; gap: 10px; flex-wrap: wrap; }
+    .btn { font-family: inherit; font-weight: 600; font-size: 0.9rem; color: var(--text-inverse); background: var(--accent-gradient); border: 0; border-radius: var(--radius-md); padding: 10px 18px; cursor: pointer; width: fit-content; }
+    .btn.ghost { color: var(--text-primary); background: none; border: 1px solid var(--border-medium); }
+    .btn.ghost:hover { border-color: var(--border-accent); }
+    .o { display: flex; flex-direction: column; gap: 2px; max-height: 320px; overflow: auto; }
+    .row { display: flex; justify-content: space-between; gap: 12px; padding: 8px 12px; border-radius: var(--radius-sm); background: rgba(15,21,37,0.6); font-size: 0.88rem; }
+    .row span { color: var(--text-secondary); flex-shrink: 0; }
+    .row code { font-family: ui-monospace, Menlo, Consolas, monospace; direction: ltr; text-align: end; word-break: break-all; cursor: pointer; color: var(--accent-cyan); }
+    .row code.ok { color: #4ade80; }
+    .err { color: #f87171; font-size: 0.88rem; padding: 8px 12px; }
+    .chk { display: flex; flex-wrap: wrap; gap: 8px 16px; }
+    .chk label { display: flex; gap: 6px; align-items: center; margin: 0; color: var(--text-primary); }
+    .perm { border-collapse: collapse; width: 100%; }
+    .perm td, .perm th { padding: 6px; text-align: center; font-size: 0.85rem; }
+    .perm td:first-child { text-align: start; color: var(--text-secondary); }
+    #empty { color: var(--text-secondary); }
+    body[data-lang="fa"] { direction: rtl; font-family: 'Vazirmatn','Inter',ui-sans-serif,system-ui,sans-serif; }
+    body[data-lang="fa"] .sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid var(--border-subtle); }
+    body[data-lang="fa"] .main-wrapper { margin-left: 0; margin-right: var(--sidebar-width); }
+    body[data-lang="fa"] .nav-item { text-align: right; }
+    body[data-lang="fa"] .nav-item::before { left: auto; right: 0; border-radius: 3px 0 0 3px; }
+    @media (max-width: 1024px) { :root { --sidebar-width: 260px; } .content-area { padding: 20px; } }
+    @media (max-width: 768px) {
+      .sidebar { transform: translateX(-100%); width: var(--sidebar-width); }
+      body[data-lang="fa"] .sidebar { transform: translateX(100%); }
+      .sidebar.open, body[data-lang="fa"] .sidebar.open { transform: translateX(0); }
+      .main-wrapper { margin-left: 0 !important; margin-right: 0 !important; }
+      .menu-toggle { display: grid; }
+      .content-area { padding: 16px; }
+      .top-header { padding: 0 16px; }
+      .page-title { font-size: 1.05rem; }
+      .tool { padding: 18px; }
+    }
+    @media (max-width: 480px) { .back-to-site-btn span:not(.back-arrow) { display: none; } .back-to-site-btn { padding: 9px 11px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<div class="bg-mesh"></div>
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="brand-avatar" id="brandAvatar"><span>A</span></div>
+    <div class="brand-info"><h1 id="brandTitle"></h1><p id="brandSub"></p></div>
+  </div>
+  <div class="sidebar-user" id="userCardWrap" hidden>
+    <div class="user-card">
+      <div class="user-avatar-lg" id="sidebarUserAvatar"><span>A</span></div>
+      <div class="user-details">
+        <div class="name" id="sidebarUserName">-</div>
+        <div class="email" id="sidebarUserEmail"></div>
+        <div class="user-status"><span class="status-dot"></span><span id="statusText"></span></div>
+      </div>
+    </div>
+  </div>
+  <nav class="sidebar-nav">
+    <div class="nav-section-title" id="secMain"></div>
+    <a class="nav-item" href="./profile.html"><span class="nav-icon">🏠</span><span class="nav-label" id="navHome"></span></a>
+    <div class="nav-group open">
+      <a class="nav-item" id="navAll" href="#all"><span class="nav-icon">🛠️</span><span class="nav-label" id="navAllLabel"></span><span class="nav-chevron">▾</span></a>
+      <div class="nav-sub" id="toolNav"></div>
+    </div>
+  </nav>
+  <div class="sidebar-footer">
+    <button class="lang-switcher" id="lang"><span class="lang-flag">🌍</span><span id="langLabel"></span></button>
+  </div>
+</aside>
+
+<div class="main-wrapper">
+  <header class="top-header">
+    <div class="header-left">
+      <button class="menu-toggle" id="menuToggle" aria-label="Menu">☰</button>
+      <div class="page-title" id="pageTitle"><span class="title-icon">🛠️</span><span id="titleText"></span></div>
+    </div>
+    <div class="header-right">
+      <a href="/" class="back-to-site-btn"><span class="back-arrow">←</span><span id="backSite"></span></a>
+      <a class="header-avatar" id="headerAvatar" href="./profile.html" title="Profile"><span>A</span></a>
+    </div>
+  </header>
+  <main class="content-area">
+    <div class="toolbar" id="toolbar">
+      <input class="search" id="q" type="search">
+      <div class="chips" id="cats"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+    <p id="empty" hidden></p>
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
+<script>
+
+const fa=localStorage.getItem('language')==='fa';
+const L=(a,b)=>fa?b:a;
+document.documentElement.lang=fa?'fa':'en';
+document.documentElement.dir=fa?'rtl':'ltr';
+document.body.dataset.lang=fa?'fa':'en';
+const $=(e,s)=>e.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const R=(o,rows)=>o.innerHTML=rows.map(([k,v])=>`<div class="row"><span>${k}</span><code title="${L('Click to copy','برای کپی کلیک کنید')}">${esc(v)}</code></div>`).join('');
+const E=(o,m)=>o.innerHTML=`<div class="err">${m}</div>`;
+const ip2n=s=>{const p=s.trim().split('.');if(p.length!=4||p.some(x=>!/^\d{1,3}$/.test(x)||x>255))return null;return((+p[0]<<24)|(+p[1]<<16)|(+p[2]<<8)|+p[3])>>>0};
+const n2ip=n=>[24,16,8,0].map(s=>n>>>s&255).join('.');
+const mask=n=>n?(~0<<32-n)>>>0:0;
+const priv=ip=>{const a=ip>>>24,b=ip>>>16&255;return a==10||(a==172&&b>>4==1)||(a==192&&b==168)};
+const fmtN=x=>Number(x.toPrecision(10)).toLocaleString('en',{maximumFractionDigits:6});
+const U=[['bit',.125],['B',1],['KB',1e3],['MB',1e6],['GB',1e9],['TB',1e12],['KiB',1024],['MiB',1024**2],['GiB',1024**3],['TiB',1024**4]];
+const REF={
+  ports:`20|FTP (data);21|FTP;22|SSH / SFTP;23|Telnet;25|SMTP;53|DNS;67|DHCP server;68|DHCP client;69|TFTP;80|HTTP;110|POP3;123|NTP;143|IMAP;161|SNMP;162|SNMP trap;389|LDAP;443|HTTPS;445|SMB;465|SMTPS;514|Syslog;587|SMTP submission;636|LDAPS;993|IMAPS;995|POP3S;1433|MS SQL;1521|Oracle DB;2049|NFS;3306|MySQL / MariaDB;3389|RDP;5432|PostgreSQL;5900|VNC;6379|Redis;8080|HTTP alternate;8443|HTTPS alternate;27017|MongoDB`,
+  http:`200|OK;201|Created;204|No Content;301|Moved Permanently;302|Found;304|Not Modified;400|Bad Request;401|Unauthorized;403|Forbidden;404|Not Found;405|Method Not Allowed;408|Request Timeout;409|Conflict;418|I am a teapot;429|Too Many Requests;500|Internal Server Error;501|Not Implemented;502|Bad Gateway;503|Service Unavailable;504|Gateway Timeout`
+};
+
+const tools=[
+{id:'subnet',c:'net',i:'🧮',t:['Subnet calculator','ماشین‌حساب ساب‌نت'],d:['Network, broadcast, mask and host range for an IPv4 address','شبکه، برادکست، ماسک و محدوده هاست برای آدرس IPv4'],
+h:()=>`<div><label>${L('IP address / prefix','آدرس IP / پیشوند')}</label><input class="a" dir="ltr" value="192.168.1.10/24"></div><div class="o"></div>`,
+r:e=>{const a=$(e,'.a'),o=$(e,'.o');const f=()=>{const[p,c]=a.value.trim().split('/'),ip=ip2n(p),n=+c;
+ if(ip===null||!/^\d+$/.test(c||'')||n>32)return E(o,L('Enter an address like 192.168.1.10/24','یک آدرس مثل 192.168.1.10/24 وارد کنید'));
+ const m=mask(n),net=(ip&m)>>>0,bc=(net|~m)>>>0,big=n<31,a1=ip>>>24;
+ R(o,[[L('Network','شبکه'),n2ip(net)+'/'+n],[L('Subnet mask','ساب‌نت ماسک'),n2ip(m)],[L('Wildcard mask','وایلدکارت'),n2ip(~m>>>0)],[L('Broadcast','برادکست'),n2ip(bc)],[L('First host','اولین هاست'),n2ip(big?net+1:net)],[L('Last host','آخرین هاست'),n2ip(big?bc-1:bc)],[L('Usable hosts','تعداد هاست'),(2**(32-n)-(big?2:0)).toLocaleString('en')],[L('Class, scope','کلاس، محدوده'),(a1<128?'A':a1<192?'B':a1<224?'C':a1<240?'D':'E')+', '+(priv(ip)?L('private','خصوصی'):L('public','عمومی'))]])};
+ e.oninput=f;f()}},
+
+{id:'ipconv',c:'net',i:'🔢',t:['IP and mask converter','مبدل IP و ماسک'],d:['IP to binary, hex and decimal; CIDR prefix to mask','تبدیل IP به باینری، هگز و دسیمال؛ CIDR به ماسک'],
+h:()=>`<div><label>IPv4</label><input class="a" dir="ltr" value="192.168.1.10"></div><div><label>${L('Prefix length (CIDR)','طول پیشوند (CIDR)')}</label><input class="b" type="number" min="0" max="32" value="24"></div><div class="o"></div>`,
+r:e=>{const a=$(e,'.a'),b=$(e,'.b'),o=$(e,'.o');const f=()=>{const ip=ip2n(a.value),n=+b.value;if(ip===null)return E(o,L('Invalid IPv4 address','آدرس IPv4 نامعتبر است'));
+ const rows=[[L('Binary','باینری'),[24,16,8,0].map(s=>(ip>>>s&255).toString(2).padStart(8,'0')).join('.')],['Hex','0x'+ip.toString(16).toUpperCase().padStart(8,'0')],[L('Decimal','دسیمال'),String(ip)]];
+ if(b.value!==''&&n>=0&&n<=32){const m=mask(n);rows.push(['/'+n+' '+L('mask','ماسک'),n2ip(m)],[L('Wildcard','وایلدکارت'),n2ip(~m>>>0)],[L('Addresses','تعداد آدرس'),(2**(32-n)).toLocaleString('en')])}
+ R(o,rows)};e.oninput=f;f()}},
+
+{id:'myip',c:'net',i:'🌐',t:['My connection','اتصال من'],d:['Your public IP address and browser network details','آدرس IP عمومی و اطلاعات شبکه مرورگر'],
+h:()=>`<button class="btn a">${L('Show my IP','نمایش IP من')}</button><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');$(e,'.a').onclick=async()=>{let ip=L('Unavailable (offline or blocked)','در دسترس نیست (آفلاین یا مسدود)');
+ try{ip=(await(await fetch('https://api.ipify.org?format=json')).json()).ip}catch{}
+ R(o,[[L('Public IP','IP عمومی'),ip],[L('Time zone','منطقه زمانی'),Intl.DateTimeFormat().resolvedOptions().timeZone],[L('Browser language','زبان مرورگر'),navigator.language],[L('Screen','صفحه‌نمایش'),screen.width+'×'+screen.height],[L('Status','وضعیت'),navigator.onLine?'online':'offline']])}}},
+
+{id:'bw',c:'net',i:'⏱️',t:['Download time','زمان دانلود'],d:['How long a file takes at a given line speed','مدت زمان دانلود فایل با سرعت مشخص'],
+h:()=>`<div class="two"><div><label>${L('File size','حجم فایل')}</label><input class="a" type="number" min="0" step="any" value="1"></div><select class="b"><option value="1e3">KB</option><option value="1e6">MB</option><option value="1e9" selected>GB</option><option value="1e12">TB</option></select></div><div class="two"><div><label>${L('Speed','سرعت')}</label><input class="c" type="number" min="0" step="any" value="100"></div><select class="d"><option value="1e3">Kbps</option><option value="1e6" selected>Mbps</option><option value="1e9">Gbps</option><option value="8e6">MB/s</option></select></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const a=+$(e,'.a').value,c=+$(e,'.c').value;if(!(a>=0)||!(c>0))return E(o,L('Enter a size and a speed above zero','حجم و سرعت بزرگ‌تر از صفر وارد کنید'));
+ const bps=c*$(e,'.d').value,s=a*$(e,'.b').value*8/bps;let t=Math.round(s);const u=[[86400,L('d','روز')],[3600,L('h','ساعت')],[60,L('min','دقیقه')],[1,L('s','ثانیه')]];
+ const txt=u.map(([n,l])=>{const q=Math.floor(t/n);t-=q*n;return q?q+' '+l:''}).filter(Boolean).join(' ')||L('under 1 s','کمتر از ۱ ثانیه');
+ R(o,[[L('Time','زمان'),txt],[L('Real throughput','سرعت واقعی'),fmtN(bps/8e6)+' MB/s']])};e.oninput=f;f()}},
+
+{id:'units',c:'conv',i:'💾',t:['Data unit converter','مبدل واحد داده'],d:['Bits, bytes, decimal (KB) and binary (KiB) units','بیت، بایت، واحدهای دهدهی (KB) و دودویی (KiB)'],
+h:()=>`<div class="two"><input class="a" type="number" step="any" value="1"><select class="b">${U.map(([n,v],i)=>`<option value="${v}"${i==4?' selected':''}>${n}</option>`).join('')}</select></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const by=+$(e,'.a').value*$(e,'.b').value;if(isNaN(by))return E(o,L('Enter a number','یک عدد وارد کنید'));R(o,U.map(([n,v])=>[n,fmtN(by/v)]))};e.oninput=f;f()}},
+
+{id:'base',c:'conv',i:'🔣',t:['Number base converter','مبدل مبنای اعداد'],d:['Binary, octal, decimal and hexadecimal','باینری، اکتال، دسیمال و هگزادسیمال'],
+h:()=>`<div class="two"><input class="a" dir="ltr" value="255"><select class="b"><option value="2">BIN</option><option value="8">OCT</option><option value="10" selected>DEC</option><option value="16">HEX</option></select></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const b=+$(e,'.b').value,v=$(e,'.a').value.trim().toLowerCase();
+ if(!{2:/^[01]+$/,8:/^[0-7]+$/,10:/^\d+$/,16:/^[0-9a-f]+$/}[b].test(v))return E(o,L('Invalid digits for this base','ارقام برای این مبنا معتبر نیست'));
+ const n=BigInt(({2:'0b',8:'0o',10:'',16:'0x'}[b])+v);R(o,[['BIN',n.toString(2)],['OCT',n.toString(8)],['DEC',n.toString()],['HEX',n.toString(16).toUpperCase()]])};e.oninput=f;f()}},
+
+{id:'ref',c:'net',i:'📚',t:['Ports and HTTP codes','پورت‌ها و کدهای HTTP'],d:['Look up a well-known port or HTTP status code','جستجوی پورت‌های رایج و کدهای وضعیت HTTP'],
+h:()=>`<div class="two"><input class="a" dir="ltr" placeholder="${L('Number or name, e.g. 443 or ssh','عدد یا نام، مثلاً 443 یا ssh')}"><select class="b"><option value="ports">${L('Ports','پورت‌ها')}</option><option value="http">HTTP</option></select></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const q=$(e,'.a').value.trim().toLowerCase(),rows=REF[$(e,'.b').value].split(';').map(x=>x.split('|')).filter(([n,d])=>!q||n.startsWith(q)||d.toLowerCase().includes(q));
+ rows.length?R(o,rows):E(o,L('No match','موردی پیدا نشد'))};e.oninput=f;f()}},
+
+{id:'chmod',c:'dev',i:'🐧',t:['chmod calculator','ماشین‌حساب chmod'],d:['Linux file permissions as numbers and symbols','مجوزهای فایل لینوکس به صورت عددی و نمادین'],
+h:()=>`<table class="perm"><tr><th></th><th>r</th><th>w</th><th>x</th></tr>${[L('Owner','مالک'),L('Group','گروه'),L('Others','دیگران')].map((n,i)=>`<tr><td>${n}</td>${[4,2,1].map(v=>`<td><input type="checkbox" data-v="${v}"${i==0||v!=2?' checked':''}></td>`).join('')}</tr>`).join('')}</table><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const d=[...e.querySelectorAll('tr')].slice(1).map(tr=>[...tr.querySelectorAll('input')].reduce((s,c)=>s+(c.checked?+c.dataset.v:0),0));
+ R(o,[[L('Numeric','عددی'),d.join('')],[L('Symbolic','نمادین'),d.map(x=>(x&4?'r':'-')+(x&2?'w':'-')+(x&1?'x':'-')).join('')],[L('Command','دستور'),'chmod '+d.join('')+' file']])};e.oninput=f;f()}},
+
+{id:'codec',c:'dev',i:'🔁',t:['Base64 and URL encoding','رمزگذاری Base64 و URL'],d:['Encode or decode text with UTF-8 support','رمزگذاری و رمزگشایی متن با پشتیبانی UTF-8'],
+h:()=>`<select class="m"><option>Base64</option><option>URL</option></select><textarea class="a" rows="3" dir="auto"></textarea><div class="acts"><button class="btn b1">${L('Encode','رمزگذاری')}</button><button class="btn ghost b2">${L('Decode','رمزگشایی')}</button></div><textarea class="x" rows="3" readonly dir="auto"></textarea>`,
+r:e=>{const a=$(e,'.a'),x=$(e,'.x'),m=$(e,'.m');const go=d=>{try{const v=a.value;x.value=m.value=='URL'?(d?decodeURIComponent(v):encodeURIComponent(v)):d?new TextDecoder().decode(Uint8Array.from(atob(v.trim()),c=>c.charCodeAt(0))):btoa(String.fromCharCode(...new TextEncoder().encode(v)))}catch{x.value=L('Invalid input','ورودی نامعتبر است')}};
+ $(e,'.b1').onclick=()=>go(0);$(e,'.b2').onclick=()=>go(1)}},
+
+{id:'hash',c:'sec',i:'🔐',t:['Hash generator','تولید هش'],d:['SHA-1, SHA-256 and SHA-512 of any text, computed in your browser','هش SHA-1، SHA-256 و SHA-512 متن، محاسبه در مرورگر شما'],
+h:()=>`<textarea class="a" rows="3" dir="auto">hello</textarea><div class="o"></div>`,
+r:e=>{const a=$(e,'.a'),o=$(e,'.o');const f=async()=>{try{const d=new TextEncoder().encode(a.value),rows=[];for(const n of['SHA-1','SHA-256','SHA-512'])rows.push([n,[...new Uint8Array(await crypto.subtle.digest(n,d))].map(x=>x.toString(16).padStart(2,'0')).join('')]);R(o,rows)}catch{E(o,L('Hashing needs HTTPS or localhost','هش‌گذاری به HTTPS یا localhost نیاز دارد'))}};a.oninput=f;f()}},
+
+{id:'pass',c:'sec',i:'🔑',t:['Password and UUID generator','تولید رمز عبور و UUID'],d:['Random passwords with entropy estimate, plus a fresh UUID','رمز عبور تصادفی با برآورد آنتروپی و یک UUID جدید'],
+h:()=>`<div><label>${L('Length','طول')}</label><input class="a" type="number" min="4" max="128" value="16"></div><div class="chk"><label><input type="checkbox" checked data-s="abcdefghijklmnopqrstuvwxyz">a-z</label><label><input type="checkbox" checked data-s="ABCDEFGHIJKLMNOPQRSTUVWXYZ">A-Z</label><label><input type="checkbox" checked data-s="0123456789">0-9</label><label><input type="checkbox" checked data-s="!@#$%^&*-_+=?">!@#$</label></div><button class="btn g">${L('Generate','تولید')}</button><div class="o"></div>`,
+r:e=>{const o=$(e,'.o');const f=()=>{const n=Math.min(128,Math.max(4,+$(e,'.a').value||16)),pool=[...e.querySelectorAll('.chk input:checked')].map(c=>c.dataset.s).join('');
+ if(!pool)return E(o,L('Select at least one character set','حداقل یک دسته کاراکتر انتخاب کنید'));
+ R(o,[[L('Password','رمز عبور'),Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>pool[x%pool.length]).join('')],[L('Entropy','آنتروپی'),Math.round(n*Math.log2(pool.length))+' bits'],['UUID',crypto.randomUUID()]])};
+ $(e,'.g').onclick=f;f()}},
+
+{id:'json',c:'dev',i:'🧾',t:['JSON formatter','فرمت‌کننده JSON'],d:['Validate, beautify or minify JSON','اعتبارسنجی، مرتب‌سازی یا فشرده‌سازی JSON'],
+h:()=>`<textarea class="a" rows="5" dir="ltr" spellcheck="false">{"name":"IT","tools":[1,2]}</textarea><div class="acts"><button class="btn b1">${L('Format','مرتب‌سازی')}</button><button class="btn ghost b2">${L('Minify','فشرده‌سازی')}</button></div><textarea class="x" rows="5" readonly dir="ltr"></textarea>`,
+r:e=>{const a=$(e,'.a'),x=$(e,'.x');const go=d=>{try{x.value=JSON.stringify(JSON.parse(a.value),null,d?0:2)}catch(er){x.value=er.message}};$(e,'.b1').onclick=()=>go(0);$(e,'.b2').onclick=()=>go(1);go(0)}},
+
+{id:'time',c:'dev',i:'🕒',t:['Timestamp converter','مبدل تایم‌استمپ'],d:['Unix time (seconds or milliseconds) and dates','زمان یونیکس (ثانیه یا میلی‌ثانیه) و تاریخ'],
+h:()=>`<div class="two"><input class="a" dir="ltr" placeholder="1700000000  /  2026-09-28 12:00"><button class="btn ghost n">${L('Now','اکنون')}</button></div><div class="o"></div>`,
+r:e=>{const a=$(e,'.a'),o=$(e,'.o');const now=()=>a.value=Math.floor(Date.now()/1000);const f=()=>{const v=a.value.trim(),d=/^\d+$/.test(v)?new Date(v.length>11?+v:+v*1000):new Date(v);
+ if(isNaN(d))return E(o,L('Unrecognized date or timestamp','تاریخ یا تایم‌استمپ نامعتبر است'));
+ R(o,[['Unix (s)',String(Math.floor(d/1000))],['Unix (ms)',String(d.getTime())],['ISO 8601',d.toISOString()],['UTC',d.toUTCString()],[L('Local','محلی'),d.toLocaleString(fa?'fa-IR':'en-GB')]])};
+ $(e,'.n').onclick=()=>{now();f()};e.oninput=f;now();f()}}
+];
+
+
+const cats=[['all',['All','همه']],['net',['Network','شبکه']],['conv',['Converters','مبدل‌ها']],['sec',['Security','امنیت']],['dev',['Developer','توسعه']]];
+const $id=i=>document.getElementById(i);
+const T=(i,a,b)=>$id(i).textContent=L(a,b);
+T('brandTitle','My Profile','پروفایل من');T('brandSub','Account Management','مدیریت حساب');
+T('secMain','Main','اصلی');T('navHome','Dashboard','داشبورد');T('navAllLabel','IT Tools','ابزارهای IT');
+T('backSite','Back to site','بازگشت به سایت');T('statusText','Active','فعال');
+$id('q').placeholder=L('Search tools','جستجوی ابزار');
+$id('empty').textContent=L('No tools match your search.','ابزاری با این جستجو پیدا نشد.');
+$id('langLabel').textContent=fa?'English':'فارسی';
+$id('lang').onclick=()=>{localStorage.setItem('language',fa?'en':'fa');location.reload()};
+
+const SHORT={ipconv:['IP and mask converter','مبدل IP و ماسک'],units:['Data units','واحد داده'],base:['Number bases','مبنای اعداد'],codec:['Base64 and URL','Base64 و URL'],pass:['Password and UUID','رمز عبور و UUID'],json:['JSON formatter','فرمت‌کننده JSON'],time:['Timestamp converter','مبدل تایم‌استمپ']};
+const grid=$id('grid'),nav=$id('toolNav');let cat='all';
+tools.forEach(t=>{
+  const s=document.createElement('section');s.className='tool';s.id='tool-'+t.id;
+  s.innerHTML=`<h3><a href="#${t.id}"><span class="ic">${t.i}</span>${L(...t.t)}</h3></a><p>${L(...t.d)}</p>${t.h()}`.replace('</h3></a>','</a></h3>');
+  grid.append(s);t.el=s;t.r(s);t.txt=(t.t.join(' ')+' '+t.d.join(' ')).toLowerCase();
+  const a=document.createElement('a');a.className='nav-sub-item';a.href='#'+t.id;a.innerHTML=`<span class="si">${t.i}</span><span>${L(...(SHORT[t.id]||t.t))}</span>`;nav.append(a);t.nav=a;
+});
+const chips=$id('cats');
+cats.forEach(([id,n])=>{const b=document.createElement('button');b.className='chip';b.textContent=L(...n);b.setAttribute('aria-pressed',id=='all');b.onclick=()=>{cat=id;[...chips.children].forEach(c=>c.setAttribute('aria-pressed',c===b));filter()};chips.append(b)});
+function filter(){const q=$id('q').value.trim().toLowerCase();let n=0;tools.forEach(t=>{const show=(cat=='all'||t.c==cat)&&(!q||t.txt.includes(q));t.el.hidden=!show;n+=show});$id('empty').hidden=n>0}
+$id('q').oninput=filter;
+
+function route(){
+  const cur=tools.find(t=>t.id===location.hash.slice(1));
+  document.body.classList.toggle('single',!!cur);
+  $id('toolbar').hidden=!!cur;
+  tools.forEach(t=>{t.nav.classList.toggle('active',t===cur)});
+  $id('navAll').classList.toggle('active',!cur);
+  if(cur){tools.forEach(t=>t.el.hidden=t!==cur);$id('empty').hidden=true}else filter();
+  const ttl=cur?L(...cur.t):L('IT Tools','ابزارهای IT');
+  $id('titleText').textContent=ttl;document.querySelector('.title-icon').textContent=cur?cur.i:'🛠️';
+  document.title=ttl+' | '+L('IT Tools','ابزارهای IT');
+  $id('sidebar').classList.remove('open');$id('sidebarOverlay').classList.remove('active');
+  window.scrollTo(0,0);
+}
+addEventListener('hashchange',route);route();
+
+$id('menuToggle').onclick=()=>{$id('sidebar').classList.toggle('open');$id('sidebarOverlay').classList.toggle('active')};
+$id('sidebarOverlay').onclick=()=>{$id('sidebar').classList.remove('open');$id('sidebarOverlay').classList.remove('active')};
+
+document.addEventListener('click',ev=>{const c=ev.target.closest('.row code');if(!c)return;navigator.clipboard&&navigator.clipboard.writeText(c.textContent).then(()=>{c.classList.add('ok');setTimeout(()=>c.classList.remove('ok'),900)})});
+
+// Profile info (same account as the profile page)
+(async()=>{try{
+  const S=window.supabase.createClient('https://cwwqmushilpxzpcpjute.supabase.co','sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK');
+  const {data:{session}}=await S.auth.getSession();if(!session)return;
+  const {data:p}=await S.from('profiles').select('*').eq('id',session.user.id).single();
+  const name=[p&&p.first_name,p&&p.last_name].filter(Boolean).join(' ')||(p&&p.username)||'';
+  const ch=((p&&(p.first_name||p.username))||session.user.email||'A')[0].toUpperCase();
+  const av=p&&p.avatar_url?`<img src="${esc(p.avatar_url)}" alt="avatar">`:`<span>${esc(ch)}</span>`;
+  $id('sidebarUserAvatar').innerHTML=av;$id('headerAvatar').innerHTML=av;$id('brandAvatar').innerHTML=`<span>${esc(ch)}</span>`;
+  $id('sidebarUserName').textContent=name||L('User','کاربر');$id('sidebarUserEmail').textContent=session.user.email||'';
+  $id('userCardWrap').hidden=false;
+}catch(e){}})();
+</script>
+</body>
+</html>
