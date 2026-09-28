@@ -604,6 +604,11 @@
         <span class="nav-icon">📝</span>
         <span class="nav-label" data-i18n="nav_exams">Exams</span>
       </button>
+      <button class="nav-item" data-nav="resume" id="navResume">
+        <span class="nav-icon">📄</span>
+        <span class="nav-label" data-i18n="nav_resume">Resume Builder</span>
+        <span class="nav-badge">NEW</span>
+      </button>
       <button class="nav-item" data-nav="ide" id="navIde">
         <span class="nav-icon">💻</span>
         <span class="nav-label" data-i18n="nav_ide">Online IDE</span>
@@ -701,6 +706,10 @@
             <button class="qa-card" data-nav="exams" id="btnViewExams">
               <div class="qa-ic">📝</div>
               <div><strong data-i18n="view_exams">Exams</strong><span class="qa-desc" data-i18n="qa_exams_desc">Python and Linux (LPIC) practice exams with score history</span></div>
+            </button>
+            <button class="qa-card" data-nav="resume" id="btnOpenResume">
+              <div class="qa-ic">📄</div>
+              <div><strong data-i18n="view_resume">Resume Builder</strong><span class="qa-desc" data-i18n="qa_resume_desc">Build a professional resume and keep it saved in your profile</span></div>
             </button>
             <button class="qa-card" data-nav="ide" id="btnOpenIde">
               <div class="qa-ic">💻</div>
@@ -817,6 +826,18 @@
             <div class="exam-arrow">←</div>
           </a>
           <div class="qa-grid tools-grid" id="toolsGrid"></div>
+        </div>
+
+        <!-- Resume Tab -->
+        <div class="tab-panel hidden" id="panel-resume">
+          <a href="./resume.html" class="exam-card-link">
+            <div class="exam-icon">📄</div>
+            <div class="exam-info">
+              <h4 data-i18n="resume_card_title">Resume Builder</h4>
+              <p data-i18n="resume_card_desc">Build a professional resume step by step, choose a template, and keep it saved in your profile</p>
+            </div>
+            <div class="exam-arrow">←</div>
+          </a>
         </div>
 
         <!-- IDE Tab -->
@@ -1002,6 +1023,12 @@
         nav_personal: 'Personal Details',
         nav_exams: 'Exams',
         nav_ide: 'Online IDE',
+        nav_resume: 'Resume Builder',
+        page_resume: 'Resume Builder',
+        view_resume: 'Resume Builder',
+        qa_resume_desc: 'Build a professional resume and keep it saved in your profile',
+        resume_card_title: 'Resume Builder',
+        resume_card_desc: 'Build a professional resume step by step, choose a template, and keep it saved in your profile',
         nav_it_tools: 'IT Tools',
         nav_tools: 'Tools',
         nav_files: 'File Manager',
@@ -1161,6 +1188,12 @@
         nav_personal: 'مشخصات شخصی',
         nav_exams: 'آزمون‌ها',
         nav_ide: 'IDE آنلاین',
+        nav_resume: 'رزومه‌ساز',
+        page_resume: 'رزومه‌ساز حرفه‌ای',
+        view_resume: 'رزومه‌ساز',
+        qa_resume_desc: 'رزومه‌ی حرفه‌ای بساز و در پروفایلت ذخیره نگه دار',
+        resume_card_title: 'رزومه‌ساز حرفه‌ای',
+        resume_card_desc: 'قدم‌به‌قدم رزومه بساز، قالب انتخاب کن و همیشه در پروفایلت ذخیره و قابل ویرایش باشد',
         nav_it_tools: 'ابزارهای IT',
         nav_tools: 'ابزارها',
         nav_files: 'مدیریت فایل',
@@ -1313,11 +1346,11 @@
     };
 
     const PAGE_ICONS = {
-      welcome: '🏠', personal: '👤', exams: '📝', ide: '💻', tools: '🛠️',
+      welcome: '🏠', personal: '👤', exams: '📝', ide: '💻', tools: '🛠️', resume: '📄',
       files: '📂', support: '💬', suggestions: '⭐'
     };
     const PAGE_TITLE_KEYS = {
-      welcome: 'page_home', personal: 'page_personal', exams: 'page_exams', ide: 'page_ide', tools: 'page_it_tools',
+      welcome: 'page_home', personal: 'page_personal', exams: 'page_exams', ide: 'page_ide', resume: 'page_resume', tools: 'page_it_tools',
       files: 'page_files', support: 'page_support', suggestions: 'page_suggestions'
     };
 
@@ -2523,6 +2556,7 @@
 
     // Initialize
     checkAuth();
+    (function () { const h = location.hash.slice(1); if (h && document.getElementById('panel-' + h)) navigateTo(h); })();
 
   </script>
 </body>
