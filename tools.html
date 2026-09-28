@@ -316,6 +316,19 @@
     .perm td, .perm th { padding: 6px; text-align: center; font-size: 0.85rem; }
     .perm td:first-child { text-align: start; color: var(--text-secondary); }
     #empty { color: var(--text-secondary); }
+    .wide { grid-column: 1 / -1; }
+    .sp-top { display: grid; grid-template-columns: minmax(160px, 240px) 1fr; gap: 20px; align-items: center; }
+    .sp-big { text-align: center; direction: ltr; }
+    .sp-big .v { display: block; font-size: 3.6rem; font-weight: 800; line-height: 1.1; background: var(--accent-gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .sp-big small { color: var(--text-secondary); font-size: 0.85rem; }
+    .sp-big em { display: block; min-height: 1.4em; font-style: normal; font-size: 0.85rem; color: var(--accent-cyan); }
+    .cv { width: 100%; height: 90px; display: block; }
+    .sp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; }
+    .tile { background: rgba(15,21,37,0.6); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 12px; text-align: center; direction: ltr; }
+    .tile span { display: block; font-size: 0.75rem; color: var(--text-secondary); }
+    .tile b { font-size: 1.3rem; color: var(--accent-cyan); }
+    .tile i { font-style: normal; font-size: 0.72rem; color: var(--text-secondary); margin-inline-start: 3px; }
+    @media (max-width: 600px) { .sp-top { grid-template-columns: 1fr; } }
     body[data-lang="fa"] { direction: rtl; font-family: 'Vazirmatn','Inter',ui-sans-serif,system-ui,sans-serif; }
     body[data-lang="fa"] .sidebar { left: auto; right: 0; border-right: none; border-left: 1px solid var(--border-subtle); }
     body[data-lang="fa"] .main-wrapper { margin-left: 0; margin-right: var(--sidebar-width); }
@@ -335,6 +348,10 @@
     }
     @media (max-width: 480px) { .back-to-site-btn span:not(.back-arrow) { display: none; } .back-to-site-btn { padding: 9px 11px; } }
     @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+    .note { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 14px; border: 1px solid var(--border-accent); background: var(--accent-gradient-soft); border-radius: var(--radius-md); font-size: 0.85rem; color: var(--text-secondary); }
+    .note b { color: var(--accent-cyan); }
+    .note a.btn { text-decoration: none; padding: 7px 14px; font-size: 0.82rem; }
+    .note .btn { padding: 7px 14px; font-size: 0.82rem; }
 </style>
 </head>
 <body>
@@ -414,6 +431,47 @@ const REF={
 };
 
 const tools=[
+{id:'speed',c:'net',i:'🚀',w:1,t:['Internet speed test','تست سرعت اینترنت'],d:['Ping, jitter, download and upload measured against the Cloudflare network','پینگ، جیتر، دانلود و آپلود با شبکهٔ Cloudflare'],
+h:()=>`<div class="sp-top"><div class="sp-big"><b class="v">0</b><small>Mbps</small><em class="ph"></em></div><canvas class="cv"></canvas></div><div class="sp-tiles">${[['ping',L('Ping','پینگ'),'ms'],['jit',L('Jitter','جیتر'),'ms'],['dl',L('Download','دانلود'),'Mbps'],['ul',L('Upload','آپلود'),'Mbps']].map(([k,n,u])=>`<div class="tile"><span>${n}</span><b class="${k}">–</b><i>${u}</i></div>`).join('')}</div><div class="acts"><button class="btn go">${L('Start test','شروع تست')}</button></div><div class="o inf"></div><div class="o his"></div>`,
+r:e=>{
+const B='https://speed.cloudflare.com/',q=k=>$(e,k),cv=q('.cv'),go=q('.go'),inf=q('.inf'),his=q('.his');
+let pts=[],ac=null,busy=0,stopped=0;
+const draw=()=>{const c=cv.getContext('2d'),w=cv.width=cv.clientWidth,h=cv.height=90;c.clearRect(0,0,w,h);if(pts.length<2)return;const m=Math.max(...pts,1)*1.15;c.beginPath();pts.forEach((p,i)=>{const x=i/(pts.length-1)*w,y=h-p/m*h;i?c.lineTo(x,y):c.moveTo(x,y)});c.strokeStyle='#00d4ff';c.lineWidth=2;c.stroke();c.lineTo(w,h);c.lineTo(0,h);c.fillStyle='rgba(0,212,255,.12)';c.fill()};
+const show=x=>q('.v').textContent=x<10?x.toFixed(2):x<100?x.toFixed(1):Math.round(x);
+const hist=()=>{try{return JSON.parse(localStorage.getItem('speedHist')||'[]')}catch{return[]}};
+const paint=()=>{const h=hist();his.innerHTML='';if(h.length)R(his,h.map(x=>[new Date(x.t).toLocaleString(fa?'fa-IR':'en-GB'),`↓ ${x.d}  ↑ ${x.u}  ${x.p} ms`]))};
+async function ping(){const t=[];for(let i=0;i<11&&!stopped;i++){const s=performance.now();await fetch(B+'__down?bytes=0&r='+Math.random(),{cache:'no-store',signal:ac.signal});if(i)t.push(performance.now()-s)}
+ const j=t.slice(1).reduce((a,x,i)=>a+Math.abs(x-t[i]),0)/Math.max(1,t.length-1);return[[...t].sort((a,b)=>a-b)[t.length>>1],j]}
+async function flow(kind,secs){
+ const pc=new AbortController();ac=pc;let bytes=0,S=[],t0=performance.now();pts=[];
+ const tick=setInterval(()=>{const el=(performance.now()-t0)/1e3;S.push([el,bytes]);const a=S.find(s=>s[0]>=el-1)||S[0],v=el>a[0]?(bytes-a[1])*8/1e6/(el-a[0]):0;pts.push(v);show(v);draw()},250);
+ const dl=async()=>{while(!pc.signal.aborted){const r=await fetch(B+'__down?bytes=25000000&r='+Math.random(),{cache:'no-store',signal:pc.signal}),rd=r.body.getReader();for(;;){const x=await rd.read();if(x.done)break;bytes+=x.value.length}}};
+ const blob=new Blob([new Uint8Array(4e6)]);
+ const ul=()=>new Promise(ok=>{const x=new XMLHttpRequest();let p=0;x.open('POST',B+'__up');x.upload.onprogress=v=>{bytes+=v.loaded-p;p=v.loaded};x.onloadend=ok;pc.signal.addEventListener('abort',()=>x.abort());x.send(blob)});
+ const upw=async()=>{while(!pc.signal.aborted)await ul()};
+ const timer=setTimeout(()=>pc.abort(),secs*1e3);
+ await Promise.all(Array(kind=='dl'?4:3).fill().map(()=>(kind=='dl'?dl:upw)().catch(()=>{})));
+ clearTimeout(timer);clearInterval(tick);
+ const el=(performance.now()-t0)/1e3,a=S.find(s=>s[0]>=Math.min(2,secs/3));
+ if(!a||!bytes)throw 0;return(bytes-a[1])*8/1e6/(el-a[0])}
+async function info(r){let m={};try{m=await(await fetch(B+'meta')).json()}catch{}
+ R(inf,[[L('Suitable for','مناسب برای'),r.d>=25&&r.p<80?L('4K streaming, video calls, online gaming','استریم 4K، ویدیوکال، بازی آنلاین'):r.d>=5?L('HD video, calls, browsing','ویدیوی HD، تماس، وب‌گردی'):L('Basic browsing and messaging','وب‌گردی و پیام‌رسانی ساده')],
+ ...(m.clientIp?[['IP',m.clientIp],['ISP',m.asOrganization||'–'],[L('Location','موقعیت'),[m.city,m.country].filter(Boolean).join(', ')],[L('Server','سرور'),(m.colo&&m.colo.iata)||m.colo||'–']]:[])])}
+go.onclick=async()=>{
+ if(busy){stopped=1;ac&&ac.abort();return}
+ busy=1;stopped=0;go.textContent=L('Stop','توقف');inf.innerHTML='';['ping','jit','dl','ul'].forEach(k=>q('.'+k).textContent='–');
+ const ph=x=>q('.ph').textContent=x,r={};
+ try{
+  ph(L('Measuring latency…','اندازه‌گیری تأخیر…'));ac=new AbortController();const[p,j]=await ping();if(stopped)throw 0;r.p=Math.round(p);q('.ping').textContent=r.p;q('.jit').textContent=j.toFixed(1);
+  ph(L('Testing download…','تست دانلود…'));r.d=await flow('dl',8);if(stopped)throw 0;q('.dl').textContent=r.d.toFixed(1);show(r.d);
+  ph(L('Testing upload…','تست آپلود…'));r.u=await flow('ul',8);if(stopped)throw 0;q('.ul').textContent=r.u.toFixed(1);show(r.u);
+  ph(L('Done','پایان'));
+  try{const h=hist();h.unshift({t:Date.now(),d:r.d.toFixed(1),u:r.u.toFixed(1),p:r.p});localStorage.setItem('speedHist',JSON.stringify(h.slice(0,5)))}catch{}
+  paint();info(r);dispatchEvent(new Event('speedhist'))
+ }catch{ph('');if(!stopped)E(inf,L('Test failed. Check your connection or allow speed.cloudflare.com (ad blockers may block it).','تست ناموفق بود. اتصال را بررسی کنید یا speed.cloudflare.com را مجاز کنید (ادبلاکر ممکن است مسدود کند).'))}
+ busy=0;go.textContent=L('Start test','شروع تست')};
+paint()}},
+
 {id:'subnet',c:'net',i:'🧮',t:['Subnet calculator','ماشین‌حساب ساب‌نت'],d:['Network, broadcast, mask and host range for an IPv4 address','شبکه، برادکست، ماسک و محدوده هاست برای آدرس IPv4'],
 h:()=>`<div><label>${L('IP address / prefix','آدرس IP / پیشوند')}</label><input class="a" dir="ltr" value="192.168.1.10/24"></div><div class="o"></div>`,
 r:e=>{const a=$(e,'.a'),o=$(e,'.o');const f=()=>{const[p,c]=a.value.trim().split('/'),ip=ip2n(p),n=+c;
@@ -436,11 +494,23 @@ r:e=>{const o=$(e,'.o');$(e,'.a').onclick=async()=>{let ip=L('Unavailable (offli
  R(o,[[L('Public IP','IP عمومی'),ip],[L('Time zone','منطقه زمانی'),Intl.DateTimeFormat().resolvedOptions().timeZone],[L('Browser language','زبان مرورگر'),navigator.language],[L('Screen','صفحه‌نمایش'),screen.width+'×'+screen.height],[L('Status','وضعیت'),navigator.onLine?'online':'offline']])}}},
 
 {id:'bw',c:'net',i:'⏱️',t:['Download time','زمان دانلود'],d:['How long a file takes at a given line speed','مدت زمان دانلود فایل با سرعت مشخص'],
-h:()=>`<div class="two"><div><label>${L('File size','حجم فایل')}</label><input class="a" type="number" min="0" step="any" value="1"></div><select class="b"><option value="1e3">KB</option><option value="1e6">MB</option><option value="1e9" selected>GB</option><option value="1e12">TB</option></select></div><div class="two"><div><label>${L('Speed','سرعت')}</label><input class="c" type="number" min="0" step="any" value="100"></div><select class="d"><option value="1e3">Kbps</option><option value="1e6" selected>Mbps</option><option value="1e9">Gbps</option><option value="8e6">MB/s</option></select></div><div class="o"></div>`,
-r:e=>{const o=$(e,'.o');const f=()=>{const a=+$(e,'.a').value,c=+$(e,'.c').value;if(!(a>=0)||!(c>0))return E(o,L('Enter a size and a speed above zero','حجم و سرعت بزرگ‌تر از صفر وارد کنید'));
- const bps=c*$(e,'.d').value,s=a*$(e,'.b').value*8/bps;let t=Math.round(s);const u=[[86400,L('d','روز')],[3600,L('h','ساعت')],[60,L('min','دقیقه')],[1,L('s','ثانیه')]];
- const txt=u.map(([n,l])=>{const q=Math.floor(t/n);t-=q*n;return q?q+' '+l:''}).filter(Boolean).join(' ')||L('under 1 s','کمتر از ۱ ثانیه');
- R(o,[[L('Time','زمان'),txt],[L('Real throughput','سرعت واقعی'),fmtN(bps/8e6)+' MB/s']])};e.oninput=f;f()}},
+h:()=>`<div class="note"></div><div class="two"><div><label>${L('File size','حجم فایل')}</label><input class="a" type="number" min="0" step="any" value="1"></div><select class="b"><option value="1e3">KB</option><option value="1e6">MB</option><option value="1e9" selected>GB</option><option value="1e12">TB</option></select></div><div class="two"><div><label>${L('Speed','سرعت')}</label><input class="c" type="number" min="0" step="any" value="100"></div><select class="d"><option value="1e3">Kbps</option><option value="1e6" selected>Mbps</option><option value="1e9">Gbps</option><option value="8e6">MB/s</option></select></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o'),nt=$(e,'.note'),sp=$(e,'.c'),un=$(e,'.d');let dirty=0;
+ const last=()=>{try{const h=JSON.parse(localStorage.getItem('speedHist')||'[]');return h[0]&&+h[0].d>0?h[0]:null}catch{return null}};
+ const f=()=>{const a=+$(e,'.a').value,c=+sp.value;if(!(a>=0)||!(c>0))return E(o,L('Enter a size and a speed above zero','حجم و سرعت بزرگ‌تر از صفر وارد کنید'));
+  const bps=c*un.value,s=a*$(e,'.b').value*8/bps;let t=Math.round(s);const u=[[86400,L('d','روز')],[3600,L('h','ساعت')],[60,L('min','دقیقه')],[1,L('s','ثانیه')]];
+  const txt=u.map(([n,l])=>{const q=Math.floor(t/n);t-=q*n;return q?q+' '+l:''}).filter(Boolean).join(' ')||L('under 1 s','کمتر از ۱ ثانیه');
+  R(o,[[L('Time','زمان'),txt],[L('Real throughput','سرعت واقعی'),fmtN(bps/8e6)+' MB/s']])};
+ const note=()=>{const x=last();
+  if(!x){nt.innerHTML=`<span>${L('Not sure of your speed? Run a speed test first for an accurate estimate.','از سرعت اینترنت خود مطمئن نیستید؟ برای تخمین دقیق‌تر ابتدا تست سرعت بگیرید.')}</span><a class="btn" href="#speed">${L('Run speed test','گرفتن تست سرعت')}</a>`;return}
+  const dt=new Date(x.t).toLocaleString(fa?'fa-IR':'en-GB');
+  nt.innerHTML=`<span>${dirty?L('Your last speed test','آخرین تست سرعت شما'):L('Speed taken from your last test','سرعت از آخرین تست شما گرفته شد')}: <b>${x.d} Mbps</b> · ${dt}</span>`+(dirty?`<button class="btn ghost use">${L('Use it','استفاده'  )}</button>`:`<a class="btn ghost" href="#speed">${L('Test again','تست مجدد')}</a>`);
+  const u=$(nt,'.use');if(u)u.onclick=()=>{dirty=0;sync()}};
+ const sync=()=>{const x=last();if(x&&!dirty){sp.value=x.d;un.value='1e6'}note();f()};
+ e.addEventListener('input',ev=>{if(ev.target.matches('.c,.d')){dirty=1;note()}});
+ e.oninput=f;
+ addEventListener('speedhist',sync);addEventListener('hashchange',()=>{if(location.hash=='#bw')sync()});
+ sync()}},
 
 {id:'units',c:'conv',i:'💾',t:['Data unit converter','مبدل واحد داده'],d:['Bits, bytes, decimal (KB) and binary (KiB) units','بیت، بایت، واحدهای دهدهی (KB) و دودویی (KiB)'],
 h:()=>`<div class="two"><input class="a" type="number" step="any" value="1"><select class="b">${U.map(([n,v],i)=>`<option value="${v}"${i==4?' selected':''}>${n}</option>`).join('')}</select></div><div class="o"></div>`,
@@ -478,20 +548,30 @@ r:e=>{const o=$(e,'.o');const f=()=>{const n=Math.min(128,Math.max(4,+$(e,'.a').
  R(o,[[L('Password','رمز عبور'),Array.from(crypto.getRandomValues(new Uint32Array(n)),x=>pool[x%pool.length]).join('')],[L('Entropy','آنتروپی'),Math.round(n*Math.log2(pool.length))+' bits'],['UUID',crypto.randomUUID()]])};
  $(e,'.g').onclick=f;f()}},
 
-{id:'json',c:'dev',i:'🧾',t:['JSON formatter','فرمت‌کننده JSON'],d:['Validate, beautify or minify JSON','اعتبارسنجی، مرتب‌سازی یا فشرده‌سازی JSON'],
-h:()=>`<textarea class="a" rows="5" dir="ltr" spellcheck="false">{"name":"IT","tools":[1,2]}</textarea><div class="acts"><button class="btn b1">${L('Format','مرتب‌سازی')}</button><button class="btn ghost b2">${L('Minify','فشرده‌سازی')}</button></div><textarea class="x" rows="5" readonly dir="ltr"></textarea>`,
-r:e=>{const a=$(e,'.a'),x=$(e,'.x');const go=d=>{try{x.value=JSON.stringify(JSON.parse(a.value),null,d?0:2)}catch(er){x.value=er.message}};$(e,'.b1').onclick=()=>go(0);$(e,'.b2').onclick=()=>go(1);go(0)}},
-
 {id:'time',c:'dev',i:'🕒',t:['Timestamp converter','مبدل تایم‌استمپ'],d:['Unix time (seconds or milliseconds) and dates','زمان یونیکس (ثانیه یا میلی‌ثانیه) و تاریخ'],
 h:()=>`<div class="two"><input class="a" dir="ltr" placeholder="1700000000  /  2026-09-28 12:00"><button class="btn ghost n">${L('Now','اکنون')}</button></div><div class="o"></div>`,
 r:e=>{const a=$(e,'.a'),o=$(e,'.o');const now=()=>a.value=Math.floor(Date.now()/1000);const f=()=>{const v=a.value.trim(),d=/^\d+$/.test(v)?new Date(v.length>11?+v:+v*1000):new Date(v);
  if(isNaN(d))return E(o,L('Unrecognized date or timestamp','تاریخ یا تایم‌استمپ نامعتبر است'));
  R(o,[['Unix (s)',String(Math.floor(d/1000))],['Unix (ms)',String(d.getTime())],['ISO 8601',d.toISOString()],['UTC',d.toUTCString()],[L('Local','محلی'),d.toLocaleString(fa?'fa-IR':'en-GB')]])};
- $(e,'.n').onclick=()=>{now();f()};e.oninput=f;now();f()}}
+ $(e,'.n').onclick=()=>{now();f()};e.oninput=f;now();f()}},
+
+{id:'ipv6',c:'net',i:'🔠',t:['IPv6 expand / compress','IPv6 گسترش و فشرده‌سازی'],d:['Validate an IPv6 address and show its full and shortest forms','اعتبارسنجی IPv6 و نمایش فرم کامل و فشرده'],
+h:()=>`<input class="a" dir="ltr" value="2001:db8::1"><div class="o"></div>`,
+r:e=>{const o=$(e,'.o'),bad=L('Invalid IPv6 address','آدرس IPv6 نامعتبر است');const f=()=>{const v=$(e,'.a').value.trim().toLowerCase(),sp=v.split('::');if(sp.length>2||!/^[0-9a-f:]+$/.test(v))return E(o,bad);
+ const h=sp[0]?sp[0].split(':'):[],t=sp[1]?sp[1].split(':'):[],m=8-h.length-t.length;if(sp.length==1?h.length!=8:m<1)return E(o,bad);
+ const g=sp.length==1?h:[...h,...Array(m).fill('0'),...t];if(g.some(x=>!/^[0-9a-f]{1,4}$/.test(x)))return E(o,bad);
+ const full=g.map(x=>x.padStart(4,'0')),n=g.map(x=>parseInt(x,16).toString(16));let bs=-1,bl=0;for(let i=0;i<8;){if(n[i]!='0'){i++;continue}let j=i;while(j<8&&n[j]=='0')j++;if(j-i>bl){bs=i;bl=j-i}i=j}
+ const f0=parseInt(full[0],16),z=n.slice(0,7).every(x=>x=='0'),ty=z&&n[7]=='1'?L('Loopback','لوپ‌بک'):z&&n[7]=='0'?L('Unspecified','نامشخص'):(f0&0xffc0)==0xfe80?L('Link-local','لینک‌لوکال'):(f0&0xfe00)==0xfc00?L('Unique local (private)','یونیک لوکال (خصوصی)'):f0>>8==255?L('Multicast','مالتی‌کست'):full[0]+full[1]=='20010db8'?L('Documentation','مستندات'):L('Global unicast','گلوبال یونی‌کست');
+ R(o,[[L('Expanded','گسترش‌یافته'),full.join(':')],[L('Compressed','فشرده'),bl>1?n.slice(0,bs).join(':')+'::'+n.slice(bs+bl).join(':'):n.join(':')],[L('Type','نوع'),ty]])};e.oninput=f;f()}},
+
+{id:'sla',c:'sys',i:'📈',t:['Uptime / SLA calculator','ماشین‌حساب آپ‌تایم و SLA'],d:['Allowed downtime for an availability target','مدت خرابی مجاز برای هدف دسترس‌پذیری'],
+h:()=>`<div><label>${L('Availability %','دسترس‌پذیری %')}</label><input class="a" type="number" step="any" min="0" max="100" value="99.9"></div><div class="o"></div>`,
+r:e=>{const o=$(e,'.o'),u=[[86400,L('d','روز')],[3600,L('h','ساعت')],[60,L('min','دقیقه')],[1,L('s','ثانیه')]],fm=s=>{s=Math.round(s);return s<1?'0 '+u[3][1]:u.map(([n,l])=>{const c=Math.floor(s/n);s-=c*n;return c?c+' '+l:''}).filter(Boolean).join(' ')};
+ const f=()=>{const a=+$(e,'.a').value;if(!(a>=0&&a<=100))return E(o,L('Enter a value from 0 to 100','عددی بین ۰ تا ۱۰۰ وارد کنید'));const d=1-a/100;R(o,[[L('Per day','در روز'),fm(d*86400)],[L('Per week','در هفته'),fm(d*604800)],[L('Per month (30 d)','در ماه (۳۰ روز)'),fm(d*2592000)],[L('Per year','در سال'),fm(d*31536000)]])};e.oninput=f;f()}}
 ];
 
 
-const cats=[['all',['All','همه']],['net',['Network','شبکه']],['conv',['Converters','مبدل‌ها']],['sec',['Security','امنیت']],['dev',['Developer','توسعه']]];
+const cats=[['all',['All','همه']],['net',['Network','شبکه']],['conv',['Converters','مبدل‌ها']],['sec',['Security','امنیت']],['dev',['Developer','توسعه']],['sys',['System','سیستم']]];
 const $id=i=>document.getElementById(i);
 const T=(i,a,b)=>$id(i).textContent=L(a,b);
 T('brandTitle','My Profile','پروفایل من');T('brandSub','Account Management','مدیریت حساب');
@@ -502,10 +582,10 @@ $id('empty').textContent=L('No tools match your search.','ابزاری با ای
 $id('langLabel').textContent=fa?'English':'فارسی';
 $id('lang').onclick=()=>{localStorage.setItem('language',fa?'en':'fa');location.reload()};
 
-const SHORT={ipconv:['IP and mask converter','مبدل IP و ماسک'],units:['Data units','واحد داده'],base:['Number bases','مبنای اعداد'],codec:['Base64 and URL','Base64 و URL'],pass:['Password and UUID','رمز عبور و UUID'],json:['JSON formatter','فرمت‌کننده JSON'],time:['Timestamp converter','مبدل تایم‌استمپ']};
+const SHORT={ipconv:['IP and mask converter','مبدل IP و ماسک'],units:['Data units','واحد داده'],base:['Number bases','مبنای اعداد'],codec:['Base64 and URL','Base64 و URL'],pass:['Password and UUID','رمز عبور و UUID'],time:['Timestamp converter','مبدل تایم‌استمپ']};
 const grid=$id('grid'),nav=$id('toolNav');let cat='all';
 tools.forEach(t=>{
-  const s=document.createElement('section');s.className='tool';s.id='tool-'+t.id;
+  const s=document.createElement('section');s.className='tool'+(t.w?' wide':'');s.id='tool-'+t.id;
   s.innerHTML=`<h3><a href="#${t.id}"><span class="ic">${t.i}</span>${L(...t.t)}</h3></a><p>${L(...t.d)}</p>${t.h()}`.replace('</h3></a>','</a></h3>');
   grid.append(s);t.el=s;t.r(s);t.txt=(t.t.join(' ')+' '+t.d.join(' ')).toLowerCase();
   const a=document.createElement('a');a.className='nav-sub-item';a.href='#'+t.id;a.innerHTML=`<span class="si">${t.i}</span><span>${L(...(SHORT[t.id]||t.t))}</span>`;nav.append(a);t.nav=a;
