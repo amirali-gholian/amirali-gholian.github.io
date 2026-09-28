@@ -38,6 +38,8 @@ const NO_CACHE_PATHS = [
     "/linux02.html",
     "/linux-questions.js",
     "/python02.html",
+    "/tools.html.html",
+    "/resume.html",
     "/questions.js"
 ];
 
