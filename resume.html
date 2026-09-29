@@ -922,16 +922,18 @@
       }
       async function pdf() {
         await loadH2P();
+        const sx = window.scrollX, sy = window.scrollY, sm = document.documentElement.style.scrollBehavior;
+        document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0);
         const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px';
         const c = $('rsPaper').cloneNode(true); c.style.transform = 'none'; c.style.boxShadow = 'none'; c.removeAttribute('id'); host.appendChild(c); document.body.appendChild(host);
         try {
           let cv = null;
-          return await html2pdf().set({ margin: 0, image: { type: 'jpeg', quality: 0.95 }, enableLinks: true, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4' }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.row', '.cc', 'h3'] } })
+          return await html2pdf().set({ margin: 0, image: { type: 'jpeg', quality: 0.95 }, enableLinks: true, html2canvas: { scale: 2, useCORS: true, scrollX: 0, scrollY: 0, x: 0, y: 0, windowWidth: 794 }, jsPDF: { unit: 'mm', format: 'a4' }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.row', '.cc', 'h3'] } })
             .from(c).toCanvas().get('canvas').then(x => { cv = x; }).toPdf().get('pdf').then(doc => {
               const n = doc.internal.getNumberOfPages();
               if (n > 1 && cv && lastPageBlank(cv, n)) doc.deletePage(n);
             }).outputPdf('blob');
-        } finally { host.remove(); }
+        } finally { host.remove(); window.scrollTo(sx, sy); document.documentElement.style.scrollBehavior = sm; }
       }
       async function save() {
         if (busy) return; busy = true; $('rsSave').disabled = $('rsNext').disabled = true; status(t('در حال ذخیره…', 'Saving…'));
