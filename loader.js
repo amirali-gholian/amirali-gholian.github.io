@@ -115,6 +115,8 @@
   var minDelay = new Promise(function (resolve) {
     setTimeout(resolve, reduceMotion ? 200 : 700);
   });
+
+  // 1) window "load" event
   var pageLoaded = new Promise(function (resolve) {
     if (document.readyState === "complete") {
       resolve();
@@ -123,9 +125,33 @@
     }
   });
 
-  Promise.all([minDelay, pageLoaded]).then(hide);
+  // 2) Web fonts
+  var fontsLoaded = (document.fonts && document.fonts.ready)
+    ? document.fonts.ready.catch(function () {})
+    : Promise.resolve();
 
-  // Safety net: never let the loader block the page for more
-  // than 8s even if some resource stalls.
-  setTimeout(hide, 8000);
+  // 3) Every <img> on the page (except the loader's own logo and lazy ones)
+  function imagesLoaded() {
+    var imgs = Array.prototype.slice.call(document.images).filter(function (img) {
+      return !el.contains(img) && img.loading !== "lazy";
+    });
+    return Promise.all(imgs.map(function (img) {
+      if (img.complete) return Promise.resolve();
+      return new Promise(function (resolve) {
+        img.addEventListener("load", resolve, { once: true });
+        img.addEventListener("error", resolve, { once: true });
+      });
+    }));
+  }
+
+  // Wait for `load` first (so all <img> tags already exist), then the rest.
+  var everythingReady = pageLoaded.then(function () {
+    return Promise.all([fontsLoaded, imagesLoaded()]);
+  });
+
+  Promise.all([minDelay, everythingReady]).then(hide);
+
+  // Last-resort failsafe only (30s) so a dead resource can never
+  // lock the page forever. Normally the loader waits for full load.
+  setTimeout(hide, 30000);
 })();
