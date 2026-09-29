@@ -1,15 +1,16 @@
 // ======================================================
 // Amirali Gholian PWA Service Worker
-// Version 3.3.2
+// Version 3.3.3
 // ======================================================
 
-const VERSION = "3.3.2";
+const VERSION = "3.3.3";
 
 const STATIC_CACHE = `static-${VERSION}`;
 const DYNAMIC_CACHE = `dynamic-${VERSION}`;
 const IMAGE_CACHE = `images-${VERSION}`;
 
 const OFFLINE_PAGE = "/offline.html";
+const NOT_FOUND_PAGE = "/404.html";
 
 // ======================================================
 // Static files
@@ -28,6 +29,7 @@ const STATIC_FILES = [
 
 // ======================================================
 // Paths that must NEVER be cached
+// (network only; offline page is shown ONLY when network is down)
 // ======================================================
 
 const NO_CACHE_PATHS = [
@@ -38,7 +40,7 @@ const NO_CACHE_PATHS = [
     "/linux02.html",
     "/linux-questions.js",
     "/python02.html",
-    "/tools.html.html",
+    "/tools.html",
     "/resume.html",
     "/questions.js"
 ];
@@ -71,7 +73,7 @@ function isApiPath(url) {
 }
 
 // ======================================================
-// Check same-origin
+// Helpers
 // ======================================================
 
 function isSameOrigin(url) {
@@ -82,14 +84,16 @@ function isSameOrigin(url) {
     }
 }
 
-// ======================================================
-// Check successful response
-// ======================================================
-
 function isValidResponse(response) {
     return response &&
            response.status >= 200 &&
            response.status < 400;
+}
+
+function isHtmlRequest(request) {
+    return request.mode === "navigate" ||
+           request.destination === "document" ||
+           request.headers.get("accept")?.includes("text/html");
 }
 
 // ======================================================
@@ -171,7 +175,19 @@ self.addEventListener("activate", event => {
 
             })
 
-            .then(() => {
+            .then(async () => {
+
+                // Remove any no-cache page that might have been stored
+                // by older versions inside the current dynamic cache
+                const cache = await caches.open(DYNAMIC_CACHE);
+                const keys = await cache.keys();
+
+                await Promise.all(
+                    keys
+                        .filter(req => isNoCachePath(req.url))
+                        .map(req => cache.delete(req))
+                );
+
                 console.log(`[SW ${VERSION}] Activated`);
                 return self.clients.claim();
             })
@@ -198,14 +214,15 @@ self.addEventListener("fetch", event => {
     }
 
     // Ignore cross-origin requests
-    // This prevents the SW from interfering with
-    // Supabase, jsDelivr, Cloudflare Insights, etc.
     if (!isSameOrigin(request.url)) {
         return;
     }
 
     // ==================================================
     // NO-CACHE PATHS
+    // Always from network, never stored.
+    // Offline page ONLY if the network is really down.
+    // Any server response (200, 404, 500...) is returned as-is.
     // ==================================================
 
     if (isNoCachePath(request.url)) {
@@ -216,13 +233,10 @@ self.addEventListener("fetch", event => {
                 cache: "no-store"
             })
 
-            .catch(() => {
+            .catch(async () => {
 
-                if (
-                    request.destination === "document" ||
-                    request.headers.get("accept")?.includes("text/html")
-                ) {
-                    return caches.match(OFFLINE_PAGE);
+                if (isHtmlRequest(request)) {
+                    return (await caches.match(OFFLINE_PAGE)) || Response.error();
                 }
 
                 return Response.error();
@@ -235,7 +249,7 @@ self.addEventListener("fetch", event => {
     }
 
     // ==================================================
-    // API
+    // API (never cached)
     // ==================================================
 
     if (isApiPath(request.url)) {
@@ -252,6 +266,10 @@ self.addEventListener("fetch", event => {
     // ==================================================
     // HTML / NAVIGATION
     // Network First
+    // - 2xx/3xx  -> return + cache
+    // - 404      -> show 404.html (status 404), not cached
+    // - other    -> return server response as-is
+    // - network down -> cached page, else offline page
     // ==================================================
 
     if (
@@ -265,37 +283,49 @@ self.addEventListener("fetch", event => {
                 cache: "no-cache"
             })
 
-            .then(response => {
+            .then(async response => {
 
-                if (!isValidResponse(response)) {
-                    throw new Error(`HTTP ${response.status}`);
-                }
+                if (isValidResponse(response)) {
 
-                const clone = response.clone();
+                    const clone = response.clone();
 
-                caches.open(DYNAMIC_CACHE)
-                    .then(cache => {
-                        cache.put(request, clone).catch(error => {
+                    caches.open(DYNAMIC_CACHE)
+                        .then(cache => cache.put(request, clone))
+                        .catch(error => {
                             console.warn(`[SW ${VERSION}] HTML cache error:`, error);
                         });
-                    });
 
+                    return response;
+                }
+
+                if (response.status === 404) {
+
+                    const notFoundPage = await caches.match(NOT_FOUND_PAGE);
+
+                    if (notFoundPage) {
+                        return new Response(notFoundPage.body, {
+                            status: 404,
+                            statusText: "Not Found",
+                            headers: notFoundPage.headers
+                        });
+                    }
+                }
+
+                // Other server errors: return as-is (not offline)
                 return response;
 
             })
 
-            .catch(() => {
+            .catch(async () => {
 
-                return caches.match(request)
-                    .then(cachedResponse => {
+                // Reached ONLY when the network is really unavailable
+                const cachedResponse = await caches.match(request);
 
-                        if (cachedResponse) {
-                            return cachedResponse;
-                        }
+                if (cachedResponse) {
+                    return cachedResponse;
+                }
 
-                        return caches.match(OFFLINE_PAGE);
-
-                    });
+                return (await caches.match(OFFLINE_PAGE)) || Response.error();
 
             })
 
@@ -332,10 +362,9 @@ self.addEventListener("fetch", event => {
                             const clone = response.clone();
 
                             caches.open(IMAGE_CACHE)
-                                .then(cache => {
-                                    cache.put(request, clone).catch(error => {
-                                        console.warn(`[SW ${VERSION}] Image cache error:`, error);
-                                    });
+                                .then(cache => cache.put(request, clone))
+                                .catch(error => {
+                                    console.warn(`[SW ${VERSION}] Image cache error:`, error);
                                 });
 
                             return response;
@@ -375,10 +404,9 @@ self.addEventListener("fetch", event => {
                         const clone = response.clone();
 
                         caches.open(DYNAMIC_CACHE)
-                            .then(cache => {
-                                cache.put(request, clone).catch(error => {
-                                    console.warn(`[SW ${VERSION}] Resource cache error:`, error);
-                                });
+                            .then(cache => cache.put(request, clone))
+                            .catch(error => {
+                                console.warn(`[SW ${VERSION}] Resource cache error:`, error);
                             });
 
                         return response;
