@@ -10,7 +10,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <meta name="robots" content="noindex,nofollow">
-<style id="authGate">html{visibility:hidden!important}</style>
+<style id="authGate">html{visibility:hidden!important}
+.go-profile{cursor:pointer}
+.go-profile:focus-visible{outline:2px solid var(--accent-cyan);outline-offset:2px}
+.user-avatar-lg.go-profile:hover,.brand-avatar.go-profile:hover{box-shadow:0 0 20px rgba(0,212,255,0.2)}
+</style>
 <style>
     :root {
       --bg-primary: #0a0e1a;
@@ -367,11 +371,11 @@
     <div class="brand-avatar" id="brandAvatar"><span>A</span></div>
     <div class="brand-info"><h1 id="brandTitle"></h1><p id="brandSub"></p></div>
   </div>
-  <div class="sidebar-user" id="userCardWrap" hidden>
+  <div class="sidebar-user" id="userCardWrap">
     <div class="user-card">
       <div class="user-avatar-lg" id="sidebarUserAvatar"><span>A</span></div>
       <div class="user-details">
-        <div class="name" id="sidebarUserName">-</div>
+        <div class="name" id="sidebarUserName">User</div>
         <div class="email" id="sidebarUserEmail"></div>
         <div class="user-status"><span class="status-dot"></span><span id="statusText"></span></div>
       </div>
@@ -645,6 +649,17 @@ $id('sidebarOverlay').onclick=()=>{$id('sidebar').classList.remove('open');$id('
 
 document.addEventListener('click',ev=>{const c=ev.target.closest('.row code');if(!c)return;navigator.clipboard&&navigator.clipboard.writeText(c.textContent).then(()=>{c.classList.add('ok');setTimeout(()=>c.classList.remove('ok'),900)})});
 
+// Avatars link to the profile page
+['brandAvatar','sidebarUserAvatar'].forEach(id=>{
+  const el=$id(id);
+  el.classList.add('go-profile');el.setAttribute('role','link');el.tabIndex=0;
+  el.title=L('Go to profile','رفتن به پروفایل');
+  const go=()=>{location.href='./profile.html'};
+  el.addEventListener('click',go);
+  el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();go()}});
+});
+$id('headerAvatar').title=L('Go to profile','رفتن به پروفایل');
+
 // Profile info (same account as the profile page)
 (async()=>{try{
   const session=SESSION;
@@ -652,7 +667,7 @@ document.addEventListener('click',ev=>{const c=ev.target.closest('.row code');if
   const name=[p&&p.first_name,p&&p.last_name].filter(Boolean).join(' ')||(p&&p.username)||'';
   const ch=((p&&(p.first_name||p.username))||session.user.email||'A')[0].toUpperCase();
   const av=p&&p.avatar_url?`<img src="${esc(p.avatar_url)}" alt="avatar">`:`<span>${esc(ch)}</span>`;
-  $id('sidebarUserAvatar').innerHTML=av;$id('headerAvatar').innerHTML=av;$id('brandAvatar').innerHTML=`<span>${esc(ch)}</span>`;
+  $id('sidebarUserAvatar').innerHTML=av;$id('headerAvatar').innerHTML=av;$id('brandAvatar').innerHTML=av;
   $id('sidebarUserName').textContent=name||L('User','کاربر');$id('sidebarUserEmail').textContent=session.user.email||'';
   $id('userCardWrap').hidden=false;
 }catch(e){}})();
