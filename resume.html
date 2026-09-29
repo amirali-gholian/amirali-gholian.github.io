@@ -645,6 +645,9 @@
       .rs-fab{display:flex;align-items:center;justify-content:center;gap:8px;order:-1;position:static;width:100%;padding:12px 20px;border:0;border-radius:var(--radius-lg,14px);background:var(--accent-gradient);color:#06121c;font:inherit;font-weight:700;font-size:.9rem;box-shadow:0 6px 20px rgba(0,212,255,.25);cursor:pointer}}
     @media(max-width:520px){.rs-g{grid-template-columns:1fr}.rs-lk{grid-template-columns:auto 1fr auto}.rs-nm{display:none}.rs-lv{grid-template-columns:1fr 100px auto}}
 
+    .go-profile{cursor:pointer}
+    .go-profile:focus-visible{outline:2px solid var(--accent-cyan);outline-offset:2px}
+    .user-avatar-lg.go-profile:hover,.brand-avatar.go-profile:hover{box-shadow:0 0 20px rgba(0,212,255,0.2)}
     a.nav-item{text-decoration:none}
     .content-area{max-width:1400px}
   </style>
@@ -709,6 +712,7 @@
       languageManager.currentLang = l; document.documentElement.lang = l; document.body.setAttribute('data-lang', l);
       document.querySelectorAll('[data-fa]').forEach(e => e.textContent = l === 'fa' ? e.dataset.fa : e.dataset.en);
       document.getElementById('langLabel').textContent = l === 'fa' ? 'English' : 'فارسی';
+      ['headerAvatar', 'sidebarUserAvatar', 'brandAvatar'].forEach(id => { const a = document.getElementById(id); if (a) a.title = l === 'fa' ? 'رفتن به پروفایل' : 'Go to profile'; });
     }
     document.getElementById('langSwitcher').onclick = () => { const l = languageManager.currentLang === 'fa' ? 'en' : 'fa'; localStorage.setItem('language', l); applyLang(l); };
     const toast = (id, ic, m) => { const e = document.getElementById(id); e.textContent = ic + ' ' + m; e.style.display = 'flex'; clearTimeout(id === 'toastSuccess' ? tS : tE); const T = setTimeout(() => e.style.display = 'none', 4000); id === 'toastSuccess' ? tS = T : tE = T; };
@@ -717,6 +721,15 @@
     document.getElementById('menuToggle').onclick = () => { sb.classList.toggle('open'); ov.classList.toggle('active'); };
     ov.onclick = () => { sb.classList.remove('open'); ov.classList.remove('active'); };
     document.getElementById('signOutBtn').onclick = async () => { await SUPABASE.auth.signOut(); location.href = '/'; };
+    ['headerAvatar', 'sidebarUserAvatar', 'brandAvatar'].forEach(id => {
+      const el = document.getElementById(id);
+      el.classList.add('go-profile');
+      el.setAttribute('role', 'link');
+      el.tabIndex = 0;
+      const go = () => { location.href = './profile.html'; };
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
     function showUser(p) {
       const ch = (p.first_name || p.username || p.email || 'A')[0].toUpperCase();
       const av = p.avatar_url ? `<img src="${p.avatar_url}" alt="avatar">` : `<span>${ch}</span>`;
