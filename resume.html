@@ -8,7 +8,10 @@
   <meta name="theme-color" content="#0a0e1a">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Vazirmatn:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://cwwqmushilpxzpcpjute.supabase.co" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Vazirmatn:wght@400;500;600;700;800&display=swap"></noscript>
   <link rel="stylesheet" href="loader.css">
   <style>
     :root {
@@ -583,7 +586,7 @@
     #rsBox{position:relative}
     .rs-paper{width:794px;background:#fff;color:#1e293b;font-family:'Inter','Vazirmatn',sans-serif;transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:left}
     .rs-paper.rtl{direction:rtl;text-align:right}
-    .rs-paper .pg{min-height:1123px}
+    .rs-paper .pg{min-height:1120px}
     .rs-paper h1{font-size:2rem;line-height:1.15;color:#0f172a}
     .rs-paper .role{color:var(--acc);font-weight:600;margin:4px 0 12px}
     .rs-paper p,.rs-paper .rs2{font-size:.84rem;color:#334155}
@@ -600,7 +603,7 @@
     .rs-paper .cc{page-break-inside:avoid;font-size:.72rem;color:#334155}
     .rs-paper .cc img{width:100%;height:150px;object-fit:contain;background:#f8fafc;border:1px solid #e2e8f0;border-radius:4px;display:block;margin-bottom:4px}
     .rs-paper .cc span{display:block;color:#64748b}
-    .rs-paper .cpage{height:1123px;box-sizing:border-box;padding:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;page-break-before:always;break-before:page}
+    .rs-paper .cpage{height:1120px;box-sizing:border-box;padding:44px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;page-break-before:always;break-before:page}
     .rs-paper .cpage img{max-width:100%;max-height:940px;object-fit:contain;border:1px solid #e2e8f0}
     .rs-paper .ph{width:140px;height:140px;border-radius:50%;object-fit:cover;display:block}
     .t-side{display:grid;grid-template-columns:250px 1fr;background:linear-gradient(to right,var(--acc) 250px,#fff 250px)}
@@ -627,6 +630,7 @@
     .rs-lk input{padding:10px 12px;background:rgba(15,21,37,.6);border:1px solid var(--border-subtle);border-radius:var(--radius-md);color:var(--text-primary);font-family:inherit;min-width:0}
     .rs-nm{font-size:.72rem;color:var(--accent-cyan);min-width:48px}
     .ic{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 4px;border-radius:7px;color:#fff;font-style:normal;font-size:.62rem;font-weight:800;line-height:1;flex-shrink:0}
+    .rs-paper a{color:inherit;text-decoration:none}
     .rs-paper .lk{display:flex;align-items:center;gap:7px;font-size:.78rem;margin-bottom:6px;word-break:break-all;direction:ltr;text-align:left}
     .rs-paper.rtl .lk{justify-content:flex-end}
     .rs-paper .ct{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
@@ -696,7 +700,6 @@
     </main>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.0"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <script>
     const SUPABASE = window.supabase.createClient('https://cwwqmushilpxzpcpjute.supabase.co', 'sb_publishable__AzVitbAoaYfEyvJMnIkkQ_AOkXCfbK');
     let currentUser = null, currentProfile = null, tS, tE;
@@ -720,6 +723,19 @@
       document.getElementById('sidebarUserName').textContent = [p.first_name, p.last_name].filter(Boolean).join(' ') || p.username || 'User';
       document.getElementById('sidebarUserEmail').textContent = p.email || '';
     }
+    // html2pdf is big: load it only when needed (or when the browser is idle)
+    let h2pP = null;
+    function loadH2P() {
+      if (window.html2pdf) return Promise.resolve();
+      if (h2pP) return h2pP;
+      h2pP = new Promise((res, rej) => {
+        const sc = document.createElement('script');
+        sc.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js';
+        sc.onload = () => res(); sc.onerror = () => { h2pP = null; rej(new Error('html2pdf load failed')); };
+        document.head.appendChild(sc);
+      });
+      return h2pP;
+    }
     // ===== Resume Builder (saved to Supabase storage: user-files/<uid>/resume/) =====
     (function () {
       const $ = id => document.getElementById(id);
@@ -738,11 +754,17 @@
         lang: 'فارسی|Persian;انگلیسی|English;عربی|Arabic;ترکی|Turkish;آلمانی|German;فرانسوی|French;اسپانیایی|Spanish;روسی|Russian'
       };
       const NET = [[/linkedin\.com/i, 'LinkedIn', '#0a66c2', 'in'], [/github\.com/i, 'GitHub', '#24292f', 'GH'], [/gitlab\.com/i, 'GitLab', '#fc6d26', 'GL'], [/(^|\.)(twitter|x)\.com$/i, 'X', '#000', '𝕏'], [/instagram\.com/i, 'Instagram', '#e1306c', '◎'], [/(^|\.)(t\.me|telegram\.(me|org))$/i, 'Telegram', '#229ed9', '➤'], [/facebook\.com|(^|\.)fb\.com/i, 'Facebook', '#1877f2', 'f'], [/youtube\.com|youtu\.be/i, 'YouTube', '#f00', '▶'], [/(^|\.)wa\.me$|whatsapp\.com/i, 'WhatsApp', '#25d366', '✆'], [/medium\.com/i, 'Medium', '#111', 'M'], [/stackoverflow\.com/i, 'Stack Overflow', '#f48024', 'SO'], [/behance\.net/i, 'Behance', '#1769ff', 'Bē'], [/dribbble\.com/i, 'Dribbble', '#ea4c89', '◐'], [/discord\.(gg|com)/i, 'Discord', '#5865f2', 'D'], [/reddit\.com/i, 'Reddit', '#ff4500', 'r/'], [/tiktok\.com/i, 'TikTok', '#010101', '♪'], [/aparat\.com/i, 'Aparat', '#ed145b', 'A'], [/eitaa\.com/i, 'Eitaa', '#f57c00', 'E']];
+      function toUrl(u) {
+        let s = (u || '').trim(); if (!s) return '';
+        if (!/^[a-z][a-z0-9+.-]*:/i.test(s)) s = 'https://' + s.replace(/^\/\//, '');
+        return /^https?:\/\//i.test(s) ? s : '';
+      }
       function net(u) {
         const h = (u || '').trim().replace(/^[a-z]+:\/\//i, '').replace(/^www\./i, '').replace(/\/$/, ''); if (!h) return null;
-        const host = h.split(/[/?#]/)[0], n = NET.find(x => x[0].test(host));
-        return n ? { name: n[1], c: n[2], g: n[3], txt: h } : { name: t('وب‌سایت', 'Website'), c: '#475569', g: '🌐', txt: h };
+        const host = h.split(/[/?#]/)[0], n = NET.find(x => x[0].test(host)), href = toUrl(u);
+        return n ? { name: n[1], c: n[2], g: n[3], txt: h, href } : { name: t('وب‌سایت', 'Website'), c: '#475569', g: '🌐', txt: h, href };
       }
+      const A = (href, inner, cls) => href ? `<a${cls ? ` class="${cls}"` : ''} href="${esc(href)}" target="_blank" rel="noopener">${inner}</a>` : inner;
       const badge = n => `<i class="ic" style="background:${n.c}">${n.g}</i>`;
       const STEPS = [
         { k: 'me', h: ['اطلاعات شخصی', 'Personal details'], d: ['نام، ایمیل و تلفن از پروفایلت پر شده؛ هرکدام را می‌توانی تغییر بدهی.', 'Prefilled from your profile; edit anything you like.'],
@@ -852,9 +874,10 @@
         const ex = ne(D.exp), ed = ne(D.edu), sk = D.skills.filter(x => x.n), lg = D.langs.filter(x => x.n), ce = ne(D.cert), pr = ne(D.proj);
         const ct = [D.email, D.phone, D.loc].filter(Boolean), pi = rtl ? 1 : 2;
         const lks = D.links.filter(x => x && x.u && x.u.trim()).map(x => net(x.u));
-        const lkS = lks.map(n => `<div class="lk">${badge(n)}<span>${esc(n.txt)}</span></div>`).join('');
-        const lkI = lks.map(n => `<span class="lk">${badge(n)}<span>${esc(n.txt)}</span></span>`).join('');
-        const lkM = lks.map(n => esc(n.name + ': ' + n.txt));
+        const lkS = lks.map(n => n.href ? A(n.href, `${badge(n)}<span>${esc(n.txt)}</span>`, 'lk') : `<div class="lk">${badge(n)}<span>${esc(n.txt)}</span></div>`).join('');
+        const lkI = lkS;
+        const lkM = lks.map(n => A(n.href, esc(n.name + ': ' + n.txt)));
+        const ctA = [D.email && A('mailto:' + D.email.trim(), esc(D.email)), D.phone && A('tel:' + D.phone.replace(/[^\d+]/g, ''), esc(D.phone)), D.loc && esc(D.loc)].filter(Boolean);
         const sec = (ti, b) => (b ? `<section><h3>${ti}</h3>${b}</section>` : '');
         const bar = lv => (lv ? `<div class="bar"><i style="width:${lv * 25}%"></i></div>` : '');
         const lgn = lv => { const r = LGL.find(z => z[0] === lv); return r && lv ? r[pi] : ''; };
@@ -873,9 +896,9 @@
         const sum = sec(h('درباره من', 'Profile'), D.summary ? `<p>${esc(D.summary).replace(/\n/g, '<br>')}</p>` : '');
         const T = { exp: h('سابقه کاری', 'Experience'), edu: h('تحصیلات', 'Education'), sk: h('مهارت‌ها', 'Skills'), lg: h('زبان‌ها', 'Languages'), ce: h('گواهینامه‌ها', 'Certificates'), pr: h('پروژه‌ها', 'Projects'), ct: h('تماس', 'Contact') };
         let pg;
-        if (D.tpl === 'side') pg = `<div class="pg t-side"><aside>${ph}${sec(T.ct, ct.map(x => `<p>${esc(x)}</p>`).join('') + lkS)}${sec(T.sk, skB)}${sec(T.lg, lgB)}</aside><main>${head}${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</main></div>`;
-        else if (D.tpl === 'banner') pg = `<div class="pg t-banner"><header>${ph}<div>${head}<div class="ct">${ct.map(x => `<span>${esc(x)}</span>`).join('')}${lkI}</div></div></header><div class="cols"><main>${sum}${sec(T.exp, exH)}${sec(T.pr, prH)}</main><aside>${sec(T.edu, edH)}${sec(T.sk, skB)}${sec(T.lg, lgB)}${sec(T.ce, ce.length ? ceH : '')}</aside></div></div>`;
-        else pg = `<div class="pg t-${D.tpl}"><header>${head}<div class="ct">${D.tpl === 'minimal' ? ct.map(esc).concat(lkM).join(' • ') : ct.map(x => `<span>${esc(x)}</span>`).join('') + lkI}</div></header>${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.sk, skT ? `<p>${skT}</p>` : '')}${sec(T.lg, lgT ? `<p>${lgT}</p>` : '')}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</div>`;
+        if (D.tpl === 'side') pg = `<div class="pg t-side"><aside>${ph}${sec(T.ct, ctA.map(x => `<p>${x}</p>`).join('') + lkS)}${sec(T.sk, skB)}${sec(T.lg, lgB)}</aside><main>${head}${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</main></div>`;
+        else if (D.tpl === 'banner') pg = `<div class="pg t-banner"><header>${ph}<div>${head}<div class="ct">${ctA.map(x => `<span>${x}</span>`).join('')}${lkI}</div></div></header><div class="cols"><main>${sum}${sec(T.exp, exH)}${sec(T.pr, prH)}</main><aside>${sec(T.edu, edH)}${sec(T.sk, skB)}${sec(T.lg, lgB)}${sec(T.ce, ce.length ? ceH : '')}</aside></div></div>`;
+        else pg = `<div class="pg t-${D.tpl}"><header>${head}<div class="ct">${D.tpl === 'minimal' ? ctA.concat(lkM).join(' • ') : ctA.map(x => `<span>${x}</span>`).join('') + lkI}</div></header>${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.sk, skT ? `<p>${skT}</p>` : '')}${sec(T.lg, lgT ? `<p>${lgT}</p>` : '')}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</div>`;
         const P = $('rsPaper'); P.className = 'rs-paper' + (rtl ? ' rtl' : ''); P.style.setProperty('--acc', D.color); P.innerHTML = pg + cP; fit();
       }
       function fit() {
@@ -887,12 +910,27 @@
       $('rsFab').onclick = () => openPv(true); $('rsClose').onclick = () => openPv(false);
       addEventListener('resize', () => { if (innerWidth > 1100) openPv(false); });
 
+      // true when the last A4 slice of the rendered canvas has no content (only uniform background)
+      function lastPageBlank(cv, n) {
+        try {
+          const ph = Math.round(cv.width * 297 / 210), y0 = (n - 1) * ph, h = Math.min(ph, cv.height - y0);
+          if (h <= 0) return true;
+          const d = cv.getContext('2d').getImageData(0, y0, cv.width, h).data, row = cv.width * 4;
+          for (let y = 1; y < h; y++) for (let x = 0; x < row; x += 16) if (d[y * row + x] !== d[x] || d[y * row + x + 1] !== d[x + 1] || d[y * row + x + 2] !== d[x + 2]) return false;
+          return true;
+        } catch (_) { return false; }
+      }
       async function pdf() {
-        if (!window.html2pdf) throw new Error('html2pdf missing');
+        await loadH2P();
         const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px';
         const c = $('rsPaper').cloneNode(true); c.style.transform = 'none'; c.style.boxShadow = 'none'; c.removeAttribute('id'); host.appendChild(c); document.body.appendChild(host);
         try {
-          return await html2pdf().set({ margin: 0, image: { type: 'jpeg', quality: 0.95 }, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4' }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.row', '.cc', 'h3'] } }).from(c).outputPdf('blob');
+          let cv = null;
+          return await html2pdf().set({ margin: 0, image: { type: 'jpeg', quality: 0.95 }, enableLinks: true, html2canvas: { scale: 2, useCORS: true }, jsPDF: { unit: 'mm', format: 'a4' }, pagebreak: { mode: ['css', 'legacy'], avoid: ['.row', '.cc', 'h3'] } })
+            .from(c).toCanvas().get('canvas').then(x => { cv = x; }).toPdf().get('pdf').then(doc => {
+              const n = doc.internal.getNumberOfPages();
+              if (n > 1 && cv && lastPageBlank(cv, n)) doc.deletePage(n);
+            }).outputPdf('blob');
         } finally { host.remove(); }
       }
       async function save() {
@@ -916,20 +954,23 @@
         $('rsSub').textContent = t('قدم‌به‌قدم بساز، ذخیره کن و هر وقت خواستی ویرایشش کن.', 'Build step by step, save it, and edit any time.');
         $('rsFab').textContent = '👁 ' + t('پیش‌نمایش زنده', 'Live preview'); $('rsPdf').textContent = t('دانلود PDF', 'Download PDF'); $('rsSave').textContent = t('ذخیره', 'Save'); form(); render();
       }
-      window.rsInit = async function () {
+      window.rsInit = async function (profP) {
         if (!loaded) {
           loaded = true; status(t('در حال بارگیری…', 'Loading…'));
+          ui(); $('rsForm').style.cssText = 'pointer-events:none;opacity:.55'; $('rsPdf').disabled = $('rsSave').disabled = $('rsNext').disabled = true;
           try {
             const { data, error } = await bucket().download(base() + 'resume-data.json');
             if (error) throw error; D = Object.assign(blank(), JSON.parse(await data.text()));
             if (D.link && !D.links.some(x => x.u)) D.links = [{ u: D.link }];
           } catch (_) {
-            const p = currentProfile || {}; D = blank();
+            const p = (profP && await profP) || currentProfile || {}; D = blank();
             D.name = [p.first_name, p.last_name].filter(Boolean).join(' '); D.email = p.email || (currentUser && currentUser.email) || ''; D.phone = p.phone || '';
           }
-          status('');
+          status(''); $('rsForm').style.cssText = ''; $('rsPdf').disabled = $('rsSave').disabled = $('rsNext').disabled = false;
         }
         ui();
+        // warm up the PDF library in the background so the first export is instant
+        (window.requestIdleCallback || (f => setTimeout(f, 1500)))(() => loadH2P().catch(() => {}));
       };
       new MutationObserver(() => { if (loaded && !$('panel-resume').classList.contains('hidden')) ui(); }).observe(document.body, { attributes: true, attributeFilter: ['data-lang'] });
     })();
@@ -940,9 +981,12 @@
       const { data: { session } } = await SUPABASE.auth.getSession();
       if (!session) { location.href = '/'; return; }
       currentUser = session.user;
-      try { const { data } = await SUPABASE.from('profiles').select('*').eq('id', currentUser.id).single(); currentProfile = data; } catch (e) {}
-      currentProfile = currentProfile || { id: currentUser.id, email: currentUser.email };
-      showUser(currentProfile); await rsInit();
+      currentProfile = { id: currentUser.id, email: currentUser.email };
+      showUser(currentProfile);
+      const profP = Promise.resolve(SUPABASE.from('profiles').select('*').eq('id', currentUser.id).single()).then(r => {
+        if (r && r.data) { currentProfile = r.data; showUser(currentProfile); } return currentProfile;
+      }).catch(() => currentProfile);
+      await rsInit(profP);
     })();
   </script>
 </body>
