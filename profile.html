@@ -558,7 +558,11 @@
       .file-list-item { padding: 12px; }
       .suggestion-card { padding: 14px; }
     }
-  </style>
+  
+.go-profile{cursor:pointer}
+.go-profile:focus-visible{outline:2px solid var(--accent-cyan);outline-offset:2px}
+.user-avatar-lg.go-profile:hover,.brand-avatar.go-profile:hover{box-shadow:0 0 20px rgba(0,212,255,0.2)}
+</style>
   <link rel="stylesheet" href="loader.css">
 </head>
 <body>
@@ -1550,10 +1554,17 @@
       });
     }
 
-    const headerAvatarBtn = document.getElementById('headerAvatar');
-    if (headerAvatarBtn) {
-      headerAvatarBtn.addEventListener('click', () => navigateTo('welcome'));
-    }
+    ['headerAvatar', 'sidebarUserAvatar', 'brandAvatar'].forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.classList.add('go-profile');
+      el.setAttribute('role', 'link');
+      el.tabIndex = 0;
+      el.addEventListener('mouseenter', () => { el.title = localStorage.getItem('language') === 'fa' ? 'رفتن به پروفایل' : 'Go to profile'; });
+      const go = () => navigateTo('welcome');
+      el.addEventListener('click', go);
+      el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); go(); } });
+    });
 
     const notifBtn = document.getElementById('notifBtn');
     if (notifBtn) {
@@ -1715,7 +1726,7 @@
         if (headerAvatar) headerAvatar.innerHTML = `<span>${firstChar}</span>`;
         if (sidebarUserAvatar) sidebarUserAvatar.innerHTML = `<span>${firstChar}</span>`;
       }
-      if (brandAvatar) brandAvatar.innerHTML = `<span>${firstChar}</span>`;
+      if (brandAvatar) brandAvatar.innerHTML = profile.avatar_url ? `<img src="${profile.avatar_url}" alt="avatar">` : `<span>${firstChar}</span>`;
       const welcomeAvatar = document.getElementById('welcomeAvatar');
       if (welcomeAvatar) welcomeAvatar.innerHTML = profile.avatar_url ? `<img src="${profile.avatar_url}" alt="avatar">` : `<span id="welcomeInitial">${firstChar}</span>`;
     }
