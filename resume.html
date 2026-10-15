@@ -165,7 +165,7 @@
       cursor: pointer;
       transition: all var(--transition-fast);
       border: none; background: none;
-      width: 100%; text-align: left;
+      width: 100%; text-align: start;
       font-family: inherit;
       white-space: nowrap;
       position: relative; overflow: hidden;
@@ -583,8 +583,8 @@
     .rs-cols{display:flex;gap:8px;margin:6px 0 16px}
     .rs-cols button{width:28px;height:28px;border-radius:50%;border:2px solid transparent;cursor:pointer}.rs-cols button.on{border-color:#fff}
     .rs-stage{display:flex;justify-content:center;overflow:hidden;position:sticky;top:90px}
-    #rsBox{position:relative}
-    .rs-paper{width:794px;background:#fff;color:#1e293b;font-family:'Inter','Vazirmatn',sans-serif;transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.5);text-align:left}
+    #rsBox{position:relative;direction:ltr}
+    .rs-paper{width:794px;background:#fff;color:#1e293b;font-family:'Inter','Vazirmatn',sans-serif;transform-origin:top left;box-shadow:0 20px 60px rgba(0,0,0,.5);direction:ltr;text-align:left;unicode-bidi:isolate}
     .rs-paper.rtl{direction:rtl;text-align:right}
     .rs-paper .pg{min-height:1120px}
     .rs-paper h1{font-size:2rem;line-height:1.15;color:#0f172a}
@@ -637,6 +637,11 @@
     .rs-paper .ct{display:flex;flex-wrap:wrap;gap:4px 14px;align-items:center}
     .rs-paper .ct .lk{margin:0}
     .t-classic .ct,.t-minimal .ct{justify-content:center}
+    .rs-paper a[href^="mailto:"],.rs-paper a[href^="tel:"]{direction:ltr;unicode-bidi:isolate;display:inline-block}
+    .rs-paper .rt span{unicode-bidi:isolate}
+    .rs-paper bdi{unicode-bidi:isolate}
+    body[data-lang="fa"] .header-btn .notification-dot{right:auto;left:8px}
+    body[data-lang="fa"] .exam-card-link::before{left:auto;right:0}
     .rs-fab,.rs-close{display:none}
     @media(max-width:1100px){.rs-wrap{grid-template-columns:1fr}
       .rs-stage{position:fixed;inset:0;z-index:1000;display:none;align-items:flex-start;overflow:auto;background:rgba(10,14,26,.98);padding:64px 10px 28px;top:0}
@@ -653,6 +658,7 @@
   </style>
 </head>
 <body data-lang="en">
+  <script>(function(){var l=localStorage.getItem('language')==='fa'?'fa':'en';document.documentElement.lang=l;document.documentElement.dir=l==='fa'?'rtl':'ltr';document.body.setAttribute('data-lang',l);})();</script>
   <script src="loader.js"></script>
   <div class="bg-mesh"></div>
   <div class="sidebar-overlay" id="sidebarOverlay"></div>
@@ -709,7 +715,7 @@
     let currentUser = null, currentProfile = null, tS, tE;
     const languageManager = { currentLang: localStorage.getItem('language') === 'fa' ? 'fa' : 'en' };
     function applyLang(l) {
-      languageManager.currentLang = l; document.documentElement.lang = l; document.body.setAttribute('data-lang', l);
+      languageManager.currentLang = l; document.documentElement.lang = l; document.documentElement.dir = l === 'fa' ? 'rtl' : 'ltr'; document.body.setAttribute('data-lang', l);
       document.querySelectorAll('[data-fa]').forEach(e => e.textContent = l === 'fa' ? e.dataset.fa : e.dataset.en);
       document.getElementById('langLabel').textContent = l === 'fa' ? 'English' : 'فارسی';
       ['headerAvatar', 'sidebarUserAvatar', 'brandAvatar'].forEach(id => { const a = document.getElementById(id); if (a) a.title = l === 'fa' ? 'رفتن به پروفایل' : 'Go to profile'; });
@@ -801,12 +807,13 @@
       const bucket = () => SUPABASE.storage.from('user-files');
       const status = m => { $('rsStatus').textContent = m || ''; };
 
-      const cb = (p, v, ls, ph) => `<div class="rs-cb"><input data-p="${p}" data-ls="${ls}" value="${esc(v)}" autocomplete="off"${ph ? ` placeholder="${ph}"` : ''}><button type="button" class="rs-caret" tabindex="-1" data-cb="1">▾</button><div class="rs-dd"></div></div>`;
+      const dr = p => /(^|\.)(email|phone)$/.test(p) ? 'ltr' : 'auto';
+      const cb = (p, v, ls, ph) => `<div class="rs-cb"><input dir="${dr(p)}" data-p="${p}" data-ls="${ls}" value="${esc(v)}" autocomplete="off"${ph ? ` placeholder="${ph}"` : ''}><button type="button" class="rs-caret" tabindex="-1" data-cb="1">▾</button><div class="rs-dd"></div></div>`;
       function fld(f, p, v) {
         const [, a, b, ty, w, ls] = f; let c;
-        if (ty === 'a') c = `<textarea data-p="${p}">${esc(v)}</textarea>`;
+        if (ty === 'a') c = `<textarea dir="auto" data-p="${p}">${esc(v)}</textarea>`;
         else if (ty === 'p' || ty === 'c') c = `<input type="file" accept="image/*" data-img="${p}" data-m="${ty}">${v ? `<img class="rs-th" src="${v}">` : ''}${ty === 'p' && currentProfile && currentProfile.avatar_url ? `<button type="button" class="btn btn-outline rs-sm" data-av="${p}">${t('استفاده از عکس پروفایل', 'Use profile photo')}</button>` : ''}`;
-        else c = ls ? cb(p, v, ls) : `<input data-p="${p}" value="${esc(v)}">`;
+        else c = ls ? cb(p, v, ls) : `<input dir="${dr(p)}" data-p="${p}" value="${esc(v)}">`;
         return `<div class="form-group${w ? ' rs-w' : ''}"><label>${t(a, b)}</label>${c}</div>`;
       }
       function lvRows(key, ls, lv) {
@@ -897,8 +904,8 @@
         const lgn = lv => { const r = LGL.find(z => z[0] === lv); return r && lv ? r[pi] : ''; };
         const skB = sk.map(x => `<div class="sk"><span>${esc(x.n)}</span>${x.lv ? `<em>${SKL[+x.lv][pi]}</em>` : ''}${bar(x.lv)}</div>`).join('');
         const lgB = lg.map(x => `<div class="sk"><span>${esc(x.n)}</span>${x.lv ? `<em>${lgn(x.lv)}</em>` : ''}</div>`).join('');
-        const skT = sk.map(x => esc(x.n) + (x.lv ? ` (${SKL[+x.lv][pi]})` : '')).join(' · ');
-        const lgT = lg.map(x => esc(x.n) + (x.lv ? ` (${lgn(x.lv)})` : '')).join(' · ');
+        const skT = sk.map(x => '<bdi>' + esc(x.n) + '</bdi>' + (x.lv ? ` (${SKL[+x.lv][pi]})` : '')).join(' · ');
+        const lgT = lg.map(x => '<bdi>' + esc(x.n) + '</bdi>' + (x.lv ? ` (${lgn(x.lv)})` : '')).join(' · ');
         const exH = ex.map(x => `<div class="row"><div class="rt"><b>${esc(x.role)}</b><span>${esc(x.from)}${x.to ? ' – ' + esc(x.to) : ''}</span></div><div class="rs2">${esc(x.co)}</div><p>${esc(x.desc).replace(/\n/g, '<br>')}</p></div>`).join('');
         const edH = ed.map(x => `<div class="row"><div class="rt"><b>${esc(x.deg)}</b><span>${esc(x.year)}</span></div><div class="rs2">${esc(x.school)}</div></div>`).join('');
         const prH = pr.map(x => `<div class="row"><b>${esc(x.name)}</b><p>${esc(x.desc)}</p></div>`).join('');
@@ -913,7 +920,8 @@
         if (D.tpl === 'side') pg = `<div class="pg t-side"><aside>${ph}${sec(T.ct, ctA.map(x => `<p>${x}</p>`).join('') + lkS)}${sec(T.sk, skB)}${sec(T.lg, lgB)}</aside><main>${head}${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</main></div>`;
         else if (D.tpl === 'banner') pg = `<div class="pg t-banner"><header>${ph}<div>${head}<div class="ct">${ctA.map(x => `<span>${x}</span>`).join('')}${lkI}</div></div></header><div class="cols"><main>${sum}${sec(T.exp, exH)}${sec(T.pr, prH)}</main><aside>${sec(T.edu, edH)}${sec(T.sk, skB)}${sec(T.lg, lgB)}${sec(T.ce, ce.length ? ceH : '')}</aside></div></div>`;
         else pg = `<div class="pg t-${D.tpl}"><header>${head}<div class="ct">${D.tpl === 'minimal' ? ctA.concat(lkM).join(' • ') : ctA.map(x => `<span>${x}</span>`).join('') + lkI}</div></header>${sum}${sec(T.exp, exH)}${sec(T.edu, edH)}${sec(T.sk, skT ? `<p>${skT}</p>` : '')}${sec(T.lg, lgT ? `<p>${lgT}</p>` : '')}${sec(T.pr, prH)}${sec(T.ce, ce.length ? ceH : '')}</div>`;
-        const P = $('rsPaper'); P.className = 'rs-paper' + (rtl ? ' rtl' : ''); P.style.setProperty('--acc', D.color); P.innerHTML = pg + cP; fit();
+        const P = $('rsPaper'); P.className = 'rs-paper' + (rtl ? ' rtl' : ''); P.style.setProperty('--acc', D.color); P.innerHTML = pg + cP;
+        P.querySelectorAll('h1,.role,b,p,.rs2,.rt span,.sk span,.sk em,.ct span').forEach(e => { if (!e.closest('a')) e.setAttribute('dir', 'auto'); }); fit();
       }
       function fit() {
         const P = $('rsPaper'), st = $('rsStage'), cs = getComputedStyle(st), w = st.clientWidth - parseFloat(cs.paddingLeft) - parseFloat(cs.paddingRight), k = Math.min(1, (w > 0 ? w : 794) / 794);
@@ -938,7 +946,7 @@
         await loadH2P();
         const sx = window.scrollX, sy = window.scrollY, sm = document.documentElement.style.scrollBehavior;
         document.documentElement.style.scrollBehavior = 'auto'; window.scrollTo(0, 0);
-        const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px';
+        const host = document.createElement('div'); host.style.cssText = 'position:fixed;left:-10000px;top:0;width:794px;direction:ltr';
         const c = $('rsPaper').cloneNode(true); c.style.transform = 'none'; c.style.boxShadow = 'none'; c.removeAttribute('id'); host.appendChild(c); document.body.appendChild(host);
         try {
           let cv = null;
