@@ -199,7 +199,7 @@ function card(b){
     <div class="prog"><div class="track"><div class="fill"></div></div><div class="msg"></div></div>`;
   const btn = el.querySelector(".btn"), prog = el.querySelector(".prog");
   const ui = { btn, prog, fill: el.querySelector(".fill"), msg: el.querySelector(".msg") };
-  if (b.folder) btn.onclick = () => { const w = window.open(b.url, "_blank", "noopener,noreferrer"); if (!w) location.href = b.url; };
+  if (b.folder) btn.onclick = () => { const a = document.createElement("a"); a.href = b.url; a.target = "_blank"; a.rel = "noopener noreferrer"; document.body.appendChild(a); a.click(); a.remove(); };
   else btn.onclick = () => download(() => mega.File.fromURL(b.url), b.file, ui, b.url);
   return el;
 }
