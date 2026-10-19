@@ -227,16 +227,14 @@ function chips(){
   for (const c of ["All",...ORDER]){
     const ch = document.createElement("button"); ch.className = "chip"+(c===active?" on":"");
     ch.innerHTML = `${esc(c)}<i>${c==="All"?BOOKS.length:counts[c]}</i>`;
-    ch.onclick = () => { if(render.lock) return; active=c; function centerActive(){ const a = chipsEl.querySelector(".chip.on"); if(a) chipsEl.scrollTo({left: a.offsetLeft - chipsEl.clientWidth/2 + a.clientWidth/2, behavior:"smooth"}); }
-(function(){ let down=false, sx=0, sl=0, moved=false;
- chipsEl.addEventListener("pointerdown", e=>{ if(e.pointerType!=="mouse") return; down=true; moved=false; sx=e.clientX; sl=chipsEl.scrollLeft; });
- window.addEventListener("pointermove", e=>{ if(!down) return; const dx=e.clientX-sx; if(Math.abs(dx)>4){ moved=true; chipsEl.classList.add("drag"); } chipsEl.scrollLeft = sl-dx; });
- window.addEventListener("pointerup", ()=>{ down=false; chipsEl.classList.remove("drag"); });
- chipsEl.addEventListener("click", e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } }, true);
- chipsEl.addEventListener("wheel", e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ chipsEl.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
-})();
-document.getElementById("year").textContent = new Date().getFullYear();
-chips(); render(); window.scrollTo({top:Math.min(window.scrollY,260)}); };
+    ch.onclick = () => {
+      if (render.lock) return;
+      active = c;
+      chipsEl.querySelectorAll(".chip").forEach(x => x.classList.toggle("on", x === ch));
+      render();
+      centerActive();
+      window.scrollTo({top:Math.min(window.scrollY,260)});
+    };
     chipsEl.appendChild(ch);
   }
 }
