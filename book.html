@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#060913">
+<title>Engineering Library | Amirali Gholian</title>
+<meta name="description" content="Aerospace and mechanical engineering book library by Amirali Gholian.">
+<link rel="icon" href="https://amiraligholian.ir/logo.webp">
+<style>
+:root{--bg:#060913;--bg2:#0b1020;--panel:rgba(255,255,255,.035);--line:rgba(255,255,255,.08);--ink:#e8ecf6;--mute:#8b94ab;--a:#4f8cff;--a2:#22d3ee;--ok:#34d399;--warn:#fbbf24;--err:#f87171}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth;scroll-padding-top:150px}
+body{background:radial-gradient(900px 500px at 85% -10%,rgba(79,140,255,.16),transparent 60%),radial-gradient(700px 400px at 0% 0%,rgba(34,211,238,.08),transparent 60%),var(--bg);color:var(--ink);font:15px/1.55 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;min-height:100vh}
+a{color:inherit;text-decoration:none}
+.w{max-width:1120px;margin:0 auto;padding:0 20px}
+.hero{padding:54px 0 26px}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--a2);margin-bottom:12px}
+h1{font-size:clamp(30px,5vw,46px);line-height:1.1;letter-spacing:-.02em;font-weight:750}
+h1 span{background:linear-gradient(90deg,var(--a),var(--a2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{color:var(--mute);max-width:640px;margin-top:12px;font-size:16px}
+.stats{display:flex;gap:26px;margin-top:22px;flex-wrap:wrap}
+.stats div{font-size:13px;color:var(--mute)}.stats b{display:block;font-size:24px;color:var(--ink)}
+.tools{position:sticky;top:62px;z-index:15;background:linear-gradient(var(--bg) 70%,transparent);padding:14px 0 10px}
+.search{position:relative}
+.search input{width:100%;padding:13px 16px 13px 42px;border-radius:12px;border:1px solid var(--line);background:var(--bg2);color:var(--ink);font:inherit;outline:none;transition:.15s}
+.search input:focus{border-color:var(--a);box-shadow:0 0 0 3px rgba(79,140,255,.18)}
+.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;stroke:var(--mute);fill:none;stroke-width:2}
+.chips{display:flex;gap:8px;margin-top:12px;overflow-x:auto;padding:2px 0;scrollbar-width:none;-ms-overflow-style:none;-webkit-overflow-scrolling:touch;scroll-behavior:smooth;overscroll-behavior-x:contain;touch-action:pan-x;cursor:grab;mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 22px),transparent);-webkit-mask-image:linear-gradient(90deg,transparent,#000 14px,#000 calc(100% - 22px),transparent)}
+.chips::-webkit-scrollbar{display:none;width:0;height:0}
+.chips.drag{cursor:grabbing;scroll-behavior:auto;user-select:none}
+.chip{flex:none;padding:6px 13px;border-radius:99px;border:1px solid var(--line);background:var(--panel);color:var(--mute);font:inherit;font-size:13px;cursor:pointer;transition:.15s}
+.chip:hover{color:var(--ink)}.chip.on{background:rgba(79,140,255,.18);border-color:var(--a);color:#fff}
+.chip i{font-style:normal;opacity:.6;margin-left:5px}
+section.cat{margin:34px 0 0}
+section.cat h2{display:flex;align-items:baseline;gap:10px;font-size:20px;letter-spacing:-.01em;margin-bottom:14px}
+section.cat h2 small{color:var(--mute);font-size:13px;font-weight:400}
+section.cat h2::before{content:"";width:4px;height:18px;border-radius:2px;background:linear-gradient(var(--a),var(--a2));align-self:center}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px}
+.card{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:14px;background:var(--panel);border:1px solid var(--line);transition:.18s}
+.card:hover{border-color:rgba(79,140,255,.5);transform:translateY(-2px);background:rgba(255,255,255,.05)}
+.top{display:flex;gap:12px;align-items:flex-start}
+.badge{flex:none;width:42px;height:48px;border-radius:9px;background:linear-gradient(160deg,rgba(79,140,255,.25),rgba(34,211,238,.1));border:1px solid rgba(79,140,255,.35);display:grid;place-items:center;font-size:11px;font-weight:700;letter-spacing:.05em;color:#cfe0ff}
+.badge.f{background:rgba(251,191,36,.12);border-color:rgba(251,191,36,.4);color:#fde68a}
+.t{font-weight:600;line-height:1.35;font-size:15px}
+.s{color:var(--mute);font-size:12.5px;margin-top:3px}
+.row{display:flex;gap:8px;margin-top:auto}
+.btn{flex:1;padding:9px 14px;border:0;border-radius:9px;background:linear-gradient(90deg,var(--a),#3b6fe0);color:#fff;font:inherit;font-weight:600;font-size:14px;cursor:pointer;transition:.15s}
+.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.55;cursor:default;filter:none}
+.btn.ghost{background:var(--panel);border:1px solid var(--line);color:var(--ink)}
+.prog{display:none}.prog.on{display:block}
+.track{height:5px;border-radius:4px;background:rgba(255,255,255,.08);overflow:hidden}
+.fill{height:100%;width:0;background:linear-gradient(90deg,var(--a),var(--a2));transition:width .2s}
+.msg{font-size:12px;margin-top:6px;color:var(--mute)}.msg.ok{color:var(--ok)}.msg.warn{color:var(--warn)}.msg.err{color:var(--err)}
+.sub{display:grid;gap:8px;border-top:1px solid var(--line);padding-top:10px}
+.sub .it{padding:10px;border-radius:10px;background:rgba(0,0,0,.25);display:grid;gap:8px}
+.sub .nm{font-size:13px;word-break:break-word}
+.empty{padding:60px 0;text-align:center;color:var(--mute)}
+
+/* header (same look as main site) */
+.global-header{position:sticky;top:0;z-index:20;background:rgba(6,9,19,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.header-container{max-width:1120px;margin:0 auto;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:66px;gap:12px}
+.brand-link{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-logo{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.18);flex:none;transition:.2s}
+.brand-link:hover .brand-logo{border-color:var(--a);transform:scale(1.05)}
+.brand-text{display:flex;flex-direction:column;line-height:1.2;min-width:0}
+.brand-name{font-weight:700;font-size:16px;color:#fff;white-space:nowrap}
+.brand-sub{font-size:11.5px;color:var(--mute);white-space:nowrap}
+.hdr-btn{flex:none;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;border-radius:10px;background:linear-gradient(90deg,var(--a),#3b6fe0);color:#fff;font-weight:600;font-size:14px;white-space:nowrap;transition:.15s}
+.hdr-btn:hover{filter:brightness(1.12)}
+.hdr-btn svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+/* footer (copied from index) */
+footer{margin-top:70px;border-top:1px solid var(--line);background:rgba(255,255,255,.015);color:var(--mute);font-size:14px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+.footer-grid{display:grid;grid-template-columns:1.6fr 1fr 1fr 1fr;gap:34px;padding-top:44px;padding-bottom:30px}
+.footer-col{display:flex;flex-direction:column;gap:9px;align-items:flex-start}
+.footer-col h5{color:var(--ink);font-size:14px;letter-spacing:.04em;margin-bottom:4px}
+.footer-col a{color:var(--mute);transition:.15s}
+.footer-col a:hover{color:var(--ink)}
+.footer-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:2px solid rgba(255,255,255,.15)}
+.footer-name{color:var(--ink);font-weight:700;font-size:16px}
+.footer-role{color:var(--a2);font-size:13px}
+.footer-tagline{font-size:13px;max-width:260px}
+.footer-bottom-row{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;border-top:1px solid var(--line);padding-top:18px;padding-bottom:26px;font-size:13px}
+.footer-links{display:flex;gap:16px;flex-wrap:wrap}
+.footer-links a:hover{color:var(--ink)}
+/* mobile */
+html{-webkit-text-size-adjust:100%}
+.btn,.chip,.hdr-btn{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+.grid{grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr))}
+.t{overflow-wrap:anywhere}
+@media(max-width:900px){.footer-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:640px){
+ html{scroll-padding-top:140px}
+ .header-container{height:58px;padding:0 14px}
+ .brand-logo{width:36px;height:36px}
+ .brand-name{font-size:14.5px}.brand-sub{font-size:10.5px}
+ .hdr-btn{padding:8px 12px;font-size:13px}
+ .w,.wrap{padding-left:14px;padding-right:14px}
+ .hero{padding:30px 0 12px}
+ .lead{font-size:14.5px}
+ .stats{gap:22px;margin-top:16px}.stats b{font-size:21px}
+ .tools{top:58px;padding:10px 0 8px}
+ .search input{font-size:16px;padding:12px 14px 12px 40px}
+ .chip{padding:8px 14px}
+ section.cat{margin-top:26px}
+ section.cat h2{font-size:18px}
+ .card{padding:14px}
+ .btn{min-height:44px}
+ .footer-grid{grid-template-columns:1fr 1fr;gap:26px 18px;padding-top:34px}
+ .footer-about{grid-column:1/-1}
+ .footer-bottom-row{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:380px){.brand-sub{display:none}.hdr-btn span.l{display:none}.hdr-btn span.s{display:inline}}
+.hdr-btn span.s{display:none}
+</style>
+<link rel="stylesheet" href="loader.css">
+</head>
+<body>
+<script src="loader.js"></script>
+<header class="global-header">
+ <div class="header-container">
+  <a href="https://amiraligholian.ir/index.html" class="brand-link" aria-label="Amirali Gholian home">
+   <img src="https://amiraligholian.ir/profile.webp" alt="Amirali Gholian" class="brand-logo">
+   <div class="brand-text"><span class="brand-name">Amirali Gholian</span><span class="brand-sub">Developer &bull; AI &bull; NetSec</span></div>
+  </a>
+  <a href="aero.html" class="hdr-btn"><svg viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg><span class="l">Course Selection</span><span class="s">Courses</span></a>
+ </div>
+</header>
+
+<header class="hero"><div class="w">
+ <span class="eyebrow">Resources · Library</span>
+ <h1>Engineering <span>Book Library</span></h1>
+ <p class="lead">Aerospace and mechanical engineering references, organised by subject. Every book downloads directly from this page.</p>
+ <div class="stats"><div><b id="nb">0</b>Books</div><div><b id="nc">0</b>Subjects</div></div>
+</div></header>
+
+<div class="tools"><div class="w">
+ <div class="search"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg><input id="q" type="search" placeholder="Search by title, author or subject..." autocomplete="off"></div>
+ <div class="chips" id="chips"></div>
+</div></div>
+
+<main class="w" id="root"></main>
+
+<footer>
+ <div class="wrap footer-grid">
+  <div class="footer-col footer-about">
+   <img class="footer-photo" src="https://amiraligholian.ir/profile.webp" alt="Amirali Gholian" loading="lazy">
+   <span class="footer-name">Amirali Gholian</span>
+   <span class="footer-role">Network Engineer &bull; Python Developer</span>
+   <p class="footer-tagline">Building the digital future, one project at a time.</p>
+  </div>
+  <div class="footer-col">
+   <h5>Quick Links</h5>
+   <a href="https://amiraligholian.ir/index.html#about">About</a>
+   <a href="https://amiraligholian.ir/index.html#contact">Contact</a>
+  </div>
+  <div class="footer-col">
+   <h5>Resources</h5>
+   <a href="https://amiraligholian.ir/doc.html">Knowledge Base</a>
+   <a href="https://amiraligholian.ir/network_lab.html">Network Lab</a>
+   <a href="https://amiraligholian.ir/doc.html">Documents</a>
+   <a href="https://amiraligholian.ir/certificates.html">Certificates</a>
+  </div>
+  <div class="footer-col">
+   <h5>Connect</h5>
+   <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer">GitHub</a>
+   <a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+   <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer">Telegram</a>
+   <a href="mailto:amirali.gholian.1380.80@gmail.com">Email</a>
+  </div>
+ </div>
+ <div class="wrap footer-bottom-row">
+  <div class="footer-bottom">&copy; <span id="year"></span> Amirali Gholian. All rights reserved.</div>
+  <div class="footer-links">
+   <a href="https://amiraligholian.ir/privacy.html">Privacy Policy</a>
+   <a href="https://amiraligholian.ir/terms.html">Terms of Service</a>
+   <a href="mailto:amirali.gholian.1380.80@gmail.com">Contact</a>
+  </div>
+ </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/megajs@1.3.4/dist/main.browser-umd.js"></script>
+<script>
+const BOOKS = [{"id":"KzRCDCiB","url":"https://mega.nz/file/KzRCDCiB#GtlK6uxKCYTSPNRnjdgxE_oPhkyufZeKKaRLkdOe5Aw","cat":"Materials","title":"Titanium Alloys: Russian Aircraft and Aerospace Applications","sub":"Valentin N. Moiseyev · CRC Press · 2005","file":"(Advances in Metallic Alloys) Valentin N. Moiseyev-Titanium Alloys_ Russian Aircraft and Aerospace Applications-CRC Press (2005).pdf","ext":"PDF","folder":false},{"id":"26x3xLgS","url":"https://mega.nz/folder/26x3xLgS#zSmnPZC2uWx_b-a3kilkZg","cat":"Aerodynamics","title":"Theory of Wing Sections","sub":"Folder · multiple files","file":"Theory Of Wing Sections","ext":"","folder":true},{"id":"6yoy3aCY","url":"https://mega.nz/file/6yoy3aCY#SqWHAwagx2A6mDzqhszKgIsZK_j5LPV109rG8ZjCBUg","cat":"Mathematics","title":"Handbook of Differential Equations: Evolutionary Equations, Vol. 1","sub":"C. M. Dafermos & E. Feireisl (Eds.) · North-Holland · 2002","file":"(Handbook of Differential Equations_ Evolutionary Equations 1) C.M. Dafermos and E. Feireisl (Eds.)-North Holland (2002).pdf","ext":"PDF","folder":false},{"id":"PrgWkTgb","url":"https://mega.nz/file/PrgWkTgb#RXcU3dIRAComCsQsm5Ydt5Fj0hS08xMA-NYbDWwSogU","cat":"Mechanical Vibrations","title":"An Introduction to Random Vibrations","sub":"D. E. Newland","file":"[D._E._Newland]_An_Introduction_to_Random_Vibratio(BookZZ.org).pdf","ext":"PDF","folder":false},{"id":"jqg31aqb","url":"https://mega.nz/file/jqg31aqb#xWsNYmrYhpiUyZXnbCP7MWz2NFNEJ8pEYm1Ua3Nq-14","cat":"Dynamics & Statics","title":"Analytical Dynamics","sub":"Haim Baruh","file":"[Haim_Baruh]_Analytical_Dynamics(BookZZ.org).pdf","ext":"PDF","folder":false},{"id":"q7gSCJpY","url":"https://mega.nz/file/q7gSCJpY#c6KjevkXGfGwVOgQD1wVMJO9P7BqoTb4n5Ef2SCHABk","cat":"Dynamics & Statics","title":"Engineering Dynamics","sub":"Jerry Ginsberg","file":"[Jerry_Ginsberg]_Engineering_dynamics(BookFi.org).pdf","ext":"PDF","folder":false},{"id":"KrYmlLbT","url":"https://mega.nz/file/KrYmlLbT#-ES2q5-7S_hlT0HymX1NShwVkU_anvBKcoKsVR71QRc","cat":"Mechanical Vibrations","title":"Mechanical Vibration Analysis and Computation","sub":"D. E. Newland","file":"[Newland,_D.E.]_Mechanical_Vibration_Analysis_and_(BookZZ.org).pdf","ext":"PDF","folder":false},{"id":"jjpBAToB","url":"https://mega.nz/file/jjpBAToB#haQHStp41NXDDh7Qy3CvsGCaIsZRx6Mhct1sHxoue94","cat":"Spacecraft & Space Systems","title":"Handbook of Space Technology","sub":"","file":"1_ Handbook of Space Technology.pdf","ext":"PDF","folder":false},{"id":"LnoiibDT","url":"https://mega.nz/file/LnoiibDT#GiUa6NSNyNZvLNkeM3ljIoux4ldiq3ifYVoNQshVGHY","cat":"Aircraft Design & Performance","title":"Airplane Design, Part 1","sub":"Jan Roskam","file":"1-roskam part1.pdf","ext":"PDF","folder":false},{"id":"iiR2WSTQ","url":"https://mega.nz/file/iiR2WSTQ#bNrZI_6to68JJ4B0SigI8pHg6fTk6wucZEELq1hN6Bo","cat":"Aircraft Design & Performance","title":"Airplane Design, Part 2","sub":"Jan Roskam","file":"2-roskam part2.pdf","ext":"PDF","folder":false},{"id":"K253lD6K","url":"https://mega.nz/file/K253lD6K#tGxcuctoFL43jrZN4v1sQzNuhqsAp10IFc9bgAUmink","cat":"Aerospace Structures","title":"Aircraft Structures for Engineering Students, 5th Ed.","sub":"T. H. G. Megson · 2012","file":"5'th ed-Aircraft Structures for Engineering Students-Megson-2012.pdf","ext":"PDF","folder":false},{"id":"mngCRL4D","url":"https://mega.nz/file/mngCRL4D#s5EHVH8E-h6Y2W7UfdjNHJuXP3vfj_0ujqamemeM70M","cat":"Materials","title":"Advanced Airframe Materials","sub":"","file":"Advance Airframe Materials.pdf","ext":"PDF","folder":false},{"id":"PvJDybgA","url":"https://mega.nz/file/PvJDybgA#eDHYZCjJ71-DMUjq6Ulq2PiSHvF4K_BoSmGM3SkkG1U","cat":"Mathematics","title":"Advanced Engineering Mathematics, 10th Ed.","sub":"Erwin Kreyszig","file":"Advanced Engineering Mathematics-10th(www.prozheha.ir).pdf","ext":"PDF","folder":false},{"id":"WiBTUD7B","url":"https://mega.nz/file/WiBTUD7B#qYaA4GskYI7-KX9MbKWfOlhIsdzqTSVXdXDaj0qvsEg","cat":"Dynamics & Statics","title":"Advanced Dynamics: Rigid Body, Multibody, and Aerospace Applications","sub":"","file":"Advanced_Dynamics__Rigid_Body__Multibody__and_Aerospace_Applications.pdf","ext":"PDF","folder":false},{"id":"jvBFkSBZ","url":"https://mega.nz/file/jvBFkSBZ#xK3atBfC_tFVokRobQfK1E7kVJKP6zEvJ2Lef_x5HNQ","cat":"Materials","title":"Advanced Structural Materials: Properties, Design Optimization, and Applications","sub":"","file":"Advanced_Structural_Materials__Properties__Design_Optimization__and_Applications__Materials_Engineering_.pdf","ext":"PDF","folder":false},{"id":"2rI3gRrZ","url":"https://mega.nz/file/2rI3gRrZ#Od3V4Z57URM8GWi3dY01fwLuTkXc2Dx6Kov3krykZYw","cat":"Materials","title":"Aerospace Materials","sub":"Graduate Student Series in Materials Science and Engineering","file":"Aerospace_Materials__Graduate_Student_Series_in_Materials_Science_and_Engineering_.pdf","ext":"PDF","folder":false},{"id":"7qJwQB5K","url":"https://mega.nz/file/7qJwQB5K#lFAdnjKeBqsR4tSDWvKM6uS-G1cWOIJReoaSztwpB9A","cat":"Aerospace Structures","title":"Aircraft Stress Analysis","sub":"","file":"Aircraft stress analysis.pdf","ext":"PDF","folder":false},{"id":"mvYiQAaZ","url":"https://mega.nz/file/mvYiQAaZ#s4qlyRDxFid1Ct4KwdgrRist-WpAKCNPiC-Gl1jVoHM","cat":"Aircraft Design & Performance","title":"Aircraft Tire Databook","sub":"Data handbook","file":"Aircraft Tire databook.pdf","ext":"PDF","folder":false},{"id":"uyggnbDD","url":"https://mega.nz/file/uyggnbDD#hfNhr0TUGSS53SEm0MADVs-0tvplxsbbu7CRlPGP4Wg","cat":"Aircraft Design & Performance","title":"Aircraft Design","sub":"Cambridge Aerospace Series","file":"Aircraft_Design_Cambridge_Aerospace.pdf","ext":"PDF","folder":false},{"id":"rqhEgDjZ","url":"https://mega.nz/file/rqhEgDjZ#hS84gqxAsip5KdSulUPDzxfgWMFz7kitLngb2RpCqp0","cat":"Aircraft Design & Performance","title":"Aircraft Design, Vol. 1","sub":"","file":"Aircraft_Design1.pdf","ext":"PDF","folder":false},{"id":"vm5lBKaA","url":"https://mega.nz/file/vm5lBKaA#buC9SefMLS6Y5aldrcnAOducPWg6OGyZXFqK54iqQfI","cat":"Aircraft Design & Performance","title":"Aircraft Design, Vol. 2","sub":"","file":"Aircraft_Design2.pdf","ext":"PDF","folder":false},{"id":"62omQJJY","url":"https://mega.nz/file/62omQJJY#DMSHIiAyVrS1WBwKXbxp9VNcet7DimXK6-dfVEY_OFU","cat":"Mechanical Vibrations","title":"Vibration of Mechanical Systems","sub":"Alok Sinha · Cambridge University Press · 2010","file":"Alok Sinha-Vibration of Mechanical Systems-Cambridge University Press (2010).pdf","ext":"PDF","folder":false},{"id":"OyokBYqD","url":"https://mega.nz/file/OyokBYqD#OtDyz9_XEggKwoVzGi9QWg5ikn114XZc0M6s6Zbf-4c","cat":"Aerospace Structures","title":"Analysis and Design of Flight Vehicle Structures","sub":"","file":"Analysis_and_design_of_flight_vehicle_structures.pdf","ext":"PDF","folder":false},{"id":"C2YzTYJA","url":"https://mega.nz/file/C2YzTYJA#Ug67m25XTAsdQ871bBp9RfyV-O3d0h-OTjMRvKrSSF8","cat":"FEA & ANSYS","title":"ANSYS Guide","sub":"Motlagh","file":"ansys - Motlagh@konj_mechanic.pdf","ext":"PDF","folder":false},{"id":"3yxgDLhK","url":"https://mega.nz/file/3yxgDLhK#_olcFAU4KgxXx5rZr_ezSen1BxZb1ZskXEV0itJXME0","cat":"FEA & ANSYS","title":"ANSYS Workbench","sub":"","file":"ANSYS Workbench.pdf","ext":"PDF","folder":false},{"id":"X7p1kBpK","url":"https://mega.nz/file/X7p1kBpK#9ndWQL_Z_i8Lmkls1Lod-_pXhrVCcGz8hkUGGjr1QGA","cat":"FEA & ANSYS","title":"ANSYS Workbench Tutorial, Release 14","sub":"","file":"ANSYS-Workbench-Tutorial-Release-14-41OCskxvP6L.pdf","ext":"PDF","folder":false},{"id":"qzoxDBwQ","url":"https://mega.nz/file/qzoxDBwQ#915iECrOSCPen7GkQociQyWI4HH1MN6fe4_VeDGrqy8","cat":"Mechanics of Materials & Machine Design","title":"Mechanics of Materials, 6th Ed.","sub":"Ferdinand Beer et al.","file":"BEER Mechanics of Materials, 6th Edition.pdf","ext":"PDF","folder":false},{"id":"GrIV1Z5I","url":"https://mega.nz/file/GrIV1Z5I#BrT3rbg5Cztalr2G9JKoyaOR6iOCHE1Hm4zXIYyDUvk","cat":"Helicopters","title":"Bell Helicopter Structural Design Manual","sub":"Design manual","file":"Bell-Bell_Helicopter_Structural_Design_Manual__.pdf","ext":"PDF","folder":false},{"id":"ni43SYiQ","url":"https://mega.nz/file/ni43SYiQ#HI0lid6LMA9-Lkn0nNA9NWrOsIf_JpdHpcFVNN7Fp7Y","cat":"Mechanics of Materials & Machine Design","title":"Advanced Mechanics of Materials, 6th Ed. — Solution Manual","sub":"Boresi & Schmidt","file":"Boresi_and_Schmidt-Advanced_Mechanics_of_Materials_6th_edition_Solution_Manual.pdf","ext":"PDF","folder":false},{"id":"SixQhDSR","url":"https://mega.nz/file/SixQhDSR#QXJpziojrXOHNJ8MpOZq6yKuLQah1iv2wFiOGLCDzHc","cat":"Mechanics of Materials & Machine Design","title":"Advanced Mechanics of Materials","sub":"Boresi · Wiley · 1993","file":"Boresi-Advanced_Mechanics_of_Materials-Wiley(1993).pdf","ext":"PDF","folder":false},{"id":"T3ZDFJJb","url":"https://mega.nz/file/T3ZDFJJb#SIQrLphXVLIX0sIlAwMW-aI7ABnkmrY2yvh4RhB4jqc","cat":"Helicopters","title":"Bramwell's Helicopter Dynamics","sub":"","file":"Bramwell’s Helicopter Dynamics.pdf","ext":"PDF","folder":false},{"id":"vrA3kBTJ","url":"https://mega.nz/file/vrA3kBTJ#fDTqIl_ONRfmm_WSQbLnl7Kicby-noeLDhQYZ9TeNY0","cat":"Aerospace Structures","title":"Analysis of Aircraft Structures: An Introduction","sub":"Bruce K. Donaldson · Cambridge University Press · 2008","file":"Bruce K Donaldson-Analysis of aircraft structures _ an introduction-Cambridge University Press (2008).pdf","ext":"PDF","folder":false},{"id":"Gng0SIqA","url":"https://mega.nz/file/Gng0SIqA#gJnRajsjhJbK2SQSrOY8_vGGzagJQTEH6AMJcN_uJ8I","cat":"FEA & ANSYS","title":"Finite Element Modeling and Simulation with ANSYS Workbench","sub":"Xiaolin Chen & Yijun Liu · CRC Press · 2014","file":"Chen, Xiaolin_ Liu, Yijun-Finite Element Modeling and Simulation with ANSYS Workbench-CRC Press (2014).pdf","ext":"PDF","folder":false},{"id":"WjQBiCJJ","url":"https://mega.nz/file/WjQBiCJJ#Dx3WE-zxvsX7NiUwD-GKPi8bczoXBsSaYitVIXz2ZqQ","cat":"Mechanics of Materials & Machine Design","title":"Mechanics of Materials","sub":"Roy Craig","file":"Craig-Mechanics of Materials.pdf","ext":"PDF","folder":false},{"id":"unhU1QgB","url":"https://mega.nz/file/unhU1QgB#y0Aiyc1N_Oxllmk0nPbanTMbDog2djmzw9gfgk_EvBc","cat":"FEA & ANSYS","title":"ANSYS DesignModeler — Ch. 5: Advanced 3D","sub":"Slides (PPT)","file":"DMd_90_CH05_adv3d.ppt","ext":"PPT","folder":false},{"id":"HmoSTbDb","url":"https://mega.nz/file/HmoSTbDb#3kwXF2SxT2E-IelnNJ9v82heNLJYNi304BJapUKYk_w","cat":"Mathematics","title":"Advanced Engineering Mathematics","sub":"Erwin Kreyszig · Wiley · 2005","file":"Erwin Kreyszig-Advanced Engineering Mathematics-Wiley, John & Sons, Incorporated (2005).pdf","ext":"PDF","folder":false},{"id":"2yQWRIgb","url":"https://mega.nz/file/2yQWRIgb#Q2Cgkc7bFF1nDycqL0zSgqhMAv-mR6aHG6-sDn5d8W4","cat":"Missiles & Rockets","title":"Tactical Missile Design","sub":"Eugene L. Fleeman · AIAA Education Series · 2001","file":"Eugene L. Fleeman-Tactical Missile Design (AIAA Education Series)-American Institute of Aeronautics & Astronautics (AIAA) (2001).pdf","ext":"PDF","folder":false},{"id":"unZ0SA4b","url":"https://mega.nz/file/unZ0SA4b#IwA8XAPgWVUmFPbom8UyBc6sXhqG0_d_4J_wUJDKKvg","cat":"Dynamics & Statics","title":"Vector Mechanics for Engineers: Statics — Solutions Manual (Copy 1)","sub":"Beer, Johnston, Mazurek · McGraw-Hill · 2012","file":"Ferdinand Beer, E. -solution manual-Russell Johnston Jr., David Mazurek-Vector Mechanics for Engineers_ STATICS - Instructor Solutions Manual-McGraw-Hill (2012).pdf","ext":"PDF","folder":false},{"id":"XnQkFbzI","url":"https://mega.nz/file/XnQkFbzI#Si0l6UnYicxtye6PiNFeVsMlcgxAWrXINYGz2UdFp68","cat":"Dynamics & Statics","title":"Vector Mechanics for Engineers: Statics — Solutions Manual (Copy 2)","sub":"Beer, Johnston, Mazurek · McGraw-Hill · 2012","file":"Ferdinand Beer, E. Russell Johnston Jr., David Mazurek-Vector Mechanics for Engineers_ STATICS - Instructor Solutions Manual-McGraw-Hill (2012).pdf","ext":"PDF","folder":false},{"id":"KjgBnaDI","url":"https://mega.nz/file/KjgBnaDI#gPeY4rDW0fEJtMlYHbHa2j-RpwA1kAiJw619zOFMKTI","cat":"Dynamics & Statics","title":"Vector Mechanics for Engineers: Statics — Solutions Manual (Copy 3)","sub":"Beer, Johnston, Mazurek · McGraw-Hill · 2012","file":"Ferdinand Beer,-solution manual - E. Russell Johnston Jr., David Mazurek-Vector Mechanics for Engineers_ STATICS - Instructor Solutions Manual-McGraw-Hill (2012).pdf","ext":"PDF","folder":false},{"id":"3ygCwYAQ","url":"https://mega.nz/file/3ygCwYAQ#JsOpkevbicpd9OXuWD-8wZOLj-vzV4WlCAHt3iD19SM","cat":"Mechanics of Materials & Machine Design","title":"Statics and Mechanics of Materials","sub":"Beer, Johnston, DeWolf, Mazurek · 2010","file":"Ferdinand Pierre Beer, E. Russell Johnston, Jr., John T. DeWolf, David Mazurek Statics and Mechanics of Materials 2010-123.pdf","ext":"PDF","folder":false},{"id":"ijxGkBgZ","url":"https://mega.nz/file/ijxGkBgZ#v5aPcRoS1ldXXOb5toMwBl9n_-MrjKS4K4GFI26nkAM","cat":"Spacecraft & Space Systems","title":"Finite Element Analysis for Satellite Structures","sub":"Abdelal, Abuelfoutouh & Gad · Springer · 2013","file":"Gasser F. Abdelal, Nader Abuelfoutouh, Ahmed H. Gad (auth.)-Finite Element Analysis for Satellite Structures_ Applications to Their Design, Manufacture and Testing-Springer-Verlag London (2013).pdf","ext":"PDF","folder":false},{"id":"72QRBSbD","url":"https://mega.nz/file/72QRBSbD#S8YjLx59HpYbRN6RX7zT-G5iKbdLPgfjFlyQbcDfHKU","cat":"Mechanics of Materials & Machine Design","title":"Mechanics of Materials","sub":"James M. Gere","file":"GERE Mechanics of Materials.pdf","ext":"PDF","folder":false},{"id":"7mA20Laa","url":"https://mega.nz/file/7mA20Laa#5OGXEFpWe6EF6radOyoOUu_0sXoFyh7pCQiQHtgy6S8","cat":"Mathematics","title":"Handbook of Mathematical Formulas and Integrals, 4th Ed.","sub":"","file":"Handbook of Mathematical Formulas and Integrals-4th(www.iranidata.com).pdf","ext":"PDF","folder":false},{"id":"uzwQiZYT","url":"https://mega.nz/file/uzwQiZYT#pMzHG1j4lAMY5Xz0lpYJhVbBaEBEdRNt-CRCD-TGego","cat":"Spacecraft & Space Systems","title":"Spacecraft Structures","sub":"J. Jaap Wijker · 2008","file":"J._Jaap_Wijker-Spacecraft_Structures(2008).pdf","ext":"PDF","folder":false},{"id":"P6QmAZaQ","url":"https://mega.nz/file/P6QmAZaQ#_h2T_qh_ZOKT2ZkbWcK2d8-FYxnDDd7qgkV_agEGdZA","cat":"Aircraft Design & Performance","title":"Airplane Design (Complete 8-Volume Set)","sub":"Jan Roskam · 1985","file":"Jan Roskam-Airplane Design 8 vol -ROSKAM AVIATION & ENGINEERING (1985).pdf","ext":"PDF","folder":false},{"id":"XrJVkDaY","url":"https://mega.nz/file/XrJVkDaY#YJRjx20qFf-7RhVG_XvraPesJusseghrg3Z1zkHcp3k","cat":"Aerodynamics","title":"Airplane Aerodynamics and Performance","sub":"Jan Roskam & C. T. Lan · 2000","file":"Jan_Roskam,_C._T._Lan-Airplane_Aerodynamics_and_Performance-Darcorporation(2000).pdf","ext":"PDF","folder":false},{"id":"GqwiTQRJ","url":"https://mega.nz/file/GqwiTQRJ#aIRQg4CNgid0Xb4zD5pwiRn9AGAtuKjGgXJMFk2VuWs","cat":"Mechanics of Materials & Machine Design","title":"Strength of Materials 1 — Course Notes","sub":"Persian","file":"jozeveh darsi moghavemat 1.pdf","ext":"PDF","folder":false},{"id":"23J0VTiI","url":"https://mega.nz/file/23J0VTiI#2hp-13_03nTk_HV7XWeBYT7ViYxMSwef4Q1m5zgnyUI","cat":"Mechanical Vibrations","title":"Mechanical Vibrations: Theory and Applications, 1st SI Ed.","sub":"S. Graham Kelly","file":"Kelly Mechanical Vibrations Theory Applications 1st SI txtbk.pdf","ext":"PDF","folder":false},{"id":"Dj4XiYyI","url":"https://mega.nz/file/Dj4XiYyI#WLoDIR4hYqZrFXprPBjI7qDGFzLRKQ43Sf_EYb252Mk","cat":"Mechanics of Materials & Machine Design","title":"Machine Design","sub":"Shigley","file":"Machine Design-sheigly.pdf","ext":"PDF","folder":false},{"id":"HzRziBYL","url":"https://mega.nz/file/HzRziBYL#PdOm3peQeFpiqs2edCxNZnfbT7vkuoVfvqgPSb-5O1I","cat":"Mathematics","title":"Mathematics","sub":"Reference","file":"MATHEMATICS.pdf","ext":"PDF","folder":false},{"id":"umAXzLQT","url":"https://mega.nz/file/umAXzLQT#c4UaM3KDGg8lqV69AfA-bN-_UM9MhsLITPnftFyUHys","cat":"Mechanical Vibrations","title":"Fundamentals of Mechanical Vibrations","sub":"Matthew Hussey · Macmillan · 1983","file":"Matthew Hussey (auth.)-Fundamentals of Mechanical Vibrations-Macmillan Education UK (1983).pdf","ext":"PDF","folder":false},{"id":"jyoiFZiB","url":"https://mega.nz/file/jyoiFZiB#1hfuYouDgZvDi8xkf6jbJ9VKAryt9PkZkfJZbyQO7kw","cat":"Aerospace Structures","title":"Airframe Structural Design","sub":"Michael C. Y. Niu · Adastra Engineering Center · 2006","file":"Michael Chun-Yung Niu_ Mike Niu, Mike Niu-Airframe Structural Design_ Practical Design Information and Data on Aircraft Structures-Adaso Adastra Engineering Center (2006).pdf","ext":"PDF","folder":false},{"id":"DjokzbpC","url":"https://mega.nz/file/DjokzbpC#TaapIx9zU-tw9b4MnNftBKJd5hWThRAQwVW16Y4wpXo","cat":"Missiles & Rockets","title":"MIL-HDBK-762: Missile","sub":"Military handbook","file":"MIL-HDBK-762-Missile.pdf","ext":"PDF","folder":false},{"id":"7uJGGRRZ","url":"https://mega.nz/file/7uJGGRRZ#rvqrySBXjTjTzS5W0zJdRqnl3ftRf5wzFsyIKPFN3Vo","cat":"Aircraft Design & Performance","title":"Aircraft Design: A Systems Engineering Approach","sub":"Mohammad H. Sadraey · 2012","file":"Mohammad H. Sadraey(auth.)-Aircraft Design_ A Systems Engineering Approach (2012).pdf","ext":"PDF","folder":false},{"id":"yiQmERwQ","url":"https://mega.nz/file/yiQmERwQ#5hZpsPZe_xF3wQvlKOO_hOkY2B8ROZEUxCEAqxigjAc","cat":"Missiles & Rockets","title":"Missile Aerodynamics","sub":"Jack N. Nielsen","file":"Nielsen - Missile Aerodynamics.pdf","ext":"PDF","folder":false},{"id":"mq5wzDwa","url":"https://mega.nz/file/mq5wzDwa#YaMdm6rdUC9wcaViA_28ken5EaDCTNtcaN4aHSI0_k8","cat":"Aerospace Structures","title":"Airframe Structural Design","sub":"Michael C. Y. Niu · Adastra Engineering · 1999","file":"Niu, Michael Chun-Yung-Airframe Structural Design - Practical Design Information and Data on Aircraft Structures-AD Adaso_Adastra Engineering LLC (1999).pdf","ext":"PDF","folder":false},{"id":"2uZAhDJY","url":"https://mega.nz/file/2uZAhDJY#34WbcJtuuDTgBFvmfyJzs0Pyi5GZTBPIsnIAf1bYt4k","cat":"Spacecraft & Space Systems","title":"Orbital Mechanics for Engineering Students","sub":"Howard Curtis · 2010","file":"orbital mechanics curtis 2010 (asec.ir) (tick).pdf","ext":"PDF","folder":false},{"id":"brRQkbhD","url":"https://mega.nz/file/brRQkbhD#Fk4sQNC9acLThlEjAgb0bzwnKMAR1XcE_jNl7LYE5DI","cat":"Aerospace Structures","title":"Aircraft Structures for Engineering Students, 4th Ed.","sub":"T. H. G. Megson · 2007","file":"Perfect aircraft_structures_for_engineering_students_fourth_edition_thg_megson_2007.pdf","ext":"PDF","folder":false},{"id":"j7hCCTTD","url":"https://mega.nz/file/j7hCCTTD#yfqMmGjEPPmjEM6VJMjWfUScs7HEAsKbYFBSF16PQE4","cat":"MATLAB & Programming","title":"MATLAB: An Introduction with Applications","sub":"Rao V. Dukkipati","file":"Rao V. Dukkipati MATLAB An Introduction with Applications.pdf","ext":"PDF","folder":false},{"id":"GmhUVZqA","url":"https://mega.nz/file/GmhUVZqA#AD5Rd5Fppyat_Z_Cwblws7KR23turp7Qa1tK_7zO8T8","cat":"Mathematics","title":"Engineering Mathematics — Jeffrey","sub":"Persian edition","file":"riyazi mohandesi jeffrey.pdf","ext":"PDF","folder":false},{"id":"OjpngCZS","url":"https://mega.nz/file/OjpngCZS#FUdF_YcVJVQLVsfrFJdeL22K5INRvYqOGBi3UETg7yQ","cat":"Mathematics","title":"Engineering Mathematics — Kreyszig","sub":"Persian edition","file":"Riyazi-Mohandesi-Keroitsik(www.prozheha.ir).pdf","ext":"PDF","folder":false},{"id":"vrRliAaT","url":"https://mega.nz/file/vrRliAaT#KNnHWbgE3PckKjJd6oJv6TINYOv4rmn-Qn072F8S-3I","cat":"Spacecraft & Space Systems","title":"Satellite Structures","sub":"","file":"sattellite Structures.pdf","ext":"PDF","folder":false},{"id":"vixUyBzD","url":"https://mega.nz/file/vixUyBzD#gds_0pVtseQZ66oPIfroUwcVMsJ90EksifGOygvHpbQ","cat":"Helicopters","title":"Basic Helicopter Aerodynamics","sub":"John Seddon","file":"Seddon_J Basic_Helicopter_Aerodynamics.pdf","ext":"PDF","folder":false},{"id":"irYDyYDb","url":"https://mega.nz/file/irYDyYDb#rWfRjEe6R0DRTwWS1iLP8a7TP_G7xNH-JYrvEpTPZqU","cat":"Spacecraft & Space Systems","title":"Spacecraft Structures","sub":"","file":"Spacecraft Structures.pdf","ext":"PDF","folder":false},{"id":"CjBEFLqC","url":"https://mega.nz/file/CjBEFLqC#GgzxZWhZAZxpXvgXJi0L8U_87xC7PTQfRZ9Nungp6kI","cat":"Spacecraft & Space Systems","title":"Spacecraft Structures and Mechanisms","sub":"","file":"Spacecraft Structurres and Mechanisms.pdf","ext":"PDF","folder":false},{"id":"zzZGBahD","url":"https://mega.nz/file/zzZGBahD#ux3RDO0IChjMa893_FL4-2-iE-hZi-A5FO_9IL59kJQ","cat":"Mathematics","title":"Thomas' Calculus — Differential Equations","sub":"","file":"Thomas Calculus Differential Equations.pdf","ext":"PDF","folder":false},{"id":"r3xVwQCK","url":"https://mega.nz/file/r3xVwQCK#5nNW6YOZ9WJ6iiI8Fbo__XMEMPpBy3e7AyCRM_3vinM","cat":"Missiles & Rockets","title":"Introduction to Rocket Science and Engineering, 2nd Ed.","sub":"Travis S. Taylor · CRC Press · 2017","file":"Travis S Taylor - Introduction to Rocket Science and Engineering, Second Edition-CRC Press (2017).pdf","ext":"PDF","folder":false},{"id":"iyYmmZgC","url":"https://mega.nz/file/iyYmmZgC#WeiC6cckNsMhWwQbUn8fvvckxRt7X5vOuEtXrjROPoI","cat":"Dynamics & Statics","title":"Vehicle Dynamics: Theory and Application","sub":"","file":"Vehicle_Dynamics__Theory_and_Application.pdf","ext":"PDF","folder":false},{"id":"u2RUxLoR","url":"https://mega.nz/file/u2RUxLoR#J0py9vTeJ5q2nzl8ctSUw3ISogcTK74oeLiADGEJBk4","cat":"MATLAB & Programming","title":"Introduction to MATLAB for Engineers, 3rd Ed.","sub":"William Palm III · McGraw-Hill · 2010","file":"William Palm III-Introduction to MATLAB for Engineers, Third Edition -McGraw-Hill Science_Engineering_Math (2010).pdf","ext":"PDF","folder":false},{"id":"32w3hJTQ","url":"https://mega.nz/file/32w3hJTQ#IF-06nYLeWz-aKRuHuWZf0Idd7H_nQ-bvAgxwRZY9fk","cat":"Dynamics & Statics","title":"System Dynamics","sub":"William Palm III · McGraw-Hill · 2013","file":"William Palm III-System Dynamics-McGraw-Hill Education (2013).pdf","ext":"PDF","folder":false}];
+const ORDER = ["Mathematics", "Aerodynamics", "Aircraft Design & Performance", "Aerospace Structures", "Materials", "Mechanics of Materials & Machine Design", "Dynamics & Statics", "Mechanical Vibrations", "Helicopters", "Missiles & Rockets", "Spacecraft & Space Systems", "FEA & ANSYS", "MATLAB & Programming"];
+const $ = s => document.querySelector(s);
+const root = $("#root"), chipsEl = $("#chips");
+let active = "All";
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+const fmt = n => { if(!n) return "?"; const u=["B","KB","MB","GB"]; let i=0; while(n>=1024&&i<3){n/=1024;i++} return n.toFixed(i?1:0)+" "+u[i]; };
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+function card(b){
+  const el = document.createElement("div"); el.className = "card";
+  el.innerHTML = `<div class="top"><div class="badge ${b.folder?"f":""}">${b.folder?"DIR":esc(b.ext||"FILE")}</div>
+    <div><div class="t">${esc(b.title)}</div>${b.sub?`<div class="s">${esc(b.sub)}</div>`:""}</div></div>
+    <div class="row"><button class="btn">Download</button></div>
+    <div class="prog"><div class="track"><div class="fill"></div></div><div class="msg"></div></div>`;
+  const btn = el.querySelector(".btn"), prog = el.querySelector(".prog");
+  const ui = { btn, prog, fill: el.querySelector(".fill"), msg: el.querySelector(".msg") };
+  if (b.folder) btn.onclick = () => { const w = window.open(b.url, "_blank", "noopener,noreferrer"); if (!w) location.href = b.url; };
+  else btn.onclick = () => download(() => mega.File.fromURL(b.url), b.file, ui, b.url);
+  return el;
+}
+
+function render(){
+  const q = $("#q").value.trim().toLowerCase();
+  const shown = BOOKS.filter(b => (active==="All" || b.cat===active) &&
+    (!q || (b.title+" "+b.sub+" "+b.cat+" "+b.file).toLowerCase().includes(q)));
+  // keep in-flight downloads alive: only rebuild when nothing is downloading
+  if (render.lock) return;
+  root.innerHTML = "";
+  for (const c of ORDER){
+    const list = shown.filter(b => b.cat===c); if(!list.length) continue;
+    const sec = document.createElement("section"); sec.className = "cat";
+    sec.innerHTML = `<h2>${esc(c)} <small>${list.length} ${list.length>1?"books":"book"}</small></h2><div class="grid"></div>`;
+    const g = sec.querySelector(".grid");
+    list.sort((a,b)=>a.title.localeCompare(b.title)).forEach(b => g.appendChild(card(b)));
+    root.appendChild(sec);
+  }
+  if (!root.children.length) root.innerHTML = '<div class="empty">No books match your search.</div>';
+}
+function chips(){
+  const counts = {}; BOOKS.forEach(b => counts[b.cat]=(counts[b.cat]||0)+1);
+  chipsEl.innerHTML = "";
+  for (const c of ["All",...ORDER]){
+    const ch = document.createElement("button"); ch.className = "chip"+(c===active?" on":"");
+    ch.innerHTML = `${esc(c)}<i>${c==="All"?BOOKS.length:counts[c]}</i>`;
+    ch.onclick = () => { if(render.lock) return; active=c; function centerActive(){ const a = chipsEl.querySelector(".chip.on"); if(a) chipsEl.scrollTo({left: a.offsetLeft - chipsEl.clientWidth/2 + a.clientWidth/2, behavior:"smooth"}); }
+(function(){ let down=false, sx=0, sl=0, moved=false;
+ chipsEl.addEventListener("pointerdown", e=>{ if(e.pointerType!=="mouse") return; down=true; moved=false; sx=e.clientX; sl=chipsEl.scrollLeft; });
+ window.addEventListener("pointermove", e=>{ if(!down) return; const dx=e.clientX-sx; if(Math.abs(dx)>4){ moved=true; chipsEl.classList.add("drag"); } chipsEl.scrollLeft = sl-dx; });
+ window.addEventListener("pointerup", ()=>{ down=false; chipsEl.classList.remove("drag"); });
+ chipsEl.addEventListener("click", e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } }, true);
+ chipsEl.addEventListener("wheel", e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ chipsEl.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
+})();
+document.getElementById("year").textContent = new Date().getFullYear();
+chips(); render(); window.scrollTo({top:Math.min(window.scrollY,260)}); };
+    chipsEl.appendChild(ch);
+  }
+}
+$("#q").addEventListener("input", render);
+$("#nb").textContent = BOOKS.length; $("#nc").textContent = ORDER.length;
+
+/* ---- folder (contents are read from Mega when you open it) ---- */
+async function openFolder(b, el, btn, ui){
+  btn.disabled = true; btn.textContent = "Loading...";
+  try{
+    ui.prog.classList.add("on"); ui.msg.className="msg"; ui.msg.textContent="Reading folder from Mega...";
+    let f = null, lastErr = null;
+    for (let t=1; t<=3 && !f; t++){
+      try{
+        const cand = mega.File.fromURL(b.url);
+        await Promise.race([cand.loadAttributes(), new Promise((_,rej)=>setTimeout(()=>rej(new Error("Mega did not respond in time")), 20000))]);
+        f = cand;
+      }catch(err){ lastErr = err; if (t<3){ ui.msg.textContent = "Retrying ("+t+"/2)..."; await sleep(1500); } }
+    }
+    if (!f) throw lastErr || new Error("Unknown error");
+    ui.prog.classList.remove("on");
+    const files = []; (function walk(n){ for(const c of n.children||[]) c.directory ? walk(c) : files.push(c); })(f);
+    const box = document.createElement("div"); box.className = "sub";
+    files.sort((x,y)=>x.name.localeCompare(y.name)).forEach(file => {
+      const it = document.createElement("div"); it.className = "it";
+      it.innerHTML = `<div class="nm">${esc(file.name)} <span class="s">· ${fmt(file.size)}</span></div><button class="btn ghost">Download</button><div class="prog"><div class="track"><div class="fill"></div></div><div class="msg"></div></div>`;
+      const u = { btn: it.querySelector("button"), prog: it.querySelector(".prog"), fill: it.querySelector(".fill"), msg: it.querySelector(".msg") };
+      u.btn.onclick = () => download(() => file, file.name, u, b.url);
+      box.appendChild(it);
+    });
+    if(!files.length) box.innerHTML = '<div class="s">This folder is empty.</div>';
+    el.appendChild(box); btn.style.display = "none";
+  }catch(e){ btn.disabled=false; btn.textContent="Browse files"; ui.prog.classList.add("on"); ui.msg.className="msg err"; ui.msg.textContent="Could not open folder: "+(e.message||e)+" "; const a=document.createElement("a"); a.href=b.url; a.target="_blank"; a.rel="noopener noreferrer"; a.textContent="Open folder on Mega"; a.style.cssText="color:var(--a2);text-decoration:underline;white-space:nowrap"; ui.msg.appendChild(a); }
+}
+
+/* ---- download: streams to disk when supported, otherwise buffers in RAM; auto-resumes ---- */
+let busyCount = 0;
+const MAX_RAM = 120*1024*1024; // buffer limit when streaming to disk is not supported (phones)
+const MOBILE = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+async function download(getFile, fname, ui, url){
+  if (ui.btn.dataset.busy) return;
+  let writable = null;
+  const say0 = (t,c) => { ui.prog.classList.add("on"); ui.msg.textContent = t; ui.msg.className = "msg "+(c||""); };
+  const megaLink = () => { ui.prog.classList.add("on"); ui.msg.className = "msg warn"; ui.msg.innerHTML += ' <a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--a2);text-decoration:underline;white-space:nowrap">Open on Mega</a>'; };
+  if (!window.showSaveFilePicker){
+    // phones / browsers without streaming-to-disk: a big file is held in RAM and can crash the tab
+    try{
+      ui.btn.disabled = true; ui.btn.textContent = "Checking...";
+      const f0 = getFile(); await f0.loadAttributes();
+      ui.btn.disabled = false; ui.btn.textContent = "Download";
+      if (f0.size && f0.size > MAX_RAM){
+        ui.prog.classList.add("on"); ui.msg.className = "msg warn";
+        ui.msg.textContent = "This file is "+fmt(f0.size)+" - too big to download inside the page on this device.";
+        megaLink(); return;
+      }
+    }catch(e){ ui.btn.disabled = false; ui.btn.textContent = "Download"; }
+  }
+  if (window.showSaveFilePicker){
+    try{ writable = await (await window.showSaveFilePicker({suggestedName: fname})).createWritable(); }
+    catch(e){ if(e && e.name==="AbortError") return; writable = null; }
+  }
+  const say = (t,c) => { ui.msg.textContent = t; ui.msg.className = "msg "+(c||""); };
+  ui.btn.dataset.busy = "1"; ui.btn.disabled = true; ui.btn.textContent = "Downloading...";
+  ui.prog.classList.add("on"); render.lock = ++busyCount;
+  const file = getFile(); const chunks = []; let loaded = 0, total = 0;
+  try{
+    for (let attempt=0;; attempt++){
+      try{
+        await new Promise((resolve,reject)=>{
+          const st = file.download({ start: loaded, maxConnections: MOBILE ? 2 : 4 });
+          st.on("progress", p => { if(p.bytesTotal) total = p.bytesTotal; });
+          st.on("data", async ch => {
+            const part = new Uint8Array(ch);
+            if (writable){ st.pause(); try{ await writable.write(part); }catch(e){ return reject(e); } st.resume(); } else chunks.push(part);
+            loaded += part.length;
+            if (total) ui.fill.style.width = Math.min(100, loaded/total*100).toFixed(1)+"%";
+            say(total ? `${fmt(loaded)} / ${fmt(total)} (${Math.min(100,loaded/total*100).toFixed(0)}%)` : fmt(loaded));
+          });
+          st.on("end", resolve); st.on("error", reject);
+        });
+        break;
+      }catch(e){
+        if (attempt >= 40) throw e;
+        const wait = Math.min(5*Math.pow(1.6,attempt), 90), txt = String(e&&e.message||e);
+        const q = /bandwidth|quota|limit|EOVERQUOTA|-17|509/i.test(txt);
+        for (let s=Math.ceil(wait); s>0; s--){ say(`${q?"Transfer limit reached on Mega":"Connection issue"} · resuming from ${fmt(loaded)} in ${s}s`,"warn"); if(attempt>=2) megaLink(); await sleep(1000); }
+      }
+    }
+    if (writable){ await writable.close(); writable = null; }
+    else{
+      const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(chunks,{type:"application/octet-stream"})); a.download = fname;
+      document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),60000);
+    }
+    ui.fill.style.width = "100%"; say("Saved as "+fname,"ok");
+  }catch(e){
+    if (writable){ try{ await writable.abort(); }catch(_){} }
+    say("Failed: "+String(e&&e.message||e)+" — press Download to retry","err"); megaLink();
+  }finally{
+    delete ui.btn.dataset.busy; ui.btn.disabled = false; ui.btn.textContent = "Download"; if(!--busyCount) render.lock = 0;
+  }
+}
+
+function centerActive(){ const a = chipsEl.querySelector(".chip.on"); if(a) chipsEl.scrollTo({left: a.offsetLeft - chipsEl.clientWidth/2 + a.clientWidth/2, behavior:"smooth"}); }
+(function(){ let down=false, sx=0, sl=0, moved=false;
+ chipsEl.addEventListener("pointerdown", e=>{ if(e.pointerType!=="mouse") return; down=true; moved=false; sx=e.clientX; sl=chipsEl.scrollLeft; });
+ window.addEventListener("pointermove", e=>{ if(!down) return; const dx=e.clientX-sx; if(Math.abs(dx)>4){ moved=true; chipsEl.classList.add("drag"); } chipsEl.scrollLeft = sl-dx; });
+ window.addEventListener("pointerup", ()=>{ down=false; chipsEl.classList.remove("drag"); });
+ chipsEl.addEventListener("click", e=>{ if(moved){ e.stopPropagation(); e.preventDefault(); moved=false; } }, true);
+ chipsEl.addEventListener("wheel", e=>{ if(Math.abs(e.deltaY)>Math.abs(e.deltaX)){ chipsEl.scrollLeft += e.deltaY; e.preventDefault(); } }, {passive:false});
+})();
+document.getElementById("year").textContent = new Date().getFullYear();
+chips(); render();
+if (!window.mega) root.insertAdjacentHTML("afterbegin",'<div class="empty">Could not load the download library (megajs). Check your connection.</div>');
+</script>
+</body>
+</html>
