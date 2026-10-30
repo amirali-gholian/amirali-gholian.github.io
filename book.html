@@ -280,17 +280,12 @@ async function download(getFile, fname, ui, url){
   const say0 = (t,c) => { ui.prog.classList.add("on"); ui.msg.textContent = t; ui.msg.className = "msg "+(c||""); };
   const megaLink = () => { ui.prog.classList.add("on"); ui.msg.className = "msg warn"; ui.msg.innerHTML += ' <a href="'+esc(url)+'" target="_blank" rel="noopener noreferrer" style="color:var(--a2);text-decoration:underline;white-space:nowrap">Open on Mega</a>'; };
   if (!window.showSaveFilePicker){
-    // phones / browsers without streaming-to-disk: a big file is held in RAM and can crash the tab
-    try{
-      ui.btn.disabled = true; ui.btn.textContent = "Checking...";
-      const f0 = getFile(); await f0.loadAttributes();
-      ui.btn.disabled = false; ui.btn.textContent = "Download";
-      if (f0.size && f0.size > MAX_RAM){
-        ui.prog.classList.add("on"); ui.msg.className = "msg warn";
-        ui.msg.textContent = "This file is "+fmt(f0.size)+" - too big to download inside the page on this device.";
-        megaLink(); return;
-      }
-    }catch(e){ ui.btn.disabled = false; ui.btn.textContent = "Download"; }
+    // phones, Safari, Firefox, in-app browsers: cannot stream to disk, and buffering in RAM
+    // crashes/reloads the tab. Hand the download to Mega itself (must run inside the click).
+    ui.prog.classList.add("on"); ui.msg.className = "msg warn";
+    ui.msg.textContent = "Opening on Mega - download the file from there.";
+    try{ window.open(url, "_blank", "noopener,noreferrer"); }catch(e){}
+    megaLink(); return;
   }
   if (window.showSaveFilePicker){
     try{ writable = await (await window.showSaveFilePicker({suggestedName: fname})).createWritable(); }
@@ -328,7 +323,7 @@ async function download(getFile, fname, ui, url){
       const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob(chunks,{type:"application/octet-stream"})); a.download = fname;
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),60000);
     }
-    ui.fill.style.width = "100%"; say("Saved as "+fname,"ok");
+    ui.fill.style.width = "100%"; say(writable === null && typeof chunks !== "undefined" && chunks.length ? "Download started - check your Downloads folder: "+fname : "Saved as "+fname,"ok");
   }catch(e){
     if (writable){ try{ await writable.abort(); }catch(_){} }
     say("Failed: "+String(e&&e.message||e)+" — press Download to retry","err"); megaLink();
