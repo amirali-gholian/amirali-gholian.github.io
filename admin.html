@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en" data-page="blog">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Blog Admin | Amirali Gholian</title>
+<link rel="icon" href="./logo.webp?v=2" type="image/webp">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/logo.webp">
+<meta name="theme-color" content="#060913">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Amirali Gholian">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-view="admin">
+  <div id="siteHeader"></div>
+
+  <main class="wrap">
+    <!-- admin bar (the site header is shared, so sign-out lives here) -->
+    <div class="row" style="justify-content:space-between;margin:28px 0 -6px">
+      <h2 style="margin:0;font-size:1.4rem;color:var(--bright)">Blog Admin <small style="font-size:.8rem;font-weight:500;color:var(--dim)">Write · Review · Publish</small></h2>
+      <div class="row">
+        <a class="btn small" href="blog.html">View blog</a>
+        <button id="logoutBtn" class="btn small" hidden>Sign out</button>
+      </div>
+    </div>
+
+    <!-- login -->
+    <section id="loginPanel" class="panel" hidden style="max-width:460px;margin:60px auto">
+      <h3>Sign in</h3>
+      <p class="sub">Use the same email &amp; password as your site account.</p>
+      <form id="loginForm">
+        <div class="field"><label for="email">Email</label><input id="email" class="input" type="email" required autocomplete="username"></div>
+        <div class="field"><label for="password">Password</label><input id="password" class="input" type="password" required autocomplete="current-password"></div>
+        <div id="loginErr" class="notice err" hidden></div>
+        <button class="btn primary" type="submit" style="width:100%">Sign in</button>
+      </form>
+    </section>
+
+    <!-- not admin -->
+    <section id="denied" class="panel" hidden style="margin-top:60px">
+      <h3>You're signed in, but not an admin yet</h3>
+      <p class="sub">Run this once in Supabase → SQL Editor, then refresh this page:</p>
+      <div class="notice"><code id="sqlHint"></code></div>
+    </section>
+
+    <div id="adminArea" hidden>
+      <!-- list -->
+      <section class="panel">
+        <div class="row" style="justify-content:space-between;margin-bottom:10px">
+          <h3 style="margin:0">All posts</h3>
+          <button id="newBtn" class="btn primary">＋ New post</button>
+        </div>
+        <div id="postList"></div>
+      </section>
+
+      <!-- editor -->
+      <section id="editPanel" class="panel" hidden>
+        <div class="row" style="justify-content:space-between;margin-bottom:14px">
+          <h3 id="editHeading" style="margin:0">New post</h3>
+          <div class="row">
+            <span id="wordCount" class="meta"></span>
+            <a id="viewLink" class="btn small" target="_blank" hidden>Preview ↗</a>
+          </div>
+        </div>
+
+        <input id="e_title" class="input title-input" dir="auto" placeholder="Post title…">
+
+        <div class="editor-layout">
+          <div class="editor-col">
+            <div id="tb" class="tb">
+              <button type="button" data-cmd="undo" title="Undo (Ctrl+Z)">↶</button>
+              <button type="button" data-cmd="redo" title="Redo (Ctrl+Y)">↷</button>
+              <i></i>
+              <button type="button" data-cmd="h2" title="Heading">H2</button>
+              <button type="button" data-cmd="h3" title="Sub-heading">H3</button>
+              <button type="button" data-cmd="p" title="Paragraph">¶</button>
+              <i></i>
+              <button type="button" data-cmd="bold" title="Bold (Ctrl+B)"><b>B</b></button>
+              <button type="button" data-cmd="italic" title="Italic (Ctrl+I)"><em>I</em></button>
+              <button type="button" data-cmd="code" title="Inline code">&lt;/&gt;</button>
+              <button type="button" data-cmd="removeFormat" title="Clear formatting">Tx</button>
+              <i></i>
+              <button type="button" data-cmd="insertUnorderedList" title="Bullet list">• List</button>
+              <button type="button" data-cmd="insertOrderedList" title="Numbered list">1. List</button>
+              <button type="button" data-cmd="blockquote" title="Quote">❝</button>
+              <button type="button" data-cmd="pre" title="Code block">{ }</button>
+              <button type="button" data-cmd="insertHorizontalRule" title="Divider">―</button>
+              <i></i>
+              <button type="button" data-cmd="link" title="Link (Ctrl+K)">🔗</button>
+              <button type="button" data-cmd="unlink" title="Remove link">⛓‍💥</button>
+              <button type="button" data-cmd="image" title="Insert image">🖼 Image</button>
+              <i></i>
+              <button type="button" data-cmd="rtl" title="Right-to-left paragraph">RTL</button>
+              <button type="button" data-cmd="ltr" title="Left-to-right paragraph">LTR</button>
+              <i></i>
+              <button type="button" data-cmd="src" title="Edit raw HTML">HTML</button>
+            </div>
+            <div id="imgBar" class="img-bar" hidden>
+              Selected image:
+              <button type="button" class="btn small" data-i="alt">Alt text</button>
+              <button type="button" class="btn small" data-i="cover">Use as cover</button>
+              <button type="button" class="btn small danger" data-i="rm">Remove</button>
+            </div>
+            <div id="editor" class="editor prose" contenteditable="true" dir="auto" spellcheck="true"></div>
+            <textarea id="e_src" class="textarea" dir="ltr" hidden style="min-height:460px;font-family:'Fira Code',monospace;font-size:.82rem"></textarea>
+            <input id="imgInput" type="file" accept="image/*" multiple hidden>
+            <div id="upStatus" class="meta" style="margin-top:8px;min-height:20px"></div>
+          </div>
+
+          <aside class="side">
+            <div class="field"><label>Slug (URL, English letters)</label><input id="e_slug" class="input" dir="ltr" placeholder="my-first-post"></div>
+            <div class="field"><label>Excerpt (shown on the blog list)</label><textarea id="e_excerpt" class="textarea" dir="auto" maxlength="300" style="min-height:110px"></textarea></div>
+            <div class="field"><label>Tags (comma separated, max 5)</label><input id="e_tags" class="input" dir="auto" placeholder="Python, Linux"></div>
+            <div class="field"><label>Cover image</label>
+              <div id="coverBox" class="cover-box">No cover (first image is used if empty)</div>
+              <div class="row"><button type="button" id="coverUp" class="btn small">Upload cover</button>
+                <button type="button" id="coverRm" class="btn small danger" hidden>Remove</button></div>
+              <input id="coverInput" type="file" accept="image/*" hidden>
+            </div>
+            <div class="field"><label>Status</label><div><span id="statusBadge" class="badge">Draft</span></div></div>
+          </aside>
+        </div>
+
+        <div class="row" style="margin-top:14px">
+          <button id="saveBtn" class="btn">Save</button>
+          <button id="pubBtn" class="btn primary">Save &amp; publish</button>
+          <button id="closeEdit" class="btn">Close</button>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div id="toast" class="toast" hidden></div>
+
+  <div id="siteFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js"></script>
+</body>
+</html>

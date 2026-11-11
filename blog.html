@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" data-page="blog">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog | Amirali Gholian</title>
+<meta name="description" content="Notes and write-ups on Python, Linux, AI, networking and security.">
+<link rel="icon" href="./logo.webp?v=2" type="image/webp">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/logo.webp">
+<meta name="theme-color" content="#060913">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Amirali Gholian">
+<link rel="stylesheet" href="style.css">
+</head>
+<body data-view="list">
+  <div id="siteHeader"></div>
+
+  <main class="wrap">
+    <section class="hero"><div class="hero-card">
+      <span class="eyebrow"><span class="dot"></span> Blog</span>
+      <h2><span class="grad">Notes, write-ups &amp; experiments</span></h2>
+      <p>Things I learn and build while working with Python, Linux, AI and networks.</p>
+    </div></section>
+
+    <div class="toolbar">
+      <input id="search" class="input" type="search" placeholder="Search posts…" dir="auto">
+      <div id="chips" class="chips"></div>
+    </div>
+    <div id="state" class="state">Loading…</div>
+    <div id="grid" class="grid"></div>
+  </main>
+
+  <div id="siteFooter"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="main.js"></script>
+</body>
+</html>
