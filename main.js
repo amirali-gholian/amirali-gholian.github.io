@@ -6,6 +6,8 @@
    - index.html / doc.html / ai.html / linux.html / netsec.html /
      python.html: each IIFE below checks <html data-page="...">
      and only runs its own block on the matching page.
+   - blog.html / post.html / admin.html: data-page="blog" (see BLOG at the
+     bottom). Their header, footer and favicon are built by GLOBAL CHROME.
    ============================================================ */
 
 
@@ -140,6 +142,9 @@ const pageSearchIndexes = {
     { title: "Core Ideas", desc: "from transformers import AutoTokenizer, AutoModel; tokenizer = AutoTokenizer.from_pretrained( 'bert-base-uncased' ) model = AutoModel.from_pretrained( 'bert-base-uncased' ); inputs = tokenizer( \"Transformers changed AI.\" , return_tensors= 'pt' ) outputs =…", id: "transformers-core-ideas" },
     { title: "Common NLP Tasks", desc: "from transformers import pipeline; classifier = pipeline( 'sentiment-analysis' ) result = classifier( \"This documentation is really helpful!\" ) print (result)", id: "nlp-common-nlp-tasks" },
     { title: "Common Vision Tasks", desc: "from tensorflow.keras.applications import ResNet50 from tensorflow.keras.applications.resnet50 import preprocess_input, decode_predictions; model = ResNet50(weights= 'imagenet' ) preds = model.predict(preprocess_input(image_batch)) print…", id: "computer-vision-common-vision-tasks" }
+  ],
+  blog: [
+    { title: "Blog", desc: "Notes, write-ups & experiments on Python, Linux, AI, networking and security", id: "top" }
   ],
   linux: [
     { title: "Introduction to Linux", desc: "What Linux is and why it matters", id: "intro" },
@@ -1249,8 +1254,175 @@ function setupHeroTilt() {
   });
 }
 
+/* ============================================================
+   GLOBAL CHROME — header, footer and favicon shared by every page
+   - Put <div id="siteHeader"></div> and <div id="siteFooter"></div>
+     in any page and this script fills them in
+     (blog.html, post.html and admin.html already do).
+   - Pages that still have a hand-written header/footer simply get
+     the "Blog" link added automatically (ensureBlogLinks).
+   - Edit SITE below to change the logo, favicon, tagline or any
+     menu link ONCE, for the whole site.
+   ============================================================ */
+const SITE = {
+  home: 'index.html',
+  blog: 'blog.html',
+  certificates: 'certificates.html',
+  favicon: './logo.webp?v=2',   // same favicon as index.html
+};
+
+// Markup below is an exact copy of the header/footer in index.html (plus the Blog link).
+function buildSiteHeader() {
+  return `
+<header class="global-header">
+  <div class="header-container">
+    <!-- Brand/Logo -->
+    <a href="index.html" class="brand-link" aria-label="Amirali Gholian home">
+      <img src="profile.webp" alt="Amirali Gholian" class="brand-logo">
+      <div class="brand-text">
+        <span class="brand-name">Amirali Gholian</span>
+        <span class="brand-sub">Developer &bull; AI &bull; NetSec</span>
+      </div>
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="nav-menu" id="navMenu">
+      <!-- Network Lab Dropdown (Dynamic) -->
+      <div class="nav-item dropdown" id="netLabDropdown">
+        <button type="button" class="dropdown-trigger">Network Lab <i class="arrow-down"></i></button>
+        <div class="dropdown-content" id="netLabLinks">
+
+        </div>
+      </div>
+
+      <!-- Documents Dropdown -->
+      <div class="nav-item dropdown">
+        <button type="button" class="dropdown-trigger">Documents <i class="arrow-down"></i></button>
+        <div class="dropdown-content">
+          <a href="doc.html">All Documents</a>
+          <a href="python.html">Python</a>
+          <a href="linux.html">Linux</a>
+          <a href="netsec.html">Networking</a>
+          <a href="ai.html">AI</a>
+        </div>
+      </div>
+
+      <a href="certificates.html" class="nav-link">Certificates</a>
+      <a href="blog.html" class="nav-link">Blog</a>
+
+      <!-- Inline Search -->
+      <div class="nav-item nav-search" id="navSearch">
+        <button type="button" id="globalSearchBtn" class="search-btn" aria-label="Search" aria-expanded="false">
+          <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+        </button>
+        <div class="nav-search-panel" id="navSearchPanel" aria-hidden="true">
+          <div class="nav-search-input-wrap">
+            <svg class="search-icon-small" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><path d="m21 21-4.35-4.35"></path></svg>
+            <input type="text" id="globalSearchInput" placeholder="Search documentation, projects, tools...">
+            <button type="button" id="closeSearchBtn" aria-label="Close search">&times;</button>
+          </div>
+          <div id="globalSearchResults" class="search-results-list"></div>
+        </div>
+      </div>
+
+      <!-- Auth Section -->
+      <div id="globalAuthMenu" class="auth-menu">
+        <!-- Dynamic: Sign In button or Profile Menu -->
+      </div>
+    </nav>
+
+    <!-- Mobile Toggle -->
+    <button type="button" class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>`;
+}
+
+function buildSiteFooter() {
+  return `
+  <footer>
+    <div class="wrap footer-grid">
+      <div class="footer-col footer-about">
+        <img class="footer-photo" src="profile.webp" alt="Amirali Gholian" loading="lazy" />
+        <span class="footer-name">Amirali Gholian</span>
+        <span class="footer-role">Network Engineer &bull; Python Developer</span>
+        <p class="footer-tagline">Building the digital future, one project at a time.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Quick Links</h5>
+        <a href="index.html#about">About</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+      <div class="footer-col">
+        <h5>Resources</h5>
+        <a href="doc.html">Knowledge Base</a>
+        <a href="network_lab.html">Network Lab</a>
+        <a href="doc.html">Documents</a>
+        <a href="certificates.html">Certificates</a>
+        <a href="blog.html">Blog</a>
+      </div>
+      <div class="footer-col">
+        <h5>Connect</h5>
+        <a href="https://github.com/amirali-gholian" target="_blank" rel="noopener noreferrer">GitHub</a>
+        <a href="https://www.linkedin.com/in/amirali-gholian-a9abba306" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://t.me/nexth0p" target="_blank" rel="noopener noreferrer">Telegram</a>
+        <a href="mailto:amirali.gholian.1380.80@gmail.com">Email</a>
+      </div>
+    </div>
+    <div class="wrap footer-bottom-row">
+      <div class="footer-bottom">&copy; <span id="year"></span> Amirali Gholian. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="/privacy.html">Privacy Policy</a>
+        <a href="/terms.html">Terms of Service</a>
+        <a href="mailto:amirali.gholian.1380.80@gmail.com">Contact</a>
+      </div>
+    </div>
+  </footer>`;
+}
+
+function ensureBlogLinks() {
+  // Safety net for pages whose hand-written header/footer has no "Blog" link yet.
+  const hasBlog = (root) => root.querySelector(`a[href$="${SITE.blog}"]`);
+  const menu = document.getElementById('navMenu');
+  if (menu && !hasBlog(menu)) {
+    const a = document.createElement('a');
+    a.className = 'nav-link'; a.href = SITE.blog; a.textContent = 'Blog';
+    const cert = menu.querySelector(`a[href$="${SITE.certificates}"]`);
+    if (cert) cert.after(a);
+    else menu.insertBefore(a, menu.querySelector('#navSearch'));
+  }
+  document.querySelectorAll('footer').forEach(f => {
+    if (hasBlog(f)) return;
+    const cert = f.querySelector(`.footer-col a[href$="${SITE.certificates}"]`);
+    if (!cert) return;
+    const a = document.createElement('a');
+    a.href = SITE.blog; a.textContent = 'Blog';
+    cert.after(a);
+  });
+}
+
+function injectFavicon() {
+  // Same tags as index.html (static copies already live in each blog page <head>; this only fills gaps)
+  if (!document.querySelector('link[rel~="icon"]')) {
+    const l = document.createElement('link');
+    l.rel = 'icon'; l.href = SITE.favicon; l.type = 'image/webp';
+    document.head.appendChild(l);
+  }
+}
+
+function injectGlobalChrome() {
+  injectFavicon();
+  const h = document.getElementById('siteHeader');
+  if (h) h.outerHTML = buildSiteHeader();
+  const f = document.getElementById('siteFooter');
+  if (f) f.outerHTML = buildSiteFooter();
+  ensureBlogLinks();
+}
+
 /* ---------- Init ---------- */
 document.addEventListener('DOMContentLoaded', () => {
+  injectGlobalChrome(); // must run first: the setup code below looks for the header/footer elements
   const yearEl = document.getElementById('year');
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 
@@ -1281,3 +1453,499 @@ document.addEventListener('DOMContentLoaded', () => {
   if ($('#projectsGrid')) renderProjectsIndex();
   if ($('#projectTitle') || document.body.classList.contains('page-project')) renderProjectPage();
 });
+
+/* ============================================================
+   BLOG — list (blog.html), article (post.html) and editor (admin.html)
+   Runs only on pages with <html data-page="blog">; the view is chosen
+   by <body data-view="list|post|admin">.
+   The blog keeps its own Supabase project (posts, admins, blog-images),
+   separate from the SUPABASE client used by the rest of the site.
+   Everything lives inside this function so its helper names
+   ($, esc, save, A, ...) can never clash with the rest of main.js.
+   ============================================================ */
+(function () {
+if (document.documentElement.getAttribute('data-page') !== 'blog') return;
+
+const SB_URL = 'https://mrvhcynknuwfrtqijzgb.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im1ydmhjeW5rbnV3ZnJ0cWlqemdiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQzMjA5MTIsImV4cCI6MjEwOTg5NjkxMn0.W8KzS9We5aN-lEGkTOcd2WuDqAB6NzB4KfIwUW0Xpmo';
+if (!(window.supabase && typeof window.supabase.createClient === 'function')) {
+  console.warn('Supabase SDK failed to load — the blog is disabled.');
+  document.addEventListener('DOMContentLoaded', () => {
+    const s = document.getElementById('state') || document.getElementById('article');
+    if (s) s.textContent = 'Could not load the blog (Supabase SDK missing).';
+  });
+  return;
+}
+const sb = window.supabase.createClient(SB_URL, SB_KEY);
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (s = '') => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const fmtDate = d => new Date(d).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+const rename = (el, tag) => { const n = document.createElement(tag); n.append(...el.childNodes); el.replaceWith(n); return n; };
+
+/* ---------- HTML sanitizer (allow-list) ---------- */
+const ALLOWED = new Set(['H2', 'H3', 'P', 'UL', 'OL', 'LI', 'BLOCKQUOTE', 'PRE', 'CODE', 'STRONG', 'EM', 'A', 'FIGURE', 'FIGCAPTION', 'IMG', 'BR', 'HR']);
+const DIR_TAGS = new Set(['H2', 'H3', 'P', 'UL', 'OL', 'BLOCKQUOTE', 'PRE']);
+function sanitize(html) {
+  const t = document.createElement('template');
+  t.innerHTML = html || '';
+  (function walk(node) {
+    [...node.childNodes].forEach(c => {
+      if (c.nodeType === 8) return c.remove();
+      if (c.nodeType !== 1) return;
+      if (['SCRIPT', 'STYLE', 'IFRAME', 'OBJECT', 'EMBED'].includes(c.tagName)) return c.remove();
+      walk(c);
+      if (c.tagName === 'B') c = rename(c, 'strong');
+      else if (c.tagName === 'I') c = rename(c, 'em');
+      if (!ALLOWED.has(c.tagName)) return c.replaceWith(...c.childNodes);
+      [...c.attributes].forEach(a => {
+        const n = a.name.toLowerCase(), v = a.value.trim();
+        const ok = (c.tagName === 'A' && n === 'href' && /^(https?:|mailto:|\/|#)/i.test(v)) ||
+                   (c.tagName === 'IMG' && n === 'src' && /^https:/i.test(v)) ||
+                   (c.tagName === 'IMG' && (n === 'alt' || n === 'loading')) ||
+                   (DIR_TAGS.has(c.tagName) && n === 'dir' && /^(rtl|ltr|auto)$/i.test(v));
+        if (!ok) c.removeAttribute(a.name);
+      });
+      if (c.tagName === 'A') { c.setAttribute('rel', 'noopener noreferrer'); c.setAttribute('target', '_blank'); }
+    });
+  })(t.content);
+  return t.innerHTML;
+}
+
+/* ============================================================ LIST ============================================================ */
+async function initList() {
+  const grid = $('#grid'), state = $('#state'), chipsEl = $('#chips'), search = $('#search');
+  const { data, error } = await sb.from('posts')
+    .select('slug,title,excerpt,cover_url,tags,created_at').eq('published', true).order('created_at', { ascending: false });
+  if (error) { state.textContent = 'Could not load posts: ' + error.message; return; }
+  let posts = data || [], activeTag = '';
+  if (!posts.length) { state.textContent = 'No posts yet.'; return; }
+  state.hidden = true;
+
+  const tags = [...new Set(posts.flatMap(p => p.tags || []))];
+  chipsEl.innerHTML = tags.length ? ['All', ...tags].map(t => `<span class="chip${t === 'All' ? ' on' : ''}" data-t="${t === 'All' ? '' : esc(t)}">${esc(t)}</span>`).join('') : '';
+
+  function render() {
+    const q = search.value.toLowerCase().trim();
+    const list = posts.filter(p => (!activeTag || (p.tags || []).includes(activeTag)) &&
+      (!q || (p.title + ' ' + (p.excerpt || '')).toLowerCase().includes(q)));
+    grid.innerHTML = list.map(p => `
+      <a class="card" href="post.html?slug=${encodeURIComponent(p.slug)}">
+        <div class="card-cover${p.cover_url ? '' : ' empty'}">${p.cover_url ? `<img src="${esc(p.cover_url)}" alt="" loading="lazy">` : '✎'}</div>
+        <div class="card-body">
+          <span class="card-date">${fmtDate(p.created_at)}</span>
+          <h3 dir="auto">${esc(p.title)}</h3>
+          <p dir="auto">${esc(p.excerpt || '')}</p>
+          <div class="tags">${(p.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+        </div>
+      </a>`).join('') || '<div class="state" style="grid-column:1/-1">Nothing matches.</div>';
+  }
+  chipsEl.addEventListener('click', e => {
+    const c = e.target.closest('.chip'); if (!c) return;
+    activeTag = c.dataset.t;
+    chipsEl.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c));
+    render();
+  });
+  search.addEventListener('input', render);
+  render();
+}
+
+/* ============================================================ POST ============================================================ */
+async function initPost() {
+  const slug = new URLSearchParams(location.search).get('slug');
+  const box = $('#article');
+  if (!slug) { box.innerHTML = '<div class="state">Post not found.</div>'; return; }
+  const { data, error } = await sb.from('posts').select('*').eq('slug', slug).maybeSingle();
+  if (error || !data) { box.innerHTML = '<div class="state">Post not found.</div>'; return; }
+  document.title = `${data.title} — Blog | Amirali Gholian`;
+  box.innerHTML = `
+    ${data.cover_url ? `<img class="cover" src="${esc(data.cover_url)}" alt="">` : ''}
+    <div class="meta"><span>${fmtDate(data.created_at)}</span>${data.published ? '' : '<span class="badge">Draft</span>'}</div>
+    <h1 dir="auto">${esc(data.title)}</h1>
+    <div class="tags" style="margin-top:10px">${(data.tags || []).map(t => `<span>${esc(t)}</span>`).join('')}</div>
+    <div class="prose" dir="auto">${sanitize(data.content_html)}</div>`;
+}
+
+/* ============================================================ ADMIN ============================================================ */
+const A = { user: null, posts: [], cur: null, dirty: false, cover: null, slugTouched: false, src: false, fig: null, range: null, key: 'new', ready: false };
+const ed = () => $('#editor');
+
+async function initAdmin() {
+  $('#loginForm').addEventListener('submit', doLogin);
+  $('#logoutBtn').addEventListener('click', async () => { await sb.auth.signOut(); location.reload(); });
+  const { data: { session } } = await sb.auth.getSession();
+  if (session) return afterLogin(session.user);
+  $('#loginPanel').hidden = false;
+}
+async function doLogin(e) {
+  e.preventDefault();
+  const err = $('#loginErr'); err.hidden = true;
+  const { data, error } = await sb.auth.signInWithPassword({ email: $('#email').value.trim(), password: $('#password').value });
+  if (error) { err.textContent = error.message; err.hidden = false; return; }
+  afterLogin(data.user);
+}
+async function afterLogin(user) {
+  A.user = user;
+  $('#loginPanel').hidden = true;
+  $('#logoutBtn').hidden = false;
+  const { data: adm } = await sb.from('admins').select('user_id').eq('user_id', user.id).maybeSingle();
+  if (!adm) {
+    $('#denied').hidden = false;
+    $('#sqlHint').textContent = `insert into public.admins (user_id) values ('${user.id}');`;
+    return;
+  }
+  $('#adminArea').hidden = false;
+  if (!A.ready) { initEditor(); A.ready = true; }
+  loadPosts();
+}
+
+/* ---------- small helpers ---------- */
+let toastT;
+function toast(msg, isErr) {
+  const t = $('#toast'); t.textContent = msg; t.className = 'toast' + (isErr ? ' err' : ''); t.hidden = false;
+  clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2800);
+}
+const slugify = s => String(s).toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+function markDirty() { A.dirty = true; $('#wordCount').textContent = countWords() + ' words'; }
+function countWords() { const t = (A.src ? $('#e_src').value.replace(/<[^>]+>/g, ' ') : ed().innerText).trim(); return t ? t.split(/\s+/).length : 0; }
+function curBlock() {
+  const s = getSelection(); if (!s.rangeCount) return null;
+  let n = s.anchorNode; if (!n) return null;
+  if (n.nodeType === 3) n = n.parentElement;
+  const b = n.closest && n.closest('h2,h3,p,blockquote,pre,ul,ol');
+  return b && ed().contains(b) ? b : null;
+}
+function saveRange() {
+  const s = getSelection();
+  if (s.rangeCount && ed().contains(s.anchorNode)) A.range = s.getRangeAt(0).cloneRange();
+}
+function restoreRange(r = A.range) {
+  ed().focus();
+  if (r) { const s = getSelection(); s.removeAllRanges(); s.addRange(r); }
+}
+function prepFigures() {
+  const E = ed();
+  E.querySelectorAll('figure').forEach(f => {
+    f.contentEditable = 'false';
+    let c = f.querySelector('figcaption');
+    if (!c) { c = document.createElement('figcaption'); f.append(c); }
+    c.contentEditable = 'true'; c.dataset.ph = 'Caption (optional)';
+  });
+  const last = E.lastElementChild;
+  if (!last || ['FIGURE', 'PRE', 'HR', 'BLOCKQUOTE'].includes(last.tagName)) E.insertAdjacentHTML('beforeend', '<p><br></p>');
+}
+function getHTML() {
+  if (A.src) return sanitize($('#e_src').value).trim();
+  const c = ed().cloneNode(true);
+  c.querySelectorAll('div').forEach(d => d.querySelector('p,ul,ol,pre,blockquote,h2,h3,figure') ? d.replaceWith(...d.childNodes) : rename(d, 'p'));
+  c.querySelectorAll('figcaption').forEach(f => { if (!f.textContent.trim()) f.remove(); });
+  c.querySelectorAll('figure').forEach(f => { if (!f.querySelector('img')) f.remove(); });
+  c.querySelectorAll('p').forEach(p => { if (!p.textContent.trim() && !p.querySelector('img')) p.remove(); });
+  return sanitize(c.innerHTML).trim();
+}
+
+/* ---------- editor setup ---------- */
+function initEditor() {
+  document.execCommand('defaultParagraphSeparator', false, 'p');
+  const E = ed(), tb = $('#tb');
+  $('#newBtn').addEventListener('click', () => openEditor(null));
+  tb.addEventListener('mousedown', e => { if (e.target.closest('button')) e.preventDefault(); });
+  tb.addEventListener('click', e => { const b = e.target.closest('button[data-cmd]'); if (b) runCmd(b.dataset.cmd); });
+
+  E.addEventListener('input', markDirty);
+  E.addEventListener('keyup', syncTb);
+  E.addEventListener('mouseup', syncTb);
+  document.addEventListener('selectionchange', () => { saveRange(); syncTb(); });
+
+  // click on image selects it
+  E.addEventListener('click', e => selectFig(e.target.tagName === 'IMG' ? e.target.closest('figure') : null));
+  $('#imgBar').addEventListener('click', e => {
+    const b = e.target.closest('button'); if (!b || !A.fig) return;
+    const img = A.fig.querySelector('img');
+    if (b.dataset.i === 'alt') { const v = prompt('Alt text (describe the image)', img.alt || ''); if (v !== null) img.alt = v; }
+    if (b.dataset.i === 'cover') { setCover(img.src); toast('Cover set'); }
+    if (b.dataset.i === 'rm') { A.fig.remove(); selectFig(null); }
+    markDirty();
+  });
+
+  // images: picker, drop, paste
+  $('#imgInput').addEventListener('change', async e => { const fs = [...e.target.files]; e.target.value = ''; for (const f of fs) await addImage(f); });
+  E.addEventListener('dragover', e => { if ([...e.dataTransfer.types].includes('Files')) e.preventDefault(); });
+  E.addEventListener('drop', async e => {
+    const fs = [...e.dataTransfer.files].filter(f => f.type.startsWith('image/')); if (!fs.length) return;
+    e.preventDefault();
+    const r = document.caretRangeFromPoint ? document.caretRangeFromPoint(e.clientX, e.clientY) : null;
+    if (r) A.range = r;
+    for (const f of fs) await addImage(f);
+  });
+  E.addEventListener('paste', async e => {
+    const cd = e.clipboardData; if (!cd) return;
+    const imgs = [...cd.files].filter(f => f.type.startsWith('image/'));
+    e.preventDefault();
+    if (imgs.length) { for (const f of imgs) await addImage(f); return; }
+    const html = cd.getData('text/html'), txt = cd.getData('text/plain');
+    const inPre = curBlock()?.tagName === 'PRE';
+    if (html && !inPre) {
+      const t = document.createElement('template'); t.innerHTML = sanitize(html);
+      t.content.querySelectorAll('img,figure,hr').forEach(x => x.remove());
+      document.execCommand('insertHTML', false, t.innerHTML);
+    } else if (inPre) document.execCommand('insertText', false, txt);
+    else document.execCommand('insertHTML', false, txt.split(/\n{2,}/).map(p => `<p>${esc(p).replace(/\n/g, '<br>')}</p>`).join(''));
+    markDirty();
+  });
+
+  // keyboard
+  document.addEventListener('keydown', e => {
+    if ($('#editPanel').hidden) return;
+    const mod = e.ctrlKey || e.metaKey;
+    if (mod && e.key.toLowerCase() === 's') { e.preventDefault(); save(); }
+    if (mod && e.key.toLowerCase() === 'k' && document.activeElement === E) { e.preventDefault(); runCmd('link'); }
+    if (A.fig && (e.key === 'Delete' || e.key === 'Backspace') && !document.activeElement.closest('figcaption') && document.activeElement !== $('#e_title')) {
+      e.preventDefault(); A.fig.remove(); selectFig(null); markDirty();
+    }
+  });
+
+  // sidebar fields
+  ['#e_title', '#e_excerpt', '#e_tags', '#e_slug', '#e_src'].forEach(s => $(s).addEventListener('input', markDirty));
+  $('#e_slug').addEventListener('input', () => A.slugTouched = true);
+  $('#e_title').addEventListener('input', () => {
+    const v = $('#e_title').value;
+    if (!A.slugTouched && /^[\x00-\x7f]*$/.test(v)) $('#e_slug').value = slugify(v);
+  });
+  $('#coverUp').addEventListener('click', () => $('#coverInput').click());
+  $('#coverInput').addEventListener('change', async e => {
+    const f = e.target.files[0]; e.target.value = ''; if (!f) return;
+    try { setCover(await uploadImage(f)); markDirty(); } catch (err) { toast(err.message, true); }
+  });
+  $('#coverRm').addEventListener('click', () => { setCover(null); markDirty(); });
+
+  $('#saveBtn').addEventListener('click', () => save());
+  $('#pubBtn').addEventListener('click', () => save(!A.cur?.published));
+  $('#closeEdit').addEventListener('click', closeEditor);
+  window.addEventListener('beforeunload', e => { if (A.dirty) { e.preventDefault(); e.returnValue = ''; } });
+  setInterval(backup, 5000);
+}
+
+/* ---------- toolbar commands ---------- */
+function runCmd(c) {
+  if (A.src && c !== 'src') return;
+  const E = ed();
+  if (document.activeElement !== E) restoreRange();
+  switch (c) {
+    case 'bold': case 'italic': case 'undo': case 'redo': case 'removeFormat':
+    case 'insertUnorderedList': case 'insertOrderedList': case 'insertHorizontalRule':
+      document.execCommand(c); break;
+    case 'h2': case 'h3': case 'blockquote': case 'p': {
+      const b = curBlock();
+      document.execCommand('formatBlock', false, `<${b && b.tagName.toLowerCase() === c ? 'p' : c}>`); break;
+    }
+    case 'code': {
+      const s = getSelection(); if (!s.rangeCount || s.isCollapsed) { toast('Select some text first'); break; }
+      const t = s.toString(), inCode = s.anchorNode.parentElement?.closest('code');
+      document.execCommand(inCode ? 'insertText' : 'insertHTML', false, inCode ? t : `<code>${esc(t)}</code>`); break;
+    }
+    case 'pre': {
+      const t = getSelection().toString();
+      document.execCommand('insertHTML', false, `<pre><code>${esc(t) || 'code'}</code></pre><p><br></p>`); break;
+    }
+    case 'link': doLink(); break;
+    case 'unlink': document.execCommand('unlink'); break;
+    case 'image': $('#imgInput').click(); break;
+    case 'rtl': case 'ltr': { const b = curBlock(); if (b) b.getAttribute('dir') === c ? b.removeAttribute('dir') : b.setAttribute('dir', c); break; }
+    case 'src': toggleSrc(); break;
+  }
+  markDirty(); syncTb();
+}
+function doLink() {
+  const s = getSelection(), rng = s.rangeCount ? s.getRangeAt(0).cloneRange() : null;
+  const an = s.anchorNode && (s.anchorNode.nodeType === 3 ? s.anchorNode.parentElement : s.anchorNode);
+  const a = an && an.closest && an.closest('a');
+  let u = prompt('Link URL (https://…)', a ? a.getAttribute('href') : 'https://');
+  if (u === null) return;
+  restoreRange(rng);
+  u = u.trim();
+  if (!u) return void document.execCommand('unlink');
+  if (!/^(https?:|mailto:|\/|#)/i.test(u)) u = 'https://' + u;
+  if (getSelection().isCollapsed) document.execCommand('insertHTML', false, `<a href="${esc(u)}">${esc(u)}</a>`);
+  else document.execCommand('createLink', false, u);
+}
+function syncTb() {
+  if (A.src || $('#editPanel').hidden) return;
+  const b = curBlock(), tag = b ? b.tagName.toLowerCase() : '';
+  const st = c => { try { return document.queryCommandState(c); } catch (_) { return false; } };
+  document.querySelectorAll('#tb button[data-cmd]').forEach(x => {
+    const c = x.dataset.cmd; let on = false;
+    if (c === 'bold' || c === 'italic' || c === 'insertUnorderedList' || c === 'insertOrderedList') on = st(c);
+    else if (['h2', 'h3', 'blockquote', 'pre', 'p'].includes(c)) on = tag === c;
+    else if (c === 'rtl' || c === 'ltr') on = b?.getAttribute('dir') === c;
+    else if (c === 'src') on = A.src;
+    x.classList.toggle('on', on);
+  });
+}
+function toggleSrc() {
+  if (!A.src) { $('#e_src').value = getHTML().replace(/(<\/(?:p|h2|h3|ul|ol|li|blockquote|pre|figure)>)/g, '$1\n'); }
+  else { ed().innerHTML = sanitize($('#e_src').value) || '<p><br></p>'; prepFigures(); }
+  A.src = !A.src;
+  ed().hidden = A.src; $('#e_src').hidden = !A.src; selectFig(null);
+  $('#tb').querySelector('[data-cmd="src"]').classList.toggle('on', A.src);
+}
+
+/* ---------- images ---------- */
+function selectFig(f) {
+  ed().querySelectorAll('figure.sel').forEach(x => x.classList.remove('sel'));
+  A.fig = f || null; if (f) f.classList.add('sel');
+  $('#imgBar').hidden = !f;
+}
+function resizeImage(file, max = 1600) {
+  return new Promise((res, rej) => {
+    const png = file.type === 'image/png', img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => {
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const c = document.createElement('canvas');
+      c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      const x = c.getContext('2d');
+      if (!png) { x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height); }
+      x.drawImage(img, 0, 0, c.width, c.height);
+      c.toBlob(b => b ? res({ blob: b, ext: png ? 'png' : 'jpg', type: png ? 'image/png' : 'image/jpeg' }) : rej(new Error('Resize failed')), png ? 'image/png' : 'image/jpeg', 0.86);
+      URL.revokeObjectURL(url);
+    };
+    img.onerror = () => rej(new Error('Cannot read image'));
+    img.src = url;
+  });
+}
+async function uploadImage(file) {
+  if (!file.type.startsWith('image/')) throw new Error('Not an image');
+  const gif = file.type === 'image/gif';
+  const r = gif ? { blob: file, ext: 'gif', type: 'image/gif' } : await resizeImage(file);
+  const path = `${A.user.id}/${Date.now()}-${Math.random().toString(36).slice(2, 6)}.${r.ext}`;
+  const { error } = await sb.storage.from('blog-images').upload(path, r.blob, { contentType: r.type });
+  if (error) throw new Error('Upload failed: ' + error.message);
+  return sb.storage.from('blog-images').getPublicUrl(path).data.publicUrl;
+}
+async function addImage(file) {
+  if (!file.type.startsWith('image/')) return;
+  $('#upStatus').textContent = 'Uploading image…';
+  try {
+    const url = await uploadImage(file);
+    restoreRange();
+    document.execCommand('insertHTML', false, `<figure><img src="${esc(url)}" alt="" loading="lazy"><figcaption></figcaption></figure><p><br></p>`);
+    prepFigures(); markDirty();
+  } catch (e) { toast(e.message, true); }
+  $('#upStatus').textContent = '';
+}
+function setCover(url) {
+  A.cover = url || null;
+  $('#coverBox').innerHTML = url ? `<img src="${esc(url)}" alt="">` : 'No cover (first image is used if empty)';
+  $('#coverBox').style.padding = url ? '0' : '';
+  $('#coverRm').hidden = !url;
+}
+
+/* ---------- open / close / backup ---------- */
+const form = () => ({ title: $('#e_title').value, slug: $('#e_slug').value, excerpt: $('#e_excerpt').value, tags: $('#e_tags').value, html: getHTML(), cover: A.cover });
+function fillForm(f) {
+  $('#e_title').value = f.title || ''; $('#e_slug').value = f.slug || ''; $('#e_excerpt').value = f.excerpt || '';
+  $('#e_tags').value = f.tags || '';
+  A.src = false; ed().hidden = false; $('#e_src').hidden = true; $('#tb').querySelector('[data-cmd="src"]').classList.remove('on');
+  ed().innerHTML = sanitize(f.html) || '<p><br></p>'; prepFigures(); selectFig(null); setCover(f.cover);
+}
+function backup() {
+  if (!A.dirty || $('#editPanel').hidden) return;
+  try { localStorage.setItem('blog_backup_' + A.key, JSON.stringify(form())); } catch (_) {}
+}
+function openEditor(p) {
+  if (A.dirty && !confirm('You have unsaved changes. Discard them?')) return;
+  A.cur = p || null; A.key = p ? p.id : 'new'; A.slugTouched = !!p;
+  $('#editPanel').hidden = false;
+  fillForm(p ? { title: p.title, slug: p.slug, excerpt: p.excerpt, tags: (p.tags || []).join(', '), html: p.content_html, cover: p.cover_url } : {});
+  A.dirty = false;
+  const bk = localStorage.getItem('blog_backup_' + A.key);
+  if (bk && confirm('An unsaved local backup exists for this post. Restore it?')) {
+    try { const f = JSON.parse(bk); fillForm(f); A.slugTouched = !!f.slug; A.dirty = true; } catch (_) {}
+  } else if (bk) localStorage.removeItem('blog_backup_' + A.key);
+  refreshButtons(); markDirty(); A.dirty = !!(bk && A.dirty);
+  $('#editPanel').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+function closeEditor() {
+  if (A.dirty && !confirm('You have unsaved changes. Close anyway?')) return;
+  A.dirty = false; localStorage.removeItem('blog_backup_' + A.key);
+  $('#editPanel').hidden = true; A.cur = null;
+}
+function refreshButtons() {
+  const pub = !!A.cur?.published;
+  $('#pubBtn').textContent = pub ? 'Save & unpublish' : 'Save & publish';
+  const b = $('#statusBadge'); b.textContent = pub ? 'Published' : 'Draft'; b.className = 'badge' + (pub ? ' live' : '');
+  const v = $('#viewLink'); v.hidden = !A.cur; if (A.cur) v.href = 'post.html?slug=' + encodeURIComponent(A.cur.slug);
+  $('#editHeading').textContent = A.cur ? 'Edit post' : 'New post';
+}
+
+/* ---------- save / publish ---------- */
+async function save(pub) {
+  const f = form(), title = f.title.trim(), html = f.html;
+  if (!title) return toast('Title is required', true);
+  if (!html.replace(/<[^>]+>/g, '').trim() && !/<img/i.test(html)) return toast('Content is empty', true);
+  let slug = slugify(f.slug);
+  if (!slug) { slug = 'post-' + Math.random().toString(36).slice(2, 8); }
+  $('#e_slug').value = slug;
+  const cover = f.cover || (html.match(/<img[^>]+src="([^"]+)"/i) || [])[1] || null;
+  const row = {
+    title: title.slice(0, 200), slug, excerpt: f.excerpt.trim().slice(0, 300), content_html: html, cover_url: cover,
+    tags: f.tags.split(',').map(s => s.trim()).filter(Boolean).slice(0, 5),
+  };
+  if (pub !== undefined) row.published = pub;
+  const btns = [$('#saveBtn'), $('#pubBtn')]; btns.forEach(b => b.disabled = true);
+  const q = A.cur ? sb.from('posts').update(row).eq('id', A.cur.id) : sb.from('posts').insert({ ...row, published: !!pub });
+  const { data, error } = await q.select().single();
+  btns.forEach(b => b.disabled = false);
+  if (error) return toast(error.code === '23505' ? 'This slug is already used — change it.' : error.message, true);
+  localStorage.removeItem('blog_backup_' + A.key); A.key = data.id;
+  A.cur = data; A.dirty = false; refreshButtons(); loadPosts();
+  toast(pub === true ? 'Published ✓' : pub === false ? 'Unpublished' : 'Saved ✓');
+}
+
+/* ---------- posts list ---------- */
+async function loadPosts() {
+  const { data, error } = await sb.from('posts').select('*').order('created_at', { ascending: false });
+  const el = $('#postList');
+  if (error) { el.innerHTML = `<div class="notice err">${esc(error.message)}</div>`; return; }
+  A.posts = data;
+  el.innerHTML = data.length ? data.map(p => `
+    <div class="list-row" data-id="${p.id}">
+      <div style="min-width:0;flex:1">
+        <div dir="auto" style="font-weight:700;color:var(--bright)">${esc(p.title)}</div>
+        <div class="meta" style="margin-top:4px"><span>${fmtDate(p.created_at)}</span>
+          <span class="badge${p.published ? ' live' : ''}">${p.published ? 'Published' : 'Draft'}</span></div>
+      </div>
+      <div class="row">
+        <a class="btn small" href="post.html?slug=${encodeURIComponent(p.slug)}" target="_blank">View</a>
+        <button class="btn small" data-act="edit">Edit</button>
+        <button class="btn small" data-act="toggle">${p.published ? 'Unpublish' : 'Publish'}</button>
+        <button class="btn small danger" data-act="del">Delete</button>
+      </div>
+    </div>`).join('') : '<div class="state" style="padding:20px 0">No posts yet — click “New post”.</div>';
+}
+document.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const id = b.closest('.list-row')?.dataset.id; const p = (A.posts || []).find(x => x.id === id); if (!p) return;
+  if (b.dataset.act === 'edit') openEditor(p);
+  if (b.dataset.act === 'toggle') {
+    const { data, error } = await sb.from('posts').update({ published: !p.published }).eq('id', id).select().single();
+    if (error) return toast(error.message, true);
+    if (A.cur?.id === id) { A.cur = data; refreshButtons(); }
+    loadPosts();
+  }
+  if (b.dataset.act === 'del' && confirm('Delete this post permanently?')) {
+    const { error } = await sb.from('posts').delete().eq('id', id);
+    if (error) return toast(error.message, true);
+    if (A.cur?.id === id) { A.dirty = false; $('#editPanel').hidden = true; A.cur = null; }
+    loadPosts();
+  }
+});
+
+
+/* ---------- boot ---------- */
+document.addEventListener('DOMContentLoaded', () => {
+  const view = document.body.dataset.view;
+  if (view === 'list') initList();
+  if (view === 'post') initPost();
+  if (view === 'admin') initAdmin();
+});
+})();
